@@ -1,0 +1,68 @@
+.main {
+    @apply
+    flex
+    items-start
+    sm:items-center
+    min-h-screen 
+    bg-gradient-to-r
+    from-blue-100
+    via-blue-300
+    to-blue-500
+    select-none
+}
+
+.main_container{
+    @apply
+    flex-1
+    h-full
+    w-full
+    sm:max-w-sm
+    mx-auto
+    bg-white 
+    rounded-lg 
+    shadow-xl
+    sm:scale-[90%]
+}
+
+.container{
+    @apply
+    flex
+    flex-col
+    sm:flex-row
+}
+
+.left_side_image{
+    @apply
+    object-cover
+    w-full
+    h-full
+}
+
+.container_right_side{
+    @apply
+    flex
+    items-start
+    sm:items-center
+    h-screen
+    sm:h-[425px]
+    justify-center
+    p-4 
+    sm:p-6
+    w-full
+}
+
+.right_side_logo{
+    @apply
+    flex
+    justify-center
+    
+}
+
+.right_side_logoImage{
+    @apply
+    w-32
+    h-32
+    mb-4
+    text-blue-600
+}
+

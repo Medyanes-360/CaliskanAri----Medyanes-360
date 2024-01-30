@@ -1,0 +1,48 @@
+.container{
+    @apply
+    relative
+    text-center
+    z-10
+}
+
+.circleContainer{
+    @apply
+    text-white
+    bg-white
+    border-4
+    flex
+    items-center
+    justify-center
+    w-14
+    4xl:w-28
+    4xl:h-28
+    4xl:mb-4
+    h-14
+    mx-auto
+    mb-2
+    rounded-full
+}
+
+.number{
+    @apply
+    text-secondary
+    4xl:text-5xl
+    font-bold
+    text-xl
+}
+
+.icon{
+    @apply
+    flex
+    justify-center
+    w-1/2
+    
+    text-primary
+}
+
+.title{
+    @apply
+    mb-2
+    text-sm
+    4xl:text-3xl
+}

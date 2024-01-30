@@ -1,0 +1,9 @@
+.error{
+    @apply
+    4xl:text-2xl
+    text-red-500
+    text-xs
+    italic
+    px-2
+    pb-2
+}

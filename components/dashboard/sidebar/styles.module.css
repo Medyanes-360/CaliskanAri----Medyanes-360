@@ -1,0 +1,45 @@
+.test ::after{
+    background: rgba(185,199,212,.5);
+    content: "";
+    height: calc(100%);
+    left: 0px;
+    position: absolute;
+    top: 0;
+    width: 1px;
+}
+
+.test:hover ::after{
+    background: rgba(185,199,212,.5);
+    content: "";
+    height: calc(100%);
+    left: 0px;
+    position: absolute;
+    top: 0;
+    width: 0px;
+}
+
+
+
+.test2{
+    background: rgba(185,199,212,.5);
+    content: "";
+    height: 1.5px;
+    left: 0px;
+    position: absolute;
+    top: 23.3px;    
+    width: 10.5px;
+}
+
+.test2:hover{
+    background: white;
+    content: "";
+    height: 1.5px;
+    left: 0px;
+    position: absolute;
+    top: 23.3px;
+    width: 10.5px;
+}
+
+.test ul > li:last-child {
+    background-color: red;
+}

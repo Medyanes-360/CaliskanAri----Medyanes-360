@@ -1,0 +1,125 @@
+// Model Güncellendiğinde yapılacaklar:
+// 1-" npx prisma generate " bunu terminale yaz (enter!)
+// 2- VS Codu kapatıp yeniden aç.
+// ! Sırayla yaparsan gücelleme gerçekleşir.
+
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  role      String
+  name      String
+  surname   String
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model AllUser{
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  role      String
+  name      String
+  surname   String
+  email     String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+
+model ForgotPassword {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  email      String   @unique
+  secretKey  String   @unique
+  validTime  Int 
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+model VerifyEmail {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  email      String   @unique
+  secretKey  String   @unique
+  validTime  Int 
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Student {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  verified   Boolean  @default(false)
+  role       String
+  name       String
+  surname    String
+  phone      String   @unique
+  city       String
+  town       String
+  schooltype String
+  schollName String
+  class      String
+  email      String   @unique
+  password   String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+
+model Teacher {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  verified   Boolean  @default(false)
+  role       String
+  name       String
+  surname    String
+  phone      String   @unique
+  city       String
+  town       String
+  schooltype String
+  schollName String
+  class      String
+  email      String   @unique
+  password   String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model GeneralTopPageBanner{
+  id                String   @id @default(auto()) @map("_id") @db.ObjectId
+  
+  startBannerTime   String?
+  endBannerTime     String?
+  mainText          String?
+  detailText        String?
+  buttonLink        String?
+  buttonText        String?
+
+  isActive          Boolean
+  mainTextColor     String
+  underTextColor    String
+  buttonColor       String
+  backgroundColor   String
+  buttonTextColor   String
+
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt  
+}
+
+model dataUpdateChecker {
+  id              String       @id @default(auto()) @map("_id") @db.ObjectId
+  Configdata      String
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt  
+
+}
+
+
+
+
+
+

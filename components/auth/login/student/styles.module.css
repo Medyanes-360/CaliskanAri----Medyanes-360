@@ -1,0 +1,74 @@
+.main {
+    @apply
+    flex
+    items-start
+    md:items-center
+    min-h-screen 
+    bg-gradient-to-r
+    from-blue-100
+    via-blue-300
+    to-blue-500
+    select-none
+}
+
+.main_container{
+    @apply
+    flex-1
+    h-full
+    max-w-4xl
+    mx-auto
+    bg-white 
+    rounded-lg 
+    shadow-xl
+}
+
+.container{
+    @apply
+    flex
+    flex-col
+    md:flex-row
+}
+
+.container_left_side{
+    @apply
+    h-32
+    md:h-auto
+    md:w-1/2
+    hidden
+    md:block
+}
+
+.left_side_image{
+    @apply
+    object-cover
+    w-full
+    h-full
+}
+
+.container_right_side{
+    @apply
+    flex
+    items-start
+    md:items-center
+    h-screen
+    md:h-[600px]
+    justify-center
+    p-6 sm:p-12
+    md:w-1/2
+}
+
+.right_side_logo{
+    @apply
+    flex
+    justify-center
+    
+}
+
+.right_side_logoImage{
+    @apply
+    w-32
+    h-32
+    mb-4
+    text-blue-600
+}
+

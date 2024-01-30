@@ -1,0 +1,31 @@
+.label{
+    @apply
+    block
+    mt-2
+    4xl:mt-8
+    mb-1
+    text-sm
+    4xl:text-xl
+    font-medium
+    text-[#617283]
+}
+
+.input{
+    @apply
+    appearance-none
+    block w-full
+    bg-white
+    text-gray-700
+    border-[#bec9d5]
+     rounded
+     h-[50px]
+     4xl:h-14
+     leading-5
+     text-lg
+     4xl:text-xl
+     px-3
+     py-2
+     border-[1.3px]
+     focus:outline-none
+     focus:border-red-300
+}

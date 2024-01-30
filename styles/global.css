@@ -1,0 +1,75 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*{
+    font-family: 'Public Sans', sans-serif;
+    @apply
+    select-none
+}
+
+.Toastify__toast-container{
+    @apply
+    max-w-full
+    md:max-w-none
+    !w-[35rem];
+}
+
+::-webkit-scrollbar {
+    @apply
+    w-1
+
+}
+  
+::-webkit-scrollbar-track {
+    @apply
+    rounded
+    
+
+}
+  
+::-webkit-scrollbar-thumb {
+    @apply
+    bg-secondary
+    rounded
+    
+}
+
+input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+    filter: invert(0);
+    @apply
+    text-secondary
+    rounded
+    cursor-pointer    
+}
+
+input[type="datetime-local"]::-webkit-calendar-picker-indicator:hover {
+    filter: invert(0);
+    @apply
+    text-secondary
+    rounded
+    cursor-pointer 
+    scale-150
+    transition-all   
+}
+
+input[type="datetime-local"]:hover {
+    filter: invert(0);
+    @apply
+    text-secondary
+    rounded
+    cursor-text
+    transition-all   
+}
+
+.shadow-custom {
+    --shadow-x-offset: 0px;
+    --shadow-y-offset: 0px;
+    --shadow-blur: 10px;
+    --shadow-spread: 4px;
+    --shadow-color: rgba(0, 0, 0, 0.30);
+  
+    box-shadow: var(--shadow-x-offset) var(--shadow-y-offset) var(--shadow-blur) var(--shadow-spread) var(--shadow-color);
+  }
+  
+  
