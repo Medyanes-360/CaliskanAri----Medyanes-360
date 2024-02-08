@@ -96,7 +96,7 @@ import {MdDone, MdWarningAmber, MdCircleNotifications, MdOutlineErrorOutline } f
         className={`absolute w-full h-full flex flex-col items-center text-xl justify-center select-none
     ${type == "info" && "bg-blue-500"}
     ${type == "error" && "bg-cst_red"}
-    ${type == "success" && "bg-cst_green-500"}
+    ${type == "success" && "bg-cst_green"}
     ${type == "warning" && "bg-cst_yellow"}
     `}
       >
@@ -109,7 +109,7 @@ import {MdDone, MdWarningAmber, MdCircleNotifications, MdOutlineErrorOutline } f
               <MdOutlineErrorOutline size={80} className="text-cst_red" />
             )}
             {type == "success" && (
-              <MdDone size={80} className="text-cst_green-500" />
+              <MdDone size={80} className="text-cst_green" />
             )}
             {type == "warning" && (
               <MdWarningAmber size={80} className="text-cst_yellow" />
@@ -119,7 +119,7 @@ import {MdDone, MdWarningAmber, MdCircleNotifications, MdOutlineErrorOutline } f
               className={`w-full flex justify-start flex-col py-4 px-6 my-6 gap-2
             ${type == "info" && "bg-blue-100"}
             ${type == "error" && "bg-cst_red"}
-            ${type == "success" && "bg-cst_green-100"}
+            ${type == "success" && "bg-cst_green"}
             ${type == "warning" && "bg-cst_yellow"}
           `}
             >
@@ -128,7 +128,7 @@ import {MdDone, MdWarningAmber, MdCircleNotifications, MdOutlineErrorOutline } f
                 className={`
             ${type == "info" && "text-blue-500"}
             ${type == "error" && "text-cst_red"}
-            ${type == "success" && "text-cst_green-500"}
+            ${type == "success" && "text-cst_green"}
             ${type == "warning" && "text-cst_yellow"}
             `}
               >{`${
@@ -155,7 +155,7 @@ import {MdDone, MdWarningAmber, MdCircleNotifications, MdOutlineErrorOutline } f
           ${countDown > 0 && "bg-gray-500   hover:bg-gray-500 hover:scale-100 cursor-default"}
           ${countDown <= 0 && type == "info" && "bg-blue-500 hover:scale-110 hover:bg-blue-600"}
           ${countDown <= 0 && type == "error" && "bg-cst_red hover:scale-110 hover:bg-blue-600"}
-          ${countDown <= 0 && type == "success" && "bg-cst_green-500 hover:scale-110 hover:bg-blue-600"}
+          ${countDown <= 0 && type == "success" && "bg-cst_green hover:scale-110 hover:bg-blue-600"}
           ${countDown <= 0 && type == "warning" && "bg-cst_yellow hover:scale-110 hover:bg-blue-600"}
           `}
           
@@ -172,7 +172,7 @@ import {MdDone, MdWarningAmber, MdCircleNotifications, MdOutlineErrorOutline } f
           hover:scale-110 transition-all p-4 rounded text-white shadow
           ${type == "info" && "bg-blue-500 hover:bg-blue-600"}
           ${type == "error" && "bg-cst_red hover:bg-blue-600"}
-          ${type == "success" && "bg-cst_green-600 hover:bg-blue-600"}
+          ${type == "success" && "bg-cst_green hover:bg-blue-600"}
           ${type == "warning" && "bg-cst_yellow hover:bg-blue-600"}
           `}
             >
