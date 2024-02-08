@@ -6,7 +6,7 @@ import data from '@/mocks/cities.json'
 
   return (
     <>
-      <TeacherRegisterComponent CitiesData={data.data}/>
+      <TeacherRegisterComponent CitiesData={data}/>
     </>
   )
 }

@@ -14,7 +14,6 @@ import { Formik, Form, FormikProps } from 'formik';
 import Input from '@/components/formElements/input';
 import Select from '@/components/formElements/select';
 import { ToastContainer, toast } from 'react-toastify';
-import getAdress from '@/services/auth/register/getAdress';
 import ErrorText from '@/components/formElements/errorText';
 import schools from "@/mocks/allSchool.json"
 
@@ -455,7 +454,7 @@ import schools from "@/mocks/allSchool.json"
                                   
                                   schollNames.map((item, index) => {
                                     return (
-                                      <option key={item.ID} value={item.dc_SchoolName}>
+                                      <option key={index} value={item.dc_SchoolName}>
                                         {item.dc_SchoolName}
                                       </option>
                                     );

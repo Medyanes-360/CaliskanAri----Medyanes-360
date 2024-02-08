@@ -173,8 +173,8 @@ const Sidebar = ({isOpen, setIsOpen}) => {
                         !isCollapsed ? " p-4 flex flex-col gap-2" : "hidden"
                     )
                 }>
-                    {buttons.map(({buttons: x, title}) => (
-                        <div className="flex flex-col gap-4 border-b border-b-muted-foreground pb-5">
+                    {buttons.map(({buttons: x, title}, index) => (
+                        <div key={index} className="flex flex-col gap-4 border-b border-b-muted-foreground pb-5">
                             {!isMobile && <span className="text-sm font-semibold text-muted-foreground">{title}</span>}
                             <ButtonList buttons={x} level={1}/>
                         </div>
