@@ -215,7 +215,7 @@ const Navbar = ({ links }) => {
                       <Link href={link.url} key={index}
 
                       >
-                      <button className="text-white bg-cst_red-600 hover:bg-cst_red-700 px-3 py-2 rounded-md md:inline-block">
+                      <button className="text-white bg-cst_red-600 hover:bg-cst_red px-3 py-2 rounded-md md:inline-block">
                         {link.text}
                       </button>
                     </Link>

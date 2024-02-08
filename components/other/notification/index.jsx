@@ -95,9 +95,9 @@ import {MdDone, MdWarningAmber, MdCircleNotifications, MdOutlineErrorOutline } f
       <div
         className={`absolute w-full h-full flex flex-col items-center text-xl justify-center select-none
     ${type == "info" && "bg-blue-500"}
-    ${type == "error" && "bg-cst_red-500"}
+    ${type == "error" && "bg-cst_red"}
     ${type == "success" && "bg-cst_green-500"}
-    ${type == "warning" && "bg-cst_yellow-500"}
+    ${type == "warning" && "bg-cst_yellow"}
     `}
       >
         <div className={`bg-white inline-block rounded shadow-lg py-6`}>
@@ -106,30 +106,30 @@ import {MdDone, MdWarningAmber, MdCircleNotifications, MdOutlineErrorOutline } f
               <MdCircleNotifications size={80} className="text-blue-500" />
             )}
             {type == "error" && (
-              <MdOutlineErrorOutline size={80} className="text-cst_red-500" />
+              <MdOutlineErrorOutline size={80} className="text-cst_red" />
             )}
             {type == "success" && (
               <MdDone size={80} className="text-cst_green-500" />
             )}
             {type == "warning" && (
-              <MdWarningAmber size={80} className="text-cst_yellow-500" />
+              <MdWarningAmber size={80} className="text-cst_yellow" />
             )}
 
             <div
               className={`w-full flex justify-start flex-col py-4 px-6 my-6 gap-2
             ${type == "info" && "bg-blue-100"}
-            ${type == "error" && "bg-cst_red-100"}
+            ${type == "error" && "bg-cst_red"}
             ${type == "success" && "bg-cst_green-100"}
-            ${type == "warning" && "bg-cst_yellow-100"}
+            ${type == "warning" && "bg-cst_yellow"}
           `}
             >
               <h3 className=" font-bold text-xl">{label}</h3>
               <p
                 className={`
             ${type == "info" && "text-blue-500"}
-            ${type == "error" && "text-cst_red-500"}
+            ${type == "error" && "text-cst_red"}
             ${type == "success" && "text-cst_green-500"}
-            ${type == "warning" && "text-cst_yellow-500"}
+            ${type == "warning" && "text-cst_yellow"}
             `}
               >{`${
                 countDown
@@ -154,9 +154,9 @@ import {MdDone, MdWarningAmber, MdCircleNotifications, MdOutlineErrorOutline } f
               className={` bg-gray-500  transition-all p-4 hover:scale-100 rounded text-white shadow
           ${countDown > 0 && "bg-gray-500   hover:bg-gray-500 hover:scale-100 cursor-default"}
           ${countDown <= 0 && type == "info" && "bg-blue-500 hover:scale-110 hover:bg-blue-600"}
-          ${countDown <= 0 && type == "error" && "bg-cst_red-500 hover:scale-110 hover:bg-blue-600"}
+          ${countDown <= 0 && type == "error" && "bg-cst_red hover:scale-110 hover:bg-blue-600"}
           ${countDown <= 0 && type == "success" && "bg-cst_green-500 hover:scale-110 hover:bg-blue-600"}
-          ${countDown <= 0 && type == "warning" && "bg-cst_yellow-500 hover:scale-110 hover:bg-blue-600"}
+          ${countDown <= 0 && type == "warning" && "bg-cst_yellow hover:scale-110 hover:bg-blue-600"}
           `}
           
             >
@@ -171,9 +171,9 @@ import {MdDone, MdWarningAmber, MdCircleNotifications, MdOutlineErrorOutline } f
           ${!backButtonName && "hidden"}
           hover:scale-110 transition-all p-4 rounded text-white shadow
           ${type == "info" && "bg-blue-500 hover:bg-blue-600"}
-          ${type == "error" && "bg-cst_red-500 hover:bg-blue-600"}
+          ${type == "error" && "bg-cst_red hover:bg-blue-600"}
           ${type == "success" && "bg-cst_green-600 hover:bg-blue-600"}
-          ${type == "warning" && "bg-cst_yellow-500 hover:bg-blue-600"}
+          ${type == "warning" && "bg-cst_yellow hover:bg-blue-600"}
           `}
             >
               {`${backButtonName}`}
