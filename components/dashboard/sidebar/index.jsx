@@ -84,7 +84,12 @@ const Sidebar = ({setContentData, contentData}) => {
               })
             }
 
-           
+            <button onClick={ ()=>
+              contentData &&
+              contentData.map((item, index) => {
+                console.log(item);
+              })
+            }>test</button>
 
             <Button text={"Anasayfa İşlemleri"} icon={<AiFillHome/>}>
               

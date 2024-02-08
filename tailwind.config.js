@@ -10,15 +10,58 @@ module.exports = {
     "./pages/**/*.{js,ts,jsx,tsx}",
     "./components/**/*.{js,ts,jsx,tsx}",
     "./containers/**/*.{js,ts,jsx,tsx}",
+
   ],
   darkMode: 'class',
   theme: {
     extend: {
       colors: {
-        primary: '#3d7bf1',
-        secondary: '#313131',
+        cream: "#FAF9F6",
+        cst_purple: "#241442",
+        buttonColor: "#543EE8",
+        cst_grey: "#4f536c",
+        cst_green: "#45C8C2",
+        cst_red: "#A94E57",
+        lightgrey: "#9D9CAE",
+        cst_pink: "#FBA3E3",
+        card: "#F8F8F8",
+        cst_yellow: "#FEC269",
+        lightpink: "#F1BBBB",
+        bluegreen: "#6CE1DC",
+        lightgreen: "#98DF76",
+        lightpurple: "#B1A8FF",
+        tabs: "#9D9CAE",
+        videocover: "#21123F",
+        banner: "#110E19",
+        plant: "#543EE81A",
+        lightyellow: "#ffcd1f",
+        cst_orange: "#FF9D95",
         brandColor: '#ec1b24',
-        primarydark: '#2b4ec6',
+        border: "hsl(var(--border))",
+        input: "hsl(var(--input))",
+        ring: "hsl(var(--ring))",
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
+        primary: {
+          DEFAULT: "hsl(var(--primary))",
+          foreground: "hsl(var(--primary-foreground))",
+        },
+        secondary: {
+          DEFAULT: "hsl(var(--secondary))",
+          foreground: "hsl(var(--secondary-foreground))",
+        },
+        destructive: {
+          DEFAULT: "hsl(var(--destructive))",
+          foreground: "hsl(var(--destructive-foreground))",
+        },
+        muted: {
+          DEFAULT: "hsl(var(--muted))",
+          foreground: "hsl(var(--muted-foreground))",
+        },
+        accent: {
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
+        },
       }
     },
     screens: {
@@ -46,5 +89,5 @@ module.exports = {
       // => @media (min-width: 30720px) { ... }
     }
   },
-  plugins: [],
+  plugins: [],
 };

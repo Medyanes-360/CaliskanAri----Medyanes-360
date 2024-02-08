@@ -1,7 +1,7 @@
 .error{
     @apply
     4xl:text-2xl
-    text-red-500
+    text-cst_red-500
     text-xs
     italic
     px-2

@@ -67,7 +67,7 @@ const ImageUploader = ({fileLocation, fileName}) => {
         ref={fileInputRef}
       />
       {selectedImage && (
-        <button className="text-white text-xl p-2 rounded-xl bg-red-500" onClick={handleReset}>
+        <button className="text-white text-xl p-2 rounded-xl bg-cst_red-500" onClick={handleReset}>
           <FaTimes/>
         </button>
       )}

@@ -1,9 +1,21 @@
 "use client";
 
-import React from 'react'
-import Link from 'next/link'
-import GeneralTopPageBanner from '@/components/other/generalTopPageBanner';
-import Slider from '@/components/other/slider';
+import { BannerSection } from '@/components/banner-section/banner-section'
+import { BecomeInstructorSection } from '@/components/become-instructor-section/become-instructor-section'
+import { BlogSection } from '@/components/blog-section/blog-section'
+import { ClientsSection } from '@/components/clients-section/clients-section'
+import { CounterSection } from '@/components/counter-section/counter-section'
+import { FeaturedCourses } from '@/components/featured-courses/featured-card'
+import { Footer } from '@/components/footer/footer'
+import { SearchBar } from '@/components/header/searchbar'
+import { InfoSection } from '@/components/info-section/info-section'
+import { InstructorsSection } from '@/components/instructors-section/instructors-section'
+import { LastBanner } from '@/components/last-banner/last-banner'
+import LearnersStudents from '@/components/learners-students/learners-students'
+import { LogoBanner } from '@/components/logo-banner/logo-banner'
+import MainSection from '@/components/main-section/main-section'
+import { TopClassCourses } from '@/components/top-class-courses/top-class-courses'
+import { VideoSection } from '@/components/video-section/video-section'
 
 // session: giriş yapmış kullanıcıyı temsil eder varsa bilgileri içinde barındırır.
 // signIn:  kullanıcıyı giriş yapmaya yönlendirmek için kullanılır.
@@ -16,34 +28,23 @@ import { signIn, signOut, useSession } from 'next-auth/react'
   const {data}= useSession();
 
   return (
-    <> 
-    <GeneralTopPageBanner />
-    <Slider targetDatabaseUrl = "mainSlider"/>
-    
-    <h1>#### HomeContainer ####</h1>
-
-      { /* 
-        session var mı ?
-        VARSA -> logOut seçeneğini göster.
-        YOKSA -> login seçeneğini göster 
-        */
-        data?.user ? 
-      (
-        // signOut fonksiyonu çalıştığında kullanıcıyı "çıkış" yapmaya yönlendirmek için kullanılır.
-        <button className='text-red-600 font-bold' onClick={()=> signOut()}>Çıkış Yap</button>
-      ):
-      (        
-        // signIn fonksiyonu çalıştığında kullanıcıyı "giriş" yapmaya yönlendirmek için kullanılır.
-        <div>        
-          <button className='text-green-600 font-bold m-4' onClick={()=> signIn()} >Giriş Yap</button>
-          <hr />
-          <Link href='/auth/register/'>
-            <button className='text-purple-600 font-bold m-4' >Kayıt Ol</button>
-          </Link>
-        </div>
-      )
-      
-    }
+   <>
+    <SearchBar/>
+    <MainSection/>
+    <InfoSection/>
+    <TopClassCourses/>
+    <LearnersStudents/>
+    <FeaturedCourses/>
+    <VideoSection/>
+    <InstructorsSection/>
+    <CounterSection/>
+    <ClientsSection/>
+    <BannerSection/>
+    <BecomeInstructorSection/>
+    <LogoBanner/>
+    <BlogSection/>
+    <LastBanner/>
+    <Footer/>
     </>
   )
 }

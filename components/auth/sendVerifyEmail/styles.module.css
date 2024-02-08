@@ -24,13 +24,6 @@
     sm:scale-[90%]
 }
 
-.container{
-    @apply
-    flex
-    flex-col
-    sm:flex-row
-}
-
 .left_side_image{
     @apply
     object-cover

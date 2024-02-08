@@ -215,7 +215,7 @@ const Navbar = ({ links }) => {
                       <Link href={link.url} key={index}
 
                       >
-                      <button className="text-white bg-red-600 hover:bg-red-700 px-3 py-2 rounded-md md:inline-block">
+                      <button className="text-white bg-cst_red-600 hover:bg-cst_red-700 px-3 py-2 rounded-md md:inline-block">
                         {link.text}
                       </button>
                     </Link>
@@ -225,7 +225,7 @@ const Navbar = ({ links }) => {
               ))}
               {
                 data?.user &&
-                <button className='text-red-600 font-bold transition-all hover:font-bold hover:text-white hover:p-2 hover:rounded hover:bg-red-600' onClick={()=> signOut()}>Çıkış Yap</button>
+                <button className='text-cst_red-600 font-bold transition-all hover:font-bold hover:text-white hover:p-2 hover:rounded hover:bg-cst_red-600' onClick={()=> signOut()}>Çıkış Yap</button>
               }
               
             </div>

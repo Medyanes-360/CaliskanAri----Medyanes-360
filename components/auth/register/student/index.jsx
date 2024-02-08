@@ -16,7 +16,7 @@ import Select from '@/components/formElements/select';
 import { ToastContainer, toast } from 'react-toastify';
 import getAdress from '@/services/auth/register/getAdress';
 import ErrorText from '@/components/formElements/errorText';
-
+import schools from "@/mocks/allSchool.json"
 
 
  const StudentRegisterComponent   = ({ CitiesData }) => {
@@ -25,9 +25,6 @@ import ErrorText from '@/components/formElements/errorText';
   const PageLabelUpper = 'ÖĞRENCİ';
   const PageLabelLover = 'öğrenci';
   const PageLabelNormal = 'Öğrenci';
-
-  // şehirlerin listesini containerdan prop olarak alırız.
-  const cities = CitiesData.map(city => city);
 
   const [city, setCity] = useState ('');
   const [town, setTown] = useState ('');
@@ -45,57 +42,13 @@ import ErrorText from '@/components/formElements/errorText';
   const [activeTab, setActiveTab] = useState(1);
 
   useEffect(() => {
-    setIsloading(true);
-    if (city !== '') {
-      getAdress(city)
-        .then((res) => {
-          if(res && res.length > 0){
-            setTowns(res);
-          }          
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-    setTown('');
-    setTowns([]);
-    setschollNames([]);
+    setschollNames(schools.filter((ft) => ft.dc_District.toLowerCase() === town));
     setSchooltype('');
-  }, [city]);
-
-  useEffect(() => {
-    setschollNames([]);
-    setSchooltype('');
-    
   }, [town]);
 
   useEffect(() => {
     setIsloading(false);
-
   }, [towns, schollNames])
-
-
-  useEffect(() => {
-    
-    if (city != '' && town != '') {
-      setIsloading(true);
-      if (schooltype == 'Özel Okul / Kolej') {
-        setschollNames([]);
-      } else {
-        if (town !== '') {
-          getAdress(`${city}/${town}/${schooltype}`)
-            .then((res) => {
-              if(res && res.length > 0){
-                setschollNames(res);
-              }               
-            })
-            .catch((err) => {
-              console.log(err);
-            });
-        }
-      }
-    }
-  }, [schooltype]);
 
   const router = useRouter();
 
@@ -377,11 +330,11 @@ import ErrorText from '@/components/formElements/errorText';
                               }}
                             >
                               <option disabled={true} className=' hidden md:block bg-gray-200 text-[5px]'></option>
-                              {cities.length > 0 &&
-                                  cities.map((item, index) => {
+                              {CitiesData.length > 0 &&
+                                  CitiesData.map((item, index) => {
                                     return (
-                                      <option key={index} value={item}>
-                                        {item}
+                                      <option key={index} value={item.name}>
+                                        {item.name}
                                       </option>
                                     );
                               })}
@@ -407,9 +360,9 @@ import ErrorText from '@/components/formElements/errorText';
                                 props.values.schooltype = '';
                               }}
                             >
-                              <option disabled={true} className=' hidden md:block bg-gray-200 text-[5px]'></option>
-                              {towns?.length > 0 &&
-                                towns.map((item, index) => {
+                              <option disabled={true} className='hidden md:block bg-gray-200 text-[5px]'></option>
+                              {city !== "" &&
+                                CitiesData.filter((ft) => ft.name.toLowerCase() === city.toLowerCase())[0].counties.map((item, index) => {
                                   return (
                                     <option key={index} value={item}>
                                       {item}
@@ -437,7 +390,6 @@ import ErrorText from '@/components/formElements/errorText';
                               onChange={(e) => {
                                 e.target.value === 'anaokul' ? props.values.class = "anaokul" : props.values.class = "";
                                 props.handleChange(e);
-                                !schollNames.length && setIsloading(true);
                                 setSchooltype(e.target.value);
                                 props.values.schollName = '';
                               }}
@@ -503,8 +455,8 @@ import ErrorText from '@/components/formElements/errorText';
                                   
                                   schollNames.map((item, index) => {
                                     return (
-                                      <option key={index} value={item}>
-                                        {item}
+                                      <option key={item.ID} value={item.dc_SchoolName}>
+                                        {item.dc_SchoolName}
                                       </option>
                                     );
                               })}

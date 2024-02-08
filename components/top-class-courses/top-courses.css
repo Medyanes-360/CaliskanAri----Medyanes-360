@@ -1,0 +1,15 @@
+.top-courses{
+    background-image:url("https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/themes/quiklearn/assets/element/course-cat.svg");
+    transition: all 0.5s ease-in-out;
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -ms-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+}
+.top-courses:hover p {
+    color: white;
+  }
+.top-courses:hover div:first-child{
+    transform: rotate(360deg);
+
+}

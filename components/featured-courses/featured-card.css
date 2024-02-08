@@ -1,0 +1,32 @@
+.featured-button{
+    background: linear-gradient(118.54deg,#8674FF 6.57%,#593EFE 85.92%);
+    border: 1px solid #543ee8;
+    box-shadow: 0 5px 6px rgba(99,73,255,.4);
+    border-radius: 30px;
+    color: #e8e8e8;
+    padding: 8px 20px;
+    font-weight: 500;
+    font-size: 1rem;
+    text-transform: capitalize;
+    transition: unset;
+    -webkit-border-radius: 30px;
+    -moz-border-radius: 30px;
+    -ms-border-radius: 30px;
+    -o-border-radius: 30px;
+}
+.featured-select{
+    background: linear-gradient(180deg,#FFFFFF 0%,#EFEFEF 100%);
+    border: 1px solid #e8e8e8;
+    border-radius: 30px;
+    padding: 8px 20px;
+    font-weight: 500;
+    font-size: 1rem;
+    text-transform: capitalize;
+    transition: unset;
+    color: #4f536c;
+    -webkit-border-radius: 30px;
+    -moz-border-radius: 30px;
+    -ms-border-radius: 30px;
+    -o-border-radius: 30px;
+}
+

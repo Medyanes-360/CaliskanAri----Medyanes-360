@@ -1,0 +1,9 @@
+.info-section{
+    background-image: url("../../assets/image/download-2.png");
+
+}
+
+.info-section-icons:hover span:nth-child(1){
+    transform: scale(1.2) translateX(-10px) translateY(5px) rotate(-5deg);
+    transition: transform 0.3s ease-in-out;
+} 

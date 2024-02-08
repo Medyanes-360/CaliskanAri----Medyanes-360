@@ -26,13 +26,6 @@
     shadow-xl
 }
 
-.container{
-    @apply
-    flex
-    flex-col
-    md:flex-row
-}
-
 .container_left_side{
     @apply
     h-32
@@ -127,6 +120,6 @@
      py-2
      border-[1.3px]
      focus:outline-none
-     focus:border-red-300
+     focus:border-cst_red-300
 }
 

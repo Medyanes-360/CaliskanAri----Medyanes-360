@@ -179,7 +179,7 @@ const TeacherLoginComponent  = ({pageRole}) => {
                       <p className="text-md">
                       Şifrenizi mi unuttunuz?<Link href={`/auth/forgotPassword/`} className="text-blue-600 hover:underline"> Şifremi Unuttum.</Link>
                       </p>
-                      <p className={`text-md bg-red-100 p-2 rounded ${popupData.popupIsActive ? "block" : "hidden"}`}>
+                      <p className={`text-md bg-cst_red-100 p-2 rounded ${popupData.popupIsActive ? "block" : "hidden"}`}>
                       Mailiniz Doğrulanmamış mı?<Link href={`/auth/sendVerifyEmail`} className="text-blue-600 hover:underline"> Mail Doğrulama.</Link>
                       </p>
                       </div>
