@@ -30,3 +30,12 @@
     -o-border-radius: 30px;
 }
 
+@media only screen and (max-width: 768px) {
+    .featured-button {
+        padding: 6px 15px;
+    }
+
+    .featured-select {
+            padding: 6px 15px;
+    }
+}

@@ -46,12 +46,12 @@ export const FeaturedCourses = () => {
         <div className="flex flex-col items-center justify-between md:flex-row">
           <div>
             <p className="text-cst_grey text-sm pb-2">{featuredTitle1}</p>
-            <h2 className="text-4xl font-semibold relative pb-8">
+            <h2 className="text-4xl font-semibold relative pb-8 text-[#241442]">
               {featuredTitle2}
               <img src={underline} alt="" className="absolute right-10" />
             </h2>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:gird-cols-5 gap-4 justify-center items-center pt-8 pb-8">
+          <div className="flex flex-wrap gap-2 w-full justify-center sm:justify-end items-center pt-8 pb-8">
             <button
               onClick={() => handleCategoryClick(null)}
               className={

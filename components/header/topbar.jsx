@@ -63,7 +63,7 @@ export const TopBar = () => {
           type="text"
           name="price"
           id="price"
-          className="block w-full rounded-full border-0 py-4 pl-40 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
+          className="block bg-[#fff] w-full rounded-full border-0 py-4 pl-40 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
           placeholder="Find Your Courses..."
         />
         <div className="absolute inset-y-0 right-2 flex items-center">
@@ -80,7 +80,7 @@ export const TopBar = () => {
           </span>
           <span className="pl-3">
             <p className="text-cst_grey text-sm">Emergency Help!</p>
-            <a href={`tel:${phone}`}>{phone}</a>
+            <a className="text-[#241442]" href={`tel:${phone}`}>{phone}</a>
           </span>
         </div>
         <div className="text-border px-4 hidden lg:flex">|</div>
@@ -88,12 +88,12 @@ export const TopBar = () => {
         <div className="gap-5 pt-5 lg:pt-0 hidden lg:flex pr-3">
           <button
           onClick={()=> signIn()}
-            className="flex-shrink-0 rounded-3xl px-6 py-3 rounded border border-border text-sm hover:bg-cst_purple hover:text-white text-center"
+            className="flex-shrink-0 rounded-3xl px-6 py-3 rounded border border-border text-sm text-[#241442] transition-all duration-200 hover:bg-cst_purple hover:text-white text-center"
           >
             Log in
           </button>
           <button
-            className="flex-shrink-0 rounded-3xl px-6 py-3 rounded border border-border text-sm bg-cst_purple text-white hover:bg-buttonColor text-center"
+            className="flex-shrink-0 rounded-3xl px-6 py-3 rounded border transition-all duration-200 border-border text-sm bg-cst_purple text-white hover:bg-buttonColor text-center"
           >
             Sign Up
           </button>
