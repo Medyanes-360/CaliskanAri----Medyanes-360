@@ -17,8 +17,8 @@ module.exports = {
     extend: {
       colors: {
         cream: "#FAF9F6",
-        cst_purple: "#241442",
-        buttonColor: "#543EE8",
+        cst_purple: "#241442",//"#241442",
+        buttonColor: "#543EE8", //"#543EE8",
         cst_grey: "#4f536c",
         cst_green: "#45C8C2",
         cst_red: "#A94E57",
