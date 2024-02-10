@@ -21,7 +21,6 @@ export const SearchBar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isHeaderFixed, setIsHeaderFixed] = useState(false);
   const [isLogoVisible, setIsLogoVisible] = useState(false);
-  const [openMenu, setOpenMenu] = useState(null);
 
   const { logo } = image;
   useEffect(() => {
@@ -81,7 +80,7 @@ export const SearchBar = () => {
             </button>
           </div>
 
-          <div className="lg:flex lg:flex-1 hidden">
+          <div className="lg:flex lg:flex-1 hidden gap-2">
             {menuItems.map((menu, index) => {
               const depthLevel = 1;
 

@@ -102,7 +102,7 @@ export const Footer = () => {
                 type="text"
                 name="email"
                 id="email"
-                className="block w-full rounded-lg border-0 py-4 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 sm:text-sm sm:leading-6 mx-3 sm:mx-0"
+                className="block w-full bg-white rounded-lg border-0 py-4 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 sm:text-sm sm:leading-6 mx-3 sm:mx-0"
                 placeholder="Your Email Address"
               />
               <div className="absolute inset-y-0 right-2 flex items-center">
