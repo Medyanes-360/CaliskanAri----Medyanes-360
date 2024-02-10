@@ -1,5 +1,5 @@
-import { Fragment, useEffect, useState } from "react";
-import { Dialog, Disclosure, Popover, Transition } from "@headlessui/react";
+import { useEffect, useState } from "react";
+import { Dialog, Disclosure } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { image, menus } from "../constants/index";
@@ -11,6 +11,8 @@ import { BsHeart } from "react-icons/bs";
 import { IoIosLogIn } from "react-icons/io";
 import "./header.css";
 import { TopInfo } from "./top-info";
+import MenuItems from "./MenuItems";
+import { menuItems } from "@/mocks/menuItems";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -80,54 +82,11 @@ export const SearchBar = () => {
           </div>
 
           <div className="lg:flex lg:flex-1 hidden">
-            {menus.map((menu) => (
-              <Popover
-                key={menu.name}
-                className="relative"
-                onMouseEnter={() => setOpenMenu(menu.name)}
-                onMouseLeave={() => setOpenMenu(null)}
-              >
-                <Popover.Button className="hover-animation hover:text-buttonColor flex items-center text-sm font-semibold leading-6 text-gray-900">
-                  {menu.name}
+            {menuItems.map((menu, index) => {
+              const depthLevel = 1;
 
-                  <ChevronDownIcon
-                    className="h-5 w-5 flex-none text-gray-400 me-6"
-                    aria-hidden="true"
-                  />
-                </Popover.Button>
-
-                <Transition
-                  as={Fragment}
-                  show={openMenu === menu.name}
-                  enter="transition ease-out duration-200"
-                  enterFrom="opacity-0 translate-y-1"
-                  enterTo="opacity-100 translate-y-0"
-                  leave="transition ease-in duration-150"
-                  leaveFrom="opacity-100 translate-y-0"
-                  leaveTo="opacity-0 translate-y-1"
-                >
-                  <Popover.Panel className="absolute -left-8 top-full z-10 mt-3 w-screen max-w-md overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5">
-                    <div className="p-4">
-                      {menu.items.map((item, index) => (
-                        <div
-                          key={index}
-                          className="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 hover:bg-gray-50"
-                        >
-                          <div className="flex-auto">
-                            <a
-                              href="#"
-                              className="block font-semibold text-gray-900"
-                            >
-                              {item}
-                            </a>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </Popover.Panel>
-                </Transition>
-              </Popover>
-            ))}
+              return <MenuItems items={menu} key={index} depthLevel={depthLevel}/>
+            })}
           </div>
           <div className="lg:flex items-center gap-4 hidden pr-20 pt-2">
             <Badge badgeContent={1} className="text-xl text-[#241442]">

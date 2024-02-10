@@ -1,10 +1,85 @@
 .MuiBadge-anchorOriginTopRightRectangular {
-    background-color: #ffcd1f !important;
-  }
-.hover-animation:hover svg{
-    transform: rotate(180deg);
-    -webkit-transform: rotate(180deg);
-    -moz-transform: rotate(180deg);
-    -ms-transform: rotate(180deg);
-    -o-transform: rotate(180deg);
+  background-color: #ffcd1f !important;
+}
+.hover-animation:hover svg {
+  transform: rotate(180deg);
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  -o-transform: rotate(180deg);
+}
+
+.menus {
+  display: flex;
+  list-style: none;
+}
+
+.menu-items {
+  position: relative;
+  font-size: 14px;
+  font-weight: 500;
+  height: min-content;
+}
+
+.menu-items a {
+  @apply hover:text-buttonColor flex items-center text-sm font-semibold leading-6 text-gray-900
+  transition-all duration-200 ease-in-out;
+}
+
+.menu-items button {
+  @apply hover:text-buttonColor flex items-center text-sm font-semibold leading-6 text-gray-900
+  transition-all duration-200 ease-in-out;
+}
+
+.menu-items a,
+.menu-items button {
+  text-align: left;
+  padding: 0.7rem 1rem;
+}
+
+.arrow::after {
+  content: "";
+  display: inline-block;
+  margin-left: 0.28em;
+  vertical-align: 0.09em;
+  border-top: 0.42em solid;
+  border-right: 0.32em solid transparent;
+  border-left: 0.32em solid transparent;
+}
+
+.dropdown {
+  border-radius: 10px;
+  position: absolute;
+  left: 0;
+  top: 100%;
+  font-size: 0.875rem;
+  z-index: 9999;
+  width: 350px;
+  list-style: none;
+  background-color: black;
+  background-color: #fff;
+  border-radius: 0.5 rem;
+  display: none;
+  @apply
+  shadow-sm
+}
+
+.dropdown.show {
+  display: block;
+}
+
+.dropdown.dropdown-submenu {
+  position: absolute;
+  left: 105%;
+  top: -7px;
+}
+
+ul .menu-items {
+  @apply
+  transition-all duration-200 ease-in-out
+}
+
+ul .menu-items:hover {
+  border-radius: 10px;
+  background-color: #f8f8f8 !important;
 }
