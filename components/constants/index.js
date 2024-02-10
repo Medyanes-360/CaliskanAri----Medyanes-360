@@ -50,9 +50,9 @@ export const image = {
 };
 export const info = {
   title: "Start Learning From Our Top Experts",
-  desc1: "100% QUALITY COURSES",
+  desc1: "ÖĞRENİRKEN EĞLENİN",
   desc2:
-    "Choose From Over 4,000 Courses On Topics Like Business, Skills ,UI/UX Design,Web Development And Much More",
+    "Okul dönemlerinde her gün binlerce öğrencimiz, %100 MEB uyumlu Çalışkan Arı Akademi ile öğrendiklerini pekiştiriyor ve geliştiriyor.",
   classCoursesTitle1: "TOP CLASS COURSES",
   classCoursesTitle2: "Explore 40000+ Free Online Courses",
   classCoursesDesc1:
@@ -99,23 +99,23 @@ export const info = {
 export const informations = [
   {
     icon: GiTiedScroll,
-    title: "Get Achieve New Level",
+    title: "Etkileşimli Öğrenme",
     description:
-      "It is a longe established factey that reader will bee Follow readae con page.",
+      "Öğrencilerin aktivite ve oyunlar ile deneyerek hem eğlendikleri hem de öğrendikleri eğitim sistemi.",
     color: "text-cst_green",
   },
   {
     icon: FcIdea,
-    title: "Learn With Effectivey",
+    title: "İstatistikler ve Analizler",
     description:
-      "It is a longe established factey that reader will bee Follow readae con page.",
+      "Öğrencilerin etkileşimlerdeki başarı oranları, istatistikleri veren ve takip eden öğretmenlere özel altyapı.",
     color: "text-cst_yellow",
   },
   {
     icon: TfiCup,
-    title: "Award Winning Team",
+    title: "Öğretmenlere Özel Altyapı",
     description:
-      "It is a longe established factey that reader will bee Follow readae con page.",
+      "Öğretmenlerin kendi sınıflarını oluşturup öğrenciler ile sınıf süreçlerini yönetebildiği altyapı.",
     color: "text-cst_red",
   },
 ];
@@ -178,7 +178,7 @@ export const coursesCard = [
   },
 ];
 export const contact = {
-  phone: "+1212-226-3126",
+  phone: "(0212) 639 39 12",
   mapUrl: "https://maps.app.goo.gl/H4pa8u1oWw6HkHUe6",
   address: "463 7th Ave, NY 10018, USA",
 };

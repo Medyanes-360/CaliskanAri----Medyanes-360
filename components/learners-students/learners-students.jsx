@@ -37,7 +37,7 @@ const LearnersStudents = () => {
           </div>
           <p className="text-base text-cst_grey">{learnersStudentsDesc}</p>
           <div>
-            <CustomButton title="Explore All Courses" />
+            <CustomButton title="Etkileşimli Alıştırmaları Keşfet" />
           </div>
         </div>
       </div>

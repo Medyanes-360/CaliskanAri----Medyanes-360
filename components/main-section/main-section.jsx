@@ -13,14 +13,14 @@ const MainSection = () => {
           <p className="text-cst_grey text-sm">{desc1}</p>
           <div>
           <h1 className="text-6xl relative text-cst_purple font-semibold">
-           Start Learning From Our Top <span className="main-section py-2 px-8 bg-no-repeat bg-bottom bg">&nbsp;</span> Experts
-          <img src={underline} alt="" className="absolute mt-2"/>
+          Çalışkan Arı İle Öğrenmek Artık<span className="leading-relaxed main-section py-2 px-8 bg-no-repeat bg-bottom bg">&nbsp;</span> Çok Kolay
+          <img src={underline} alt="" className="absolute mt-1 text pl-10"/>
 
           </h1>
           </div>
 
           <p className="text-cst_grey text-s">{desc2}</p>
-          <CustomButton title="Explore All Courses"/>
+          <CustomButton title="Etkileşimli Alıştırmaları Keşfet"/>
         </div>
         <div className="w-full pt-20 md:pt-4 lg:pl-48 px-8 relative">
           <img src={mainSection} alt="" />

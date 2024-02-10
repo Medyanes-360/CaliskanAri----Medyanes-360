@@ -6,19 +6,26 @@ import { Popover, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import { Fragment } from "react";
 import { signIn } from "next-auth/react";
+import Image from 'next/image'
 
 export const TopBar = () => {
   const { logo } = image;
   const { phone } = contact;
 
   return (
-    <div className=" flex items-center justify-center p-6">
+    <div className=" flex justify-between items-center p-6">
       <div>
         <a href="#">
-          <img className="h-auto max-w-ful " src={logo} alt="" />
+        <Image
+          className="h-auto max-w-ful mb-4"
+          src="/logo.png"
+          width={100}
+          height={100}
+          alt="Logo"
+        />
         </a>
       </div>
-      <div className="basis-1/2 relative mt-2 rounded-md hidden lg:flex">
+      <div className="basis-1/2 relative rounded-md hidden lg:flex">
         <div className="absolute inset-y-0 left-5 flex items-center">
           <Popover.Group className="lg:gap-x-12">
             <Popover className="relative">
@@ -64,11 +71,11 @@ export const TopBar = () => {
           name="price"
           id="price"
           className="block bg-[#fff] w-full rounded-full border-0 py-4 pl-40 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
-          placeholder="Find Your Courses..."
+          placeholder="Kursları buradan arayabilrsiniz..."
         />
         <div className="absolute inset-y-0 right-2 flex items-center">
           <button className="flex gap-2 px-3 py-2 items-center bg-buttonColor rounded-3xl text-white text-lg hover:bg-cst_purple">
-            <CiSearch style={{ fontSize: "25px" }} /> Search
+            <CiSearch style={{ fontSize: "25px" }} /> Ara
           </button>
         </div>
       </div>
@@ -79,7 +86,7 @@ export const TopBar = () => {
             <PiPhoneCallLight style={{ fontSize: "20px" }} />
           </span>
           <span className="pl-3">
-            <p className="text-cst_grey text-sm">Emergency Help!</p>
+            <p className="text-cst_grey text-sm">Hızlı İletişim</p>
             <a className="text-[#241442]" href={`tel:${phone}`}>{phone}</a>
           </span>
         </div>
@@ -90,12 +97,12 @@ export const TopBar = () => {
           onClick={()=> signIn()}
             className="flex-shrink-0 rounded-3xl px-6 py-3 rounded border border-border text-sm text-[#241442] transition-all duration-200 hover:bg-cst_purple hover:text-white text-center"
           >
-            Log in
+            Giriş Yap
           </button>
           <button
             className="flex-shrink-0 rounded-3xl px-6 py-3 rounded border transition-all duration-200 border-border text-sm bg-cst_purple text-white hover:bg-buttonColor text-center"
           >
-            Sign Up
+            Kayıt Ol
           </button>
         </div>
       </div>
