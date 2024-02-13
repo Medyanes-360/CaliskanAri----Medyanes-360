@@ -48,7 +48,7 @@ export const FeaturedCourses = () => {
             <p className="text-cst_grey text-sm pb-2">{featuredTitle1}</p>
             <h2 className="text-4xl font-semibold relative pb-8 text-[#241442]">
               {featuredTitle2}
-              <img src={underline} alt="" className="absolute right-10" />
+              <img src={underline} alt="" className="absolute right-20" />
             </h2>
           </div>
           <div className="flex flex-wrap gap-2 w-full justify-center sm:justify-end items-center pt-8 pb-8">
@@ -60,7 +60,7 @@ export const FeaturedCourses = () => {
                   : "featured-select"
               }
             >
-              See All
+              Hepsi
             </button>
             <button
               onClick={() => handleCategoryClick("Business")}
@@ -70,7 +70,7 @@ export const FeaturedCourses = () => {
                   : "featured-select"
               }
             >
-              Business
+              Matematik
             </button>
             <button
               onClick={() => handleCategoryClick("Development")}
@@ -80,7 +80,7 @@ export const FeaturedCourses = () => {
                   : "featured-select"
               }
             >
-              Development
+              Türkçe
             </button>
             <button
               onClick={() => handleCategoryClick("Finance")}
@@ -90,7 +90,7 @@ export const FeaturedCourses = () => {
                   : "featured-select"
               }
             >
-              Finance
+              Fen Bilimleri
             </button>
             <button
               onClick={() => handleCategoryClick("Technology")}
@@ -100,7 +100,7 @@ export const FeaturedCourses = () => {
                   : "featured-select"
               }
             >
-              Technology
+              İngilizce
             </button>
           </div>
         </div>
@@ -112,7 +112,7 @@ export const FeaturedCourses = () => {
           {filteredFeatured.map((featured, index) => (
             <motion.li
               key={index}
-              className="group relative bg-white border-border border rounded-lg item"
+              className="group relative bg-white border-border border rounded-lg item shadow-lg"
               variants={item}
             >
               <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-t-md lg:aspect-none">
@@ -127,8 +127,8 @@ export const FeaturedCourses = () => {
                   </figcaption>
                 </figure>
               </div>
-              <div className="mt-3 mb-3 px-5 pb-5 pt-3">
-                <div className="flex flex-col">
+              <div className="mt-3 mb-3 px-5 pt-3 max-h-full">
+                <div className="flex flex-col justify-between items-center min-h-[150px] h-full">
                   <div className="flex mb-3 gap-3">
                     <p className="mt-1 text-sm text-cst_grey flex items-center">
                       <span className="text-md">

@@ -11,8 +11,7 @@ import { SiAtom } from "react-icons/si";
 import { TiBusinessCard } from "react-icons/ti";
 export const image = {
   logo: "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads/2023/08/logo-dark.svg",
-  mainSection:
-    "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads/2023/08/hero-img-1.png",
+  mainSection:"/mainImage.png",
   underline:
     "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads/2023/08/underline-shape.svg",
   pencil:
@@ -53,20 +52,20 @@ export const info = {
   desc1: "ÖĞRENİRKEN EĞLENİN",
   desc2:
     "Okul dönemlerinde her gün binlerce öğrencimiz, %100 MEB uyumlu Çalışkan Arı Akademi ile öğrendiklerini pekiştiriyor ve geliştiriyor.",
-  classCoursesTitle1: "TOP CLASS COURSES",
-  classCoursesTitle2: "Explore 40000+ Free Online Courses",
+  classCoursesTitle1: "EĞLENDİRİRKEN ÖĞRETEN UYGULAMA",
+  classCoursesTitle2: "Şimdi Eğitici Alıştırmaları Keşfet!",
   classCoursesDesc1:
-    "When An Unknown Printer Took A Galley Of Type And Scrambled It To Make A Type Specimen",
-  classCoursesDesc2: "Book It Has Survived Not Only Five Centuries",
+    "Sınıf seviyenize ve müfredat ilerleyişine uygun ilerleyiş ve",
+  classCoursesDesc2: "%100 MEB uyumlu alıştırmalar",
   learnersStudentsTitle1: "LEARNERS AND STUDENTS",
   learnersStudentsTitle2:
-    "We Teach The Fundamentals Of Art While Encouraging Creativity, Curiosity, And Individuality.",
+    "Okulda Öğrenilen Bilgileri Evde, Okulda ve Nerede İstersen Orada, Alıştırmalar İle Pekiştirebilir ve Öğrenebilirsiniz.",
   learnersStudentsDesc:
-    "When An Unknown Printer Took A Galley Offer Area Type And Scrambled To Make A Type Specimen Book Has Survived When An Unknown Printer Took A Galley Offer Area Type And Scrambled To Make.",
-  featuredTitle1: "FEATURED COURSES",
-  featuredTitle2: "Find Yours From The Featured",
+    "Bilgiler okulda öğrenildiğinde, evde tekrar edildiğinde farklı akıllı alıştırmalar ile pekiştirildiğinde çok daha kalıcı olduğu ve unutulmadığı bilimsel olarak kanıtlanmıştır!",
+  featuredTitle1: "ALIŞTIRMALAR",
+  featuredTitle2: "Etkileşimli İçerikleri İncele",
   video: "https://www.youtube.com/watch?v=XHOmBV4js_E&ab_channel=Elementor",
-  videoTitle1: "Don't Know How To Start With Quiklearn Courses",
+  videoTitle1: "Don't Know How To Start With Quiklearn Aktif Kurs",
   videoTitle2: "Smart LMS",
   videoTitle3: "Easy To Customize",
   videoTitle4: "Powerful Dashboard",
@@ -121,57 +120,57 @@ export const informations = [
 ];
 export const coursesCard = [
   {
-    title: "Art & Design",
+    title: "1. Sınıf",
     quantity: "1 Course",
     icon: MdOutlineDesignServices,
     border: "border-lightpurple",
     background: "linear-gradient(130deg,#7A66FF 0%,#EBDFFF 115%)",
   },
   {
-    title: "Business",
-    quantity: "3 Courses",
+    title: "2. Sınıf",
+    quantity: "3 Aktif Kurs",
     icon: TiBusinessCard,
     border: "border-cst_orange",
     background: "linear-gradient(130deg, #F57064 0%, #FFD0CC 115%)",
   },
   {
-    title: "Development",
-    quantity: "2 Courses",
+    title: "3. Sınıf",
+    quantity: "2 Aktif Kurs",
     icon: GrTechnology,
     border: "border-bluegreen",
     background: "linear-gradient(130deg, #45C8C2 0%, #B6F7F4 115%)",
   },
   {
-    title: "Finance",
-    quantity: "2 Courses",
+    title: "4. Sınıf",
+    quantity: "2 Aktif Kurs",
     icon: HiOutlinePresentationChartLine,
     border: "border-cst_pink",
     background: "linear-gradient(130deg, #F480D4 0%, #FFD3F3 115%)",
   },
   {
-    title: "Health & Fitness",
-    quantity: "2 Courses",
+    title: "5. Sınıf",
+    quantity: "2 Aktif Kurs",
     icon: IoFitnessOutline,
     border: "border-lightgreen",
     background: "linear-gradient(130deg, #6ADE33 0%, #C8EFB6 115%)",
   },
   {
-    title: "Technology",
-    quantity: "2 Courses",
+    title: "6. Sınıf",
+    quantity: "2 Aktif Kurs",
     icon: SiAtom,
     border: "border-blue",
     background: "linear-gradient(130deg, #3FC6FF 0%, #D7F3FF 115%)",
   },
   {
-    title: "Data Science",
-    quantity: "2 Courses",
+    title: "7. Sınıf",
+    quantity: "2 Aktif Kurs",
     icon: GoDatabase,
     border: "border-cst_yellow",
     background: " linear-gradient(130deg, #FFA41F 0%, #FFE3BB 115%)",
   },
   {
-    title: "Business",
-    quantity: "3 Courses",
+    title: "8. Sınıf",
+    quantity: "3 Aktif Kurs",
     icon: PiCertificateThin,
     border: "border-lightpink",
     background: "linear-gradient(130deg, #E69E9E 0%, #F5D9E0 115%)",
@@ -199,7 +198,7 @@ export const menus = [
     items: ["Home 01", "Home 02", "Home 03", "Home 04"],
   },
   {
-    name: "Courses",
+    name: "Aktif Kurs",
     items: ["Course Layout", "Course Category"],
   },
   {
@@ -242,7 +241,7 @@ export const featured = [
     name: "- Floyd Miles",
     image:
       "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads/2023/07/crs_img_1-380x277.jpg",
-    price: "$39.00",
+    price: "",
     star: 0,
     topDesc: "Business",
   },
@@ -251,8 +250,8 @@ export const featured = [
     name: "-  Millar Richard",
     image:
       "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads/2023/07/crs_img_2-380x277.jpg",
-    price: "$75.00",
-    discount: "$55.00",
+    price: "",
+    discount: "",
     star: 4,
     topDesc: "Technology",
     students: 11,
@@ -263,7 +262,7 @@ export const featured = [
     name: "-  Jenny Wilson",
     image:
       "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads/2023/07/crs_img_3-380x277.jpg",
-    price: "$120.00",
+    price: "",
     star: 4,
     topDesc: "Development",
     students: 5,
@@ -285,7 +284,7 @@ export const featured = [
     name: "- Jenny Wilson",
     image:
       "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads/2023/07/crs_img_4-380x277.jpg",
-    price: "$28.00",
+    price: "",
     star: 0,
     topDesc: "Business",
     students: 1,
@@ -296,7 +295,7 @@ export const featured = [
     name: "- Kristin Watson",
     image:
       "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads/2023/07/crs_img_9-380x277.jpg",
-    price: "$28.00",
+    price: "",
     star: 0,
     topDesc: "Technology",
     students: 1,
@@ -307,7 +306,7 @@ export const featured = [
     name: "- Millar Richard",
     image:
       "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads/2023/07/crs_img_11-768x557.jpg",
-    price: "$28.00",
+    price: "",
     star: 5,
     topDesc: "Technology",
     students: 3,
@@ -318,7 +317,7 @@ export const featured = [
     name: "- Eleanor Pena",
     image:
       "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads/2023/07/crs_img_8jpg-768x557.jpg",
-    price: "$150.00",
+    price: "",
     star: 0,
     topDesc: "Development",
     students: 0,
@@ -330,7 +329,7 @@ export const instructors = [
     image:
       "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads//learn-press-profile/9/a87cce35aa3a4cb374ad14c92334a35e.jpeg",
     job: "Marketing Expert",
-    course: "2 Courses",
+    course: "2 Aktif Kurs",
     student: "6 Students",
     name: "Richard David",
   },
@@ -338,7 +337,7 @@ export const instructors = [
     image:
       "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads//learn-press-profile/10/418cbee72cafbbf58290b71f9e359260.jpeg",
     job: "Business",
-    course: "2 Courses",
+    course: "2 Aktif Kurs",
     student: "6 Students",
     name: "Millar Richard",
   },
@@ -346,7 +345,7 @@ export const instructors = [
     image:
       "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads//learn-press-profile/8/8d69d3fc4b9ecc16660fc9e32192e9e1.jpeg",
     job: "UX/UI Expert",
-    course: "1 Courses",
+    course: "1 Aktif Kurs",
     student: "6 Students",
     name: "Kristin Watson",
   },
@@ -354,7 +353,7 @@ export const instructors = [
     image:
       "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads//learn-press-profile/7/84ce06432355d2548c4c2d534bb8873e.jpeg",
     job: "UX/UI Designer",
-    course: "2 Courses",
+    course: "2 Aktif Kurs",
     student: "6 Students",
     name: "Jacob Janes",
   },
@@ -362,7 +361,7 @@ export const instructors = [
     image:
       "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads//learn-press-profile/6/dc87ed52efaf1f8df3504ad27ea93859.jpeg",
     job: "Marketing Expert",
-    course: "4 Courses",
+    course: "4 Aktif Kurs",
     student: "6 Students",
     name: "Jenny Wilson",
   },

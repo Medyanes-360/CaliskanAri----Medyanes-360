@@ -87,7 +87,7 @@ export const SearchBar = () => {
               return <MenuItems items={menu} key={index} depthLevel={depthLevel}/>
             })}
           </div>
-          <div className="lg:flex items-center gap-4 hidden pr-20 pt-2">
+          {/* <div className="lg:flex items-center gap-4 hidden pr-20 pt-2">
             <Badge badgeContent={1} className="text-xl text-[#241442]">
               <BsHeart />
             </Badge>
@@ -95,7 +95,7 @@ export const SearchBar = () => {
             <Badge badgeContent={1} className="text-2xl text-[#241442]">
               <LiaShoppingBagSolid />
             </Badge>
-          </div>
+          </div> */}
         </nav>
 
         <Dialog
