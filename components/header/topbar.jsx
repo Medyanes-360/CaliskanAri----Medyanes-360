@@ -13,7 +13,7 @@ export const TopBar = () => {
   const { phone } = contact;
 
   return (
-    <div className=" flex justify-between items-center p-6">
+    <div className=" flex justify-between items-center mx-6 my-2">
       <div>
         <a href="#">
         <Image
@@ -81,8 +81,8 @@ export const TopBar = () => {
       </div>
 
       <div className="flex items-center">
-        <div className="flex justify-center items-center hidden lg:flex">
-          <span className="bg-white rounded-full  text-buttonColor p-4 ms-2 rounded border border-border">
+        <div className="justify-center items-center hidden lg:flex">
+          <span className="bg-white rounded-full  text-buttonColor p-4 ms-2 border border-border">
             <PiPhoneCallLight style={{ fontSize: "20px" }} />
           </span>
           <span className="pl-3">
@@ -95,12 +95,12 @@ export const TopBar = () => {
         <div className="gap-5 pt-5 lg:pt-0 hidden lg:flex pr-3">
           <button
           onClick={()=> signIn()}
-            className="flex-shrink-0 rounded-3xl px-6 py-3 rounded border border-border text-sm text-[#241442] transition-all duration-200 hover:bg-cst_purple hover:text-white text-center"
+            className="flex-shrink-0 rounded-3xl px-6 py-3 border border-border text-sm text-[#241442] transition-all duration-200 hover:bg-cst_purple hover:text-white text-center"
           >
             Giriş Yap
           </button>
           <button
-            className="flex-shrink-0 rounded-3xl px-6 py-3 rounded border transition-all duration-200 border-border text-sm bg-cst_purple text-white hover:bg-buttonColor text-center"
+            className="flex-shrink-0 rounded-3xl px-6 py-3 border transition-all duration-200 border-border text-sm bg-cst_purple text-white hover:bg-buttonColor text-center"
           >
             Kayıt Ol
           </button>

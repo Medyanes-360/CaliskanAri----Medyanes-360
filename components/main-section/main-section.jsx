@@ -7,14 +7,14 @@ const MainSection = () => {
   const { desc1, desc2 } = info;
   const { mainSection,underline,book,pencil,wave,star } = image;
   return (
-    <div className="bg-cream pt-10 xl:pt-[0px] main-section-hover">
+    <div className="bg-cream  xl:pt-[0px] main-section-hover">
       <div className=" flex flex-col md:flex-row items-center justify-between container mx-auto pb-20">
-        <div className="flex flex-col gap-6 items-start justify-center px-8">
+        <div className="flex flex-col gap-6 item-center md:items-start justify-center px-8">
           {/* <p className="text-cst_grey text-sm">{desc1}</p> */}
           <div>
-          <h1 className="text-6xl relative text-cst_purple font-semibold">
-          Çalışkan Arı İle Öğrenmek Artık<span className="leading-relaxed main-section py-2 px-8 bg-no-repeat bg-bottom bg">&nbsp;</span> Çok Kolay
-          <img src={underline} alt="" className="absolute mt-1 text pl-10"/>
+          <h1 className="lg:text-6xl text-2xl relative text-cst_purple font-semibold">
+          Çalışkan Arı İle Öğrenmek Artık <span className="leading-relaxed main-section py-2 px-8 bg-no-repeat bg-bottom bg">&nbsp;</span> Çok Kolay
+          <img src={underline} alt="" className="absolute mt-1 text pl-0 lg:pl-10"/>
 
           </h1>
           </div>
@@ -22,7 +22,7 @@ const MainSection = () => {
           <p className="text-cst_grey text-s">{desc2}</p>
           <CustomButton title="Etkileşimli Alıştırmaları Keşfet"/>
         </div>
-        <div className="w-full pt-20 md:pt-4 lg:pl-48 px-8 relative scale-90">
+        <div className="w-full pt-10 md:pt-4 xl:pl-48 px-8 relative scale-90">
           <img src={mainSection} alt="" />
          <div className="main-section-icons">
          <motion.img

@@ -1,3 +1,14 @@
+@import "swiper/css";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
 .main-section{
     background-image: url("https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads/2023/08/hero-shape-1.svg"    );
+    @apply
+    hidden
+    md:inline
+    
+
 }

@@ -8,7 +8,7 @@ export const CounterSection = () => {
     ref: "counter",
     end: 1234567,
     enableScrollSpy: true,
-    scrollSpyDelay: 1000,
+    scrollSpyDelay: 500,
   });
 
   return (

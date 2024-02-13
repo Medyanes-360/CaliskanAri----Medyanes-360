@@ -23,6 +23,6 @@ export const TopInfo = () => {
                  {address}
                </a>
               <p className="text-cst_grey flex items-center gap-1 text-xs"><span className="text-buttonColor text-lg"><FiClock /></span>Opening: Mon-Sat 08.00-18.00 </p>
-          </div>
+    </div>
   )
 }

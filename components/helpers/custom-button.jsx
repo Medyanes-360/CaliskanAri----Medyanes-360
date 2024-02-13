@@ -9,7 +9,7 @@ export const CustomButton = ({ title, buttonColor = "#543EE8",hoverColor="#24144
   };
 
   return (
-    <button className='rounded-full px-10 py-4 text-s hover:bg-cst_purple flex items-center gap-2' style={customStyle}
+    <button className='rounded-full px-10 py-4 text-s hover:bg-cst_purple flex items-center gap-2 text-center justify-center' style={customStyle}
     onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
