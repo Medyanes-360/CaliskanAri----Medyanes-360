@@ -5,12 +5,8 @@ import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { image, menus } from "../constants/index";
 import { TopBar } from "./topbar";
 import { CiSearch } from "react-icons/ci";
-import { Badge } from "@mui/material";
-import { LiaShoppingBagSolid } from "react-icons/lia";
-import { BsHeart } from "react-icons/bs";
 import { IoIosLogIn } from "react-icons/io";
 import "./header.css";
-import { TopInfo } from "./top-info";
 import MenuItems from "./MenuItems";
 import { menuItems } from "@/mocks/menuItems";
 

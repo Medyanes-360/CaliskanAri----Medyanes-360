@@ -43,7 +43,7 @@ const MenuItems = ({ items, depthLevel }) => {
   };
 
   return (
-    <div style={{ zIndex: 10 * depthLevel }} id="wrapper">
+    <div style={{ zIndex: 20 }} id="wrapper">
       <div
         className="menu-items"
         ref={ref}

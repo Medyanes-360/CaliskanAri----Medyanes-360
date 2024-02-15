@@ -5,24 +5,24 @@ import { categories } from "../constants/index";
 import { Popover, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import { Fragment } from "react";
-import { signIn } from "next-auth/react";
-import Image from 'next/image'
+import { signIn, signOut, useSession } from "next-auth/react";
+import Image from "next/image";
 
 export const TopBar = () => {
-  const { logo } = image;
+  const { data: session } = useSession();
   const { phone } = contact;
 
   return (
     <div className=" flex justify-between items-center mx-6 my-2">
       <div>
         <a href="#">
-        <Image
-          className="h-auto max-w-ful mb-4"
-          src="/logo.png"
-          width={100}
-          height={100}
-          alt="Logo"
-        />
+          <Image
+            className="h-auto max-w-ful mb-4"
+            src="/logo.png"
+            width={100}
+            height={100}
+            alt="Logo"
+          />
         </a>
       </div>
       <div className="basis-1/2 relative rounded-md hidden lg:flex">
@@ -46,7 +46,7 @@ export const TopBar = () => {
                 leaveFrom="opacity-100 translate-y-0"
                 leaveTo="opacity-0 translate-y-1"
               >
-                <Popover.Panel className="absolute -left-8 top-full z-10 mt-3 w-screen max-w-md overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5">
+                <Popover.Panel className="absolute -left-8 top-full z-40 mt-3 w-screen max-w-md overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5">
                   <div className="p-4">
                     {categories.map((item) => (
                       <div
@@ -87,23 +87,33 @@ export const TopBar = () => {
           </span>
           <span className="pl-3">
             <p className="text-cst_grey text-sm">Hızlı İletişim</p>
-            <a className="text-[#241442]" href={`tel:${phone}`}>{phone}</a>
+            <a className="text-[#241442]" href={`tel:${phone}`}>
+              {phone}
+            </a>
           </span>
         </div>
         <div className="text-border px-4 hidden lg:flex">|</div>
 
         <div className="gap-5 pt-5 lg:pt-0 hidden lg:flex pr-3">
-          <button
-          onClick={()=> signIn()}
-            className="flex-shrink-0 rounded-3xl px-6 py-3 border border-border text-sm text-[#241442] transition-all duration-200 hover:bg-cst_purple hover:text-white text-center"
-          >
-            Giriş Yap
-          </button>
-          <button
-            className="flex-shrink-0 rounded-3xl px-6 py-3 border transition-all duration-200 border-border text-sm bg-cst_purple text-white hover:bg-buttonColor text-center"
-          >
-            Kayıt Ol
-          </button>
+          {!session ? (
+            <>
+              <button
+                onClick={() => signIn()}
+                className="flex-shrink-0 rounded-3xl px-6 py-3 border border-border text-sm text-[#241442] transition-all duration-200 hover:bg-cst_purple hover:text-white text-center"
+              >
+                Giriş Yap
+              </button>
+              <button className="flex-shrink-0 rounded-3xl px-6 py-3 border transition-all duration-200 border-border text-sm bg-cst_purple text-white hover:bg-buttonColor text-center">
+                Kayıt Ol
+              </button>
+            </>
+          ) : (
+            <>
+              <button onClick={() => signOut()} className="flex-shrink-0 rounded-3xl px-6 py-3 border transition-all duration-200 border-border text-sm bg-cst_red text-white hover:bg-buttonColor text-center">
+                Çıkış yap
+              </button>
+            </>
+          )}
         </div>
       </div>
     </div>
