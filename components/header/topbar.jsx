@@ -1,4 +1,4 @@
-import { image, contact } from "../constants/index";
+import { contact } from "../constants/index";
 import { PiPhoneCallLight } from "react-icons/pi";
 import { CiSearch } from "react-icons/ci";
 import { categories } from "../constants/index";
@@ -6,10 +6,10 @@ import { Popover, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import { Fragment } from "react";
 import { signIn, signOut, useSession } from "next-auth/react";
-import Image from "next/image";
+import Link from 'next/link'
 
 export const TopBar = () => {
-  const { data: session } = useSession();
+  const { data } = useSession();
   const { phone } = contact;
 
   return (
@@ -95,7 +95,7 @@ export const TopBar = () => {
         <div className="text-border px-4 hidden lg:flex">|</div>
 
         <div className="gap-5 pt-5 lg:pt-0 hidden lg:flex pr-3">
-          {!session ? (
+          {!data ? (
             <>
               <button
                 onClick={() => signIn()}
@@ -103,12 +103,25 @@ export const TopBar = () => {
               >
                 Giriş Yap
               </button>
-              <button className="flex-shrink-0 rounded-3xl px-6 py-3 border transition-all duration-200 border-border text-sm bg-cst_purple text-white hover:bg-buttonColor text-center">
+              <Link href="/auth/register/student" className="flex-shrink-0 rounded-3xl px-6 py-3 border transition-all duration-200 border-border text-sm bg-cst_purple text-white hover:bg-buttonColor text-center">
                 Kayıt Ol
-              </button>
+              </Link>
+              <Link
+              href="/auth/register/teacher"
+                className="flex-shrink-0 rounded-3xl px-6 py-3 border border-border text-sm text-[#241442] transition-all duration-200 hover:bg-cst_purple hover:text-white text-center"
+              >
+                Öğretmen Girişi
+              </Link>
+              <Link href="/auth/login/teacher" className="flex-shrink-0 rounded-3xl px-6 py-3 border transition-all duration-200 border-border text-sm bg-cst_purple text-white hover:bg-buttonColor text-center">
+              Öğretmen Kayıt Ol
+              </Link>
             </>
           ) : (
             <>
+              {data?.user?.role === "admin" && <Link href="/dashboard" className="flex-shrink-0 rounded-3xl px-6 py-3 border transition-all duration-200 border-border text-sm bg-cst_purple text-white hover:bg-buttonColor text-center">
+                Kayıt Ol
+              </Link>}
+
               <button onClick={() => signOut()} className="flex-shrink-0 rounded-3xl px-6 py-3 border transition-all duration-200 border-border text-sm bg-cst_red text-white hover:bg-buttonColor text-center">
                 Çıkış yap
               </button>
