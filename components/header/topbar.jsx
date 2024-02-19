@@ -119,7 +119,7 @@ export const TopBar = () => {
             </>
           ) : (
             <>
-              {data?.user?.role === "admin" && <Link href="/dashboard" className="flex-shrink-0 rounded-3xl px-6 py-3 border transition-all duration-200 border-border text-sm bg-cst_purple text-white hover:bg-buttonColor text-center">
+              {data?.user?.role === "admin" && <Link href="/dashboard/admin" className="flex-shrink-0 rounded-3xl px-6 py-3 border transition-all duration-200 border-border text-sm bg-cst_purple text-white hover:bg-buttonColor text-center">
                 Dashboard
               </Link>}
 
