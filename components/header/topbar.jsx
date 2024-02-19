@@ -7,6 +7,7 @@ import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import { Fragment } from "react";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Link from 'next/link'
+import Image from "next/image";
 
 export const TopBar = () => {
   const { data } = useSession();
@@ -119,7 +120,7 @@ export const TopBar = () => {
           ) : (
             <>
               {data?.user?.role === "admin" && <Link href="/dashboard" className="flex-shrink-0 rounded-3xl px-6 py-3 border transition-all duration-200 border-border text-sm bg-cst_purple text-white hover:bg-buttonColor text-center">
-                Kayıt Ol
+                Dashboard
               </Link>}
 
               <button onClick={() => signOut()} className="flex-shrink-0 rounded-3xl px-6 py-3 border transition-all duration-200 border-border text-sm bg-cst_red text-white hover:bg-buttonColor text-center">
