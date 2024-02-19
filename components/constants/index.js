@@ -11,7 +11,7 @@ import { SiAtom } from "react-icons/si";
 import { TiBusinessCard } from "react-icons/ti";
 export const image = {
   logo: "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads/2023/08/logo-dark.svg",
-  mainSection:"/mainImage.png",
+  mainSection: "/mainImage.png",
   underline:
     "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads/2023/08/underline-shape.svg",
   pencil:

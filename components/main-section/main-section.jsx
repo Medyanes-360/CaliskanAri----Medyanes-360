@@ -6,6 +6,7 @@ import "./main-section.css"
 const MainSection = () => {
   const { desc1, desc2 } = info;
   const { mainSection,underline,book,pencil,wave,star } = image;
+  
   return (
     <div className="bg-cream  xl:pt-[0px] main-section-hover">
       <div className=" flex flex-col md:flex-row items-center justify-between container mx-auto pb-20">
