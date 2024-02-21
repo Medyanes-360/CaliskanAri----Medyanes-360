@@ -78,7 +78,7 @@ export const VideoSection = () => {
               className="video-cover bg-videocover bg-no-repeat bg-bottom"
             />
 
-            <span className="absolute right-2/4 bottom-2/4 rounded-full bg-white text-buttonColor w-16 h-16 bg-white flex items-center justify-center">
+            <span className="absolute right-2/4 bottom-2/4 rounded-full bg-white text-buttonColor w-16 h-16 flex items-center justify-center">
               <FaPlay />
             </span>
             </a>

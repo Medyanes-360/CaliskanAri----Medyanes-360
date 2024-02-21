@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { IoIosArrowRoundForward } from "react-icons/io";
 
-export const CustomButton = ({ title, buttonColor = "#543EE8",hoverColor="#241442", textColor = "white" }) => {
+export const CustomButton = ({ title, buttonColor = "#0169fd",hoverColor="#001e9d", textColor = "white" }) => {
   const [isHovered, setIsHovered] = useState(false);
   const customStyle = {
     backgroundColor: isHovered ? hoverColor : buttonColor,

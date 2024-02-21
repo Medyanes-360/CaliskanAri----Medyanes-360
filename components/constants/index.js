@@ -28,8 +28,8 @@ export const image = {
   dots: "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/themes/quiklearn/assets/element/course-cat-1.svg",
   greyWave:
     "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/themes/quiklearn/assets/element/course-cat.svg",
-  girlPhoto:
-    "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads/2023/08/about-img1.png",
+  studentPhoto:
+    "/studentFinger.png",
   crown:
     "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads/2023/08/about-shape-1.svg",
   moreDots:
@@ -64,7 +64,7 @@ export const info = {
     "Bilgiler okulda öğrenildiğinde, evde tekrar edildiğinde farklı akıllı alıştırmalar ile pekiştirildiğinde çok daha kalıcı olduğu ve unutulmadığı bilimsel olarak kanıtlanmıştır!",
   featuredTitle1: "ALIŞTIRMALAR",
   featuredTitle2: "Etkileşimli İçerikleri İncele",
-  video: "https://www.youtube.com/watch?v=XHOmBV4js_E&ab_channel=Elementor",
+  video: "https://youtu.be/vaU8Uhssdmk",
   videoTitle1: "Don't Know How To Start With Quiklearn Aktif Kurs",
   videoTitle2: "Smart LMS",
   videoTitle3: "Easy To Customize",

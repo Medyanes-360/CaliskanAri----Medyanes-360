@@ -3,7 +3,7 @@ import { CustomButton } from "../helpers/custom-button";
 import { motion } from "framer-motion";
 
 const LearnersStudents = () => {
-  const { girlPhoto, underline, redCrown } = image;
+  const { studentPhoto, underline, redCrown } = image;
   const {
     learnersStudentsTitle1,
     learnersStudentsTitle2,
@@ -11,9 +11,9 @@ const LearnersStudents = () => {
   } = info;
   return (
     <div className="bg-cream">
-      <div className="mx-auto container mx-auto flex flex-col lg:flex-row items-center justify-center p-6">
-        <div className="w-full relative">
-          <img src={girlPhoto} alt="" />
+      <div className="container mx-auto flex flex-col lg:flex-row items-center justify-center p-6">
+        <div className="w-full relative mx-4">
+          <img src={studentPhoto} alt="" />
           <motion.img
             animate={{
               y: [0, -20, 0],
