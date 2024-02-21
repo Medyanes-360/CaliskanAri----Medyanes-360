@@ -43,15 +43,15 @@ export const FeaturedCourses = () => {
   return (
     <div className="bg-cream">
       <div className="mx-auto container px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
-        <div className="flex flex-col items-center justify-between md:flex-row">
-          <div>
+        <div className="flex flex-col items-center justify-between md:flex-row flex-wrap lg:flex-nowrap">
+          <div className="w-full flex justify-center items-center flex-col">
             <p className="text-cst_grey text-sm pb-2">{featuredTitle1}</p>
             <h2 className="text-4xl font-semibold relative pb-8 text-[#241442]">
               {featuredTitle2}
               <img src={underline} alt="" className="absolute right-20" />
             </h2>
           </div>
-          <div className="flex flex-wrap gap-2 w-full justify-center sm:justify-end items-center pt-8 pb-8">
+          <div className="flex flex-wrap gap-2 w-full justify-center  items-center pt-8 pb-8">
             <button
               onClick={() => handleCategoryClick(null)}
               className={
