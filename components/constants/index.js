@@ -59,13 +59,13 @@ export const info = {
   classCoursesDesc2: "%100 MEB uyumlu alıştırmalar",
   learnersStudentsTitle1: "LEARNERS AND STUDENTS",
   learnersStudentsTitle2:
-    "Okulda Öğrenilen Bilgileri Evde, Okulda ve Nerede İstersen Orada, Alıştırmalar İle Pekiştirebilir ve Öğrenebilirsiniz.",
+    "Evde, Okulda ve Nerede İstersen Orada, Alıştırmalar İle Pekiştirebilir ve Öğrenebilirsiniz.",
   learnersStudentsDesc:
     "Bilgiler okulda öğrenildiğinde, evde tekrar edildiğinde farklı akıllı alıştırmalar ile pekiştirildiğinde çok daha kalıcı olduğu ve unutulmadığı bilimsel olarak kanıtlanmıştır!",
   featuredTitle1: "ALIŞTIRMALAR",
   featuredTitle2: "Etkileşimli İçerikleri İncele",
   video: "https://youtu.be/vaU8Uhssdmk",
-  videoTitle1: "Don't Know How To Start With Quiklearn Aktif Kurs",
+  videoTitle1: "Çalışkan Arı Dijital İçerikler Nasıl Kullanılır?",
   videoTitle2: "Smart LMS",
   videoTitle3: "Easy To Customize",
   videoTitle4: "Powerful Dashboard",
