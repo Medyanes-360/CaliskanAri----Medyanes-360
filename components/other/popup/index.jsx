@@ -35,7 +35,7 @@ import LoadingScreen from '@/components/other/loading';
                       <div className='rounded absolute p-6 bg-white flex justify-center flex-col items-center mx-[5%] max-w-5xl'>
                       <span className='absolute bg-white -right-4 -top-4 rounded-full border-cst_red-600 hover:rotate-90 transition-all'>
                         < BsXCircleFill 
-                        className='  text-4xl text-cst_red-600  cursor-pointer' 
+                        className='  text-4xl text-cst_red-600  cursor-pointer text-red-600 ' 
                         onClick={() => {popupData && setPopupData && setPopupData({...popupData, popupIsActive: false})}}
                         />
                       </span>
