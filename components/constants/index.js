@@ -1,14 +1,8 @@
 import { GiTiedScroll } from "react-icons/gi";
 import { FcIdea } from "react-icons/fc";
 import { TfiCup } from "react-icons/tfi";
-import { PiCertificateThin } from "react-icons/pi";
-import { GrTechnology } from "react-icons/gr";
-import { HiOutlinePresentationChartLine } from "react-icons/hi2";
-import { MdOutlineDesignServices } from "react-icons/md";
-import { IoFitnessOutline } from "react-icons/io5";
-import { GoDatabase } from "react-icons/go";
-import { SiAtom } from "react-icons/si";
-import { TiBusinessCard } from "react-icons/ti";
+import { RiNumber0, RiNumber1, RiNumber2, RiNumber3, RiNumber4, RiNumber5, RiNumber6, RiNumber7, RiNumber8, RiNumber9} from "react-icons/ri";
+import { BiLabel } from "react-icons/bi";
 export const image = {
   logo: "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads/2023/08/logo-dark.svg",
   mainSection: "/mainImage.png",
@@ -64,17 +58,17 @@ export const info = {
     "Bilgiler okulda öğrenildiğinde, evde tekrar edildiğinde farklı akıllı alıştırmalar ile pekiştirildiğinde çok daha kalıcı olduğu ve unutulmadığı bilimsel olarak kanıtlanmıştır!",
   featuredTitle1: "ALIŞTIRMALAR",
   featuredTitle2: "Etkileşimli İçerikleri İncele",
-  video: "https://youtu.be/vaU8Uhssdmk",
-  videoTitle1: "Çalışkan Arı Dijital İçerikler Nasıl Kullanılır?",
-  videoTitle2: "Smart LMS",
-  videoTitle3: "Easy To Customize",
-  videoTitle4: "Powerful Dashboard",
+  video: "https://www.youtube.com/watch?v=BwKLNfZhy3g",
+  videoTitle1: "Çalışkan Arı 1. Sınıf 2. Dönem Seti Çıktı!",
+  videoTitle2: "Kazanım Odaklı",
+  videoTitle3: "Haftalık Tekrar",
+  videoTitle4: "Serbest Etkinlik",
   videoDesc1:
-    "When An Unknown Printer Took A Galley Offer Area Type And Scrambled To Make A Type Specimen Book Has Survived When An Unknown Printer Took A Galley Offer Area.",
+    "Kazanım odaklı yeni nesil etkinlikler ile hem eğlenicek hem de öğrenicekler. Örnek çözümler ile konuyu anlama ve değerlendirme aşamaları ile verimli öğrenme yöntemleri.",
   videoDesc2:
-    "When An Unknown Printer Took A Galley Offer Area Type And Scrambled To Make A Type Specimen Book Has Survived When An Unknown Printer Took A Galley Offer Area.",
+    "Haftalık tekrar çalışmaları ile öğrendiklerini pekiştirecek ve alıştırmalar ile öğrencilerin bilgileri hep güncel tutulacak.",
   videoDesc3:
-    "When An Unknown Printer Took A Galley Offer Area Type And Scrambled To Make A Type Specimen Book Has Survived When An Unknown Printer Took A Galley Offer Area.",
+    "Serbest Etkinlik ile 'BiLabel, Bul, Çöz ve Eğlen' teması ile öğrenciler araştıracak, bulacak ve keşfedecekler.",
   instructorsTitle1: "OUR INSTRUCTORS",
   instructorsTitle2: "Greatest Teachers Inspire",
   instructorsDesc:
@@ -122,56 +116,56 @@ export const coursesCard = [
   {
     title: "1. Sınıf",
     quantity: "1 Course",
-    icon: MdOutlineDesignServices,
+    icon: RiNumber1,
     border: "border-lightpurple",
     background: "linear-gradient(130deg,#7A66FF 0%,#EBDFFF 115%)",
   },
   {
     title: "2. Sınıf",
     quantity: "3 Aktif Kurs",
-    icon: TiBusinessCard,
+    icon: RiNumber2,
     border: "border-cst_orange",
     background: "linear-gradient(130deg, #F57064 0%, #FFD0CC 115%)",
   },
   {
     title: "3. Sınıf",
     quantity: "2 Aktif Kurs",
-    icon: GrTechnology,
+    icon: RiNumber3,
     border: "border-bluegreen",
     background: "linear-gradient(130deg, #45C8C2 0%, #B6F7F4 115%)",
   },
   {
     title: "4. Sınıf",
     quantity: "2 Aktif Kurs",
-    icon: HiOutlinePresentationChartLine,
+    icon: RiNumber4,
     border: "border-cst_pink",
     background: "linear-gradient(130deg, #F480D4 0%, #FFD3F3 115%)",
   },
   {
     title: "5. Sınıf",
     quantity: "2 Aktif Kurs",
-    icon: IoFitnessOutline,
+    icon: RiNumber5,
     border: "border-lightgreen",
     background: "linear-gradient(130deg, #6ADE33 0%, #C8EFB6 115%)",
   },
   {
     title: "6. Sınıf",
     quantity: "2 Aktif Kurs",
-    icon: SiAtom,
+    icon: RiNumber6,
     border: "border-blue",
     background: "linear-gradient(130deg, #3FC6FF 0%, #D7F3FF 115%)",
   },
   {
     title: "7. Sınıf",
     quantity: "2 Aktif Kurs",
-    icon: GoDatabase,
+    icon: RiNumber7,
     border: "border-cst_yellow",
     background: " linear-gradient(130deg, #FFA41F 0%, #FFE3BB 115%)",
   },
   {
     title: "8. Sınıf",
     quantity: "3 Aktif Kurs",
-    icon: PiCertificateThin,
+    icon: RiNumber8,
     border: "border-lightpink",
     background: "linear-gradient(130deg, #E69E9E 0%, #F5D9E0 115%)",
   },
@@ -460,22 +454,24 @@ export const blogcard = [
 ];
 export const logobanner = [
   {
-    logo: "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads/2023/08/brand-img14.svg",
+    logo: "/main-logo-01.png",
+    link: "https://www.meb.gov.tr/"
   },
   {
-    logo: "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads/2023/08/brand-img13.svg",
+    logo: "/main-logo-02.png",
+    link: "https://caliskanari.com.tr/"
   },
   {
-    logo: "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads/2023/08/brand-img15.svg",
+    logo: "/main-logo-03.png",
+    link: "https://kucukarilarakademisi.com/"
   },
   {
-    logo: "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads/2023/08/brand-img16.svg",
+    logo: "/main-logo-04.png",
+    link: "https://heydayenglish.com/"
   },
   {
-    logo: "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads/2023/08/brand-img17.svg",
-  },
-  {
-    logo: "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads/2023/08/brand-img18.svg",
+    logo: "/main-logo-05.png",
+    link: "https://caliskanari.com.tr/"
   },
 ];
 

@@ -7,7 +7,7 @@ export const TopCoursesCard = () => {
       {coursesCard.map((course, index) => (
         <div
           key={index}
-          className="hover:bg-cst_purple hover:cursor-pointer group top-courses bg-no-repeat bg-right-bottom flex flex-row items-center justify-start gap-6 border bg-card rounded-md pt-10 pb-10 ps-5 pe-5 "
+          className="hover:bg-cst_purple hover:cursor-pointer group top-courses bg-no-repeat bg-right-bottom flex flex-row items-center justify-start gap-6 border bg-card border-gray-200 rounded-md pt-10 pb-10 ps-5 pe-5 "
         >
           <div
             className={`text-3xl flex items-center justify-center border-2 border-solid ${course.border} rounded-full bg-transparent h-16 w-16 text-white p-9`}
@@ -25,7 +25,9 @@ export const TopCoursesCard = () => {
           </div>
           <div className="flex flex-col">
             <p className="text-xl text-cst_purple">{course.title}</p>
-            <p className="text-base text-cst_grey ">{course.quantity}</p>
+            {/* <p className="text-base text-cst_grey ">{course.quantity}</p> */}
+          </div>
+          <div>
           </div>
         </div>
       ))}

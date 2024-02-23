@@ -25,7 +25,7 @@ export const VideoSection = () => {
         <div className="flex flex-col items-center justify-center text-white mb-5 lg:mb-0 px-8 lg:px-0">
           <h2 className="text-4xl relative">
             {videoTitle1}
-            <img src={underline} alt="" className="absolute right-10" />
+            <img src={underline} alt="" className="absolute right-0" />
           </h2>
         </div>
         <div className="flex flex-col lg:flex-row items-center justify-center py-10 px-8 lg:px-0">
@@ -69,7 +69,7 @@ export const VideoSection = () => {
             </Tabs>
           </div>
 
-          <div className="w-full mt-10 lg:mt-0">
+          <div className="w-full mt-10 lg:mt-0 hover:scale-105 transition-all">
             
             <a href={video} target="_blank" rel="noopener noreferrer" className="relative">
             <img
