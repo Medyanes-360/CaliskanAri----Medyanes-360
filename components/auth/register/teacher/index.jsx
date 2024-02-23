@@ -197,7 +197,7 @@ const TeacherRegisterComponent = ({ CitiesData }) => {
                         />
                       </div>
                     </div>
-                    <h1 className='mb-4 md:mb-8 tracking-wider uppercase mt-4 text-2xl 2xl:text-3xl 4xl:text-5xl font-bold text-center text-white bg-secondary p-4'>
+                    <h1 className='mb-4 md:mb-8 tracking-wider uppercase mt-4 text-2xl 2xl:text-3xl 4xl:text-5xl font-bold text-center text-white bg-primary p-4'>
                       {`${PageLabelUpper} Kayıt`}
                     </h1>
                     {/* Progress Bar (Stepper) */}

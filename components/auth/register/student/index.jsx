@@ -196,11 +196,11 @@ import schools from "@/mocks/allSchool.json"
                         />
                       </div>
                     </div>
-                    <h1 className='mb-4 md:mb-8 tracking-wider uppercase mt-4 text-2xl 2xl:text-3xl 4xl:text-5xl font-bold text-center text-white bg-secondary p-4'>
-                      {`${PageLabelUpper} Kayıt`} 
+                    <h1 className='mb-4 md:mb-8 tracking-wider uppercase mt-4 text-2xl 2xl:text-3xl 4xl:text-5xl font-bold text-center text-white bg-primary p-4'>
+                      {`${PageLabelUpper} KAYIT`} 
                     </h1>
                     {/* Progress Bar (Stepper) */}
-                    <div className='grid gap-8 mx-0 md:mx-8 row-gap-0 grid-cols-3 4xl:gap-40'>
+                    <div className='grid gap-8 mx-0 md:mx-8 row-gap-0 grid-cols-3 4xl:gap-40 justify-center'>
                       {/* Progress Bar Step 1 */}
                       <Stepper
                         activeTab={1}
