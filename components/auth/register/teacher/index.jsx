@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { Transition } from '@headlessui/react';
 import LoadingScreen from '@/components/other/loading';
-import {postAPI} from '@/services/fetchAPI/index';
+import { postAPI } from '@/services/fetchAPI/index';
 import teacherValidationSchema from './formikData';
 import { Formik, Form, FormikProps } from 'formik';
 import Input from '@/components/formElements/input';
@@ -17,21 +17,14 @@ import { ToastContainer, toast } from 'react-toastify';
 import ErrorText from '@/components/formElements/errorText';
 import schools from "@/mocks/allSchool.json"
 
-
-
- const TeacherRegisterComponent   = ({ CitiesData }) => {
+const TeacherRegisterComponent = ({ CitiesData }) => {
 
   const PageRole = 'teacher';
   const PageLabelUpper = 'ÖĞRETMEN';
-  const PageLabelLover = 'öğretmen';
   const PageLabelNormal = 'Öğretmen';
 
-  // şehirlerin listesini containerdan prop olarak alırız.
-  const cities = CitiesData
-
-  const [city, setCity] = useState ('');
-  const [town, setTown] = useState ('');
-  const [towns, setTowns] = useState([]);
+  const [city, setCity] = useState('');
+  const [town, setTown] = useState('');
   const [schooltype, setSchooltype] = useState('');
 
 
@@ -41,20 +34,22 @@ import schools from "@/mocks/allSchool.json"
   const [isRegister, setIsRegister] = useState(false);
 
   const [schollNames, setschollNames] = useState([]);
-  
+
   const [activeTab, setActiveTab] = useState(1);
 
-  useEffect(() => {
-    setschollNames(schools.filter((ft) => ft.dc_District.toLowerCase() === town));
-    setSchooltype('');
-    
-  }, [town]);
+  const convertTexts = (text) => {
+    const turkishChars = { 'ğ': 'g', 'Ğ': 'G', 'ü': 'u', 'Ü': 'U', 'ş': 's', 'Ş': 'S', 'ı': 'i', 'İ': 'I', 'ö': 'o', 'Ö': 'O', 'ç': 'c', 'Ç': 'C' };
+    return text.replace(/[ğĞüÜşŞıİöÖçÇ]/g, char => turkishChars[char] || char)
+  }
 
   useEffect(() => {
-    setIsloading(false);
-
-  }, [towns, schollNames])
-
+    if (schools) {
+      const filtered = schools?.filter((ft) => {
+        return convertTexts(ft?.dc_District.toLowerCase()) === convertTexts(town.toLowerCase()) && ft.dc_SchoolName.toLowerCase().includes(schooltype.toLowerCase())
+      })
+      setschollNames(filtered);
+    }
+  }, [schooltype, town, city]);
 
   const router = useRouter();
 
@@ -63,7 +58,7 @@ import schools from "@/mocks/allSchool.json"
     const { errors } = props;
     props.handleSubmit();
     if (activeTab === 1) {
-      
+
       if (errors.name || errors.surname || errors.phone) {
         return props.errors;
       } else {
@@ -97,9 +92,9 @@ import schools from "@/mocks/allSchool.json"
   }
   return (
     <>
-    { isloading && (<LoadingScreen isloading={isloading}/>) }
+      {isloading && (<LoadingScreen isloading={isloading} />)}
       <div className={styles.main}>
-        
+
         <ToastContainer
           className='4xl:text-4xl min:w-40'
           position='top-right'
@@ -141,8 +136,8 @@ import schools from "@/mocks/allSchool.json"
 
             // girilen telefonlarda boşlukları siler ve sonrasında son 10 haniesini alma
             values.phone = values.phone.replace(/\s/g, "").slice(-10);
-            
-            
+
+
             postAPI("/auth/register", values).then((res) => {
               if (res.status === 'success') {
                 // Giriş başarılı ise ekrana "blur" efekti verir
@@ -203,20 +198,20 @@ import schools from "@/mocks/allSchool.json"
                       </div>
                     </div>
                     <h1 className='mb-4 md:mb-8 tracking-wider uppercase mt-4 text-2xl 2xl:text-3xl 4xl:text-5xl font-bold text-center text-white bg-secondary p-4'>
-                      {`${PageLabelUpper} Kayıt`} 
+                      {`${PageLabelUpper} Kayıt`}
                     </h1>
                     {/* Progress Bar (Stepper) */}
                     <div className='grid gap-8 mx-0 md:mx-8 row-gap-0 grid-cols-3 4xl:gap-40'>
                       {/* Progress Bar Step 1 */}
                       <Stepper
                         activeTab={1}
-                        
+
                         title={`${PageLabelNormal} Bilgileri`}
                         activeTitle={activeTab == 1}
                         showIcon={activeTab != 1}
                         icon={<FaCheck size={46} />}
                         stepCompleted={activeTab != 1}
-                        
+
                       />
                       {/* Progress Bar Step 2 */}
                       <Stepper
@@ -224,7 +219,7 @@ import schools from "@/mocks/allSchool.json"
                         title='Okul Bilgileri'
                         activeTitle={activeTab == 2}
                         showIcon={activeTab > 2}
-                        icon={<FaCheck size={46}/>}
+                        icon={<FaCheck size={46} />}
                         stepCompleted={activeTab > 2}
                       />
                       {/* Progress Bar Step 3 */}
@@ -233,10 +228,10 @@ import schools from "@/mocks/allSchool.json"
                         title='Giriş Bilgileri'
                         activeTitle={activeTab == 3}
                         showIcon={activeTab == 3 && isRegister}
-                        icon={<FaCheck  size={46}/>}
+                        icon={<FaCheck size={46} />}
                         stepCompleted={isRegister}
                         lastStep={true}
-                      />
+                      />
                     </div>
                     <div className='block w-full opacity-100 4xl:mb-6 relative z-10'>
                       {/* Step 1 */}
@@ -259,52 +254,52 @@ import schools from "@/mocks/allSchool.json"
                             id='name'
                             name='name'
                             type='text'
-                            
+
                             onChange={props.handleChange}
                             placeholder='İsminizi giriniz.'
-                            
+
                           />
                           {props.touched.name &&
-                          <ErrorText >
-                            {props.errors.name}
-                          </ErrorText>
+                            <ErrorText >
+                              {props.errors.name}
+                            </ErrorText>
                           }
-                          
+
                         </div>
                         <div className={styles.container_first_row}>
-                        <Input
+                          <Input
                             labelValue='Soyisim'
                             disabled={isloading || isRegister}
                             id='surname'
                             name='surname'
                             type='text'
-                            
+
                             onChange={props.handleChange}
                             placeholder='Soyisminizi giriniz.'
-                            
+
                           />
                           {props.touched.surname &&
                             <ErrorText >
                               {props.errors.surname}
                             </ErrorText>
-                           }
+                          }
                         </div>
                         <div className={styles.container_middle_row}>
-                        <Input
+                          <Input
                             labelValue='Telefon'
                             disabled={isloading || isRegister}
                             id='phone'
                             name='phone'
                             type='text'
-                            
+
                             onChange={props.handleChange}
                             placeholder='5xxxxxxxxx'
-                            
+
                           />
                           {props.touched.phone &&
-                          <ErrorText >
-                            {props.errors.phone}
-                          </ErrorText>
+                            <ErrorText >
+                              {props.errors.phone}
+                            </ErrorText>
                           }
                         </div>
                       </Transition>
@@ -323,8 +318,8 @@ import schools from "@/mocks/allSchool.json"
                       >
                         <div className='grid grid-cols-2 gap-2'>
                           <div>
-                          <Select
-                            labelValue='Okulun Bulunduğu İl'
+                            <Select
+                              labelValue='Okulun Bulunduğu İl'
                               id='city'
                               name='city'
                               optionLabel='İl Seç'
@@ -336,13 +331,13 @@ import schools from "@/mocks/allSchool.json"
                             >
                               <option disabled={true} className=' hidden md:block bg-gray-200 text-[5px]'></option>
                               {CitiesData.length > 0 &&
-                                  CitiesData.map((item, index) => {
-                                    return (
-                                      <option key={index} value={item.name}>
-                                        {item.name}
-                                      </option>
-                                    );
-                              })}
+                                CitiesData.map((item, index) => {
+                                  return (
+                                    <option key={index} value={item.name}>
+                                      {item.name}
+                                    </option>
+                                  );
+                                })}
                             </Select>
 
                             {props.touched.city &&
@@ -352,10 +347,10 @@ import schools from "@/mocks/allSchool.json"
                             }
                           </div>
                           <div>
-                          <Select
-                            labelValue='Okulun Bulunduğu İlçe'
+                            <Select
+                              labelValue='Okulun Bulunduğu İlçe'
                               id='town'
-                              name='town'                              
+                              name='town'
                               disabled={city ? false : true}
                               optionLabel='İlçe Seç'
                               onChange={(e) => {
@@ -381,15 +376,15 @@ import schools from "@/mocks/allSchool.json"
                                 {props.errors.town}
                               </ErrorText>
                             }
-                        
+
                           </div>
                           <div>
-                            
-                          <Select
-                            labelValue='Okul Türü'
+
+                            <Select
+                              labelValue='Okul Türü'
                               id='schooltype'
                               name='schooltype'
-                              
+
                               disabled={town ? false : true}
                               optionLabel='Okul Türü Seç'
                               onChange={(e) => {
@@ -423,120 +418,120 @@ import schools from "@/mocks/allSchool.json"
                           {props.values.schooltype === 'diger' ? (
                             <div>
                               <Input
-                                  labelValue='Okul İsmi'
+                                labelValue='Okul İsmi'
 
-                                  id='schollName'
-                                  name='schollName'
-                                  type='text'
-                                  disabled={schooltype || isloading || isRegister ? false : true}
-                                  
-                                  onChange={props.handleChange}
-                                  placeholder='Okul ismini giriniz.'
-                                  
-                                />
-                                {props.touched.schollName &&
-                                  <ErrorText >
-                                    {props.errors.schollName}
-                                  </ErrorText>
-                                }
-                              
+                                id='schollName'
+                                name='schollName'
+                                type='text'
+                                disabled={schooltype || isloading || isRegister ? false : true}
+
+                                onChange={props.handleChange}
+                                placeholder='Okul ismini giriniz.'
+
+                              />
+                              {props.touched.schollName &&
+                                <ErrorText >
+                                  {props.errors.schollName}
+                                </ErrorText>
+                              }
+
                             </div>
                           ) : (
                             <div>
                               <Select
-                            labelValue='Okul İsmi'
-                              id='schollName'
-                              name='schollName'
-                              
-                              disabled={schooltype ? false : true}
-                              optionLabel='Okul Seç'
-                              onChange={(e) => {
-                                props.handleChange(e);
-                              }}
-                            >
-                              <option disabled={true} className=' hidden md:block bg-gray-200 text-[5px]'></option>
-                              {schollNames.length > 0 &&
+                                labelValue='Okul İsmi'
+                                id='schollName'
+                                name='schollName'
+
+                                disabled={schooltype ? false : true}
+                                optionLabel='Okul Seç'
+                                onChange={(e) => {
+                                  props.handleChange(e);
+                                }}
+                              >
+                                <option disabled={true} className=' hidden md:block bg-gray-200 text-[5px]'></option>
+                                {schollNames.length > 0 &&
                                   props.values.schooltype &&
-                                  
+
                                   schollNames.map((item, index) => {
                                     return (
                                       <option key={index} value={item.dc_SchoolName}>
                                         {item.dc_SchoolName}
                                       </option>
                                     );
-                              })}
-                            </Select>
+                                  })}
+                              </Select>
 
-                            {props.touched.schollName &&
-                              <ErrorText >
-                                {props.errors.schollName}
-                              </ErrorText>
-                            }
+                              {props.touched.schollName &&
+                                <ErrorText >
+                                  {props.errors.schollName}
+                                </ErrorText>
+                              }
                             </div>
                           )}
                         </div>
                         <div className={schooltype === "anaokul" ? "hidden" : "block"}>
-                        <Select
+                          <Select
                             labelValue='Sınıf'
-                              id='class'
-                              name='class'
-                              
-                              disabled={schooltype ? false : true}
-                              optionLabel='Sınıf Seç'
-                              onChange={props.handleChange}
-                            >
-                              <option disabled={true} className=' hidden md:block bg-gray-200 text-[5px]'></option>
-                              {schooltype === 'ilkokul' &&
-                                <>
-                                  <option value='1. Sınıf'>1. Sınıf</option>
-                                  <option value='2. Sınıf'>2. Sınıf</option>
-                                  <option value='3. Sınıf'>3. Sınıf</option>
-                                  <option value='4. Sınıf'>4. Sınıf</option>
-                                </>
-                              }
-                              {schooltype === 'ortaokul' &&
-                                <>                              
-                                  <option value='5. Sınıf'>5. Sınıf</option>
-                                  <option value='6. Sınıf'>6. Sınıf</option>
-                                  <option value='7. Sınıf'>7. Sınıf</option>
-                                  <option value='8. Sınıf'>8. Sınıf</option>
-                                </>
-                              }
-                              {schooltype === 'lise' &&
-                                <>
-                                  <option value='9. Sınıf'>9. Sınıf</option>
-                                  <option value='10. Sınıf'>10. Sınıf</option>
-                                  <option value='11. Sınıf'>11. Sınıf</option>
-                                  <option value='12. Sınıf'>12. Sınıf</option>
-                                </>
-                              }
-                              {schooltype === 'diger' &&
-                                <>
-                                <option disabled={true} className=' hidden md:block bg-gray-200 text-[5px]'></option>
-                                  <option value='anaokul'>Anaokul</option>
-                                  <option value='1. Sınıf'>1. Sınıf</option>
-                                  <option value='2. Sınıf'>2. Sınıf</option>
-                                  <option value='3. Sınıf'>3. Sınıf</option>
-                                  <option value='4. Sınıf'>4. Sınıf</option>
-                                  <option value='5. Sınıf'>5. Sınıf</option>
-                                  <option value='6. Sınıf'>6. Sınıf</option>
-                                  <option value='7. Sınıf'>7. Sınıf</option>
-                                  <option value='8. Sınıf'>8. Sınıf</option>
-                                  <option value='9. Sınıf'>9. Sınıf</option>
-                                  <option value='10. Sınıf'>10. Sınıf</option>
-                                  <option value='11. Sınıf'>11. Sınıf</option>
-                                  <option value='12. Sınıf'>12. Sınıf</option>
-                                  </>
-                                }
+                            id='class'
+                            name='class'
 
-
-                            </Select>
-
-                            {props.touched.class &&
-                              <ErrorText >
-                                {props.errors.class}
-                              </ErrorText>
+                            disabled={schooltype ? false : true}
+                            optionLabel='Sınıf Seç'
+                            onChange={props.handleChange}
+                          >
+                            <option disabled={true} className=' hidden md:block bg-gray-200 text-[5px]'></option>
+                            {schooltype === 'ilkokul' &&
+                              <>
+                                <option value='1. Sınıf'>1. Sınıf</option>
+                                <option value='2. Sınıf'>2. Sınıf</option>
+                                <option value='3. Sınıf'>3. Sınıf</option>
+                                <option value='4. Sınıf'>4. Sınıf</option>
+                              </>
                             }
+                            {schooltype === 'ortaokul' &&
+                              <>
+                                <option value='5. Sınıf'>5. Sınıf</option>
+                                <option value='6. Sınıf'>6. Sınıf</option>
+                                <option value='7. Sınıf'>7. Sınıf</option>
+                                <option value='8. Sınıf'>8. Sınıf</option>
+                              </>
+                            }
+                            {schooltype === 'lise' &&
+                              <>
+                                <option value='9. Sınıf'>9. Sınıf</option>
+                                <option value='10. Sınıf'>10. Sınıf</option>
+                                <option value='11. Sınıf'>11. Sınıf</option>
+                                <option value='12. Sınıf'>12. Sınıf</option>
+                              </>
+                            }
+                            {schooltype === 'diger' &&
+                              <>
+                                <option disabled={true} className=' hidden md:block bg-gray-200 text-[5px]'></option>
+                                <option value='anaokul'>Anaokul</option>
+                                <option value='1. Sınıf'>1. Sınıf</option>
+                                <option value='2. Sınıf'>2. Sınıf</option>
+                                <option value='3. Sınıf'>3. Sınıf</option>
+                                <option value='4. Sınıf'>4. Sınıf</option>
+                                <option value='5. Sınıf'>5. Sınıf</option>
+                                <option value='6. Sınıf'>6. Sınıf</option>
+                                <option value='7. Sınıf'>7. Sınıf</option>
+                                <option value='8. Sınıf'>8. Sınıf</option>
+                                <option value='9. Sınıf'>9. Sınıf</option>
+                                <option value='10. Sınıf'>10. Sınıf</option>
+                                <option value='11. Sınıf'>11. Sınıf</option>
+                                <option value='12. Sınıf'>12. Sınıf</option>
+                              </>
+                            }
+
+
+                          </Select>
+
+                          {props.touched.class &&
+                            <ErrorText >
+                              {props.errors.class}
+                            </ErrorText>
+                          }
 
                         </div>
                       </Transition>
@@ -554,60 +549,60 @@ import schools from "@/mocks/allSchool.json"
                         leaveTo='opacity-0'
                       >
                         <div className={styles.container_end_row}>
-                        <Input
+                          <Input
                             labelValue='E-mail'
                             disabled={isloading || isRegister}
                             id='email'
                             name='email'
                             type='email'
-                            
+
                             onChange={props.handleChange}
                             placeholder='Mail adresinizi giriniz.'
-                            
+
                           />
                           {props.touched.email &&
-                          <ErrorText >
-                            {props.errors.email}
-                          </ErrorText>
+                            <ErrorText >
+                              {props.errors.email}
+                            </ErrorText>
                           }
 
                         </div>
                         <div className={styles.container_end_row}>
-                        <Input
+                          <Input
                             labelValue='Şifre'
                             disabled={isloading || isRegister}
                             id='password'
                             name='password'
                             type='password'
-                            
+
                             onChange={props.handleChange}
                             placeholder='******'
-                            
+
                           />
                           {props.touched.password &&
-                          <ErrorText >
-                            {props.errors.password}
-                          </ErrorText>
+                            <ErrorText >
+                              {props.errors.password}
+                            </ErrorText>
                           }
 
                         </div>
                         <div className={styles.container_end_row}>
 
-                        <Input
+                          <Input
                             labelValue='Şifre Doğrulama'
                             disabled={isloading || isRegister}
                             id='passwordConfirm'
                             name='passwordConfirm'
                             type='password'
-                            
+
                             onChange={props.handleChange}
                             placeholder='******'
-                            
+
                           />
                           {props.touched.passwordConfirm &&
-                          <ErrorText >
-                            {props.errors.passwordConfirm}
-                          </ErrorText>
+                            <ErrorText >
+                              {props.errors.passwordConfirm}
+                            </ErrorText>
                           }
 
                         </div>
@@ -619,10 +614,10 @@ import schools from "@/mocks/allSchool.json"
                         {/* Prev Button */}
                         {activeTab >= 2 && (
                           <button
-                          disabled={isloading || isRegister}
+                            disabled={isloading || isRegister}
                             type='button'
                             onClick={(e) => prevActiveTab(e)}
-                            className={`${isloading == true ||  isRegister == false && "hover:bg-[#595959]"} mb-6 w-1/4 4xl:text-6xl text-white bg-secondary border rounded-md p-4`}
+                            className={`${isloading == true || isRegister == false && "hover:bg-[#595959]"} mb-6 w-1/4 4xl:text-6xl text-white bg-secondary border rounded-md p-4`}
                           >
                             Geri
                           </button>
@@ -630,12 +625,11 @@ import schools from "@/mocks/allSchool.json"
                         {/* Next Button */}
                         {activeTab < 3 && (
                           <button
-                          disabled={isloading || isRegister}
+                            disabled={isloading || isRegister}
                             type='button'
                             onClick={(e) => nextActiveTab(e, props)}
-                            className={`${
-                              activeTab === 1 ? 'w-full' : 'w-3/4'
-                            } mb-6 text-white text-xl bg-primary 4xl:text-4xl border rounded-md p-4 hover:bg-primarydark`}
+                            className={`${activeTab === 1 ? 'w-full' : 'w-3/4'
+                              } mb-6 text-white text-xl bg-primary 4xl:text-4xl border rounded-md p-4 hover:bg-primarydark`}
                           >
                             Sonraki Sayfa
                           </button>
@@ -643,9 +637,9 @@ import schools from "@/mocks/allSchool.json"
                         {/* Submit Button */}
                         {activeTab === 3 && (
                           <button
-                            disabled={isloading  == true ||  isRegister == true}
+                            disabled={isloading == true || isRegister == true}
                             type='submit'
-                            className={`${isloading == true ||  isRegister == true ? "bg-secondary" : "bg-primary hover:bg-primarydark"}  w-full mb-6 text-white text-xl 4xl:text-6xl border rounded-md p-4 `}
+                            className={`${isloading == true || isRegister == true ? "bg-secondary" : "bg-primary hover:bg-primarydark"}  w-full mb-6 text-white text-xl 4xl:text-6xl border rounded-md p-4 `}
                           >
                             Kayıt Ol
                           </button>
@@ -655,8 +649,8 @@ import schools from "@/mocks/allSchool.json"
                         <p className='text-md 2xl:text-xl 4xl:xl:text-2xl'>
                           Zaten bir hesabınız var mı?{' '}
                           <Link
-                            
-                            href={`${isloading || isRegister ? "#" : "/auth/login/"+PageRole}`}
+
+                            href={`${isloading || isRegister ? "#" : "/auth/login/" + PageRole}`}
                             className={`${isloading || isRegister ? "text-secondary cursor-default" : "text-primary font-semibold hover:underline"}  `}
                           >
                             {`${PageLabelNormal} Giriş.`}
@@ -666,8 +660,8 @@ import schools from "@/mocks/allSchool.json"
                         <p className='text-md 2xl:text-xl 4xl:xl:text-2xl'>
                           Şifrenizi mi unuttunuz?{' '}
                           <Link
-                            
-                            href={`${isloading || isRegister ? "#" : "/auth/forgotPassword" }`}
+
+                            href={`${isloading || isRegister ? "#" : "/auth/forgotPassword"}`}
                             className={`${isloading || isRegister ? "text-secondary cursor-default" : "text-primary font-semibold hover:underline"}  `}
                           >
 
@@ -683,10 +677,10 @@ import schools from "@/mocks/allSchool.json"
           )}
         </Formik>
       </div>
-      
-    
+
+
     </>
-    
+
   );
 }
 
