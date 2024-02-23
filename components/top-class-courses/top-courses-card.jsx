@@ -7,7 +7,7 @@ export const TopCoursesCard = () => {
       {coursesCard.map((course, index) => (
         <div
           key={index}
-          className="hover:bg-cst_purple group top-courses bg-no-repeat bg-right-bottom flex flex-row items-center justify-start gap-6 border bg-card hover:bg-cst_purple rounded-md pt-10 pb-10 ps-5 pe-5 "
+          className="hover:bg-cst_purple hover:cursor-pointer group top-courses bg-no-repeat bg-right-bottom flex flex-row items-center justify-start gap-6 border bg-card rounded-md pt-10 pb-10 ps-5 pe-5 "
         >
           <div
             className={`text-3xl flex items-center justify-center border-2 border-solid ${course.border} rounded-full bg-transparent h-16 w-16 text-white p-9`}

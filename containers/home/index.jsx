@@ -36,14 +36,14 @@ import { signIn, signOut, useSession } from 'next-auth/react'
     <LearnersStudents/>
     <FeaturedCourses/>
     <VideoSection/>
-    <InstructorsSection/>
-    <CounterSection/>
-    <ClientsSection/>
-    <BannerSection/>
-    <BecomeInstructorSection/>
+    {/* <InstructorsSection/> */}
+    {/* <CounterSection/> */}
+    {/* <ClientsSection/> */}
     <LogoBanner/>
-    <BlogSection/>
-    <LastBanner/>
+    <BannerSection/>
+    {/* <BecomeInstructorSection/> */}
+    {/* <BlogSection/> */}
+    {/* <LastBanner/> */}
     <Footer/>
     </>
   )
