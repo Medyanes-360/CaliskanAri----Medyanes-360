@@ -77,9 +77,9 @@ export const info = {
   clientTitle2: "What's Our Real Client Strories About Our Work & Passion",
   clientDesc:
     "When An Unknown Printer Took A Galley Of Type And Scrambled It To Make A Type SpecimenBook It Has Survived Not Only Five Centuries",
-  bannerTitle1: "ARE YOU READY FOR THIS OFFER",
+  bannerTitle1: "Dijital ve akıllı tahta içerikleri için ve",
   bannerTitle2:
-    "Take The Next Step Toward Your Personal & Professional Goals With Quiklearn",
+    "Hizmetlerimiz hakkında daha fazla bilgi almak için",
   beInstractorTitle1: "BECOME AN INSTRUCTOR",
   beInstractorTitle2: "Let's Join Us & Spread Your Knowledge",
   beInstractorDesc:

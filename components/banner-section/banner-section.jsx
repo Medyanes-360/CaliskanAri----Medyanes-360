@@ -15,7 +15,7 @@ export const BannerSection = () => {
         <h2 className='text-white text-4xl font-semibold pb-10 px-8'>{bannerTitle2}</h2>
         <div className="text-center bg-opacity-100 ">
 
-        <CustomButton title="Explore More Courses"/>
+        <CustomButton title="İletişime Geç" href="/iletisim"/>
         <img src={bannerShape} alt="" className='absolute left-0 top-0'/>
 
       </div>
