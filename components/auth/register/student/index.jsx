@@ -173,14 +173,6 @@ import schools from "@/mocks/allSchool.json"
               className={`${isRegister ? 'blur' : ''} ${styles.main_container} md:scale-75 2xl:scale-75 4xl:scale-50`}
             >
               <div className={styles.container}>
-                <div className={styles.container_left_side}>
-                  <img
-                    className={styles.left_side_image}
-                    src='https://source.unsplash.com/user/erondu/1600x900'
-                    alt='img'
-                  />
-                </div>
-
                 <div className={styles.container_right_side}>
                   <div className='w-full'>
                     <div className={styles.right_side_logo}>
