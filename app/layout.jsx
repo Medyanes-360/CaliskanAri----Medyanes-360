@@ -83,7 +83,7 @@ const links = [
 const RootLayout = ({children, session}) => {
     return (
         <html lang="tr">
-
+        
         <head/>
         <body>
         {/* Redux için Ana Layout yapımızı sarmallıyoruz ve store'u içine prop olarak gönderiyoruz. */}
