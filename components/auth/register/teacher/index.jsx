@@ -47,6 +47,8 @@ const TeacherRegisterComponent = ({ CitiesData }) => {
       const filtered = schools?.filter((ft) => {
         return convertTexts(ft?.dc_District.toLowerCase()) === convertTexts(town.toLowerCase()) && ft.dc_SchoolName.toLowerCase().includes(schooltype.toLowerCase())
       })
+
+      console.log(filtered)
       setschollNames(filtered);
     }
   }, [schooltype, town, city]);
