@@ -1,8 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 
-
 //###################################
-
 
 module.exports = {
   content: [
@@ -10,14 +8,13 @@ module.exports = {
     "./pages/**/*.{js,ts,jsx,tsx}",
     "./components/**/*.{js,ts,jsx,tsx}",
     "./containers/**/*.{js,ts,jsx,tsx}",
-
   ],
-  darkMode: 'class',
+  darkMode: "class",
   theme: {
     extend: {
       colors: {
         cream: "#FAF9F6",
-        cst_purple: "#241442",//"#241442",
+        cst_purple: "#241442", //"#241442",
         buttonColor: "#543EE8", //"#543EE8",
         cst_grey: "#4f536c",
         cst_green: "#45C8C2",
@@ -36,7 +33,7 @@ module.exports = {
         plant: "#543EE81A",
         lightyellow: "#ffcd1f",
         cst_orange: "#FF9D95",
-        brandColor: '#ec1b24',
+        brandColor: "#ec1b24",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -62,32 +59,39 @@ module.exports = {
           DEFAULT: "hsl(var(--accent))",
           foreground: "hsl(var(--accent-foreground))",
         },
-      }
+        classprimary: "#5840bb",
+        classwhite: "#ffffff",
+        classblack: "#000000",
+        classtablehead: "#ADAEB0",
+        classtableborder: "#E1E3E6",
+        classtablepcolor: "#595F69",
+        classdeletebutton: "#DC143C",
+      },
     },
     screens: {
-      'sm': '640px',
+      sm: "640px",
       // => @media (min-width: 640px) { ... }
-      'md': '768px',
+      md: "768px",
       // => @media (min-width: 768px) { ... }
-      'lg': '1024px',
+      lg: "1024px",
       // => @media (min-width: 1024px) { ... }
-      'xl': '1280px',
+      xl: "1280px",
       // => @media (min-width: 1280px) { ... }
-      '2xl': '1536px',
+      "2xl": "1536px",
       // => @media (min-width: 1536px) { ... }
-      '3xl': '1920px',
+      "3xl": "1920px",
       // => @media (min-width: 1920px) { ... }
-      '4xl': '2560px',
+      "4xl": "2560px",
       // => @media (min-width: 2560px) { ... }
-      '5xl': '3840px',
+      "5xl": "3840px",
       // => @media (min-width: 3840px) { ... }
-      '6xl': '7680px',
+      "6xl": "7680px",
       // => @media (min-width: 7680px) { ... }
-      '7xl': '15360px',
+      "7xl": "15360px",
       // => @media (min-width: 15360px) { ... }
-      '8xl': '30720px',
+      "8xl": "30720px",
       // => @media (min-width: 30720px) { ... }
-    }
+    },
   },
   plugins: [],
 };
