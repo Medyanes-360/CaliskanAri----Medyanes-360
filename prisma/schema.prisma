@@ -3,7 +3,6 @@
 // 2- VS Codu kapatıp yeniden aç.
 // ! Sırayla yaparsan gücelleme gerçekleşir.
 
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -24,7 +23,7 @@ model Admin {
   updatedAt DateTime @updatedAt
 }
 
-model AllUser{
+model AllUser {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   role      String
   name      String
@@ -34,42 +33,23 @@ model AllUser{
   updatedAt DateTime @updatedAt
 }
 
-
 model ForgotPassword {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  email      String   @unique
-  secretKey  String   @unique
-  validTime  Int 
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  email     String   @unique
+  secretKey String   @unique
+  validTime Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
+
 model VerifyEmail {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  email      String   @unique
-  secretKey  String   @unique
-  validTime  Int 
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  email     String   @unique
+  secretKey String   @unique
+  validTime Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
-
-model Student {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  verified   Boolean  @default(false)
-  role       String
-  name       String
-  surname    String
-  phone      String   @unique
-  city       String
-  town       String
-  schooltype String
-  schollName String
-  class      String
-  email      String   @unique
-  password   String
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-}
-
 
 model Teacher {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
@@ -89,37 +69,53 @@ model Teacher {
   updatedAt  DateTime @updatedAt
 }
 
-model GeneralTopPageBanner{
-  id                String   @id @default(auto()) @map("_id") @db.ObjectId
-  
-  startBannerTime   String?
-  endBannerTime     String?
-  mainText          String?
-  detailText        String?
-  buttonLink        String?
-  buttonText        String?
+model GeneralTopPageBanner {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
 
-  isActive          Boolean
-  mainTextColor     String
-  underTextColor    String
-  buttonColor       String
-  backgroundColor   String
-  buttonTextColor   String
+  startBannerTime String?
+  endBannerTime   String?
+  mainText        String?
+  detailText      String?
+  buttonLink      String?
+  buttonText      String?
 
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt  
+  isActive        Boolean
+  mainTextColor   String
+  underTextColor  String
+  buttonColor     String
+  backgroundColor String
+  buttonTextColor String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model dataUpdateChecker {
-  id              String       @id @default(auto()) @map("_id") @db.ObjectId
-  Configdata      String
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt  
-
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  Configdata String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }
 
+model Class {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  capacity  Int
+  grade     Int
+  section   String
+  students  Student[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
 
+model Student {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  name  String
+  email String
 
+  class   Class?  @relation(fields: [classId], references: [id])
+  classId String? @db.ObjectId
 
-
-
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

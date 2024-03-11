@@ -137,28 +137,33 @@ const useStore = create((set) => ({
     set((state) => ({
       classes: state.classes.filter((classInfo) => classInfo.id !== classId),
     })),
-    
-    addStudent: (classId, studentName, studentEmail) =>
-  set((state) => {
-    console.log('Updating state with new student:', classId, studentName, studentEmail);
-    const updatedClasses = state.classes.map((classInfo) =>
-      classInfo.id === classId
-        ? {
-            ...classInfo,
-            students: [
-              ...classInfo.students,
-              { 
-                id: classInfo.students.length + 1,
-                name: studentName,
-                email: studentEmail,
-              },
-            ],
-          }
-        : classInfo
-    );
 
-    return { classes: updatedClasses };
-  }),
+  addStudent: (classId, studentName, studentEmail) =>
+    set((state) => {
+      console.log(
+        "Updating state with new student:",
+        classId,
+        studentName,
+        studentEmail
+      );
+      const updatedClasses = state.classes.map((classInfo) =>
+        classInfo.id === classId
+          ? {
+              ...classInfo,
+              students: [
+                ...classInfo.students,
+                {
+                  id: classInfo.students.length + 1,
+                  name: studentName,
+                  email: studentEmail,
+                },
+              ],
+            }
+          : classInfo
+      );
+
+      return { classes: updatedClasses };
+    }),
 
   deleteStudent: (classId, studentId) =>
     set((state) => ({
