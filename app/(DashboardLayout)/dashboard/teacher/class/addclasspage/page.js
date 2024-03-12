@@ -3,7 +3,6 @@ import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { FaArrowLeft, FaPlus, FaExclamationCircle } from "react-icons/fa";
-import useStore from "@/utils/store";
 import Link from "next/link";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -14,10 +13,14 @@ const AddClassPage = () => {
 
   //form için yup ile doğrulama şeması
   const validationSchema = Yup.object({
-    name: Yup.string().min(3, "En az 3 karakter olmalıdır.").required("Bu alan zorunludur."),
+    name: Yup.string()
+      .min(3, "En az 3 karakter olmalıdır.")
+      .required("Bu alan zorunludur."),
     grade: Yup.string().required("Bu alan zorunludur."),
-    section: Yup.string().required("Bu alan zorunludur.")
+    section: Yup.string().required("Bu alan zorunludur."),
   });
+
+  
   const handleAddClass = async (values, { setSubmitting }) => {
     try {
       const response = await fetch("http://localhost:3000/api/classes", {
@@ -31,16 +34,16 @@ const AddClassPage = () => {
           section: values.section,
         }),
       });
-  
+
       if (!response.ok) {
         console.error("Failed to add class:", response.statusText);
         toast.error("Sınıf eklenirken bir hata oluştu.");
         return;
       }
-  
+
       const data = await response.json();
       console.log("Class added successfully:", data);
-  
+
       toast.success("Yeni sınıf bilgileri eklendi!", {
         onClose: () => {
           router.back();
@@ -53,7 +56,7 @@ const AddClassPage = () => {
       setSubmitting(false);
     }
   };
-  
+
   return (
     <div id="addclasspage" className="container mx-auto">
       {/* Sınıf listesine sayfasına geri dönmek için button*/}
@@ -73,16 +76,16 @@ const AddClassPage = () => {
       </div>
 
       {/* Yeni sınıf eklemek için form*/}
-      
-    <Formik
-      initialValues={{
-        name: "",
-        grade: "",
-        section: ""
-      }}
-      validationSchema={validationSchema}
-      onSubmit={handleAddClass}
-    >
+
+      <Formik
+        initialValues={{
+          name: "",
+          grade: "",
+          section: "",
+        }}
+        validationSchema={validationSchema}
+        onSubmit={handleAddClass}
+      >
         <Form
           id="addclassform"
           className="flex flex-col items-center justify-center"
@@ -102,12 +105,12 @@ const AddClassPage = () => {
                 Sınıf Adı*
               </label>
               <Field
-  type="text"
-  id="name"
-  name="name"
-  className={`text-black bg-white border border-[#9ca3af]
+                type="text"
+                id="name"
+                name="name"
+                className={`text-black bg-white border border-[#9ca3af]
     focus:outline-none hover:ring-classprimary hover:ring-1 p-2 rounded-md sm:mr-6 max-w-[180px] sm:max-w-[238px]`}
-/>
+              />
               {/* Class Name için error mesajı */}
               <ErrorMessage
                 name="name"
@@ -130,12 +133,12 @@ const AddClassPage = () => {
                 Sınıf*
               </label>
               <Field
-  as="select"
-  id="grade"
-  name="grade"
-  className={`text-black bg-white border border-[#9ca3af]
+                as="select"
+                id="grade"
+                name="grade"
+                className={`text-black bg-white border border-[#9ca3af]
     focus:outline-none hover:ring-classprimary hover:ring-1 p-2 rounded-md sm:mr-6 max-w-[180px] sm:max-w-[238px]`}
->
+              >
                 {/* 1-12 */}
                 {[...Array(12)].map((_, index) => (
                   <option key={index + 1} value={index + 1}>
@@ -165,16 +168,18 @@ const AddClassPage = () => {
                 Sınıf Şubesi*
               </label>
               <Field
-  as="select"
-  id="section"
-  name="section"
-  className={`text-black bg-white border border-[#9ca3af]
+                as="select"
+                id="section"
+                name="section"
+                className={`text-black bg-white border border-[#9ca3af]
     focus:outline-none hover:ring-classprimary hover:ring-1 p-2 rounded-md sm:mr-6 max-w-[180px] sm:max-w-[238px]`}
-
               >
                 {/*A-Z*/}
                 {Array.from({ length: 26 }, (_, index) => (
-                  <option key={String.fromCharCode(65 + index)} value={String.fromCharCode(65 + index)}>
+                  <option
+                    key={String.fromCharCode(65 + index)}
+                    value={String.fromCharCode(65 + index)}
+                  >
                     {String.fromCharCode(65 + index)}
                   </option>
                 ))}
