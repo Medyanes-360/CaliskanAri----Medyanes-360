@@ -100,7 +100,6 @@ model dataUpdateChecker {
 model Class {
   id        String    @id @default(auto()) @map("_id") @db.ObjectId
   name      String
-  capacity  Int
   grade     Int
   section   String
   students  Student[]
