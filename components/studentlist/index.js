@@ -15,10 +15,10 @@ const ViewStudentList = ({
   onBackToClassList,
   setShowClassButton,
 }) => {
-  const [confirmDeleteStudent, setConfirmDeleteStudent] = useState(false); //öğrenci silme işleminin onaylanıp onaylanmadığını belirten state
-  const [studentToDelete, setStudentToDelete] = useState(null); //silinecek öğrencinin id sini tutan state
-
+  const [confirmDeleteStudent, setConfirmDeleteStudent] = useState(null);
+  const [studentToDelete, setStudentToDelete] = useState(null);
   // Yup kütüphanesi kullanılarak form doğrulama şemaları belirlenir.
+
   const validationSchema = Yup.object({
     newStudentName: Yup.string()
       .matches(/^[a-zA-Z\s]+$/, "Rakam veya özel karakterler kullanılamaz.")
@@ -29,23 +29,26 @@ const ViewStudentList = ({
       .required("Bu alan zorunludur."),
   });
 
-  //silme işlemi başladığında çağrılan fonksiyon
-  const handleDeleteConfirmation = (studentId) => {
-    setStudentToDelete(studentId);
+  // Öğrenci silme işlemi için onay penceresini açar
+  const handleDeleteClick = (student) => {
+    setStudentToDelete(student);
     setConfirmDeleteStudent(true);
   };
 
-  //silme işlemi iptal edildiğinde çağrılan fonksiyon
-  const handleCancelDeleteStudent = () => {
-    setStudentToDelete(null);
+  // Öğrenci silme işlemi için onay penceresini kapatır
+  const handleCancelDelete = () => {
     setConfirmDeleteStudent(false);
+    setStudentToDelete(null);
   };
-
-  //silme işlemi onaylandığında çağrılan fonksiyon
-  const handleConfirmDeleteStudent = () => {
-    onDeleteStudent(studentToDelete);
-    setStudentToDelete(null);
-    setConfirmDeleteStudent(false);
+  
+  // Öğrenci silme işlemini onaylar ve backend'e gönderir
+  const handleConfirmDelete = () => {
+    if (studentToDelete) {
+      onDeleteStudent(studentToDelete.id);
+      toast.success("Öğrenci başarıyla silindi!");
+      setConfirmDeleteStudent(false);
+      setStudentToDelete(null);
+    }
   };
 
   return (
@@ -77,8 +80,13 @@ const ViewStudentList = ({
           }}
           validationSchema={validationSchema}
           onSubmit={(values, { resetForm }) => {
-            if (values.newStudentName.trim() === "" || values.newStudentEmail.trim() === "") {
-              console.log("Lütfen hem adınızı hem de e-posta bilgilerinizi girin!");
+            if (
+              values.newStudentName.trim() === "" ||
+              values.newStudentEmail.trim() === ""
+            ) {
+              console.log(
+                "Lütfen hem adınızı hem de e-posta bilgilerinizi girin!"
+              );
             } else {
               onAddStudent(values.newStudentName, values.newStudentEmail);
               resetForm();
@@ -178,7 +186,7 @@ const ViewStudentList = ({
                   id="deletestudentbutton"
                   className="border-b border-classtableborder py-4 px-[10px] text-center"
                 >
-                  <button onClick={() => handleDeleteConfirmation(student.id)}>
+                  <button onClick={() => handleDeleteClick(student)}>
                     <RiDeleteBinFill className="fill-classdeletebutton w-3 sm:w-5 h-3 sm:h-5 hover:scale-105" />
                   </button>
                 </td>
@@ -190,7 +198,7 @@ const ViewStudentList = ({
 
       <ToastContainer />
 
-      {confirmDeleteStudent && (
+      {confirmDeleteStudent && studentToDelete && (
         <div className="fixed inset-0 flex items-center justify-center bg-classblack bg-opacity-60 z-50">
           <div className="bg-classwhite p-8 rounded-lg">
             <p className="mb-4 text-lg">
@@ -198,14 +206,14 @@ const ViewStudentList = ({
             </p>
             <div className="flex justify-end">
               <button
+                onClick={handleConfirmDelete}
                 className="mr-3 px-6 py-2 bg-classdeletebutton text-classwhite rounded-full hover:scale-105 cursor-pointer"
-                onClick={handleConfirmDeleteStudent}
               >
                 Sil
               </button>
               <button
+                onClick={handleCancelDelete}
                 className="px-4 py-2 text-classdeletebutton hover:scale-105"
-                onClick={handleCancelDeleteStudent}
               >
                 Kapat
               </button>

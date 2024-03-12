@@ -15,7 +15,7 @@ const ClassListPage = ({ onViewStudentListClick, setShowClassButton }) => {
   const [showEditPopUp, setShowEditPopUp] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(null);
   const [confirmDelete, setConfirmDelete] = useState(false);
-  
+
   useEffect(() => {
     fetchClasses();
   }, []);
@@ -45,6 +45,15 @@ const ClassListPage = ({ onViewStudentListClick, setShowClassButton }) => {
       });
       const data = await response.json();
       console.log("Student added:", data);
+
+      // Durumu yeni sınıf bilgileriyle günceller
+      setClasses((prevClasses) =>
+        prevClasses.map((classInfo) =>
+          classInfo.id === classId
+            ? { ...classInfo, students: [...classInfo.students, data] }
+            : classInfo
+        )
+      );
     } catch (error) {
       console.error("Error adding student:", error);
     }
@@ -52,13 +61,36 @@ const ClassListPage = ({ onViewStudentListClick, setShowClassButton }) => {
 
   const deleteClass = async (classId) => {
     try {
-      const response = await fetch(`http://localhost:3000/api/classes?classId=${classId}`, {
-        method: "DELETE",
-      });
+      const response = await fetch(
+        `http://localhost:3000/api/classes?classId=${classId}`,
+        {
+          method: "DELETE",
+        }
+      );
       console.log("Class deleted:", response);
       fetchClasses();
     } catch (error) {
       console.error("Error deleting class:", error);
+    }
+  };
+  const deleteStudent = async (classId, studentId) => {
+    try {
+      const response = await fetch(
+        `http://localhost:3000/api/students?studentId=${studentId}`,
+        {
+          method: "DELETE",
+        }
+      );
+
+      if (!response.ok) {
+        console.error("Error deleting student:", response.statusText);
+      } else {
+        console.log("Student deleted:", response);
+        // Öğrencileri içeren güncellenmiş sınıf listesini getirir
+        fetchClasses();
+      }
+    } catch (error) {
+      console.error("Error deleting student:", error);
     }
   };
 
@@ -103,11 +135,11 @@ const ClassListPage = ({ onViewStudentListClick, setShowClassButton }) => {
     onViewStudentListClick();
   };
 
-  //class silme işleminin gerçekleştiği fonksiyon 
+  //class silme işleminin gerçekleştiği fonksiyon
   const handleConfirmDelete = () => {
     deleteClass(editClassId);
     setConfirmDelete(false);
-  }
+  };
 
   //class silme işlemini iptal eden fonksiyon
   const handleCancelDelete = () => {
@@ -135,9 +167,9 @@ const ClassListPage = ({ onViewStudentListClick, setShowClassButton }) => {
           <>
             <div id="classlist" className="container mx-auto ">
               <table className="table-auto border-collapse  border-b border-classtableborder w-full ">
-                <thead >
+                <thead>
                   <tr className="text-classtablehead text-[8px] sm:text-[10px] md:text-[12px] lg:text-[15px] font-semibold leading-[12px] sm:leading-[21px] ">
-                    <th className="border-b border-classtableborder p-[4px] sm:p-[10px] text-center w-[20px] sm:w-[100px]" >
+                    <th className="border-b border-classtableborder p-[4px] sm:p-[10px] text-center w-[20px] sm:w-[100px]">
                       Resim
                     </th>
                     <th className="border-b border-classtableborder p-[4px] sm:p-[10px] text-center">
@@ -152,7 +184,6 @@ const ClassListPage = ({ onViewStudentListClick, setShowClassButton }) => {
                     <th className="border-b border-classtableborder p-[4px] sm:p-[10px] sm:w-[40px] ">
                       Seçenekler
                     </th>
-                    
                   </tr>
                 </thead>
                 <tbody className="text-classtablepcolor text-[6px] sm:text-[10px] lg:text-[14px] leading-[15px] font-normal w-full ">
@@ -163,7 +194,7 @@ const ClassListPage = ({ onViewStudentListClick, setShowClassButton }) => {
                       </td>
                       <td className="border-b border-classtableborder text-center p-4">
                         {classInfo.grade}
-                      </td> 
+                      </td>
                       <td className="border-b border-classtableborder text-center p-4">
                         {classInfo.name}
                       </td>
@@ -174,13 +205,12 @@ const ClassListPage = ({ onViewStudentListClick, setShowClassButton }) => {
                         id="dropdownmenu"
                         className="border-b border-classtableborder text-tablepcolor"
                       >
-                        <div className="relative inline-block flex items-center justify-center" >
+                        <div className="relative inline-block flex items-center justify-center">
                           <div>
                             <button
                               type="button"
                               className="inline-flex text-classtablepcolor "
                               onClick={() => handleDropdownToggle(classInfo.id)}
-                              
                             >
                               <BsThreeDotsVertical className="fill-classtablepcolor w-3 sm:w-5 md:w-[26px] h-3 sm:h-5 md:h-[26px] hover:scale-105 hover:fill-[#8b5cf6]" />
                             </button>
@@ -214,12 +244,17 @@ const ClassListPage = ({ onViewStudentListClick, setShowClassButton }) => {
                                   <FaList className="mr-2 w-2 sm:w-4 h-2 sm:h-4" />
                                   Öğrenci Listesini Görüntüle
                                 </button>
-                                <button 
+                                <button
                                   className="block p-[3px] sm:p-[10px] flex flex-row items-center text-[8px] sm:text-[12px] md:text-[15px] hover:bg-[#f3f4f6] w-full"
                                   onClick={() => {
-                                  handleDropdownSelect("delete", classInfo.id)}}>
-                                    <RiDeleteBinFill className="mr-2 w-2 sm:w-4 h-2 sm:h-4" />
-                                    Sınıfı Sil
+                                    handleDropdownSelect(
+                                      "delete",
+                                      classInfo.id
+                                    );
+                                  }}
+                                >
+                                  <RiDeleteBinFill className="mr-2 w-2 sm:w-4 h-2 sm:h-4" />
+                                  Sınıfı Sil
                                 </button>
                               </div>
                             </div>
@@ -244,27 +279,28 @@ const ClassListPage = ({ onViewStudentListClick, setShowClassButton }) => {
           />
         )}
         {confirmDelete && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-60 z-50">
-          <div className="bg-white p-8 rounded-lg">
-            <p className="mb-4 text-lg text-black">
-            Bu sınıfı silmek istediğinizden emin misiniz?            </p>
-            <div className="flex justify-end">
-              <button
-                className="mr-3 px-6 py-2 bg-classdeletebutton text-white rounded flex flex-row items-center justify-center text-classwhite  rounded-full hover:scale-105 cursor-pointer"
-                onClick={handleConfirmDelete}
-              >
-                Sil
-              </button>
-              <button
-                className="px-4 py-2 text-classdeletebutton hover:scale-105"
-                onClick={handleCancelDelete}
-              >
-                Kapat
-              </button>
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-60 z-50">
+            <div className="bg-white p-8 rounded-lg">
+              <p className="mb-4 text-lg text-black">
+                Bu sınıfı silmek istediğinizden emin misiniz?{" "}
+              </p>
+              <div className="flex justify-end">
+                <button
+                  className="mr-3 px-6 py-2 bg-classdeletebutton text-white rounded flex flex-row items-center justify-center text-classwhite  rounded-full hover:scale-105 cursor-pointer"
+                  onClick={handleConfirmDelete}
+                >
+                  Sil
+                </button>
+                <button
+                  className="px-4 py-2 text-classdeletebutton hover:scale-105"
+                  onClick={handleCancelDelete}
+                >
+                  Kapat
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
       </div>
     </div>
   );

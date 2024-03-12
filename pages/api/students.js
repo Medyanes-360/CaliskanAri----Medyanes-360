@@ -26,6 +26,30 @@ export default async function handler(req, res) {
       },
     });
     res.status(201).json(newStudent);
+  } else if (req.method === "DELETE") {
+    const { studentId } = req.query;
+
+    try {
+      // Sınıfın var olup olmadığını kontrol edin
+      const existingStudent = await prisma.student.findUnique({
+        where: { id: studentId },
+      });
+
+      if (!existingStudent) {
+        // Eğer sınıf mevcut değilse, 404 Bulunamadı sonucunu döndürün
+        return res.status(404).json({ error: "Student not found" });
+      }
+
+      // Sınıf mevcutsa silin
+      await prisma.student.delete({
+        where: { id: studentId },
+      });
+
+      res.status(204).end(); // 204 İçerik Yok, yanıt gövdesi olmadan başarılı bir silme işlemini gösterir
+    } catch (error) {
+      console.error("Error deleting stundent:", error);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
   } else {
     res.status(405).json({ message: "Method Not Allowed" });
   }
