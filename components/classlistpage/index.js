@@ -52,7 +52,7 @@ const ClassListPage = ({ onViewStudentListClick, setShowClassButton }) => {
 
   const deleteClass = async (classId) => {
     try {
-      const response = await fetch(`http://localhost:3000/api/classes/${classId}`, {
+      const response = await fetch(`http://localhost:3000/api/classes?classId=${classId}`, {
         method: "DELETE",
       });
       console.log("Class deleted:", response);
