@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import useStore from "@/utils/store";
 import EditPopUp from "../editpopup";
 import ViewStudentList from "../studentlist";
 import { BsThreeDotsVertical } from "react-icons/bs";
@@ -10,17 +9,58 @@ import { PiStudentFill } from "react-icons/pi";
 import { RiDeleteBinFill } from "react-icons/ri";
 
 const ClassListPage = ({ onViewStudentListClick, setShowClassButton }) => {
-  const { classes, addStudent, deleteStudent, deleteClass } = useStore(); //bu sayfada kullanılacak durum ve fonksiyonları store'dan içeri aldık
+  const [classes, setClasses] = useState([]);
   const [currentClass, setCurrentClass] = useState(null);
   const [editClassId, setEditClassId] = useState(null);
   const [showEditPopUp, setShowEditPopUp] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(null);
   const [confirmDelete, setConfirmDelete] = useState(false);
-
+  
   useEffect(() => {
-    //classes durumu değiştiğinde logla
-    console.log(classes);
-  }, [classes]);
+    fetchClasses();
+  }, []);
+
+  const fetchClasses = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/api/classes");
+      const data = await response.json();
+      setClasses(data);
+    } catch (error) {
+      console.error("Error fetching classes:", error);
+    }
+  };
+
+  const addStudent = async (classId, studentName, studentEmail) => {
+    try {
+      const response = await fetch("http://localhost:3000/api/students", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: studentName,
+          email: studentEmail,
+          classId: classId,
+        }),
+      });
+      const data = await response.json();
+      console.log("Student added:", data);
+    } catch (error) {
+      console.error("Error adding student:", error);
+    }
+  };
+
+  const deleteClass = async (classId) => {
+    try {
+      const response = await fetch(`http://localhost:3000/api/classes/${classId}`, {
+        method: "DELETE",
+      });
+      console.log("Class deleted:", response);
+      fetchClasses();
+    } catch (error) {
+      console.error("Error deleting class:", error);
+    }
+  };
 
   // Edit düğmesine tıklandığında çalışacak fonksiyon
   const handleEditClick = (classId) => {
@@ -204,13 +244,13 @@ const ClassListPage = ({ onViewStudentListClick, setShowClassButton }) => {
           />
         )}
         {confirmDelete && (
-        <div className="fixed inset-0 flex items-center justify-center bg-classblack bg-opacity-60 z-50">
-          <div className="bg-classwhite p-8 rounded-lg">
-            <p className="mb-4 text-lg">
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-60 z-50">
+          <div className="bg-white p-8 rounded-lg">
+            <p className="mb-4 text-lg text-black">
             Bu sınıfı silmek istediğinizden emin misiniz?            </p>
             <div className="flex justify-end">
               <button
-                className="mr-3 px-6 py-2 bg-deletebutton text-classwhite rounded flex flex-row items-center justify-center text-classwhite  rounded-full hover:scale-105 cursor-pointer"
+                className="mr-3 px-6 py-2 bg-classdeletebutton text-white rounded flex flex-row items-center justify-center text-classwhite  rounded-full hover:scale-105 cursor-pointer"
                 onClick={handleConfirmDelete}
               >
                 Sil

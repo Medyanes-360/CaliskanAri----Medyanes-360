@@ -50,7 +50,7 @@ const ViewStudentList = ({
 
   return (
     <div id="studentlist" className="container mx-auto">
-      <div className="flex flex-row pl-6 items-center h-[60px] sm:h-[90px] md:h-[120px]">
+      <div className="flex flex-row pl-6 items-center h-[60px] sm:h-[90px] md:h-[120px] text-black">
         <button
           id="backtoclasslistbutton"
           onClick={() => {
@@ -93,7 +93,7 @@ const ViewStudentList = ({
                   type="text"
                   name="newStudentName"
                   placeholder="Yeni Öğrenci Adı"
-                  className={`border focus:outline-none hover:ring-classprimary hover:ring-1 p-2 rounded-md max-w-[180px] sm:max-w-[238px] text-[8px] sm:text-[16px]`}
+                  className={`border focus:outline-none hover:ring-classprimary hover:ring-1 p-2 rounded-md max-w-[180px] sm:max-w-[238px] text-[8px] sm:text-[16px] text-black bg-white`}
                 />
                 <ErrorMessage
                   name="newStudentName"
@@ -110,7 +110,7 @@ const ViewStudentList = ({
                   type="email"
                   name="newStudentEmail"
                   placeholder="example@example.com"
-                  className={`border focus:outline-none hover:ring-classprimary hover:ring-1 p-2 rounded-md max-w-[180px] sm:max-w-[238px] text-[8px] sm:text-[16px]`}
+                  className={`border focus:outline-none hover:ring-classprimary hover:ring-1 p-2 rounded-md max-w-[180px] sm:max-w-[238px] text-[8px] sm:text-[16px] text-black bg-white`}
                 />
                 <ErrorMessage
                   name="newStudentEmail"
@@ -142,7 +142,7 @@ const ViewStudentList = ({
         id="studentlisttable"
         className="flex items-center justify-center mx-6 sm:mx-12"
       >
-        <table className="table-auto border-collapse border-b border-classtableborder w-full max-w-[900px] ">
+        <table className="table-auto border-collapse border-b border-classtableborder w-full max-w-[900px] text-black">
           <thead>
             <tr className="text-classtablehead text-[10px] sm:text-[12px] md:text-[15px] font-semibold leading-[21px] ">
               <th className="border-b border-classtableborder py-[5px] sm:py-[10px] text-center w-[20px] sm:w-[60px] px-2 sm:px-6 ">

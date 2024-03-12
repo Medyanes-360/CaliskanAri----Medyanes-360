@@ -21,7 +21,7 @@ const EditPopUp = ({ classInfo, onClose }) => {
       id="editpopuppage"
       className="fixed inset-0 flex items-center justify-center bg-classblack bg-opacity-50 "
     >
-      <div className="relative bg-classwhite p-4 sm:p-8 rounded-md shadow-md w-[340px] sm:w-[400px] md:w-[450px]">
+      <div className="relative bg-classwhite p-4 sm:p-8 rounded-md shadow-md w-[340px] sm:w-[400px] md:w-[450px] text-black">
         <h2 className="text-sm sm:text-2xl font-bold mb-4">
           Sınıf Bilgilerini Düzenle
         </h2>
@@ -39,8 +39,8 @@ const EditPopUp = ({ classInfo, onClose }) => {
           }}
         >
           <Form>
-            <div id="classnameinput" className="mb-4">
-              <label className="w-full flex flex-row items-center ">
+            <div id="classnameinput" className="mb-4 ">
+              <label className="w-full flex flex-row items-center text-black">
                 <p className="w-[85px] sm:w-[150px] text-[14px] sm:[16px]">
                   Sınıf Adı:
                 </p>
@@ -48,7 +48,7 @@ const EditPopUp = ({ classInfo, onClose }) => {
                   type="text"
                   name="name"
                   id="name"
-                  className={`border border-[#9ca3af] focus:outline-none hover:ring-classprimary hover:ring-1 p-2 rounded-md mr-6 max-w-[150px] sm:max-w-[238px] text-sm`}
+                  className={`bg-white border border-[#9ca3af] focus:outline-none hover:ring-classprimary hover:ring-1 p-2 rounded-md mr-6 max-w-[150px] sm:max-w-[238px] text-sm`}
                 />
               </label>
               <ErrorMessage
@@ -62,7 +62,7 @@ const EditPopUp = ({ classInfo, onClose }) => {
               />
             </div>
             <div id="gradeinput" className="mb-4">
-              <label className="w-full flex flex-row items-center ">
+              <label className="w-full flex flex-row items-center text-black">
                 <p className="w-[85px] sm:w-[150px] text-[14px] sm:[16px]">
                   Sınıf:
                 </p>
@@ -70,7 +70,7 @@ const EditPopUp = ({ classInfo, onClose }) => {
                   as="select"
                   id="grade"
                   name="grade"
-                  className={`border border-[#9ca3af]
+                  className={`bg-white border border-[#9ca3af]
               focus:outline-none hover:ring-classprimary hover:ring-1 p-2 rounded-md sm:mr-6 max-w-[180px] sm:max-w-[238px]`}
                 >
                   {/* 1-12 */}
@@ -92,7 +92,7 @@ const EditPopUp = ({ classInfo, onClose }) => {
               />
             </div>
             <div id="sectioninput" className="mb-4">
-              <label className="w-full flex flex-row items-center ">
+              <label className="w-full flex flex-row items-center text-black">
                 <p className="w-[85px] sm:w-[150px] text-[14px] sm:[16px]">
                   Sınıf Şubesi:
                 </p>
@@ -100,7 +100,7 @@ const EditPopUp = ({ classInfo, onClose }) => {
                   as="select"
                   id="section"
                   name="section"
-                  className={`border border-[#9ca3af]
+                  className={` bg-white border border-[#9ca3af]
               focus:outline-none hover:ring-classprimary hover:ring-1 p-2 rounded-md sm:mr-6 max-w-[180px] sm:max-w-[238px]`}
                 >
                   {/*A-Z*/}
