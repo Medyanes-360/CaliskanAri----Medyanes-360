@@ -20,7 +20,7 @@ const AddClassPage = () => {
     section: Yup.string().required("Bu alan zorunludur."),
   });
 
-  
+  //sınıf ekleme 
   const handleAddClass = async (values, { setSubmitting }) => {
     try {
       const response = await fetch("http://localhost:3000/api/classes", {
@@ -30,23 +30,23 @@ const AddClassPage = () => {
         },
         body: JSON.stringify({
           name: values.name,
-          grade: values.grade,
+          grade: parseInt(values.grade, 10),
           section: values.section,
         }),
       });
-
+  
       if (!response.ok) {
         console.error("Failed to add class:", response.statusText);
         toast.error("Sınıf eklenirken bir hata oluştu.");
         return;
       }
-
+  
       const data = await response.json();
       console.log("Class added successfully:", data);
-
+  
       toast.success("Yeni sınıf bilgileri eklendi!", {
         onClose: () => {
-          router.back();
+          router.push("/dashboard/teacher/class"); 
         },
       });
     } catch (error) {
@@ -56,6 +56,7 @@ const AddClassPage = () => {
       setSubmitting(false);
     }
   };
+  
 
   return (
     <div id="addclasspage" className="container mx-auto">
