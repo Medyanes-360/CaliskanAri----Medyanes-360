@@ -11,7 +11,7 @@ export default async function handler(req, res) {
     res.status(200).json(classes);
   } else if (req.method === "POST") {
     // Yeni sınıf oluşturma işlemi
-    const { name, capacity, grade, section } = req.body;
+    const { name, grade, section } = req.body;
     const newClass = await prisma.class.create({
       data: {
         name,
