@@ -20,6 +20,36 @@ export default async function handler(req, res) {
       },
     });
     res.status(201).json(newClass);
+  } else if (req.method === "PUT") {
+    const { classId } = req.query;
+    const { name, grade, section } = req.body;
+  
+    try {
+      // Sınıfın var olup olmadığını kontrol edin
+      const existingClass = await prisma.class.findUnique({
+        where: { id: classId },
+      });
+  
+      if (!existingClass) {
+        // Eğer sınıf mevcut değilse, 404 Bulunamadı sonucunu döndürün
+        return res.status(404).json({ error: 'Class not found' });
+      }
+  
+      // Sınıf mevcutsa güncelle
+      const updatedClass = await prisma.class.update({
+        where: { id: classId },
+        data: {
+          name,
+          grade,
+          section,
+        },
+      });
+  
+      res.status(200).json(updatedClass);
+    } catch (error) {
+      console.error('Error updating class:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
   } else if (req.method === "DELETE") {
     const { classId } = req.query;
 
