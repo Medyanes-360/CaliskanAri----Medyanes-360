@@ -27,9 +27,7 @@ const StudentRegisterComponent = ({ CitiesData }) => {
 
   const [city, setCity] = useState('');
   const [town, setTown] = useState('');
-  const [towns, setTowns] = useState([]);
   const [schooltype, setSchooltype] = useState('');
-
 
 
   // yükleme ekranları tetikleneceği zaman çalışan state.
@@ -55,11 +53,7 @@ const StudentRegisterComponent = ({ CitiesData }) => {
       setschollNames(filtered);
     }
   }, [schooltype, town, city]);
-
-  useEffect(() => {
-    setIsloading(false);
-  }, [towns, schollNames])
-
+  
   const router = useRouter();
 
   function nextActiveTab(e, props) {

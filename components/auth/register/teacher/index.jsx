@@ -28,7 +28,6 @@ const TeacherRegisterComponent = ({ CitiesData }) => {
   const [schooltype, setSchooltype] = useState('');
 
 
-
   // yükleme ekranları tetikleneceği zaman çalışan state.
   const [isloading, setIsloading] = useState(false);
   const [isRegister, setIsRegister] = useState(false);
