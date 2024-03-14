@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { Formik, Field, ErrorMessage, Form } from "formik";
 import * as Yup from "yup";
-import { FaArrowLeft, FaPlus, FaExclamationCircle } from "react-icons/fa";
+import { FaArrowLeft, FaPlus, FaExclamationCircle, FaListUl } from "react-icons/fa";
 import { RiDeleteBinFill } from "react-icons/ri";
 import { PiStudentFill } from "react-icons/pi";
 import { ToastContainer, toast } from "react-toastify";
@@ -53,20 +53,30 @@ const ViewStudentList = ({
 
   return (
     <div id="studentlist" className="container mx-auto">
-      <div className="flex flex-row pl-6 items-center h-[60px] sm:h-[90px] md:h-[120px] text-black">
+      <div className="flex flex-col pl-6 items-left h-[60px] sm:h-[90px] md:h-[120px] text-black space-y-4">
+        <div className="flex flex-row items-center">
         <button
           id="backtoclasslistbutton"
           onClick={() => {
             onBackToClassList();
             setShowClassButton(true);
           }}
-          className="mr-2 hover:scale-105 hover:text-[#6366f1]"
+          className="mr-2 hover:scale-110 hover:text-[#6366f1]"
         >
           <FaArrowLeft className="w-3 sm:w-6 h-3 sm:h-6" />
         </button>
         <h2 className="text-[14px] sm:text-[20px] md:text-[26px] font-semibold ">
+          Sınıf Listesi'ne Geri Dön
+        </h2>
+        </div>
+        <div className="flex flex-row items-center">
+        <span className="mr-2 text-classprimary ">
+        <FaListUl className="w-3 sm:w-6 h-3 sm:h-6"/>
+        </span>
+        <h2 className="text-[14px] sm:text-[20px] md:text-[26px] font-semibold">
           {classInfo.name} - Öğrenci Listesi
         </h2>
+        </div>
       </div>
 
       <div
