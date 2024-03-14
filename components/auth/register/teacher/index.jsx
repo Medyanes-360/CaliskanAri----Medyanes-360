@@ -44,10 +44,9 @@ const TeacherRegisterComponent = ({ CitiesData }) => {
   useEffect(() => {
     if (schools) {
       const filtered = schools?.filter((ft) => {
-        return convertTexts(ft?.dc_District.toLowerCase()) === convertTexts(town.toLowerCase()) && ft.dc_SchoolName.toLowerCase().includes(schooltype.toLowerCase())
+        return convertTexts(ft?.dc_District.toLocaleLowerCase('tr')) === convertTexts(town.toLocaleLowerCase('tr')) && convertTexts(ft.dc_SchoolName.toLocaleLowerCase('tr')).includes(convertTexts(schooltype.toLocaleLowerCase('tr')))
       })
 
-      console.log(filtered)
       setschollNames(filtered);
     }
   }, [schooltype, town, city]);
