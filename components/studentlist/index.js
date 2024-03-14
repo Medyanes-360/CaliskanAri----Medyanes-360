@@ -17,8 +17,8 @@ const ViewStudentList = ({
 }) => {
   const [confirmDeleteStudent, setConfirmDeleteStudent] = useState(null);
   const [studentToDelete, setStudentToDelete] = useState(null);
-  // Yup kütüphanesi kullanılarak form doğrulama şemaları belirlenir.
 
+  // Yup kütüphanesi kullanılarak form doğrulama şemaları belirlenir.
   const validationSchema = Yup.object({
     newStudentName: Yup.string()
       .matches(/^[a-zA-Z\s]+$/, "Rakam veya özel karakterler kullanılamaz.")
@@ -201,7 +201,7 @@ const ViewStudentList = ({
       {confirmDeleteStudent && studentToDelete && (
         <div className="fixed inset-0 flex items-center justify-center bg-classblack bg-opacity-60 z-50">
           <div className="bg-classwhite p-8 rounded-lg">
-            <p className="mb-4 text-lg">
+            <p className="mb-4 text-lg text-black">
               Bu öğrenciyi silmek istediğinizden emin misiniz?
             </p>
             <div className="flex justify-end">
