@@ -188,6 +188,27 @@ const ClassListPage = ({ onViewStudentListClick, setShowClassButton }) => {
     }
   };
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      // Dropdown menü açık değilse hiçbir şey yapma
+      if (!dropdownOpen) return;
+  
+      // Dropdown menüsüne tıklanırsa hiçbir şey yapma
+      if (event.target.closest("#dropdownmenu")) return;
+  
+      // Dropdown menüsü dışına tıklanırsa dropdown menüyü kapat
+      setDropdownOpen(null);
+    };
+  
+    // Belgeye tıklama olayını dinle
+    document.addEventListener("mousedown", handleClickOutside);
+  
+    // Component unmount olduğunda event listener'ı kaldır
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [dropdownOpen]);
+  
   return (
     <div id="classlistpage" className="container mx-auto max-w-[1200px]">
       <div>
