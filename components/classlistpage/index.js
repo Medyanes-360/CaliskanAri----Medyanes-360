@@ -8,7 +8,7 @@ import { FaList } from "react-icons/fa";
 import { PiStudentFill } from "react-icons/pi";
 import { RiDeleteBinFill } from "react-icons/ri";
 
-const ClassListPage = ({ setShowClassButton }) => {
+const ClassListPage = ({ onViewStudentListClick, setShowClassButton }) => {
   const [classes, setClasses] = useState([]);
   const [currentClass, setCurrentClass] = useState(null);
   const [editClassId, setEditClassId] = useState(null);
@@ -110,6 +110,7 @@ const ClassListPage = ({ setShowClassButton }) => {
   // Öğrenci listesini görüntüle düğmesine tıklandığında çalışacak fonksiyon
   const handleViewStudentList = (classId) => {
     setCurrentClass(classId);
+    onViewStudentListClick();
   };
 
   // Sınıf listesine geri dönmek için kullanılacak fonksiyon
