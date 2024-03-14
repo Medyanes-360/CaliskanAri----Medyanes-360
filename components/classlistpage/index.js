@@ -8,7 +8,7 @@ import { FaList } from "react-icons/fa";
 import { PiStudentFill } from "react-icons/pi";
 import { RiDeleteBinFill } from "react-icons/ri";
 
-const ClassListPage = ({ onViewStudentListClick, setShowClassButton }) => {
+const ClassListPage = ({ setShowClassButton }) => {
   const [classes, setClasses] = useState([]);
   const [currentClass, setCurrentClass] = useState(null);
   const [editClassId, setEditClassId] = useState(null);
@@ -24,12 +24,16 @@ const ClassListPage = ({ onViewStudentListClick, setShowClassButton }) => {
     try {
       const response = await fetch("http://localhost:3000/api/classes");
       const data = await response.json();
+      console.log("Fetched classes:", data);
+      console.log("Setting classes state:", data);
       setClasses(data);
+      console.log("Classes state set successfully!");
     } catch (error) {
       console.error("Error fetching classes:", error);
     }
   };
 
+  //öğrenci ekleme
   const addStudent = async (classId, studentName, studentEmail) => {
     try {
       const response = await fetch("http://localhost:3000/api/students", {
@@ -59,6 +63,7 @@ const ClassListPage = ({ onViewStudentListClick, setShowClassButton }) => {
     }
   };
 
+  //sınıf silme
   const deleteClass = async (classId) => {
     try {
       const response = await fetch(
@@ -73,6 +78,8 @@ const ClassListPage = ({ onViewStudentListClick, setShowClassButton }) => {
       console.error("Error deleting class:", error);
     }
   };
+
+  //öğrenci silme
   const deleteStudent = async (classId, studentId) => {
     try {
       const response = await fetch(
@@ -130,11 +137,6 @@ const ClassListPage = ({ onViewStudentListClick, setShowClassButton }) => {
     }
   };
 
-  // Öğrenci listesini görüntüle düğmesine tıklanınca çalışacak fonksiyon
-  const handleViewStudentListClick = () => {
-    onViewStudentListClick();
-  };
-
   //class silme işleminin gerçekleştiği fonksiyon
   const handleConfirmDelete = () => {
     deleteClass(editClassId);
@@ -144,6 +146,45 @@ const ClassListPage = ({ onViewStudentListClick, setShowClassButton }) => {
   //class silme işlemini iptal eden fonksiyon
   const handleCancelDelete = () => {
     setConfirmDelete(false);
+  };
+
+  // Güncellenen bilgileri edit pop-up tan alma
+  const handleUpdateClass = async (
+    updatedName,
+    updatedGrade,
+    updatedSection
+  ) => {
+    console.log("Updating class:", editClassId);
+    console.log("Updated data:", updatedName, updatedGrade, updatedSection);
+
+    // Güncellenen grade alanını tamsayıya dönüştürün, grade string olmamalı
+    updatedGrade = parseInt(updatedGrade);
+
+    try {
+      const response = await fetch(
+        `http://localhost:3000/api/classes?classId=${editClassId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: updatedName,
+            grade: updatedGrade,
+            section: updatedSection,
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        console.error("Error updating class:", response.statusText);
+      } else {
+        console.log("Class updated:", response);
+        fetchClasses(); // Güncelleme başarılıysa sınıf listesini güncelleyin
+      }
+    } catch (error) {
+      console.error("Error updating class:", error);
+    }
   };
 
   return (
@@ -238,7 +279,7 @@ const ClassListPage = ({ onViewStudentListClick, setShowClassButton }) => {
                                   className="block p-[3px] sm:p-[10px] flex flex-row items-center text-[8px] sm:text-[12px] md:text-[15px] hover:bg-[#f3f4f6] w-full"
                                   onClick={() => {
                                     handleDropdownSelect("view", classInfo.id);
-                                    handleViewStudentListClick();
+                                    handleViewStudentList(classInfo.id);
                                   }}
                                 >
                                   <FaList className="mr-2 w-2 sm:w-4 h-2 sm:h-4" />
@@ -271,13 +312,14 @@ const ClassListPage = ({ onViewStudentListClick, setShowClassButton }) => {
 
         {showEditPopUp && (
           <EditPopUp
-            id="editpopup"
             classInfo={classes.find(
               (classInfo) => classInfo.id === editClassId
             )}
             onClose={() => setShowEditPopUp(false)}
+            onUpdateClass={handleUpdateClass}
           />
         )}
+
         {confirmDelete && (
           <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-60 z-50">
             <div className="bg-white p-8 rounded-lg">
