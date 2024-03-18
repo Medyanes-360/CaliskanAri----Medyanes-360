@@ -17,7 +17,7 @@ const Stepper = ({ children, ...props }) => {
         </div>
         <h6
           className={`${styles.title} ${
-            props.activeTitle && 'text-primary font-semibold text-center'
+            props.activeTitle && '!text-primary font-semibold text-center'
           }`}
         >
           {props.title}
