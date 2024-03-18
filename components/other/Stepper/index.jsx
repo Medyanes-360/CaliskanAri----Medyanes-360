@@ -1,7 +1,6 @@
 import styles from './styles.module.css';
 
-const Stepper  = ({ children, ...props }) => {
-
+const Stepper = ({ children, ...props }) => {
   return (
     <>
       <div className={styles.container}>
@@ -18,7 +17,7 @@ const Stepper  = ({ children, ...props }) => {
         </div>
         <h6
           className={`${styles.title} ${
-            props.activeTitle && 'text-primary font-semibold'
+            props.activeTitle && 'text-primary font-semibold text-center'
           }`}
         >
           {props.title}
@@ -35,6 +34,6 @@ const Stepper  = ({ children, ...props }) => {
       </div>
     </>
   );
-}
+};
 
 export default Stepper;

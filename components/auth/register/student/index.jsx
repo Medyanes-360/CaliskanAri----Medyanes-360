@@ -6,7 +6,7 @@ import styles from './styles.module.css';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { Transition } from '@headlessui/react';
-import Stepper from "@/components/other/Stepper";
+import Stepper from '@/components/other/Stepper';
 import LoadingScreen from '@/components/other/loading';
 import { postAPI } from '@/services/fetchAPI/index';
 import studentValidationSchema from './formikData';
@@ -15,11 +15,9 @@ import Input from '@/components/formElements/input';
 import Select from '@/components/formElements/select';
 import { ToastContainer, toast } from 'react-toastify';
 import ErrorText from '@/components/formElements/errorText';
-import schools from "@/mocks/allSchool.json"
-
+import schools from '@/mocks/allSchool.json';
 
 const StudentRegisterComponent = ({ CitiesData }) => {
-
   const PageRole = 'student';
   const PageLabelUpper = 'ÖĞRENCİ';
   const PageLabelLover = 'öğrenci';
@@ -28,7 +26,6 @@ const StudentRegisterComponent = ({ CitiesData }) => {
   const [city, setCity] = useState('');
   const [town, setTown] = useState('');
   const [schooltype, setSchooltype] = useState('');
-
 
   // yükleme ekranları tetikleneceği zaman çalışan state.
   const [isloading, setIsloading] = useState(false);
@@ -39,20 +36,42 @@ const StudentRegisterComponent = ({ CitiesData }) => {
   const [activeTab, setActiveTab] = useState(1);
 
   const convertTexts = (text) => {
-    const turkishChars = { 'ğ': 'g', 'Ğ': 'G', 'ü': 'u', 'Ü': 'U', 'ş': 's', 'Ş': 'S', 'ı': 'i', 'İ': 'I', 'ö': 'o', 'Ö': 'O', 'ç': 'c', 'Ç': 'C' };
-    return text.replace(/[ğĞüÜşŞıİöÖçÇ]/g, char => turkishChars[char] || char)
-  }
+    const turkishChars = {
+      ğ: 'g',
+      Ğ: 'G',
+      ü: 'u',
+      Ü: 'U',
+      ş: 's',
+      Ş: 'S',
+      ı: 'i',
+      İ: 'I',
+      ö: 'o',
+      Ö: 'O',
+      ç: 'c',
+      Ç: 'C',
+    };
+    return text.replace(
+      /[ğĞüÜşŞıİöÖçÇ]/g,
+      (char) => turkishChars[char] || char
+    );
+  };
 
   useEffect(() => {
     if (schools) {
       const filtered = schools?.filter((ft) => {
-        return convertTexts(ft?.dc_District.toLocaleLowerCase('tr')) === convertTexts(town.toLocaleLowerCase('tr')) && convertTexts(ft.dc_SchoolName.toLocaleLowerCase('tr')).includes(convertTexts(schooltype.toLocaleLowerCase('tr')))
-      })
+        return (
+          convertTexts(ft?.dc_District.toLocaleLowerCase('tr')) ===
+            convertTexts(town.toLocaleLowerCase('tr')) &&
+          convertTexts(ft.dc_SchoolName.toLocaleLowerCase('tr')).includes(
+            convertTexts(schooltype.toLocaleLowerCase('tr'))
+          )
+        );
+      });
 
       setschollNames(filtered);
     }
   }, [schooltype, town, city]);
-  
+
   const router = useRouter();
 
   function nextActiveTab(e, props) {
@@ -60,7 +79,6 @@ const StudentRegisterComponent = ({ CitiesData }) => {
     const { errors } = props;
     props.handleSubmit();
     if (activeTab === 1) {
-
       if (errors.name || errors.surname || errors.phone) {
         return props.errors;
       } else {
@@ -94,9 +112,8 @@ const StudentRegisterComponent = ({ CitiesData }) => {
   }
   return (
     <>
-      {isloading && (<LoadingScreen isloading={isloading} />)}
+      {isloading && <LoadingScreen isloading={isloading} />}
       <div className={styles.main}>
-
         <ToastContainer
           className='4xl:text-4xl min:w-40'
           position='top-right'
@@ -137,11 +154,9 @@ const StudentRegisterComponent = ({ CitiesData }) => {
             delete values.passwordConfirm;
 
             // girilen telefonlarda boşlukları siler ve sonrasında son 10 haniesini alma
-            values.phone = values.phone.replace(/\s/g, "").slice(-10);
+            values.phone = values.phone.replace(/\s/g, '').slice(-10);
 
-
-            postAPI("/auth/register", values).then((res) => {
-
+            postAPI('/auth/register', values).then((res) => {
               if (res.status === 'success') {
                 // Giriş başarılı ise ekrana "blur" efekti verir
                 setIsloading(false);
@@ -157,7 +172,6 @@ const StudentRegisterComponent = ({ CitiesData }) => {
                 values.password = '';
                 values.passwordConfirm = '';
               } else {
-
                 setIsloading(false);
                 // girilen mail adresi daha önce kullanılmış ise hata mesajı verir. ve şifreleri temizler.
                 toast.error(
@@ -174,15 +188,15 @@ const StudentRegisterComponent = ({ CitiesData }) => {
           {(props) => (
             <Form
               onSubmit={props.handleSubmit}
-              className={`${isRegister ? 'blur' : ''} ${styles.main_container} md:scale-75 2xl:scale-75 4xl:scale-50`}
+              className={`${isRegister ? 'blur' : ''} ${
+                styles.main_container
+              } md:scale-75 2xl:scale-75 4xl:scale-50`}
             >
               <div className={styles.container}>
                 <div className={styles.container_right_side}>
                   <div className='w-full'>
                     <div className={styles.right_side_logo}>
-                      <div
-                        className={styles.right_side_logoImage}
-                      >
+                      <div className={styles.right_side_logoImage}>
                         <Image
                           src='/logo.png'
                           width='150'
@@ -192,7 +206,7 @@ const StudentRegisterComponent = ({ CitiesData }) => {
                         />
                       </div>
                     </div>
-                    <h1 className='mb-4 md:mb-8 tracking-wider uppercase mt-4 text-2xl 2xl:text-3xl 4xl:text-5xl font-bold text-center text-white bg-primary p-4'>
+                    <h1 className='mb-4 md:mb-8 tracking-wider uppercase mt-4 text-2xl 2xl:text-3xl 4xl:text-5xl font-bold text-center text-white bg-secondary p-4'>
                       {`${PageLabelUpper} KAYIT`}
                     </h1>
                     {/* Progress Bar (Stepper) */}
@@ -200,13 +214,11 @@ const StudentRegisterComponent = ({ CitiesData }) => {
                       {/* Progress Bar Step 1 */}
                       <Stepper
                         activeTab={1}
-
                         title={`${PageLabelNormal} Bilgileri`}
                         activeTitle={activeTab == 1}
                         showIcon={activeTab != 1}
                         icon={<FaCheck size={46} />}
                         stepCompleted={activeTab != 1}
-
                       />
                       {/* Progress Bar Step 2 */}
                       <Stepper
@@ -240,26 +252,19 @@ const StudentRegisterComponent = ({ CitiesData }) => {
                         leaveFrom='opacity-100'
                         leaveTo='opacity-0'
                       >
-
                         <div className={styles.container_first_row}>
-
                           <Input
                             labelValue='İsim'
                             disabled={isloading || isRegister}
                             id='name'
                             name='name'
                             type='text'
-
                             onChange={props.handleChange}
                             placeholder='İsminizi giriniz.'
-
                           />
-                          {props.touched.name &&
-                            <ErrorText >
-                              {props.errors.name}
-                            </ErrorText>
-                          }
-
+                          {props.touched.name && (
+                            <ErrorText>{props.errors.name}</ErrorText>
+                          )}
                         </div>
                         <div className={styles.container_first_row}>
                           <Input
@@ -268,16 +273,12 @@ const StudentRegisterComponent = ({ CitiesData }) => {
                             id='surname'
                             name='surname'
                             type='text'
-
                             onChange={props.handleChange}
                             placeholder='Soyisminizi giriniz.'
-
                           />
-                          {props.touched.surname &&
-                            <ErrorText >
-                              {props.errors.surname}
-                            </ErrorText>
-                          }
+                          {props.touched.surname && (
+                            <ErrorText>{props.errors.surname}</ErrorText>
+                          )}
                         </div>
                         <div className={styles.container_middle_row}>
                           <Input
@@ -286,16 +287,12 @@ const StudentRegisterComponent = ({ CitiesData }) => {
                             id='phone'
                             name='phone'
                             type='text'
-
                             onChange={props.handleChange}
                             placeholder='5xxxxxxxxx'
-
                           />
-                          {props.touched.phone &&
-                            <ErrorText >
-                              {props.errors.phone}
-                            </ErrorText>
-                          }
+                          {props.touched.phone && (
+                            <ErrorText>{props.errors.phone}</ErrorText>
+                          )}
                         </div>
                       </Transition>
                     </div>
@@ -324,7 +321,10 @@ const StudentRegisterComponent = ({ CitiesData }) => {
                                 props.values.town = '';
                               }}
                             >
-                              <option disabled={true} className=' hidden md:block bg-gray-200 text-[5px]'></option>
+                              <option
+                                disabled={true}
+                                className=' hidden md:block bg-gray-200 text-[5px]'
+                              ></option>
                               {CitiesData.length > 0 &&
                                 CitiesData.map((item, index) => {
                                   return (
@@ -335,11 +335,9 @@ const StudentRegisterComponent = ({ CitiesData }) => {
                                 })}
                             </Select>
 
-                            {props.touched.city &&
-                              <ErrorText >
-                                {props.errors.city}
-                              </ErrorText>
-                            }
+                            {props.touched.city && (
+                              <ErrorText>{props.errors.city}</ErrorText>
+                            )}
                           </div>
                           <div>
                             <Select
@@ -355,9 +353,15 @@ const StudentRegisterComponent = ({ CitiesData }) => {
                                 props.values.schooltype = '';
                               }}
                             >
-                              <option disabled={true} className='hidden md:block bg-gray-200 text-[5px]'></option>
-                              {city !== "" &&
-                                CitiesData.filter((ft) => ft.name.toLowerCase() === city.toLowerCase())[0].counties.map((item, index) => {
+                              <option
+                                disabled={true}
+                                className='hidden md:block bg-gray-200 text-[5px]'
+                              ></option>
+                              {city !== '' &&
+                                CitiesData.filter(
+                                  (ft) =>
+                                    ft.name.toLowerCase() === city.toLowerCase()
+                                )[0].counties.map((item, index) => {
                                   return (
                                     <option key={index} value={item}>
                                       {item}
@@ -366,30 +370,30 @@ const StudentRegisterComponent = ({ CitiesData }) => {
                                 })}
                             </Select>
 
-                            {props.touched.town &&
-                              <ErrorText >
-                                {props.errors.town}
-                              </ErrorText>
-                            }
-
+                            {props.touched.town && (
+                              <ErrorText>{props.errors.town}</ErrorText>
+                            )}
                           </div>
                           <div>
-
                             <Select
                               labelValue='Okul Türü'
                               id='schooltype'
                               name='schooltype'
-
                               disabled={town ? false : true}
                               optionLabel='Okul Türü Seç'
                               onChange={(e) => {
-                                e.target.value === 'anaokul' ? props.values.class = "anaokul" : props.values.class = "";
+                                e.target.value === 'anaokul'
+                                  ? (props.values.class = 'anaokul')
+                                  : (props.values.class = '');
                                 props.handleChange(e);
                                 setSchooltype(e.target.value);
                                 props.values.schollName = '';
                               }}
                             >
-                              <option disabled={true} className=' hidden md:block bg-gray-200 text-[5px]'></option>
+                              <option
+                                disabled={true}
+                                className=' hidden md:block bg-gray-200 text-[5px]'
+                              ></option>
                               {town && (
                                 <>
                                   <option value='anaokul'>Anaokulu</option>
@@ -403,33 +407,28 @@ const StudentRegisterComponent = ({ CitiesData }) => {
                               )}
                             </Select>
 
-                            {props.touched.schooltype &&
-                              <ErrorText >
-                                {props.errors.schooltype}
-                              </ErrorText>
-                            }
-
+                            {props.touched.schooltype && (
+                              <ErrorText>{props.errors.schooltype}</ErrorText>
+                            )}
                           </div>
                           {props.values.schooltype === 'diger' ? (
                             <div>
                               <Input
                                 labelValue='Okul İsmi'
-
                                 id='schollName'
                                 name='schollName'
                                 type='text'
-                                disabled={schooltype || isloading || isRegister ? false : true}
-
+                                disabled={
+                                  schooltype || isloading || isRegister
+                                    ? false
+                                    : true
+                                }
                                 onChange={props.handleChange}
                                 placeholder='Okul ismini giriniz.'
-
                               />
-                              {props.touched.schollName &&
-                                <ErrorText >
-                                  {props.errors.schollName}
-                                </ErrorText>
-                              }
-
+                              {props.touched.schollName && (
+                                <ErrorText>{props.errors.schollName}</ErrorText>
+                              )}
                             </div>
                           ) : (
                             <div>
@@ -437,72 +436,83 @@ const StudentRegisterComponent = ({ CitiesData }) => {
                                 labelValue='Okul İsmi'
                                 id='schollName'
                                 name='schollName'
-
                                 disabled={schooltype ? false : true}
                                 optionLabel='Okul Seç'
                                 onChange={(e) => {
                                   props.handleChange(e);
                                 }}
                               >
-                                <option disabled={true} className=' hidden md:block bg-gray-200 text-[5px]'></option>
+                                <option
+                                  disabled={true}
+                                  className=' hidden md:block bg-gray-200 text-[5px]'
+                                ></option>
                                 {schollNames.length > 0 &&
                                   props.values.schooltype &&
-
                                   schollNames.map((item, index) => {
                                     return (
-                                      <option key={index} value={item.dc_SchoolName}>
+                                      <option
+                                        key={index}
+                                        value={item.dc_SchoolName}
+                                      >
                                         {item.dc_SchoolName}
                                       </option>
                                     );
                                   })}
                               </Select>
 
-                              {props.touched.schollName &&
-                                <ErrorText >
-                                  {props.errors.schollName}
-                                </ErrorText>
-                              }
+                              {props.touched.schollName && (
+                                <ErrorText>{props.errors.schollName}</ErrorText>
+                              )}
                             </div>
                           )}
                         </div>
-                        <div className={schooltype === "anaokul" ? "hidden" : "block"}>
+                        <div
+                          className={
+                            schooltype === 'anaokul' ? 'hidden' : 'block'
+                          }
+                        >
                           <Select
                             labelValue='Sınıf'
                             id='class'
                             name='class'
-
                             disabled={schooltype ? false : true}
                             optionLabel='Sınıf Seç'
                             onChange={props.handleChange}
                           >
-                            <option disabled={true} className=' hidden md:block bg-gray-200 text-[5px]'></option>
-                            {schooltype === 'ilkokul' &&
+                            <option
+                              disabled={true}
+                              className=' hidden md:block bg-gray-200 text-[5px]'
+                            ></option>
+                            {schooltype === 'ilkokul' && (
                               <>
                                 <option value='1. Sınıf'>1. Sınıf</option>
                                 <option value='2. Sınıf'>2. Sınıf</option>
                                 <option value='3. Sınıf'>3. Sınıf</option>
                                 <option value='4. Sınıf'>4. Sınıf</option>
                               </>
-                            }
-                            {schooltype === 'ortaokul' &&
+                            )}
+                            {schooltype === 'ortaokul' && (
                               <>
                                 <option value='5. Sınıf'>5. Sınıf</option>
                                 <option value='6. Sınıf'>6. Sınıf</option>
                                 <option value='7. Sınıf'>7. Sınıf</option>
                                 <option value='8. Sınıf'>8. Sınıf</option>
                               </>
-                            }
-                            {schooltype === 'lise' &&
+                            )}
+                            {schooltype === 'lise' && (
                               <>
                                 <option value='9. Sınıf'>9. Sınıf</option>
                                 <option value='10. Sınıf'>10. Sınıf</option>
                                 <option value='11. Sınıf'>11. Sınıf</option>
                                 <option value='12. Sınıf'>12. Sınıf</option>
                               </>
-                            }
-                            {schooltype === 'diger' &&
+                            )}
+                            {schooltype === 'diger' && (
                               <>
-                                <option disabled={true} className=' hidden md:block bg-gray-200 text-[5px]'></option>
+                                <option
+                                  disabled={true}
+                                  className=' hidden md:block bg-gray-200 text-[5px]'
+                                ></option>
                                 <option value='anaokul'>Anaokul</option>
                                 <option value='1. Sınıf'>1. Sınıf</option>
                                 <option value='2. Sınıf'>2. Sınıf</option>
@@ -517,17 +527,12 @@ const StudentRegisterComponent = ({ CitiesData }) => {
                                 <option value='11. Sınıf'>11. Sınıf</option>
                                 <option value='12. Sınıf'>12. Sınıf</option>
                               </>
-                            }
-
-
+                            )}
                           </Select>
 
-                          {props.touched.class &&
-                            <ErrorText >
-                              {props.errors.class}
-                            </ErrorText>
-                          }
-
+                          {props.touched.class && (
+                            <ErrorText>{props.errors.class}</ErrorText>
+                          )}
                         </div>
                       </Transition>
                     </div>
@@ -550,17 +555,12 @@ const StudentRegisterComponent = ({ CitiesData }) => {
                             id='email'
                             name='email'
                             type='email'
-
                             onChange={props.handleChange}
                             placeholder='Mail adresinizi giriniz.'
-
                           />
-                          {props.touched.email &&
-                            <ErrorText >
-                              {props.errors.email}
-                            </ErrorText>
-                          }
-
+                          {props.touched.email && (
+                            <ErrorText>{props.errors.email}</ErrorText>
+                          )}
                         </div>
                         <div className={styles.container_end_row}>
                           <Input
@@ -569,37 +569,28 @@ const StudentRegisterComponent = ({ CitiesData }) => {
                             id='password'
                             name='password'
                             type='password'
-
                             onChange={props.handleChange}
                             placeholder='******'
-
                           />
-                          {props.touched.password &&
-                            <ErrorText >
-                              {props.errors.password}
-                            </ErrorText>
-                          }
-
+                          {props.touched.password && (
+                            <ErrorText>{props.errors.password}</ErrorText>
+                          )}
                         </div>
                         <div className={styles.container_end_row}>
-
                           <Input
                             labelValue='Şifre Doğrulama'
                             disabled={isloading || isRegister}
                             id='passwordConfirm'
                             name='passwordConfirm'
                             type='password'
-
                             onChange={props.handleChange}
                             placeholder='******'
-
                           />
-                          {props.touched.passwordConfirm &&
-                            <ErrorText >
+                          {props.touched.passwordConfirm && (
+                            <ErrorText>
                               {props.errors.passwordConfirm}
                             </ErrorText>
-                          }
-
+                          )}
                         </div>
                       </Transition>
                     </div>
@@ -612,7 +603,10 @@ const StudentRegisterComponent = ({ CitiesData }) => {
                             disabled={isloading || isRegister}
                             type='button'
                             onClick={(e) => prevActiveTab(e)}
-                            className={`${isloading == true || isRegister == false && "hover:bg-[#595959]"} mb-6 w-1/4 4xl:text-6xl text-white bg-secondary border rounded-md p-4`}
+                            className={`${
+                              isloading == true ||
+                              (isRegister == false && 'hover:bg-[#595959]')
+                            } mb-6 w-1/4 4xl:text-6xl text-white bg-secondary border rounded-md p-4`}
                           >
                             Geri
                           </button>
@@ -623,8 +617,9 @@ const StudentRegisterComponent = ({ CitiesData }) => {
                             disabled={isloading || isRegister}
                             type='button'
                             onClick={(e) => nextActiveTab(e, props)}
-                            className={`${activeTab === 1 ? 'w-full' : 'w-3/4'
-                              } mb-6 text-white text-xl bg-primary 4xl:text-4xl border rounded-md p-4 hover:bg-primarydark`}
+                            className={`${
+                              activeTab === 1 ? 'w-full' : 'w-3/4'
+                            } mb-6 text-white text-xl bg-primary 4xl:text-4xl border rounded-md p-4 hover:bg-primarydark`}
                           >
                             Sonraki Sayfa
                           </button>
@@ -634,32 +629,48 @@ const StudentRegisterComponent = ({ CitiesData }) => {
                           <button
                             disabled={isloading == true || isRegister == true}
                             type='submit'
-                            className={`${isloading == true || isRegister == true ? "bg-secondary" : "bg-primary hover:bg-primarydark"}  w-full mb-6 text-white text-xl 4xl:text-6xl border rounded-md p-4 `}
+                            className={`${
+                              isloading == true || isRegister == true
+                                ? 'bg-secondary'
+                                : 'bg-primary hover:bg-primarydark'
+                            }  w-full mb-6 text-white text-xl 4xl:text-6xl border rounded-md p-4 `}
                           >
                             Kayıt Ol
                           </button>
                         )}
                       </div>
                       <div className='text-center mb-4 gap-2 flex flex-col'>
-                        <p className='text-md 2xl:text-xl 4xl:xl:text-2xl'>
+                        <p className='text-md 2xl:text-xl 4xl:xl:text-2xl text-black'>
                           Zaten bir hesabınız var mı?{' '}
                           <Link
-
-                            href={`${isloading || isRegister ? "#" : "/auth/login/" + PageRole}`}
-                            className={`${isloading || isRegister ? "text-secondary cursor-default" : "text-primary font-semibold hover:underline"}  `}
+                            href={`${
+                              isloading || isRegister
+                                ? '#'
+                                : '/auth/login/' + PageRole
+                            }`}
+                            className={`${
+                              isloading || isRegister
+                                ? 'text-secondary cursor-default'
+                                : 'text-primary font-semibold hover:underline'
+                            }  `}
                           >
                             {`${PageLabelNormal} Giriş.`}
-
                           </Link>
                         </p>
-                        <p className='text-md 2xl:text-xl 4xl:xl:text-2xl'>
+                        <p className='text-md 2xl:text-xl 4xl:xl:text-2xl text-black'>
                           Şifrenizi mi unuttunuz?{' '}
                           <Link
-
-                            href={`${isloading || isRegister ? "#" : "/auth/forgotPassword"}`}
-                            className={`${isloading || isRegister ? "text-secondary cursor-default" : "text-primary font-semibold hover:underline"}  `}
+                            href={`${
+                              isloading || isRegister
+                                ? '#'
+                                : '/auth/forgotPassword'
+                            }`}
+                            className={`${
+                              isloading || isRegister
+                                ? 'text-secondary cursor-default'
+                                : 'text-primary font-semibold hover:underline'
+                            }  `}
                           >
-
                             Şifremi Unuttum.
                           </Link>
                         </p>
@@ -672,11 +683,8 @@ const StudentRegisterComponent = ({ CitiesData }) => {
           )}
         </Formik>
       </div>
-
-
     </>
-
   );
-}
+};
 
 export default StudentRegisterComponent;
