@@ -14,7 +14,7 @@ export const TopBar = () => {
   const { phone } = contact;
 
   return (
-    <div className=" flex justify-between items-center mx-6 my-2">
+    <div className=" flex justify-between items-center mx-6 my-2 max-w-full">
       <div>
         <a href="#">
           <Image
@@ -26,7 +26,7 @@ export const TopBar = () => {
           />
         </a>
       </div>
-      <div className="basis-1/2 relative rounded-md hidden lg:flex">
+      <div className="relative rounded-md hidden lg:flex">
         <div className="absolute inset-y-0 left-5 flex items-center">
           <Popover.Group className="lg:gap-x-12">
             <Popover className="relative">
@@ -71,8 +71,8 @@ export const TopBar = () => {
           type="text"
           name="price"
           id="price"
-          className="block bg-[#fff] w-full rounded-full border-0 py-4 pl-40 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
-          placeholder="Kursları buradan arayabilrsiniz..."
+          className=" bg-[#fff] w-full min-w-[480px] hidden lg:block  rounded-full border-0 py-4 pl-40 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
+          placeholder="Kursları buradan arayabilrsiniz."
         />
         <div className="absolute inset-y-0 right-2 flex items-center">
           <button className="flex gap-2 px-3 py-2 items-center bg-buttonColor rounded-3xl text-white text-lg hover:bg-cst_purple">
@@ -88,7 +88,7 @@ export const TopBar = () => {
           </span>
           <span className="pl-3">
             <p className="text-cst_grey text-sm">Hızlı İletişim</p>
-            <a className="text-[#241442]" href={`tel:${phone}`}>
+            <a className="text-[#241442] whitespace-nowrap" href={`tel:${phone}`}>
               {phone}
             </a>
           </span>
@@ -102,19 +102,19 @@ export const TopBar = () => {
                 onClick={() => signIn()}
                 className="flex-shrink-0 rounded-3xl px-6 py-3 border border-border text-sm text-[#241442] transition-all duration-200 hover:bg-cst_purple hover:text-white text-center"
               >
-                Giriş Yap
+                Öğrenci Giriş
               </button>
               <Link href="/auth/register/student" className="flex-shrink-0 rounded-3xl px-6 py-3 border transition-all duration-200 border-border text-sm bg-cst_purple text-white hover:bg-buttonColor text-center">
-                Kayıt Ol
+              Öğrenci Kayıt
               </Link>
               <Link
-              href="/auth/register/teacher"
+              href="/auth/login/teacher"
                 className="flex-shrink-0 rounded-3xl px-6 py-3 border border-border text-sm text-[#241442] transition-all duration-200 hover:bg-cst_purple hover:text-white text-center"
               >
-                Öğretmen Girişi
+                Öğretmen Giriş
               </Link>
-              <Link href="/auth/login/teacher" className="flex-shrink-0 rounded-3xl px-6 py-3 border transition-all duration-200 border-border text-sm bg-cst_purple text-white hover:bg-buttonColor text-center">
-              Öğretmen Kayıt Ol
+              <Link href="/auth/register/teacher" className="flex-shrink-0 rounded-3xl px-6 py-3 border transition-all duration-200 border-border text-sm bg-cst_purple text-white hover:bg-buttonColor text-center">
+              Öğretmen Kayıt
               </Link>
             </>
           ) : (
