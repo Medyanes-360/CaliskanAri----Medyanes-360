@@ -1,11 +1,14 @@
-'use client'
-import HomeContainer from "@/containers/home/index";
-import { SpeedInsights } from "@vercel/speed-insights/next"
+'use client';
+import { initializeConstantsinLocalStorage } from '@/components/constants';
+import HomeContainer from '@/containers/home/index';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 const Home = () => {
+  initializeConstantsinLocalStorage();
+
   return (
     <>
-      <SpeedInsights/>
+      <SpeedInsights />
       <HomeContainer />
     </>
   );
