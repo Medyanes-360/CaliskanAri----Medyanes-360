@@ -15,6 +15,7 @@ export const TopBar = () => {
   const [contact, setContact] = useState(null);
 
   useEffect(() => {
+    // TODO: database'e tasinacak
     const contactinLocalStorage = JSON.parse(
       localStorage.getItem('constants')
     )?.contact;
@@ -24,6 +25,7 @@ export const TopBar = () => {
       setContact({ phone });
     }
 
+    // TODO: database'e tasinacak
     const categoriesinLocalStorage = JSON.parse(
       localStorage.getItem('constants')
     )?.categories;

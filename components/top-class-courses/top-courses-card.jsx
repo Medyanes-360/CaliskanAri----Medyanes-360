@@ -7,6 +7,7 @@ export const TopCoursesCard = () => {
   const [coursesCard, setCoursesCard] = useState(null);
 
   useEffect(() => {
+    // TODO: database'e tasinacak
     const coursesCardinLocalStorage = JSON.parse(
       localStorage.getItem('constants')
     )?.coursesCard;

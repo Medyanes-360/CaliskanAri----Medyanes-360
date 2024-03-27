@@ -7,6 +7,7 @@ export const BlogSection = () => {
   const [image, setImage] = useState(null);
 
   useEffect(() => {
+    // TODO: database'e tasinacak
     const infoinLocalStorage = JSON.parse(
       localStorage.getItem('constants')
     )?.info;
@@ -16,6 +17,7 @@ export const BlogSection = () => {
       setInfo({ blogTitle1, blogTitle2, blogDesc });
     }
 
+    // TODO: database'e tasinacak
     const imageinLocalStorage = JSON.parse(
       localStorage.getItem('constants')
     )?.image;
@@ -26,8 +28,6 @@ export const BlogSection = () => {
     }
   }, []);
 
-  // const {blogTitle1,blogTitle2,blogDesc}=info
-  // const {underline}=image
   return (
     <div className="bg-cream">
       <div className="container mx-auto sm:px-0 px-3">

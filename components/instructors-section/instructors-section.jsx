@@ -10,6 +10,7 @@ export const InstructorsSection = () => {
   const [instructors, setInstructors] = useState(null);
 
   useEffect(() => {
+    // TODO: database'e tasinacak
     const infoinLocalStorage = JSON.parse(
       localStorage.getItem('constants')
     )?.info;
@@ -20,6 +21,7 @@ export const InstructorsSection = () => {
       setInfo({ instructorsTitle1, instructorsTitle2, instructorsDesc });
     }
 
+    // TODO: database'e tasinacak
     const imageinLocalStorage = JSON.parse(
       localStorage.getItem('constants')
     )?.image;
@@ -29,6 +31,7 @@ export const InstructorsSection = () => {
       setImage({ underline });
     }
 
+    // TODO: database'e tasinacak
     const instructorsinLocalStorage = JSON.parse(
       localStorage.getItem('constants')
     )?.instructors;

@@ -8,6 +8,7 @@ const LearnersStudents = () => {
   const [info, setInfo] = useState(null);
 
   useEffect(() => {
+    // TODO: database'e tasinacak
     const infoinLocalStorage = JSON.parse(
       localStorage.getItem('constants')
     )?.info;
@@ -25,6 +26,7 @@ const LearnersStudents = () => {
       });
     }
 
+    // TODO: database'e tasinacak
     const imageinLocalStorage = JSON.parse(
       localStorage.getItem('constants')
     )?.image;

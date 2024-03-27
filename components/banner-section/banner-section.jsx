@@ -9,6 +9,7 @@ export const BannerSection = () => {
   const [bannerShape, setBannerShape] = useState(null);
 
   useEffect(() => {
+    // TODO: database'e tasinacak
     const infoinLocalStorage = JSON.parse(
       localStorage.getItem('constants')
     )?.info;
@@ -18,6 +19,7 @@ export const BannerSection = () => {
       setBannerTitle2(infoinLocalStorage.bannerTitle2);
     }
 
+    // TODO: database'e tasinacak
     const imageinLocalStorage = JSON.parse(
       localStorage.getItem('constants')
     )?.image;

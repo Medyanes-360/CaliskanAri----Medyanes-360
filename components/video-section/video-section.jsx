@@ -12,6 +12,7 @@ export const VideoSection = () => {
   const [info, setInfo] = useState(null);
 
   useEffect(() => {
+    // TODO: database'e tasinacak
     const infoinLocalStorage = JSON.parse(
       localStorage.getItem('constants')
     )?.info;
@@ -39,6 +40,7 @@ export const VideoSection = () => {
       });
     }
 
+    // TODO: database'e tasinacak
     const imageinLocalStorage = JSON.parse(
       localStorage.getItem('constants')
     )?.image;

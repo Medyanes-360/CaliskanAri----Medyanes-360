@@ -6,6 +6,7 @@ export const ClientsSection = () => {
   const [image, setImage] = useState(null);
 
   useEffect(() => {
+    // TODO: database'e tasinacak
     const infoinLocalStorage = JSON.parse(
       localStorage.getItem('constants')
     )?.info;
@@ -15,6 +16,7 @@ export const ClientsSection = () => {
       setInfo({ clientTitle1, clientTitle2, clientDesc });
     }
 
+    // TODO: database'e tasinacak
     const imageinLocalStorage = JSON.parse(
       localStorage.getItem('constants')
     )?.image;
@@ -24,6 +26,7 @@ export const ClientsSection = () => {
       setImage({ underline });
     }
   }, []);
+
   return (
     <div className="bg-cream pt-24">
       <div className="mx-auto container p-6 relative">

@@ -15,6 +15,7 @@ export const Footer = () => {
   const [footercourses, setFootercourses] = useState(null);
 
   useEffect(() => {
+    // TODO: database'e tasinacak
     const contactinLocalStorage = JSON.parse(
       localStorage.getItem('constants')
     )?.contact;
@@ -24,6 +25,7 @@ export const Footer = () => {
       setContact({ phone, mapUrl, address });
     }
 
+    // TODO: database'e tasinacak
     const resourcesinLocalStorage = JSON.parse(
       localStorage.getItem('constants')
     )?.resources;
@@ -32,6 +34,7 @@ export const Footer = () => {
       setResources(resourcesinLocalStorage);
     }
 
+    // TODO: database'e tasinacak
     const footercoursesinLocalStorage = JSON.parse(
       localStorage.getItem('constants')
     )?.footercourses;

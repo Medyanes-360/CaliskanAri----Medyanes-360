@@ -8,6 +8,7 @@ export const InfoSection = () => {
   const [informations, setInformations] = useState(null);
 
   useEffect(() => {
+    // TODO: database'e tasinacak
     const informationsinLocalStorage = JSON.parse(
       localStorage.getItem('constants')
     )?.informations;

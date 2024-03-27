@@ -7,6 +7,7 @@ export const LastBanner = () => {
   const [image, setImage] = useState(null);
 
   useEffect(() => {
+    // TODO: database'e tasinacak
     const imageinLocalStorage = JSON.parse(
       localStorage.getItem('constants')
     )?.image;

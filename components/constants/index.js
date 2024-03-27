@@ -530,6 +530,7 @@ export const footercourses = [
 
 export const initializeConstantsinLocalStorage = () => {
   if (typeof window === 'undefined') return;
+  // TODO: database'e tasinacak
   let constantsinLocalStorage = localStorage.getItem('constants');
 
   if (constantsinLocalStorage) return;

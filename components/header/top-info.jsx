@@ -9,6 +9,7 @@ export const TopInfo = () => {
   const [contact, setContact] = useState(null);
 
   useEffect(() => {
+    // TODO: database'e tasinacak
     const contactinLocalStorage = JSON.parse(
       localStorage.getItem('constants')
     )?.contact;

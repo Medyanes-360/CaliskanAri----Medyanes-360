@@ -13,6 +13,7 @@ const MainSection = () => {
   const [info, setInfo] = useState(null);
 
   useEffect(() => {
+    // TODO: database'e tasinacak
     const infoinLocalStorage = JSON.parse(
       localStorage.getItem('constants')
     )?.info;
@@ -22,6 +23,7 @@ const MainSection = () => {
       setInfo({ desc1, desc2 });
     }
 
+    // TODO: database'e tasinacak
     const imageinLocalStorage = JSON.parse(
       localStorage.getItem('constants')
     )?.image;

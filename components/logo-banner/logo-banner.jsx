@@ -5,6 +5,7 @@ export const LogoBanner = () => {
   const [logobanner, setLogobanner] = useState(null);
 
   useEffect(() => {
+    // TODO: database'e tasinacak
     const logobannerinLocalStorage = JSON.parse(
       localStorage.getItem('constants')
     )?.logobanner;

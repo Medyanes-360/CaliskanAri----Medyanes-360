@@ -7,6 +7,7 @@ export const TopClassCourses = () => {
   const [info, setInfo] = useState(null);
 
   useEffect(() => {
+    // TODO: database'e tasinacak
     const infoinLocalStorage = JSON.parse(
       localStorage.getItem('constants')
     )?.info;
@@ -26,6 +27,7 @@ export const TopClassCourses = () => {
       });
     }
 
+    // TODO: database'e tasinacak
     const imageinLocalStorage = JSON.parse(
       localStorage.getItem('constants')
     )?.image;

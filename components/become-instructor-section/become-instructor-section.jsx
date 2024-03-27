@@ -7,6 +7,7 @@ export const BecomeInstructorSection = () => {
   const [image, setImage] = useState(null);
 
   useEffect(() => {
+    // TODO: database'e tasinacak
     const infoinLocalStorage = JSON.parse(
       localStorage.getItem('constants')
     )?.info;
@@ -16,6 +17,7 @@ export const BecomeInstructorSection = () => {
       setInfo({ beInstractorTitle1, beInstractorTitle2, beInstractorDesc });
     }
 
+    // TODO: database'e tasinacak
     const imageinLocalStorage = JSON.parse(
       localStorage.getItem('constants')
     )?.image;

@@ -21,6 +21,7 @@ export const SearchBar = () => {
   const [menus, setMenus] = useState(null);
 
   useEffect(() => {
+    // TODO: database'e tasinacak
     const imageinLocalStorage = JSON.parse(
       localStorage.getItem('constants')
     )?.image;
@@ -30,6 +31,7 @@ export const SearchBar = () => {
       setImage({ logo });
     }
 
+    // TODO: database'e tasinacak
     const menusinLocalStorage = JSON.parse(
       localStorage.getItem('constants')
     )?.menus;

@@ -14,6 +14,7 @@ export const FeaturedCourses = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
 
   useEffect(() => {
+    // TODO: database'e tasinacak
     const featuredinLocalStorage = JSON.parse(
       localStorage.getItem('constants')
     )?.featured;
@@ -22,6 +23,7 @@ export const FeaturedCourses = () => {
       setFeatured(featuredinLocalStorage);
     }
 
+    // TODO: database'e tasinacak
     const infoinLocalStorage = JSON.parse(
       localStorage.getItem('constants')
     )?.info;
@@ -31,6 +33,7 @@ export const FeaturedCourses = () => {
       setInfo({ featuredTitle1, featuredTitle2 });
     }
 
+    // TODO: database'e tasinacak
     const imageinLocalStorage = JSON.parse(
       localStorage.getItem('constants')
     )?.image;

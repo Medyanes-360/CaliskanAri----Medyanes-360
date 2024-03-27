@@ -8,6 +8,7 @@ export const ClientSlider = () => {
   const [clients, setClients] = useState(null);
 
   useEffect(() => {
+    // TODO: database'e tasinacak
     const clientsinLocalStorage = JSON.parse(
       localStorage.getItem('constants')
     )?.clients;

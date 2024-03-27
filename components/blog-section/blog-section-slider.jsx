@@ -9,6 +9,7 @@ export const BlogSectionSlider = () => {
   const [blogcard, setBlogcard] = useState(null);
 
   useEffect(() => {
+    // TODO: database'e tasinacak
     const blogcardinLocalStorage = JSON.parse(
       localStorage.getItem('constants')
     )?.blogcard;
