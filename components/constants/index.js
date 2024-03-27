@@ -560,6 +560,7 @@ export const initializeConstantsinLocalStorage = () => {
     footercourses,
   };
 
+  // TODO: database'e tasinacak
   localStorage.setItem('constants', JSON.stringify(constants));
 
   constantsinLocalStorage = localStorage.getItem('constants');
