@@ -1,15 +1,46 @@
-import { contact, resources, footercourses } from "../constants/index.js";
-import { RiMapPin5Line } from "react-icons/ri";
-import { FiPhoneCall } from "react-icons/fi";
-import { CgFacebook } from "react-icons/cg";
-import { BsTwitter,BsDot } from "react-icons/bs";
-import { TiSocialLinkedin } from "react-icons/ti";
-import { BiLogoPinterestAlt } from "react-icons/bi";
-import { PiInstagramLogo } from "react-icons/pi";
-import { ScrollToTop } from "../helpers/scroll-to-top.jsx";
+'use client';
+import { useEffect, useState } from 'react';
+import { RiMapPin5Line } from 'react-icons/ri';
+import { FiPhoneCall } from 'react-icons/fi';
+import { CgFacebook } from 'react-icons/cg';
+import { BsTwitter, BsDot } from 'react-icons/bs';
+import { TiSocialLinkedin } from 'react-icons/ti';
+import { BiLogoPinterestAlt } from 'react-icons/bi';
+import { PiInstagramLogo } from 'react-icons/pi';
+import { ScrollToTop } from '../helpers/scroll-to-top.jsx';
 
 export const Footer = () => {
-  const { phone, mapUrl,address } = contact;
+  const [contact, setContact] = useState(null);
+  const [resources, setResources] = useState(null);
+  const [footercourses, setFootercourses] = useState(null);
+
+  useEffect(() => {
+    const contactinLocalStorage = JSON.parse(
+      localStorage.getItem('constants')
+    )?.contact;
+
+    if (contactinLocalStorage) {
+      const { phone, mapUrl, address } = contactinLocalStorage;
+      setContact({ phone, mapUrl, address });
+    }
+
+    const resourcesinLocalStorage = JSON.parse(
+      localStorage.getItem('constants')
+    )?.resources;
+
+    if (resourcesinLocalStorage) {
+      setResources(resourcesinLocalStorage);
+    }
+
+    const footercoursesinLocalStorage = JSON.parse(
+      localStorage.getItem('constants')
+    )?.footercourses;
+
+    if (footercoursesinLocalStorage) {
+      setFootercourses(footercoursesinLocalStorage);
+    }
+  }, []);
+
   return (
     <>
       <div className="bg-white text-center grid lg:grid-cols-4 md:grid-cols-2 md:text-start my-20 container mx-auto ">
@@ -25,22 +56,25 @@ export const Footer = () => {
             <li>
               <a
                 className="flex items-center gap-2 justify-center md:justify-start"
-                href={mapUrl}
+                href={contact?.mapUrl}
                 rel="noreferrer"
                 target="_blank"
               >
                 <span className="text-tabs text-lg">
                   <RiMapPin5Line />
                 </span>
-                {address}
+                {contact?.address}
               </a>
             </li>
             <li>
-              <a href={`tel:${phone}`} className="flex items-center justify-center md:justify-start gap-2">
+              <a
+                href={`tel:${contact?.phone}`}
+                className="flex items-center justify-center md:justify-start gap-2"
+              >
                 <span className="text-tabs text-lg">
                   <FiPhoneCall />
                 </span>
-                {phone}
+                {contact?.phone}
               </a>
             </li>
           </ul>
@@ -74,16 +108,20 @@ export const Footer = () => {
         </div>
         <div>
           <ul className="text-cst_grey flex flex-col gap-3 leading-7 mt-7">
-            <li className="text-cst_purple font-semibold text-xl pb-3">Resource</li>
-            {resources.map((item, index) => (
+            <li className="text-cst_purple font-semibold text-xl pb-3">
+              Resource
+            </li>
+            {resources?.map((item, index) => (
               <li key={index}> {item.label} </li>
             ))}
           </ul>
         </div>
         <div>
           <ul className="text-cst_grey flex flex-col gap-3 leading-7 mt-7">
-            <li className="text-cst_purple font-semibold text-xl pb-3">Courses</li>
-            {footercourses.map((item, index) => (
+            <li className="text-cst_purple font-semibold text-xl pb-3">
+              Courses
+            </li>
+            {footercourses?.map((item, index) => (
               <li key={index}>{item.label}</li>
             ))}
           </ul>
@@ -114,18 +152,15 @@ export const Footer = () => {
             <li>We Only Send Interesting And Relevant Emails.</li>
           </ul>
         </div>
-
       </div>
       <div className="lg:flex lg:justify-around  bg-cream pt-8 pb-5 text-cst_grey text-center text-sm relative">
         <p>© 2023 quiklearn. All Rights Reserved by RadiusTheme</p>
         <div className="flex items-center justify-center gap-3">
           <span>Privacy Policy</span>
-         <BsDot />
+          <BsDot />
           <span>Term Conditions</span>
         </div>
-      <ScrollToTop/>
-
-
+        <ScrollToTop />
       </div>
     </>
   );
