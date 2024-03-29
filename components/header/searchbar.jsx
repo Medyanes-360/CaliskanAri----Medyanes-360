@@ -1,25 +1,45 @@
-import { useEffect, useState } from "react";
-import { Dialog, Disclosure } from "@headlessui/react";
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import { ChevronDownIcon } from "@heroicons/react/20/solid";
-import { image, menus } from "../constants/index";
-import { TopBar } from "./topbar";
-import { CiSearch } from "react-icons/ci";
-import { IoIosLogIn } from "react-icons/io";
-import "./header.css";
-import MenuItems from "./MenuItems";
-import { menuItems } from "@/mocks/menuItems";
+'use client';
+import { useEffect, useState } from 'react';
+import { Dialog, Disclosure } from '@headlessui/react';
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
+import { ChevronDownIcon } from '@heroicons/react/20/solid';
+import { TopBar } from './topbar';
+import { CiSearch } from 'react-icons/ci';
+import { IoIosLogIn } from 'react-icons/io';
+import './header.css';
+import MenuItems from './MenuItems';
+import { menuItems } from '@/mocks/menuItems';
 
 function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
+  return classes.filter(Boolean).join(' ');
 }
 export const SearchBar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isHeaderFixed, setIsHeaderFixed] = useState(false);
   const [isLogoVisible, setIsLogoVisible] = useState(false);
+  const [image, setImage] = useState(null);
+  const [menus, setMenus] = useState(null);
 
-  const { logo } = image;
   useEffect(() => {
+    // TODO: database'e tasinacak
+    const imageinLocalStorage = JSON.parse(
+      localStorage.getItem('constants')
+    )?.image;
+
+    if (imageinLocalStorage) {
+      const { logo } = imageinLocalStorage;
+      setImage({ logo });
+    }
+
+    // TODO: database'e tasinacak
+    const menusinLocalStorage = JSON.parse(
+      localStorage.getItem('constants')
+    )?.menus;
+
+    if (menusinLocalStorage) {
+      setMenus(menusinLocalStorage);
+    }
+
     const handleScroll = () => {
       const scrollY = window.scrollY;
       const threshold = 100;
@@ -28,21 +48,21 @@ export const SearchBar = () => {
       setIsLogoVisible(scrollY > threshold);
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener('scroll', handleScroll);
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
   return (
     <>
-      {/* <TopInfo /> */}
+      {/* <TopInfo />  */}
       <header className="bg-cream flex lg:flex-col justify-between">
         <TopBar />
         <nav
           className={`flex items-center justify-between p-4 pb-0 ${
-            isHeaderFixed ? "fixed -top-1 z-50 w-full  bg-white  " : ""
+            isHeaderFixed ? 'fixed -top-1 z-50 w-full  bg-white  ' : ''
           }`}
           aria-label="Global"
         >
@@ -51,7 +71,7 @@ export const SearchBar = () => {
               <a href="#">
                 <img
                   className="h-auto max-w-full lg:hidden "
-                  src={logo}
+                  src={image?.logo || ''}
                   alt=""
                 />
               </a>
@@ -80,7 +100,9 @@ export const SearchBar = () => {
             {menuItems.map((menu, index) => {
               const depthLevel = 1;
 
-              return <MenuItems items={menu} key={index} depthLevel={depthLevel}/>
+              return (
+                <MenuItems items={menu} key={index} depthLevel={depthLevel} />
+              );
             })}
           </div>
           {/* <div className="lg:flex items-center gap-4 hidden pr-20 pt-2">
@@ -105,7 +127,7 @@ export const SearchBar = () => {
             <div className="flex items-center justify-between">
               <a href="#" className="-m-1.5 p-1.5">
                 <span className="sr-only">Your Company</span>
-                <img className="h-8 w-auto" src={logo} alt="" />
+                <img className="h-8 w-auto" src={image?.logo || ''} alt="" />
               </a>
               <button
                 type="button"
@@ -119,7 +141,7 @@ export const SearchBar = () => {
             <div className="mt-6 flow-root">
               <div className="-my-6 divide-y divide-gray-500/10">
                 <div className="space-y-2 py-6">
-                  {menus.map((menu, index) => (
+                  {menus?.map((menu, index) => (
                     <Disclosure as="div" className="-mx-3" key={index}>
                       {({ open }) => (
                         <>
@@ -127,8 +149,8 @@ export const SearchBar = () => {
                             {menu.name}
                             <ChevronDownIcon
                               className={classNames(
-                                open ? "rotate-180" : "",
-                                "h-5 w-5 flex-none"
+                                open ? 'rotate-180' : '',
+                                'h-5 w-5 flex-none'
                               )}
                               aria-hidden="true"
                             />

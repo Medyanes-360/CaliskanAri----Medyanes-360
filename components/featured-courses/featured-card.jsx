@@ -1,54 +1,88 @@
-import { Rating } from "@mui/material";
-import { featured } from "../constants";
-import { BsPerson } from "react-icons/bs";
-import { PiNotebookThin } from "react-icons/pi";
-import { info, image } from "../constants/index";
-import { useState } from "react";
-import { motion } from "framer-motion";
+'use client';
+import { useEffect, useState } from 'react';
+import { Rating } from '@mui/material';
+import { BsPerson } from 'react-icons/bs';
+import { PiNotebookThin } from 'react-icons/pi';
+import { motion } from 'framer-motion';
 
-import "./featured-card.css";
+import './featured-card.css';
 
 export const FeaturedCourses = () => {
+  const [featured, setFeatured] = useState(null);
+  const [info, setInfo] = useState(null);
+  const [image, setImage] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
-  const { featuredTitle1, featuredTitle2 } = info;
-  const { underline } = image;
+
+  useEffect(() => {
+    // TODO: database'e tasinacak
+    const featuredinLocalStorage = JSON.parse(
+      localStorage.getItem('constants')
+    )?.featured;
+
+    if (featuredinLocalStorage) {
+      setFeatured(featuredinLocalStorage);
+    }
+
+    // TODO: database'e tasinacak
+    const infoinLocalStorage = JSON.parse(
+      localStorage.getItem('constants')
+    )?.info;
+
+    if (infoinLocalStorage) {
+      const { featuredTitle1, featuredTitle2 } = infoinLocalStorage;
+      setInfo({ featuredTitle1, featuredTitle2 });
+    }
+
+    // TODO: database'e tasinacak
+    const imageinLocalStorage = JSON.parse(
+      localStorage.getItem('constants')
+    )?.image;
+
+    if (imageinLocalStorage) {
+      const { underline } = imageinLocalStorage;
+      setImage({ underline });
+    }
+  }, []);
 
   const handleCategoryClick = (category) => {
     setSelectedCategory(category);
   };
   const filteredFeatured = selectedCategory
-    ? featured.filter((item) => item.topDesc === selectedCategory)
+    ? featured?.filter((item) => item.topDesc === selectedCategory)
     : featured;
- 
 
-    const container = {
-      hidden: { opacity: 1, scale: 0 },
-      visible: {
-        opacity: 1,
-        scale: 1,
-        transition: {
-          delayChildren: 0.3,
-          staggerChildren: 0.2
-        }
-      }
-    }
-      
-    const item = {
-      hidden: { y: 20, opacity: 0 },
-      visible: {
-        y: 0,
-        opacity: 1
-      }
-    }
+  const container = {
+    hidden: { opacity: 1, scale: 0 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        delayChildren: 0.3,
+        staggerChildren: 0.2,
+      },
+    },
+  };
+
+  const item = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+    },
+  };
   return (
     <div className="bg-cream">
       <div className="mx-auto container px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
         <div className="flex flex-col items-center justify-between md:flex-row flex-wrap lg:flex-nowrap">
           <div className="w-full flex justify-center items-center flex-col">
-            <p className="text-cst_grey text-sm pb-2">{featuredTitle1}</p>
+            <p className="text-cst_grey text-sm pb-2">{info?.featuredTitle1}</p>
             <h2 className="text-4xl font-semibold relative pb-8 text-[#241442]">
-              {featuredTitle2}
-              <img src={underline} alt="" className="absolute right-20" />
+              {info?.featuredTitle2}
+              <img
+                src={image?.underline || ''}
+                alt=""
+                className="absolute right-20"
+              />
             </h2>
           </div>
           <div className="flex flex-wrap gap-2 w-full justify-center  items-center pt-8 pb-8">
@@ -56,48 +90,48 @@ export const FeaturedCourses = () => {
               onClick={() => handleCategoryClick(null)}
               className={
                 selectedCategory === null
-                  ? "featured-button"
-                  : "featured-select"
+                  ? 'featured-button'
+                  : 'featured-select'
               }
             >
               Hepsi
             </button>
             <button
-              onClick={() => handleCategoryClick("Business")}
+              onClick={() => handleCategoryClick('Business')}
               className={
-                selectedCategory === "Business"
-                  ? "featured-button"
-                  : "featured-select"
+                selectedCategory === 'Business'
+                  ? 'featured-button'
+                  : 'featured-select'
               }
             >
               Matematik
             </button>
             <button
-              onClick={() => handleCategoryClick("Development")}
+              onClick={() => handleCategoryClick('Development')}
               className={
-                selectedCategory === "Development"
-                  ? "featured-button"
-                  : "featured-select"
+                selectedCategory === 'Development'
+                  ? 'featured-button'
+                  : 'featured-select'
               }
             >
               Türkçe
             </button>
             <button
-              onClick={() => handleCategoryClick("Finance")}
+              onClick={() => handleCategoryClick('Finance')}
               className={
-                selectedCategory === "Finance"
-                  ? "featured-button"
-                  : "featured-select"
+                selectedCategory === 'Finance'
+                  ? 'featured-button'
+                  : 'featured-select'
               }
             >
               Fen Bilimleri
             </button>
             <button
-              onClick={() => handleCategoryClick("Technology")}
+              onClick={() => handleCategoryClick('Technology')}
               className={
-                selectedCategory === "Technology"
-                  ? "featured-button"
-                  : "featured-select"
+                selectedCategory === 'Technology'
+                  ? 'featured-button'
+                  : 'featured-select'
               }
             >
               İngilizce
@@ -105,11 +139,13 @@ export const FeaturedCourses = () => {
           </div>
         </div>
 
-        <motion.ul className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8 container"  
-        variants={container}
-    initial="hidden"
-    animate="visible">
-          {filteredFeatured.map((featured, index) => (
+        <motion.ul
+          className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8 container"
+          variants={container}
+          initial="hidden"
+          animate="visible"
+        >
+          {filteredFeatured?.map((featured, index) => (
             <motion.li
               key={index}
               className="group relative bg-white border-border border rounded-lg item shadow-lg"
@@ -153,26 +189,18 @@ export const FeaturedCourses = () => {
                   </h3>
                   <p className="mt-1 text-sm text-gray-500">{featured.name}</p>
                   <div className="flex justify-between items-center gap-1">
-                    <Rating
-                      name="simple-controlled"
-                      value={featured.star}
-                    />
+                    <Rating name="simple-controlled" value={featured.star} />
                     <div className="flex flex-col items-center gap-2">
-                    <strike >
-                      {featured.discount}
-                    </strike>
-                    <p className="text-xl font-semibold text-gray-900">
-                      {featured.price}
-                    </p>
+                      <strike>{featured.discount}</strike>
+                      <p className="text-xl font-semibold text-gray-900">
+                        {featured.price}
+                      </p>
                     </div>
-                   
                   </div>
                 </div>
               </div>
             </motion.li>
           ))}
-
-
         </motion.ul>
       </div>
     </div>

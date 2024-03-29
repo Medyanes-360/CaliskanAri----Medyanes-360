@@ -1,17 +1,39 @@
-import { contact } from "../constants/index";
-import { PiPhoneCallLight } from "react-icons/pi";
-import { CiSearch } from "react-icons/ci";
-import { categories } from "../constants/index";
-import { Popover, Transition } from "@headlessui/react";
-import { ChevronDownIcon } from "@heroicons/react/24/outline";
-import { Fragment } from "react";
-import { signIn, signOut, useSession } from "next-auth/react";
-import Link from 'next/link'
-import Image from "next/image";
+'use client';
+import { useEffect, useState } from 'react';
+import { PiPhoneCallLight } from 'react-icons/pi';
+import { CiSearch } from 'react-icons/ci';
+import { Popover, Transition } from '@headlessui/react';
+import { ChevronDownIcon } from '@heroicons/react/24/outline';
+import { Fragment } from 'react';
+import { signIn, signOut, useSession } from 'next-auth/react';
+import Link from 'next/link';
+import Image from 'next/image';
 
 export const TopBar = () => {
   const { data } = useSession();
-  const { phone } = contact;
+  const [categories, setCategories] = useState(null);
+  const [contact, setContact] = useState(null);
+
+  useEffect(() => {
+    // TODO: database'e tasinacak
+    const contactinLocalStorage = JSON.parse(
+      localStorage.getItem('constants')
+    )?.contact;
+
+    if (contactinLocalStorage) {
+      const { phone } = contactinLocalStorage;
+      setContact({ phone });
+    }
+
+    // TODO: database'e tasinacak
+    const categoriesinLocalStorage = JSON.parse(
+      localStorage.getItem('constants')
+    )?.categories;
+
+    if (categoriesinLocalStorage) {
+      setCategories(categoriesinLocalStorage);
+    }
+  }, []);
 
   return (
     <div className=" flex justify-between items-center mx-6 my-2 max-w-full">
@@ -49,7 +71,7 @@ export const TopBar = () => {
               >
                 <Popover.Panel className="absolute -left-8 top-full z-40 mt-3 w-screen max-w-md overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5">
                   <div className="p-4">
-                    {categories.map((item) => (
+                    {categories?.map((item) => (
                       <div
                         key={item.name}
                         className="group relative flex items-start gap-x-6 rounded-lg p-4 text-sm hover:bg-gray-50"
@@ -76,7 +98,7 @@ export const TopBar = () => {
         />
         <div className="absolute inset-y-0 right-2 flex items-center">
           <button className="flex gap-2 px-3 py-2 items-center bg-buttonColor rounded-3xl text-white text-lg hover:bg-cst_purple">
-            <CiSearch style={{ fontSize: "25px" }} /> Ara
+            <CiSearch style={{ fontSize: '25px' }} /> Ara
           </button>
         </div>
       </div>
@@ -84,12 +106,15 @@ export const TopBar = () => {
       <div className="flex items-center">
         <div className="justify-center items-center hidden lg:flex">
           <span className="bg-white rounded-full  text-buttonColor p-4 ms-2 border border-border">
-            <PiPhoneCallLight style={{ fontSize: "20px" }} />
+            <PiPhoneCallLight style={{ fontSize: '20px' }} />
           </span>
           <span className="pl-3">
             <p className="text-cst_grey text-sm">Hızlı İletişim</p>
-            <a className="text-[#241442] whitespace-nowrap" href={`tel:${phone}`}>
-              {phone}
+            <a
+              className="text-[#241442] whitespace-nowrap"
+              href={`tel:${contact?.phone}`}
+            >
+              {contact?.phone}
             </a>
           </span>
         </div>
@@ -104,26 +129,40 @@ export const TopBar = () => {
               >
                 Öğrenci Giriş
               </button>
-              <Link href="/auth/register/student" className="flex-shrink-0 rounded-3xl px-6 py-3 border transition-all duration-200 border-border text-sm bg-cst_purple text-white hover:bg-buttonColor text-center">
-              Öğrenci Kayıt
+              <Link
+                href="/auth/register/student"
+                className="flex-shrink-0 rounded-3xl px-6 py-3 border transition-all duration-200 border-border text-sm bg-cst_purple text-white hover:bg-buttonColor text-center"
+              >
+                Öğrenci Kayıt
               </Link>
               <Link
-              href="/auth/login/teacher"
+                href="/auth/login/teacher"
                 className="flex-shrink-0 rounded-3xl px-6 py-3 border border-border text-sm text-[#241442] transition-all duration-200 hover:bg-cst_purple hover:text-white text-center"
               >
                 Öğretmen Giriş
               </Link>
-              <Link href="/auth/register/teacher" className="flex-shrink-0 rounded-3xl px-6 py-3 border transition-all duration-200 border-border text-sm bg-cst_purple text-white hover:bg-buttonColor text-center">
-              Öğretmen Kayıt
+              <Link
+                href="/auth/register/teacher"
+                className="flex-shrink-0 rounded-3xl px-6 py-3 border transition-all duration-200 border-border text-sm bg-cst_purple text-white hover:bg-buttonColor text-center"
+              >
+                Öğretmen Kayıt
               </Link>
             </>
           ) : (
             <>
-              {data?.user?.role === "admin" && <Link href="/dashboard/admin" className="flex-shrink-0 rounded-3xl px-6 py-3 border transition-all duration-200 border-border text-sm bg-cst_purple text-white hover:bg-buttonColor text-center">
-                Dashboard
-              </Link>}
+              {data?.user?.role === 'admin' && (
+                <Link
+                  href="/dashboard/admin"
+                  className="flex-shrink-0 rounded-3xl px-6 py-3 border transition-all duration-200 border-border text-sm bg-cst_purple text-white hover:bg-buttonColor text-center"
+                >
+                  Dashboard
+                </Link>
+              )}
 
-              <button onClick={() => signOut()} className="flex-shrink-0 rounded-3xl px-6 py-3 border transition-all duration-200 border-border text-sm bg-cst_red text-white hover:bg-buttonColor text-center">
+              <button
+                onClick={() => signOut()}
+                className="flex-shrink-0 rounded-3xl px-6 py-3 border transition-all duration-200 border-border text-sm bg-cst_red text-white hover:bg-buttonColor text-center"
+              >
                 Çıkış yap
               </button>
             </>
