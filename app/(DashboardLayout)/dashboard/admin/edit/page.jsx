@@ -6,6 +6,9 @@ import ConstantFormField from '@/components/dashboard/panels/admin/edit/Constant
 
 function EditPage() {
   const [formData, setFormData] = useState(null);
+  const arrayFields = {
+    menus: ['items'],
+  };
 
   useEffect(() => {
     // TODO: database'e tasinacak
@@ -45,10 +48,12 @@ function EditPage() {
     setFormData((prevState) => ({
       ...prevState,
       [formSection]: prevState[formSection].map((item, itemIndex) => {
-        if (parseInt(itemIndex) === parseInt(index)) {
+        if (itemIndex === parseInt(index)) {
           return {
             ...item,
-            [field]: isArrayOfStrings(value) || value,
+            [field]: arrayFields?.[formSection]?.includes(field)
+              ? value.split(',')
+              : value,
           };
         }
         return item;
