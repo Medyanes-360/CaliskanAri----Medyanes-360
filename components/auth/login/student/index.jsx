@@ -68,7 +68,7 @@ const StudentLoginComponent = ({ pageRole }) => {
               password: values.password,
               role: pageRole,
               callbackUrl: '/',
-              redirect: false,
+              redirect: true,
             }).then((res) => {
               if (!res) {
                 toast.error('Bir hata oluştu. Lütfen tekrar deneyiniz.');
