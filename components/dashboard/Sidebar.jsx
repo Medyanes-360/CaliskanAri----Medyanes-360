@@ -34,7 +34,7 @@ const buttons = [
       },
       {
         id: '1.4',
-        label: 'Edit Home Layout',
+        label: 'Edit Home Page',
         icon: UserIcon,
         path: '/dashboard/admin/edit',
       },

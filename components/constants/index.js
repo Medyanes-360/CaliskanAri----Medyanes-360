@@ -180,8 +180,6 @@ export const coursesCard = [
   },
 ];
 
-// buradan sonra hep stringify edilebilir
-
 export const contact = {
   phone: '(0212) 639 39 12',
   mapUrl: 'https://maps.app.goo.gl/H4pa8u1oWw6HkHUe6',
