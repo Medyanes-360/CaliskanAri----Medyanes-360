@@ -18,10 +18,13 @@ const createNewUser = async (user, mailKey) => {
       const allUser = {
         id: user.id,
         name: user.name,
+        surname: user.surname,
         email: user.email,
+        password: user.password,
       };
       const userFromDB = await createNewData(user.role, allUser);
-      console.log(userFromDB);
+
+      delete allUser.password;
 
       //Kayıt olan her kullanıcıyı tek tabloda birleştiririz.
       const allUserFromDB = await createNewData('AllUser', {
