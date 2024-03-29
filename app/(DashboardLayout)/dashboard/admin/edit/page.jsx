@@ -32,15 +32,6 @@ function EditPage() {
     }));
   };
 
-  // Eğer form alanı bir string dizisine karşılık geliyorsa stringify edip textbox'ta göster, kaydederken tekrar arraye dönüştür.
-  const isArrayOfStrings = (string) => {
-    const array = string.split(',');
-    if (array.length > 1) {
-      return array;
-    }
-    return null;
-  };
-
   // Formda değiştirilen alan bir array ise bu çalışır
   const handleChangeArray = (e) => {
     const { id, value } = e.target;
