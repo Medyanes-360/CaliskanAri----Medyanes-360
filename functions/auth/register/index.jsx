@@ -15,16 +15,7 @@ const createNewUser = async (user, mailKey) => {
     } else {
       user.verified = false;
       // Kullanıcıyı veritabanına kayıt eder.
-      const allUser = {
-        id: user.id,
-        name: user.name,
-        surname: user.surname,
-        email: user.email,
-        password: user.password,
-      };
-      const userFromDB = await createNewData(user.role, allUser);
-
-      delete allUser.password;
+      const userFromDB = await createNewData(user.role, user);
 
       //Kayıt olan her kullanıcıyı tek tabloda birleştiririz.
       const allUserFromDB = await createNewData('AllUser', {
