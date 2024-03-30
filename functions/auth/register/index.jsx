@@ -16,6 +16,9 @@ const createNewUser = async (user, mailKey) => {
       user.verified = false;
       // Kullanıcıyı veritabanına kayıt eder.
       const userFromDB = await createNewData(user.role, user);
+      if (userFromDB.error || !userFromDB) {
+        return { error: 'Kayıt oluşturulamadı. REGXR' };
+      }
 
       //Kayıt olan her kullanıcıyı tek tabloda birleştiririz.
       const allUserFromDB = await createNewData('AllUser', {
@@ -25,6 +28,10 @@ const createNewUser = async (user, mailKey) => {
         surname: user.surname,
       });
 
+      if (allUserFromDB.error || !allUserFromDB) {
+        return { error: 'Kayıt oluşturulamadı. REGXALL' };
+      }
+
       // E-mail doğrulama işlemi için veritabanına kayıt oluşturur.
       const createVerifyDB = await createNewData('VerifyEmail', {
         email: user.email,
@@ -32,15 +39,8 @@ const createNewUser = async (user, mailKey) => {
         validTime: Date.now(),
       });
 
-      if (
-        createVerifyDB.error ||
-        userFromDB.error ||
-        allUserFromDB.error ||
-        !createVerifyDB ||
-        !userFromDB ||
-        !allUserFromDB
-      ) {
-        return { error: 'Kayıt oluşturulamadı.' };
+      if (createVerifyDB.error || !createVerifyDB) {
+        return { error: 'Kayıt oluşturulamadı. REGXVER' };
       }
 
       return {
