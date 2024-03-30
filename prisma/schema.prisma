@@ -108,20 +108,21 @@ model Class {
 }
 
 model Student {
-  id         String  @id @default(auto()) @map("_id") @db.ObjectId
-  name       String
-  surname    String
-  email      String  @unique
-  password   String
-  role       Role    @default(student)
-  verified   Boolean @default(false)
-  phone      String  @unique
-  city       String
-  town       String
-  schooltype String
-  schollName String
-  class      Class?  @relation(fields: [classId], references: [id])
-  classId    String? @db.ObjectId
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  surname     String
+  email       String  @unique
+  password    String
+  role        Role    @default(student)
+  verified    Boolean @default(false)
+  phone       String  @unique
+  city        String
+  town        String
+  schooltype  String
+  schollName  String
+  classNumber String
+  class       Class?  @relation(fields: [classId], references: [id])
+  classId     String? @db.ObjectId
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
