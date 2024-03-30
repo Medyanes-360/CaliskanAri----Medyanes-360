@@ -31,7 +31,7 @@ const studentValidationSchema = Yup.object({
 
   schollName: Yup.string().required('Okul seçimi boş bırakılamaz.'),
 
-  class: Yup.string()
+  classNumber: Yup.string()
     .required('Lütfen Sınıfınızı Seçiniz.')
     .max(10, 'Yanlış bir değer girdiniz.')
     .min(1, 'Sınıfınız 1-12 arasında olmalıdır'),
