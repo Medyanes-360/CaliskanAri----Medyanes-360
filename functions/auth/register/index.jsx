@@ -4,10 +4,18 @@ import { getDataByUnique, createNewData } from '@/services/serviceOperations';
 const createNewUser = async (user, mailKey) => {
   try {
     // kullanıcı kontrolü
-    const mailCheck = await getDataByUnique(user.role, { email: user.email });
+    const roleUserCheck = await getDataByUnique(user.role, {
+      email: user.email,
+    });
+    const allUserCheck = await getDataByUnique('AllUser', {
+      email: user.email,
+    });
 
     // eğer doğrulanmamış bir hesaba bağlı bir kayıt varsa yen iveriyi üzerine yaz
-    if (mailCheck != null && !mailCheck.error) {
+    if (
+      (roleUserCheck != null && !roleUserCheck.error) ||
+      (allUserCheck != null && !allUserCheck.error)
+    ) {
       return {
         error:
           'Bu e-mail adresine kayıtlı başka bir hesap bulunmaktadır. Şifremi unuttum bölümünden şifrenizi sıfırlayabilirsiniz.',
