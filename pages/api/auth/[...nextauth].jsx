@@ -1,6 +1,6 @@
 import NextAuth from "next-auth"
 import CredentialsProvider, { CredentialsConfig } from "next-auth/providers/credentials";
-import {postAPI} from "@/services/fetchAPI";
+import { postAPI } from "@/services/fetchAPI";
 
 
 let loginPageRoute = "student";
@@ -13,57 +13,57 @@ const authOptions = {
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-        email: { label: "email", type: "text"},
+        email: { label: "email", type: "text" },
         password: { label: "Password", type: "password" },
         role: { label: "role", type: "text" },
       },
 
       async authorize(credentials) {
         // kontrol edilecek (email ve password) bilgilerini credentials değişkeninden alıyoruz.
-        const { email, password, role} = credentials;
+        const { email, password, role } = credentials;
         // giriş yapılacak sayfayı role değişkeninden alıyoruz.
         loginPageRoute = role;
-        
-        if(email){
+
+        if (email) {
           // yukarıda aldığımız giriş bilgilerini => [email eşleşmesi, password doğrulaması] için fonksiyonumuza gönderiyoruz.
-          const data = await postAPI(`/auth/login`, {role, email, password});
-          if(!data || data.error || data == null){
-            if(data){
+          const data = await postAPI(`/auth/login`, { role, email, password });
+          if (!data || data.error || data == null) {
+            if (data) {
               throw new Error(data.error);
             }
-            else{
+            else {
               throw new Error("Giriş işleminde bir hata oluştu. Lütfen daha sonra tekrar deneyiniz.");
             }
           }
 
-          
 
-          const {userFromDB, success, error, status, verifyEmail} = data;
-            if(userFromDB === null || !success || userFromDB === undefined || error || !userFromDB){
-              let error2 = new  Error();
-                  error2.message = error;
-                  error2.status = status;
-                  error2.verifyEmail = verifyEmail;
-                  throw error2;
-            }
-            if(!userFromDB.role || !userFromDB.name || !userFromDB.surname || !userFromDB.email){
-              throw new Error("Giriş işleminde bir hata oluştu.");
-            }
-            const user =  {
-              role: userFromDB.role,
-              name: userFromDB.name,
-              surname: userFromDB.surname,               
-              email: userFromDB.email,  
-            };
-            
-            if (user) {
-                return user;
-            }
+
+          const { userFromDB, success, error, status, verifyEmail } = data;
+          if (userFromDB === null || !success || userFromDB === undefined || error || !userFromDB) {
+            let error2 = new Error();
+            error2.message = error;
+            error2.status = status;
+            error2.verifyEmail = verifyEmail;
+            throw error2;
+          }
+          if (!userFromDB.role || !userFromDB.name || !userFromDB.surname || !userFromDB.email) {
+            throw new Error("Giriş işleminde bir hata oluştu.");
+          }
+          const user = {
+            role: userFromDB.role,
+            name: userFromDB.name,
+            surname: userFromDB.surname,
+            email: userFromDB.email,
+          };
+
+          if (user) {
+            return user;
+          }
         }
 
-        else{
+        else {
           throw new Error("Giriş işleminde bir hata oluştu.");
-        }        
+        }
       }
     }),
   ],
@@ -72,7 +72,7 @@ const authOptions = {
 
   jwt: {
     secret: process.env.NEXTAUTH_SECRET,
-    encryption: true, 
+    encryption: true,
 
   },
 
@@ -90,13 +90,13 @@ const authOptions = {
     },
     // session fonksiyonu ile kullanıcı giriş yaptıktan sonra giriş yapan kullanıcının bilgilerini session değişkenine atıyoruz.
     async session({ session, token }) {
-      
+
       session.user = token;
       return session;
     },
   },
 
-  pages:{
+  pages: {
     // signIn fonksiyonu çalıştığında kulanıcıyı yönlendireceğimiz sayfayı belirtiyoruz.
     signIn: `/auth/login/${loginPageRoute}`,
     encryption: true,

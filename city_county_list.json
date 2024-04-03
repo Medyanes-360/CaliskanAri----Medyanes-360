@@ -1,0 +1,1449 @@
+[
+    {
+        "name": "ADANA",
+        "counties": [
+            "aladağ",
+            "ceyhan",
+            "feke",
+            "i̇mamoğlu",
+            "karai̇sali",
+            "karataş",
+            "kozan",
+            "pozanti",
+            "sai̇mbeyli̇",
+            "sariçam",
+            "seyhan",
+            "tufanbeyli̇",
+            "yumurtalik",
+            "yüreği̇r",
+            "çukurova"
+        ]
+    },
+    {
+        "name": "ADIYAMAN",
+        "counties": [
+            "besni̇",
+            "gerger",
+            "gölbaşi",
+            "kahta",
+            "merkez",
+            "samsat",
+            "si̇nci̇k",
+            "tut",
+            "çeli̇khan"
+        ]
+    },
+    {
+        "name": "AFYONKARAHİSAR",
+        "counties": [
+            "bayat",
+            "başmakçi",
+            "bolvadi̇n",
+            "dazkiri",
+            "di̇nar",
+            "emi̇rdağ",
+            "evci̇ler",
+            "hocalar",
+            "i̇hsani̇ye",
+            "i̇scehi̇sar",
+            "kizilören",
+            "merkez",
+            "sandikli",
+            "si̇nanpaşa",
+            "sultandaği",
+            "çay",
+            "çobanlar",
+            "şuhut"
+        ]
+    },
+    {
+        "name": "AKSARAY",
+        "counties": [
+            "ağaçören",
+            "eski̇l",
+            "gülağaç",
+            "güzelyurt",
+            "merkez",
+            "ortaköy",
+            "sariyahşi̇",
+            "sultanhani"
+        ]
+    },
+    {
+        "name": "AMASYA",
+        "counties": [
+            "göynücek",
+            "gümüşhaciköy",
+            "hamamözü",
+            "merkez",
+            "merzi̇fon",
+            "suluova",
+            "tasova",
+            "taşova"
+        ]
+    },
+    {
+        "name": "ANKARA",
+        "counties": [
+            "akyurt",
+            "altindağ",
+            "ayaş",
+            "bala",
+            "beypazari",
+            "elmadağ",
+            "eti̇mesgut",
+            "evren",
+            "gölbaşi",
+            "güdül",
+            "haymana",
+            "kahramankazan",
+            "kaleci̇k",
+            "kazan",
+            "keçi̇ören",
+            "kizilcahamam",
+            "mamak",
+            "nallihan",
+            "polatli",
+            "pursaklar",
+            "si̇ncan",
+            "yeni̇mahalle",
+            "çamlidere",
+            "çankaya",
+            "çubuk",
+            "şerefli̇koçhi̇sar"
+        ]
+    },
+    {
+        "name": "ANTALYA",
+        "counties": [
+            "akseki̇",
+            "aksu",
+            "alanya",
+            "büyükşehi̇r",
+            "demre",
+            "döşemealti",
+            "elmali",
+            "fi̇ni̇ke",
+            "gazi̇paşa",
+            "gündoğmuş",
+            "i̇bradi",
+            "i̇bradi̇",
+            "kaş",
+            "kemer",
+            "kepez",
+            "konyaalti",
+            "korkuteli̇",
+            "kumluca",
+            "manavgat",
+            "muratpaşa",
+            "seri̇k"
+        ]
+    },
+    {
+        "name": "ARDAHAN",
+        "counties": [
+            "damal",
+            "göle",
+            "hanak",
+            "merkez",
+            "posof",
+            "çildir"
+        ]
+    },
+    {
+        "name": "ARTVİN",
+        "counties": [
+            "ardanuç",
+            "arhavi̇",
+            "borçka",
+            "hopa",
+            "kemalpaşa",
+            "merkez",
+            "murgul",
+            "yusufeli̇",
+            "şavşat"
+        ]
+    },
+    {
+        "name": "AYDIN",
+        "counties": [
+            "bozdoğan",
+            "buharkent",
+            "di̇di̇m",
+            "efeler",
+            "germenci̇k",
+            "inci̇rli̇ova",
+            "i̇nci̇rli̇ova",
+            "karacasu",
+            "karpuzlu",
+            "koçarli",
+            "kuyucak",
+            "kuşadasi",
+            "köşk",
+            "nazi̇lli̇",
+            "sultanhi̇sar",
+            "söke",
+            "yeni̇pazar",
+            "çi̇ne"
+        ]
+    },
+    {
+        "name": "AĞRI",
+        "counties": [
+            "di̇yadi̇n",
+            "doğubayazit",
+            "doğubeyazit",
+            "eleşki̇rt",
+            "hamur",
+            "merkez",
+            "patnos",
+            "taşliçay",
+            "tutak"
+        ]
+    },
+    {
+        "name": "BAKANLIK",
+        "counties": [
+            "merkeze bağli taşra",
+            "y.disi-i̇ran",
+            "y.dışı",
+            "y.dışı-afganistan",
+            "y.dışı-avusturalya",
+            "y.dışı-avusturya",
+            "y.dışı-azerbaycan",
+            "y.dışı-belçika",
+            "y.dışı-danimarka",
+            "y.dışı-fransa",
+            "y.dışı-gürcistan",
+            "y.dışı-katar",
+            "y.dışı-kazakistan",
+            "y.dışı-kuveyt",
+            "y.dışı-kırgızistan",
+            "y.dışı-libya",
+            "y.dışı-moldova",
+            "y.dışı-romanya",
+            "y.dışı-s.arabistan",
+            "y.dışı-tacikistan",
+            "y.dışı-türkmenistan",
+            "y.dışı-özbekistan"
+        ]
+    },
+    {
+        "name": "BALIKESİR",
+        "counties": [
+            "altieylül",
+            "ayvalik",
+            "balya",
+            "bandirma",
+            "bi̇gadi̇ç",
+            "burhani̇ye",
+            "büyükşehi̇r",
+            "dursunbey",
+            "edremi̇t",
+            "erdek",
+            "gömeç",
+            "gönen",
+            "havran",
+            "i̇vri̇ndi̇",
+            "karesi̇",
+            "kepsut",
+            "manyas",
+            "marmara",
+            "savaştepe",
+            "sindirgi",
+            "susurluk"
+        ]
+    },
+    {
+        "name": "BALIKKESİR",
+        "counties": [
+            "i̇vri̇ndi̇"
+        ]
+    },
+    {
+        "name": "BARTIN",
+        "counties": [
+            "amasra",
+            "kurucaşi̇le",
+            "merkez",
+            "ulus"
+        ]
+    },
+    {
+        "name": "BATMAN",
+        "counties": [
+            "beşi̇ri̇",
+            "gercüş",
+            "hasankeyf",
+            "kozluk",
+            "merkez",
+            "sason"
+        ]
+    },
+    {
+        "name": "BAYBURT",
+        "counties": [
+            "aydintepe",
+            "demi̇rözü",
+            "merkez"
+        ]
+    },
+    {
+        "name": "BOLU",
+        "counties": [
+            "dörtdi̇van",
+            "gerede",
+            "göynük",
+            "kibriscik",
+            "mengen",
+            "merkez",
+            "mudurnu",
+            "seben",
+            "yeni̇çağa"
+        ]
+    },
+    {
+        "name": "BURDUR",
+        "counties": [
+            "altinyayla",
+            "ağlasun",
+            "bucak",
+            "gölhi̇sar",
+            "karamanli",
+            "kemer",
+            "merkez",
+            "tefenni̇",
+            "yeşi̇lova",
+            "çavdir",
+            "çelti̇kci̇",
+            "çelti̇kçi̇"
+        ]
+    },
+    {
+        "name": "BURSA",
+        "counties": [
+            "büyükorhan",
+            "gemli̇k",
+            "gürsu",
+            "harmancik",
+            "i̇negöl",
+            "i̇zni̇k",
+            "karacabey",
+            "keles",
+            "kestel",
+            "mudanya",
+            "mustafakemalpasa",
+            "mustafakemalpaşa",
+            "ni̇lüfer",
+            "orhaneli̇",
+            "orhangazi̇",
+            "osmangazi̇",
+            "yeni̇sehi̇r",
+            "yeni̇şehi̇r",
+            "yildirim"
+        ]
+    },
+    {
+        "name": "BİLECİK",
+        "counties": [
+            "bozüyük",
+            "gölpazari",
+            "i̇nhi̇sar",
+            "merkez",
+            "osmaneli̇",
+            "pazaryeri̇",
+            "söğüt",
+            "yeni̇pazar"
+        ]
+    },
+    {
+        "name": "BİNGÖL",
+        "counties": [
+            "adakli",
+            "genç",
+            "karliova",
+            "kiği",
+            "merkez",
+            "solhan",
+            "yayladere",
+            "yedi̇su"
+        ]
+    },
+    {
+        "name": "BİTLİS",
+        "counties": [
+            "adi̇lcevaz",
+            "ahlat",
+            "güroymak",
+            "hi̇zan",
+            "merkez",
+            "mutki̇",
+            "tatvan"
+        ]
+    },
+    {
+        "name": "DENİZLİ",
+        "counties": [
+            "acipayam",
+            "babadağ",
+            "baklan",
+            "beki̇lli̇",
+            "beyağaç",
+            "bozkurt",
+            "buldan",
+            "güney",
+            "honaz",
+            "kale",
+            "merkezefendi̇",
+            "pamukkale",
+            "sarayköy",
+            "seri̇nhi̇sar",
+            "tavas",
+            "çal",
+            "çameli̇",
+            "çardak",
+            "çi̇vri̇l"
+        ]
+    },
+    {
+        "name": "DÜZCE",
+        "counties": [
+            "akçakoca",
+            "cumayeri̇",
+            "gölyaka",
+            "gümüşova",
+            "kaynasli",
+            "kaynaşli",
+            "merkez",
+            "yiğilca",
+            "çi̇li̇mli̇"
+        ]
+    },
+    {
+        "name": "DİYARBAKIR",
+        "counties": [
+            "bağlar",
+            "bi̇smi̇l",
+            "büyükşehi̇r",
+            "di̇cle",
+            "ergani̇",
+            "eği̇l",
+            "hani̇",
+            "hazro",
+            "kayapinar",
+            "kocaköy",
+            "kulp",
+            "li̇ce",
+            "si̇lvan",
+            "sur",
+            "yeni̇şehi̇r",
+            "çermi̇k",
+            "çinar",
+            "çüngüş"
+        ]
+    },
+    {
+        "name": "EDİRNE",
+        "counties": [
+            "enez",
+            "havsa",
+            "i̇psala",
+            "keşan",
+            "lalapaşa",
+            "meri̇ç",
+            "merkez",
+            "süloğlu",
+            "uzunköprü"
+        ]
+    },
+    {
+        "name": "ELAZIĞ",
+        "counties": [
+            "agin",
+            "alacakaya",
+            "aricak",
+            "ağin",
+            "baski̇l",
+            "karakoçan",
+            "keban",
+            "kovancilar",
+            "maden",
+            "merkez",
+            "palu",
+            "si̇vri̇ce"
+        ]
+    },
+    {
+        "name": "ERZURUM",
+        "counties": [
+            "azi̇zi̇ye",
+            "aşkale",
+            "büyükşehi̇r",
+            "hinis",
+            "horasan",
+            "i̇spi̇r",
+            "karayazi",
+            "karaçoban",
+            "köprüköy",
+            "narman",
+            "oltu",
+            "olur",
+            "palandöken",
+            "pasi̇nler",
+            "pazaryolu",
+            "tekman",
+            "tortum",
+            "uzundere",
+            "yakuti̇ye",
+            "çat",
+            "şenkaya"
+        ]
+    },
+    {
+        "name": "ERZİNCAN",
+        "counties": [
+            "iliç",
+            "i̇li̇ç",
+            "kemah",
+            "kemali̇ye",
+            "merkez",
+            "otlukbeli̇",
+            "refahi̇ye",
+            "tercan",
+            "çayirli",
+            "üzümlü"
+        ]
+    },
+    {
+        "name": "ESKİŞEHİR",
+        "counties": [
+            "alpu",
+            "beyli̇kova",
+            "büyükşehi̇r",
+            "günyüzü",
+            "han",
+            "i̇nönü",
+            "mahmudi̇ye",
+            "mi̇halgazi̇",
+            "mi̇haliççik",
+            "odunpazari",
+            "saricakaya",
+            "seyi̇tgazi̇",
+            "si̇vri̇hi̇sar",
+            "tepebaşi",
+            "çi̇fteler"
+        ]
+    },
+    {
+        "name": "GAZİANTEP",
+        "counties": [
+            "araban",
+            "i̇slahi̇ye",
+            "karkamiş",
+            "ni̇zi̇p",
+            "nurdaği",
+            "oğuzeli̇",
+            "yavuzeli̇",
+            "şahi̇nbey",
+            "şehi̇tkami̇l"
+        ]
+    },
+    {
+        "name": "GÜMÜŞHANE",
+        "counties": [
+            "kelki̇t",
+            "köse",
+            "kürtün",
+            "merkez",
+            "torul",
+            "şi̇ran"
+        ]
+    },
+    {
+        "name": "GİRESUN",
+        "counties": [
+            "alucra",
+            "bulancak",
+            "dereli̇",
+            "doğankent",
+            "espi̇ye",
+            "eynesi̇l",
+            "görele",
+            "güce",
+            "keşap",
+            "merkez",
+            "pi̇razi̇z",
+            "ti̇rebolu",
+            "yağlidere",
+            "çamoluk",
+            "çanakçi",
+            "şebi̇nkarahi̇sar"
+        ]
+    },
+    {
+        "name": "HAKKARİ",
+        "counties": [
+            "dereci̇k",
+            "merkez",
+            "yüksekova",
+            "çukurca",
+            "şemdi̇nli̇"
+        ]
+    },
+    {
+        "name": "HATAY",
+        "counties": [
+            "altinözü",
+            "antakya",
+            "arsuz",
+            "belen",
+            "defne",
+            "dörtyol",
+            "erzi̇n",
+            "hassa",
+            "i̇skenderun",
+            "kirikhan",
+            "kumlu",
+            "payas",
+            "reyhanli",
+            "samandağ",
+            "yayladaği"
+        ]
+    },
+    {
+        "name": "ISPARTA",
+        "counties": [
+            "aksu",
+            "atabey",
+            "eği̇rdi̇r",
+            "gelendost",
+            "gönen",
+            "keçi̇borlu",
+            "merkez",
+            "seni̇rkent",
+            "sütçüler",
+            "uluborlu",
+            "yalvaç",
+            "yeni̇şarbademli̇",
+            "şarkikaraağaç"
+        ]
+    },
+    {
+        "name": "IĞDIR",
+        "counties": [
+            "aralik",
+            "karakoyunlu",
+            "merkez",
+            "tuzluca"
+        ]
+    },
+    {
+        "name": "KAHRAMANMARAŞ",
+        "counties": [
+            "afşi̇n",
+            "andirin",
+            "dulkadi̇roğlu",
+            "eki̇nözü",
+            "elbi̇stan",
+            "göksun",
+            "nurhak",
+            "oni̇ki̇şubat",
+            "pazarcik",
+            "türkoğlu",
+            "çağlayanceri̇t",
+            "çağliyanceri̇t"
+        ]
+    },
+    {
+        "name": "KARABÜK",
+        "counties": [
+            "eflani̇",
+            "eski̇pazar",
+            "merkez",
+            "ovacik",
+            "safranbolu",
+            "yeni̇ce"
+        ]
+    },
+    {
+        "name": "KARAMAN",
+        "counties": [
+            "ayranci",
+            "başyayla",
+            "ermenek",
+            "kazimkarabeki̇r",
+            "merkez",
+            "sariveli̇ler"
+        ]
+    },
+    {
+        "name": "KARS",
+        "counties": [
+            "akyaka",
+            "arpaçay",
+            "di̇gor",
+            "kağizman",
+            "merkez",
+            "sarikamiş",
+            "seli̇m",
+            "susuz"
+        ]
+    },
+    {
+        "name": "KASTAMONU",
+        "counties": [
+            "abana",
+            "araç",
+            "azdavay",
+            "ağli",
+            "bozkurt",
+            "catalzeyti̇n",
+            "ci̇de",
+            "daday",
+            "devrekani̇",
+            "doğanyurt",
+            "hanönü",
+            "i̇hsangazi̇",
+            "i̇nebolu",
+            "küre",
+            "merkez",
+            "pinarbaşi",
+            "seydi̇ler",
+            "taşköprü",
+            "tosya",
+            "çatalzeyti̇n",
+            "şenpazar"
+        ]
+    },
+    {
+        "name": "KAYSERİ",
+        "counties": [
+            "akkişla",
+            "bünyan",
+            "develi̇",
+            "felahi̇ye",
+            "hacilar",
+            "i̇ncesu",
+            "kocasi̇nan",
+            "meli̇kgazi̇",
+            "pinarbaşi",
+            "sarioğlan",
+            "sariz",
+            "talas",
+            "tomarza",
+            "yahyali",
+            "yeşi̇lhi̇sar",
+            "özvatan"
+        ]
+    },
+    {
+        "name": "KIRIKKALE",
+        "counties": [
+            "bahşili",
+            "balişeyh",
+            "deli̇ce",
+            "karakeçi̇li̇",
+            "keski̇n",
+            "merkez",
+            "sulakyurt",
+            "yahşi̇han",
+            "çelebi̇"
+        ]
+    },
+    {
+        "name": "KIRKLARELİ",
+        "counties": [
+            "babaeski̇",
+            "demi̇rköy",
+            "kofçaz",
+            "lüleburgaz",
+            "merkez",
+            "pehli̇vanköy",
+            "pinarhi̇sar",
+            "vi̇ze"
+        ]
+    },
+    {
+        "name": "KIRŞEHİR",
+        "counties": [
+            "akpinar",
+            "akçakent",
+            "boztepe",
+            "kaman",
+            "merkez",
+            "mucur",
+            "çi̇çekdaği"
+        ]
+    },
+    {
+        "name": "KOCAELİ",
+        "counties": [
+            "başi̇skele",
+            "büyükşehi̇r",
+            "darica",
+            "deri̇nce",
+            "di̇lovasi",
+            "gebze",
+            "gölcük",
+            "i̇zmi̇t",
+            "kandira",
+            "karamürsel",
+            "kartepe",
+            "körfez",
+            "çayirova"
+        ]
+    },
+    {
+        "name": "KONYA",
+        "counties": [
+            "ahirli",
+            "akören",
+            "akşehi̇r",
+            "altineki̇n",
+            "beyşehi̇r",
+            "bozkir",
+            "büyükşehi̇r",
+            "ci̇hanbeyli̇",
+            "derbent",
+            "derebucak",
+            "doğanhi̇sar",
+            "emi̇rgazi̇",
+            "ereğli̇",
+            "güneysinir",
+            "hadim",
+            "hadi̇m",
+            "halkapinar",
+            "hüyük",
+            "ilgin",
+            "kadinhani",
+            "karapinar",
+            "karatay",
+            "kulu",
+            "meram",
+            "sarayönü",
+            "selçuklu",
+            "seydi̇şehi̇r",
+            "taşkent",
+            "tuzlukçu",
+            "yalihüyük",
+            "yunak",
+            "çelti̇k",
+            "çumra"
+        ]
+    },
+    {
+        "name": "KÜTAHYA",
+        "counties": [
+            "altintaş",
+            "aslanapa",
+            "domani̇ç",
+            "dumlupinar",
+            "emet",
+            "gedi̇z",
+            "hi̇sarcik",
+            "merkez",
+            "pazarlar",
+            "si̇mav",
+            "tavşanli",
+            "çavdarhi̇sar",
+            "şaphane"
+        ]
+    },
+    {
+        "name": "KİLİS",
+        "counties": [
+            "elbeyli̇",
+            "merkez",
+            "musabeyli̇",
+            "polateli̇"
+        ]
+    },
+    {
+        "name": "MALATYA",
+        "counties": [
+            "akçadağ",
+            "arapgi̇r",
+            "arguvan",
+            "battalgazi̇",
+            "darende",
+            "doğanyol",
+            "doğanşehi̇r",
+            "heki̇mhan",
+            "kale",
+            "kuluncak",
+            "pötürge",
+            "pütürge",
+            "yazihan",
+            "yeşi̇lyurt"
+        ]
+    },
+    {
+        "name": "MANİSA",
+        "counties": [
+            "ahmetli̇",
+            "akhi̇sar",
+            "alaşehi̇r",
+            "büyükşehi̇r",
+            "demi̇rci̇",
+            "gölmarmara",
+            "gördes",
+            "kirkağaç",
+            "kula",
+            "köprübaşi",
+            "sali̇hli̇",
+            "sarigöl",
+            "saruhanli",
+            "selendi̇",
+            "soma",
+            "turgutlu",
+            "yunusemre",
+            "şehzadeler"
+        ]
+    },
+    {
+        "name": "MARDİN",
+        "counties": [
+            "artuklu",
+            "dargeçi̇t",
+            "deri̇k",
+            "kiziltepe",
+            "mazidaği",
+            "mi̇dyat",
+            "nusaybi̇n",
+            "savur",
+            "yeşi̇lli̇",
+            "ömerli̇"
+        ]
+    },
+    {
+        "name": "MERSİN",
+        "counties": [
+            "akdeni̇z",
+            "anamur",
+            "aydincik",
+            "bozyazi",
+            "erdemli̇",
+            "gülnar",
+            "mezi̇tli̇",
+            "mut",
+            "si̇li̇fke",
+            "tarsus",
+            "toroslar",
+            "yeni̇şehi̇r",
+            "çamliyayla"
+        ]
+    },
+    {
+        "name": "MUĞLA",
+        "counties": [
+            "bodrum",
+            "dalaman",
+            "datça",
+            "fethi̇ye",
+            "kavaklidere",
+            "köyceği̇z",
+            "marmari̇s",
+            "menteşe",
+            "mi̇las",
+            "ortaca",
+            "seydi̇kemer",
+            "ula",
+            "yatağan"
+        ]
+    },
+    {
+        "name": "MUŞ",
+        "counties": [
+            "bulanik",
+            "hasköy",
+            "korkut",
+            "malazgi̇rt",
+            "merkez",
+            "varto"
+        ]
+    },
+    {
+        "name": "NEVŞEHİR",
+        "counties": [
+            "acigöl",
+            "avanos",
+            "deri̇nkuyu",
+            "gülşehi̇r",
+            "hacibektaş",
+            "kozakli",
+            "merkez",
+            "ürgüp"
+        ]
+    },
+    {
+        "name": "NİĞDE",
+        "counties": [
+            "altunhi̇sar",
+            "bor",
+            "merkez",
+            "ulukişla",
+            "çamardi",
+            "çi̇ftli̇k"
+        ]
+    },
+    {
+        "name": "ORDU",
+        "counties": [
+            "akkuş",
+            "altinordu",
+            "aybasti",
+            "büyükşehi̇r",
+            "fatsa",
+            "gölköy",
+            "gülyali",
+            "gürgentepe",
+            "i̇ki̇zce",
+            "kabadüz",
+            "kabataş",
+            "korgan",
+            "kumru",
+            "mesudi̇ye",
+            "perşembe",
+            "ulubey",
+            "çamaş",
+            "çatalpinar",
+            "çaybaşi",
+            "ünye"
+        ]
+    },
+    {
+        "name": "OSMANİYE",
+        "counties": [
+            "bahçe",
+            "düzi̇çi̇",
+            "hasanbeyli̇",
+            "kadi̇rli̇",
+            "merkez",
+            "sumbas",
+            "toprakkale"
+        ]
+    },
+    {
+        "name": "RİZE",
+        "counties": [
+            "ardeşen",
+            "derepazari",
+            "findikli",
+            "güneysu",
+            "hemşi̇n",
+            "i̇ki̇zdere",
+            "i̇yi̇dere",
+            "kalkandere",
+            "merkez",
+            "pazar",
+            "çamlihemşi̇n",
+            "çayeli̇"
+        ]
+    },
+    {
+        "name": "SAKARYA",
+        "counties": [
+            "adapazari",
+            "akyazi",
+            "ari̇fi̇ye",
+            "büyükşehi̇r",
+            "erenler",
+            "feri̇zli̇",
+            "geyve",
+            "hendek",
+            "karapürçek",
+            "karasu",
+            "kaynarca",
+            "kocaali̇",
+            "pamukova",
+            "sapanca",
+            "serdi̇van",
+            "söğütlü",
+            "tarakli"
+        ]
+    },
+    {
+        "name": "SAMSUN",
+        "counties": [
+            "alaçam",
+            "asarcik",
+            "atakum",
+            "ayvacik",
+            "bafra",
+            "büyükşehi̇r",
+            "cani̇k",
+            "havza",
+            "i̇lkadim",
+            "kavak",
+            "ladi̇k",
+            "ondokuzmayis",
+            "salipazari",
+            "tekkeköy",
+            "terme",
+            "vezi̇rköprü",
+            "yakakent",
+            "çarşamba"
+        ]
+    },
+    {
+        "name": "SİNOP",
+        "counties": [
+            "ayancik",
+            "boyabat",
+            "di̇kmen",
+            "durağan",
+            "erfelek",
+            "gerze",
+            "merkez",
+            "saraydüzü",
+            "türkeli̇"
+        ]
+    },
+    {
+        "name": "SİVAS",
+        "counties": [
+            "akincilar",
+            "altinyayla",
+            "di̇vri̇ği̇",
+            "doğanşar",
+            "gemerek",
+            "gölova",
+            "gürün",
+            "hafi̇k",
+            "i̇mranli",
+            "kangal",
+            "koyulhi̇sar",
+            "merkez",
+            "suşehri̇",
+            "ulaş",
+            "yildizeli̇",
+            "zara",
+            "şarkişla"
+        ]
+    },
+    {
+        "name": "SİİRT",
+        "counties": [
+            "baykan",
+            "eruh",
+            "kurtalan",
+            "merkez",
+            "pervari̇",
+            "si̇rvan",
+            "ti̇llo",
+            "şi̇rvan"
+        ]
+    },
+    {
+        "name": "TEKİRDAĞ",
+        "counties": [
+            "ergene",
+            "hayrabolu",
+            "kapakli",
+            "malkara",
+            "marmara ereğli̇si̇",
+            "muratli",
+            "saray",
+            "süleymanpaşa",
+            "çerkezköy",
+            "çorlu",
+            "şarköy"
+        ]
+    },
+    {
+        "name": "TOKAT",
+        "counties": [
+            "almus",
+            "artova",
+            "başçi̇ftli̇k",
+            "erbaa",
+            "merkez",
+            "ni̇ksar",
+            "pazar",
+            "reşadi̇ye",
+            "sulusaray",
+            "turhal",
+            "yeşi̇lyurt",
+            "zi̇le"
+        ]
+    },
+    {
+        "name": "TRABZON",
+        "counties": [
+            "akçaabat",
+            "arakli",
+            "arsi̇n",
+            "beşi̇kdüzü",
+            "dernekpazari",
+            "düzköy",
+            "hayrat",
+            "köprübaşi",
+            "maçka",
+            "of",
+            "ortahi̇sar",
+            "sürmene",
+            "tonya",
+            "vakfikebi̇r",
+            "yomra",
+            "çarşibaşi",
+            "çaykara",
+            "şalpazari"
+        ]
+    },
+    {
+        "name": "TUNCELİ",
+        "counties": [
+            "hozat",
+            "mazgi̇rt",
+            "merkez",
+            "nazi̇mi̇ye",
+            "ovacik",
+            "pertek",
+            "pülümür",
+            "çemi̇şgezek"
+        ]
+    },
+    {
+        "name": "UŞAK",
+        "counties": [
+            "banaz",
+            "eşme",
+            "karahalli",
+            "merkez",
+            "si̇vasli",
+            "ulubey"
+        ]
+    },
+    {
+        "name": "VAN",
+        "counties": [
+            "bahcesaray",
+            "bahçesaray",
+            "başkale",
+            "edremi̇t",
+            "erci̇ş",
+            "gevaş",
+            "gürpinar",
+            "i̇pekyolu",
+            "muradi̇ye",
+            "saray",
+            "tuşba",
+            "çaldiran",
+            "çatak",
+            "özalp"
+        ]
+    },
+    {
+        "name": "YALOVA",
+        "counties": [
+            "altinova",
+            "armutlu",
+            "merkez",
+            "termal",
+            "çinarcik",
+            "çi̇ftli̇kköy"
+        ]
+    },
+    {
+        "name": "YOZGAT",
+        "counties": [
+            "akdağmadeni̇",
+            "aydincik",
+            "boğazliyan",
+            "kadişehri̇",
+            "merkez",
+            "saraykent",
+            "sarikaya",
+            "sorgun",
+            "yeni̇fakili",
+            "yerköy",
+            "çandir",
+            "çayiralan",
+            "çekerek",
+            "şefaatli̇"
+        ]
+    },
+    {
+        "name": "ZONGULDAK",
+        "counties": [
+            "alapli",
+            "devrek",
+            "ereğli̇",
+            "gökçebey",
+            "ki̇li̇mli̇",
+            "kozlu",
+            "merkez",
+            "çaycuma"
+        ]
+    },
+    {
+        "name": "ÇANAKKALE",
+        "counties": [
+            "ayvacik",
+            "bayrami̇ç",
+            "bi̇ga",
+            "bozcaada",
+            "eceabat",
+            "ezi̇ne",
+            "geli̇bolu",
+            "gökçeada",
+            "lapseki̇",
+            "merkez",
+            "yeni̇ce",
+            "çan"
+        ]
+    },
+    {
+        "name": "ÇANKIRI",
+        "counties": [
+            "atkaracalar",
+            "bayramören",
+            "eldi̇van",
+            "ilgaz",
+            "kizilirmak",
+            "korgun",
+            "kurşunlu",
+            "merkez",
+            "orta",
+            "yaprakli",
+            "çerkeş",
+            "şabanözü"
+        ]
+    },
+    {
+        "name": "ÇORUM",
+        "counties": [
+            "alaca",
+            "bayat",
+            "boğazkale",
+            "dodurga",
+            "i̇ski̇li̇p",
+            "kargi",
+            "laçi̇n",
+            "meci̇tözü",
+            "merkez",
+            "ortaköy",
+            "osmancik",
+            "oğuzlar",
+            "sungurlu",
+            "uğurludağ"
+        ]
+    },
+    {
+        "name": "İSTANBUL",
+        "counties": [
+            "adalar",
+            "arnavutköy",
+            "ataşehi̇r",
+            "avcilar",
+            "bagcilar",
+            "bahceli̇evler",
+            "bahçeli̇evler",
+            "bakirköy",
+            "bayrampaşa",
+            "bağcilar",
+            "başakşehi̇r",
+            "beykoz",
+            "beyli̇kdüzü",
+            "beyoğlu",
+            "beşi̇ktaş",
+            "büyükçekmece",
+            "esenler",
+            "esenyurt",
+            "eyüpsultan",
+            "fati̇h",
+            "gazi̇osmanpasa",
+            "gazi̇osmanpaşa",
+            "güngören",
+            "kadiköy",
+            "kadi̇köy",
+            "kartal",
+            "kağithane",
+            "küçükcekmece",
+            "küçükçekmece",
+            "maltepe",
+            "pendi̇k",
+            "sancaktepe",
+            "sariyer",
+            "si̇li̇vri̇",
+            "sultanbeyli̇",
+            "sultangazi̇",
+            "tuzla",
+            "zeyti̇nburnu",
+            "çatalca",
+            "çekmeköy",
+            "ümrani̇ye",
+            "üsküdar",
+            "şi̇le",
+            "şi̇şli̇"
+        ]
+    },
+    {
+        "name": "İZMİR",
+        "counties": [
+            "ali̇ağa",
+            "balçova",
+            "bayindir",
+            "bayrakli",
+            "bergama",
+            "beydağ",
+            "bornova",
+            "buca",
+            "di̇ki̇li̇",
+            "foça",
+            "gazi̇emi̇r",
+            "güzelbahçe",
+            "karabağlar",
+            "karaburun",
+            "karşiyaka",
+            "kemalpaşa",
+            "kinik",
+            "ki̇raz",
+            "konak",
+            "menderes",
+            "menemen",
+            "narlidere",
+            "seferi̇hi̇sar",
+            "selçuk",
+            "ti̇re",
+            "torbali",
+            "urla",
+            "çeşme",
+            "çi̇ğli̇",
+            "ödemi̇ş"
+        ]
+    },
+    {
+        "name": "ŞANLIURFA",
+        "counties": [
+            "akcakale",
+            "akçakale",
+            "bi̇reci̇k",
+            "bozova",
+            "büyükşehi̇r",
+            "ceylanpinar",
+            "eyyübi̇ye",
+            "halfeti̇",
+            "hali̇li̇ye",
+            "harran",
+            "hi̇lvan",
+            "karaköprü",
+            "si̇verek",
+            "suruç",
+            "vi̇ranşehi̇r"
+        ]
+    },
+    {
+        "name": "ŞIRNAK",
+        "counties": [
+            "beytüşşebap",
+            "ci̇zre",
+            "güçlükonak",
+            "idi̇l",
+            "i̇di̇l",
+            "merkez",
+            "si̇lopi̇",
+            "uludere"
+        ]
+    }
+]

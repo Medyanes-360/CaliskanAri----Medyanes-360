@@ -1,7 +1,7 @@
 import { GiTiedScroll } from "react-icons/gi";
 import { FcIdea } from "react-icons/fc";
 import { TfiCup } from "react-icons/tfi";
-import { RiNumber0, RiNumber1, RiNumber2, RiNumber3, RiNumber4, RiNumber5, RiNumber6, RiNumber7, RiNumber8, RiNumber9} from "react-icons/ri";
+import { RiNumber0, RiNumber1, RiNumber2, RiNumber3, RiNumber4, RiNumber5, RiNumber6, RiNumber7, RiNumber8, RiNumber9 } from "react-icons/ri";
 import { BiLabel } from "react-icons/bi";
 export const image = {
   logo: "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads/2023/08/logo-dark.svg",
