@@ -52,21 +52,21 @@ model VerifyEmail {
 }
 
 model Teacher {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  verified   Boolean  @default(false)
-  role       String
-  name       String
-  surname    String
-  phone      String   @unique
-  city       String
-  town       String
-  schooltype String
-  schollName String
-  class      String
-  email      String   @unique
-  password   String
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  verified    Boolean  @default(false)
+  role        Role     @default(teacher)
+  name        String
+  surname     String
+  phone       String   @unique
+  city        String
+  town        String
+  schooltype  String
+  schollName  String
+  classNumber String
+  email       String   @unique
+  password    String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 model GeneralTopPageBanner {
@@ -108,13 +108,28 @@ model Class {
 }
 
 model Student {
-  id    String @id @default(auto()) @map("_id") @db.ObjectId
-  name  String
-  email String
-
-  class   Class?  @relation(fields: [classId], references: [id])
-  classId String? @db.ObjectId
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  surname     String
+  email       String  @unique
+  password    String
+  role        Role    @default(student)
+  verified    Boolean @default(false)
+  phone       String  @unique
+  city        String
+  town        String
+  schooltype  String
+  schollName  String
+  classNumber String
+  class       Class?  @relation(fields: [classId], references: [id])
+  classId     String? @db.ObjectId
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+enum Role {
+  student
+  teacher
+  admin
 }

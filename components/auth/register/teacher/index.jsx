@@ -92,7 +92,7 @@ const TeacherRegisterComponent = ({ CitiesData }) => {
         errors.schooltype ||
         errors.schollName ||
         props.values.schollName === '' ||
-        errors.class
+        errors.classNumber
       ) {
         return props.errors;
       } else {
@@ -139,7 +139,7 @@ const TeacherRegisterComponent = ({ CitiesData }) => {
             town: '',
             schooltype: '',
             schollName: '',
-            class: '',
+            classNumber: '',
             email: '',
             password: '',
             passwordConfirm: '',
@@ -382,8 +382,8 @@ const TeacherRegisterComponent = ({ CitiesData }) => {
                               optionLabel='Okul Türü Seç'
                               onChange={(e) => {
                                 e.target.value === 'anaokul'
-                                  ? (props.values.class = 'anaokul')
-                                  : (props.values.class = '');
+                                  ? (props.values.classNumber = 'anaokul')
+                                  : (props.values.classNumber = '');
                                 props.handleChange(e);
                                 setSchooltype(e.target.value);
                                 props.values.schollName = '';
@@ -472,8 +472,8 @@ const TeacherRegisterComponent = ({ CitiesData }) => {
                         >
                           <Select
                             labelValue='Sınıf'
-                            id='class'
-                            name='class'
+                            id='classNumber'
+                            name='classNumber'
                             disabled={schooltype ? false : true}
                             optionLabel='Sınıf Seç'
                             onChange={props.handleChange}
@@ -529,8 +529,8 @@ const TeacherRegisterComponent = ({ CitiesData }) => {
                             )}
                           </Select>
 
-                          {props.touched.class && (
-                            <ErrorText>{props.errors.class}</ErrorText>
+                          {props.touched.classNumber && (
+                            <ErrorText>{props.errors.classNumber}</ErrorText>
                           )}
                         </div>
                       </Transition>
