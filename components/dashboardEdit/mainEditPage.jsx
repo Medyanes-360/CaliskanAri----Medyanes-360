@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import EditBox from "./EditBox";
+import EditBox from "./editBox";
 import Image from "next/image";
 import DetailEdits from "./detailEdits";
 import changeNavbar from "@/assets/icons/dashboardEditIcons/changeNavbar.png";
