@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 
-function EditBox({ image, title, description, onClick, id }) {
+function EditBox({ image, title, description, onClick, id, path }) {
   return (
     <div className="m-5">
       <div

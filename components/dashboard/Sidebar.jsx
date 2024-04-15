@@ -9,16 +9,88 @@ import ButtonList from "@/components/dashboard/ButtonList";
 import UserIcon from "@/assets/icons/UserIcon";
 import BurgerIcon from "@/assets/icons/BurgerIcon";
 import { useMediaQuery } from "@/lib/table/useMediaQuery";
-
+import home from "@/assets/icons/dashboardEditIcons/home.png";
+import changeNavbar from "@/assets/icons/dashboardEditIcons/changeNavbar.png";
+import changeBannerSection from "@/assets/icons/dashboardEditIcons/changeBannerSection.png";
+import changeCourseSection from "@/assets/icons/dashboardEditIcons/changeCourseSection.png";
+import changeFeatureSection from "@/assets/icons/dashboardEditIcons/changeFeatureSection.png";
+import changeFooterSection from "@/assets/icons/dashboardEditIcons/changeFooterSection.png";
+import changeInfoSection from "@/assets/icons/dashboardEditIcons/changeInfoSection.png";
+import changeMainSection from "@/assets/icons/dashboardEditIcons/changeMainSection.png";
+import changeStudentsSection from "@/assets/icons/dashboardEditIcons/changeStudentsSection.png";
+import changeLogoBannerSection from "@/assets/icons/dashboardEditIcons/changeLogoBannerSection.png";
+import changeVideoSection from "@/assets/icons/dashboardEditIcons/changeVideoSection.png";
 const buttons = [
   {
     title: "Dashboard",
     buttons: [
       {
-        id: "1.3",
+        id: "1.5",
         label: "Ana Sayfa Düzenle",
-        icon: UserIcon,
+        icon: home,
         path: "/dashboard/admin/edit",
+        childs: [
+          {
+            id: "1.5.1",
+            label: "Navbar Alanını Değiştir",
+            icon: changeNavbar,
+            path: "/dashboard/admin/edit/edit-navbar",
+          },
+          {
+            id: "1.5.2",
+            label: "Main Alanını Değiştir",
+            path: "/dashboard/admin/edit/edit-main",
+            icon: changeMainSection,
+          },
+          {
+            id: "1.5.2",
+            label: "Bilgiler Alanını Değiştir",
+            path: "/dashboard/admin/edit/edit-informations",
+            icon: changeInfoSection,
+          },
+          {
+            id: "1.5.4",
+            label: "Kurslarım Alanını Değiştir",
+            path: "/dashboard/admin/edit/edit-courses",
+            icon: changeCourseSection,
+          },
+          {
+            id: "1.5.5",
+            label: "Öğrenciler Alanını Değiştir",
+            path: "/dashboard/admin/edit/edit-students",
+            icon: changeStudentsSection,
+          },
+          {
+            id: "1.5.6",
+            label: "Özellikler Alanını Değiştir",
+            path: "/dashboard/admin/edit/edit-features",
+            icon: changeFeatureSection,
+          },
+          {
+            id: "1.5.7",
+            label: "Video Alanını Değiştir",
+            path: "/dashboard/admin/edit/edit-video",
+            icon: changeVideoSection,
+          },
+          {
+            id: "1.5.8",
+            label: "Logo-Banner Alanını Değiştir",
+            path: "/dashboard/admin/edit/edit-logo-banner",
+            icon: changeLogoBannerSection,
+          },
+          {
+            id: "1.5.9",
+            label: "Banner Alanını Değiştir",
+            path: "/dashboard/admin/edit/edit-banner",
+            icon: changeBannerSection,
+          },
+          {
+            id: "1.5.10",
+            label: "Footer Alanını Değiştir",
+            path: "/dashboard/admin/edit/edit-footer",
+            icon: changeFooterSection,
+          },
+        ],
       },
       {
         id: "1.1",
@@ -126,7 +198,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
       setIsCollapsed(false);
       setIsResetting(true);
 
-      sidebarRef.current.style.width = isMobile ? "100%" : "300px";
+      sidebarRef.current.style.width = isMobile ? "100%" : "350px";
       navbarRef.current.style.setProperty(
         "width",
         isMobile ? "0" : "calc(100% - 240px)"
