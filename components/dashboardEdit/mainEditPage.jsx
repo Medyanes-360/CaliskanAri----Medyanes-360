@@ -136,16 +136,6 @@ function MainEditPage({ selected, setSelected }) {
           }
         />
       </div>
-      {/* {selected === null && (
-        <>
-          <div className="backButton">
-            <button onClick={goBack}>
-              <Image src={backArrow} width={20} height={20} alt={"back"} />
-            </button>
-          </div>
-          <DetailEdits pageId={selected} animation={animation} />
-        </>
-      )} */}
     </>
   );
 }

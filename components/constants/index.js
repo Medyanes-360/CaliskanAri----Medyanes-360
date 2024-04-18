@@ -1,7 +1,18 @@
 import { GiTiedScroll } from "react-icons/gi";
 import { FcIdea } from "react-icons/fc";
 import { TfiCup } from "react-icons/tfi";
-import { RiNumber0, RiNumber1, RiNumber2, RiNumber3, RiNumber4, RiNumber5, RiNumber6, RiNumber7, RiNumber8, RiNumber9 } from "react-icons/ri";
+import {
+  RiNumber0,
+  RiNumber1,
+  RiNumber2,
+  RiNumber3,
+  RiNumber4,
+  RiNumber5,
+  RiNumber6,
+  RiNumber7,
+  RiNumber8,
+  RiNumber9,
+} from "react-icons/ri";
 import { BiLabel } from "react-icons/bi";
 export const image = {
   logo: "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads/2023/08/logo-dark.svg",
@@ -22,8 +33,7 @@ export const image = {
   dots: "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/themes/quiklearn/assets/element/course-cat-1.svg",
   greyWave:
     "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/themes/quiklearn/assets/element/course-cat.svg",
-  studentPhoto:
-    "/studentFinger.png",
+  studentPhoto: "/studentFinger.png",
   crown:
     "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads/2023/08/about-shape-1.svg",
   moreDots:
@@ -78,8 +88,7 @@ export const info = {
   clientDesc:
     "When An Unknown Printer Took A Galley Of Type And Scrambled It To Make A Type SpecimenBook It Has Survived Not Only Five Centuries",
   bannerTitle1: "Dijital ve akıllı tahta içerikleri için ve",
-  bannerTitle2:
-    "Hizmetlerimiz hakkında daha fazla bilgi almak için",
+  bannerTitle2: "Hizmetlerimiz hakkında daha fazla bilgi almak için",
   beInstractorTitle1: "BECOME AN INSTRUCTOR",
   beInstractorTitle2: "Let's Join Us & Spread Your Knowledge",
   beInstractorDesc:
@@ -88,7 +97,7 @@ export const info = {
   blogTitle2: "Want To Learn More? Read Blog",
   blogDesc:
     "When An Unknown Printer Took A Galley Of Type And Scrambled It To Make A Type Specimen Book It Has Survived Not Only Five Centuries",
-};
+}; //YAPILDI
 export const informations = [
   {
     icon: GiTiedScroll,
@@ -111,7 +120,7 @@ export const informations = [
       "Öğretmenlerin kendi sınıflarını oluşturup öğrenciler ile sınıf süreçlerini yönetebildiği altyapı.",
     color: "text-cst_red",
   },
-];
+]; //YAPILDI
 export const coursesCard = [
   {
     title: "1. Sınıf",
@@ -169,12 +178,12 @@ export const coursesCard = [
     border: "border-lightpink",
     background: "linear-gradient(130deg, #E69E9E 0%, #F5D9E0 115%)",
   },
-];
+]; //YAPILDI
 export const contact = {
   phone: "(0212) 639 39 12",
   mapUrl: "https://maps.app.goo.gl/H4pa8u1oWw6HkHUe6",
   address: "463 7th Ave, NY 10018, USA",
-};
+}; //YAPILDI
 
 export const categories = [
   { name: "All" },
@@ -227,7 +236,7 @@ export const menus = [
       "Post Video",
     ],
   },
-];
+]; //YAPILDI
 
 export const featured = [
   {
@@ -455,23 +464,23 @@ export const blogcard = [
 export const logobanner = [
   {
     logo: "/main-logo-01.png",
-    link: "https://www.meb.gov.tr/"
+    link: "https://www.meb.gov.tr/",
   },
   {
     logo: "/main-logo-02.png",
-    link: "https://caliskanari.com.tr/"
+    link: "https://caliskanari.com.tr/",
   },
   {
     logo: "/main-logo-03.png",
-    link: "https://kucukarilarakademisi.com/"
+    link: "https://kucukarilarakademisi.com/",
   },
   {
     logo: "/main-logo-04.png",
-    link: "https://heydayenglish.com/"
+    link: "https://heydayenglish.com/",
   },
   {
     logo: "/main-logo-05.png",
-    link: "https://caliskanari.com.tr/"
+    link: "https://caliskanari.com.tr/",
   },
 ];
 
@@ -494,7 +503,7 @@ export const resources = [
   {
     label: "Term Conditions",
   },
-];
+]; //YAPILDI
 export const footercourses = [
   {
     label: "Life Coach",
@@ -514,4 +523,4 @@ export const footercourses = [
   {
     label: "SEO Optimize",
   },
-];
+]; //YAPILDI

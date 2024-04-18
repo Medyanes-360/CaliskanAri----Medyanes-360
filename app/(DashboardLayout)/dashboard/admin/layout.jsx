@@ -10,7 +10,7 @@ const MainLayout = ({ children }) => {
       <div className="flex flex-1 w-full flex-col h-full px-4 overflow-hidden gap-2">
         <Navbar />
         <div className="flex flex-1 h-full overflow-auto px-2 pt-2 rounded-lg">
-          <div className="py-6 w-full pl-6 md:pl-0">{children}</div>
+          <div className="py-6 w-full lg:pl-6 md:pl-0">{children}</div>
         </div>
       </div>
     </div>
