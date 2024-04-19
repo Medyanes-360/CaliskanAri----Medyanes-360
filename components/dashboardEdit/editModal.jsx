@@ -14,10 +14,13 @@ import {
 import { GiTiedScroll } from "react-icons/gi";
 import { FcIdea } from "react-icons/fc";
 import { TfiCup } from "react-icons/tfi";
-
+import Image from "next/image";
 const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
   const [selectedColor, setSelectedColor] = useState("#000000");
   const [selectedTextColor, setSelectedTextColor] = useState("#000000");
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedImageStudents, setSelectedImageStudents] = useState(null);
+  const [selectedImageVideo, setSelectedImageVideo] = useState(null);
   const [menus, setMenus] = useState([
     {
       name: "Home",
@@ -218,6 +221,65 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
     },
   ]);
 
+  const [logobanner, setLogoBanner] = useState([
+    {
+      logo: "/main-logo-01.png",
+      link: "https://www.meb.gov.tr/",
+    },
+    {
+      logo: "/main-logo-02.png",
+      link: "https://caliskanari.com.tr/",
+    },
+    {
+      logo: "/main-logo-03.png",
+      link: "https://kucukarilarakademisi.com/",
+    },
+    {
+      logo: "/main-logo-04.png",
+      link: "https://heydayenglish.com/",
+    },
+    {
+      logo: "/main-logo-05.png",
+      link: "https://caliskanari.com.tr/",
+    },
+  ]); //LOGO BANNER SAYFASINDAKİ RESİMLER
+  const [image, setImage] = useState({
+    logo: "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads/2023/08/logo-dark.svg",
+    mainSection: "/mainImage.png",
+    underline:
+      "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads/2023/08/underline-shape.svg",
+    pencil:
+      "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads/2023/08/hero-shape-4.svg",
+    wave: "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads/2023/08/hero-shape-3.svg",
+    star: "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads/2023/08/hero-shape-2.svg",
+    book: "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads/2023/08/hero-shape-1.svg",
+    redCrown:
+      "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads/2023/08/shape2.svg",
+    purpleCrown:
+      "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads/2023/08/shape3.svg",
+    halfCricle:
+      "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads/2023/08/shape1.svg",
+    dots: "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/themes/quiklearn/assets/element/course-cat-1.svg",
+    greyWave:
+      "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/themes/quiklearn/assets/element/course-cat.svg",
+    studentPhoto: "/studentFinger.png",
+    crown:
+      "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads/2023/08/about-shape-1.svg",
+    moreDots:
+      "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads/2023/08/about-shape-1.svg",
+    videoCover:
+      "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads/2023/08/video_banner_03.png",
+    beInstractor:
+      "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads/2023/08/become-instructor.png",
+    graduation:
+      "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads/2023/08/call-action-img1.png",
+    banner:
+      "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads/2023/08/banner-shape1.svg",
+    bannerShape:
+      "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads/2023/08/banner-shape1.svg",
+    beinstractor:
+      "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads/2023/08/become-instructor.png",
+  });
   const [footercourses, setFootercourses] = useState([
     {
       label: "Life Coach",
@@ -609,7 +671,55 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
     };
     setFootercourses(updatedInformations);
   };
+  const [selectedImageIndex, setSelectedImageIndex] = useState(null);
 
+  const handleImageChangeLogoBanner = (event, index) => {
+    const imageFile = event.target.files[0];
+    setSelectedImage(imageFile);
+    setSelectedImageIndex(index);
+  }; //LOGOBANNER RESİM DEĞİŞTİRME
+
+  const handleSubmitImageLogoBanner = (event) => {
+    event.preventDefault();
+    if (selectedImage !== null && selectedImageIndex !== null) {
+      setLogoBanner((prevLogobanner) => {
+        const newLogobanner = [...prevLogobanner];
+        newLogobanner[selectedImageIndex].logo =
+          URL.createObjectURL(selectedImage);
+        return newLogobanner;
+      });
+      console.log(logobanner);
+      setSelectedImage(null);
+      setSelectedImageIndex(null);
+    }
+  }; //LOGOBANNER RESİM DEĞİŞTİRME
+
+  const handleImageChangeStudents = (event) => {
+    const imageFile = event.target.files[0];
+    setSelectedImageStudents(imageFile);
+    setImage((prevImage) => ({
+      ...prevImage,
+      studentPhoto: URL.createObjectURL(imageFile),
+    }));
+  }; //STUDENTS RESİM DEĞİŞTİRME
+
+  const handleSubmitStudents = (event) => {
+    event.preventDefault();
+    console.log(image);
+  }; //STUDENTS RESİM DEĞİŞTİRME
+  const handleImageChangeVideo = (event) => {
+    const imageFile = event.target.files[0];
+    setSelectedImageVideo(imageFile);
+    setImage((prevImage) => ({
+      ...prevImage,
+      videoCover: URL.createObjectURL(imageFile),
+    }));
+  }; //VİDEO RESİM DEĞİŞTİRME
+
+  const handleSubmitVideo = (event) => {
+    event.preventDefault();
+    console.log(image);
+  }; //VİDEO RESİM DEĞİŞTİRME
   const openChildInputModal = (index) => {
     setSelectedBigInputIndex(index);
     setChildInputModalOpen(true);
@@ -637,7 +747,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
               ? "lg:max-w-[800px] lg:min-w-[800px]"
               : modalContent === "yazı" && pageId === "informaitons"
               ? "lg:max-w-[900px] lg:min-w-[900px]"
-              : ""
+              : "lg:w-fit"
           }`}
         >
           <div>
@@ -1304,6 +1414,143 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                       Kaydet
                     </button>
                   </form>
+                </div>
+              )}
+              {modalContent === "resim" && pageId === "logoBanner" && (
+                <div className="flex flex-row flex-wrap items-center justify-center">
+                  <h1 className="text-gray-700 font-semibold">
+                    {pageId} Sayfası Resim Düzenleme
+                  </h1>
+                  {logobanner.map((item, index) => (
+                    <div
+                      key={index}
+                      className="flex flex-row items-center justify-center"
+                    >
+                      <img
+                        src={item.logo}
+                        height={100}
+                        width={100}
+                        alt={`Logo ${index + 1}`}
+                      />
+                      <form
+                        onSubmit={(event) =>
+                          handleSubmitImageLogoBanner(event, index)
+                        }
+                        className="flex flex-row items-center justify-center"
+                      >
+                        <label htmlFor={`image-${index}`}>Resim Seçin:</label>
+                        <input
+                          type="file"
+                          className="bg-gray-200 text-gray-600 font-semibold rounded-xl"
+                          id={`image-${index}`}
+                          name={`image-${index}`}
+                          onChange={(event) =>
+                            handleImageChangeLogoBanner(event, index)
+                          }
+                        />
+                        {selectedImageIndex === index && selectedImage && (
+                          <img
+                            src={URL.createObjectURL(selectedImage)}
+                            height={100}
+                            width={100}
+                            alt="Seçilen Resim"
+                          />
+                        )}
+                        <button
+                          type="submit"
+                          className="text-gray-600 bg-gray-100 p-3 rounded-xl font-semibold m-5"
+                        >
+                          Kaydet
+                        </button>
+                      </form>
+                    </div>
+                  ))}
+                </div>
+              )}
+              {modalContent === "resim" && pageId === "students" && (
+                <div className="flex flex-col flex-wrap items-center justify-center p-5">
+                  <h1 className="text-gray-700 font-semibold">
+                    {pageId} Sayfası Resim Düzenleme
+                  </h1>
+                  <div className="flex flex-col items-center justify-center">
+                    <img
+                      src={image.studentPhoto}
+                      height={100}
+                      width={300}
+                      alt={`Logo`}
+                    />
+                    <form
+                      onSubmit={handleSubmitStudents}
+                      className="flex flex-col items-center justify-center"
+                    >
+                      <label htmlFor={`students`}>Resim Seçin:</label>
+                      <input
+                        onChange={handleImageChangeStudents}
+                        type="file"
+                        className="bg-gray-200 text-gray-600 font-semibold rounded-xl"
+                        id={`students`}
+                        name={`students`}
+                      />
+                      {selectedImage && (
+                        <img
+                          src={selectedImageStudents}
+                          height={100}
+                          width={300}
+                          alt="Yeni Seçilen Resim"
+                        />
+                      )}
+
+                      <button
+                        type="submit"
+                        className="text-gray-600 bg-gray-100 p-3 rounded-xl font-semibold m-5"
+                      >
+                        Kaydet
+                      </button>
+                    </form>
+                  </div>
+                </div>
+              )}
+              {modalContent === "resim" && pageId === "video" && (
+                <div className="flex flex-col flex-wrap items-center justify-center p-5">
+                  <h1 className="text-gray-700 font-semibold">
+                    {pageId} Sayfası Resim Düzenleme
+                  </h1>
+                  <div className="flex flex-col items-center justify-center">
+                    <img
+                      src={image.videoCover}
+                      height={100}
+                      width={300}
+                      alt={`Logo`}
+                    />
+                    <form
+                      onSubmit={handleSubmitVideo}
+                      className="flex flex-col items-center justify-center"
+                    >
+                      <label htmlFor={`students`}>Resim Seçin:</label>
+                      <input
+                        onChange={handleImageChangeVideo}
+                        type="file"
+                        className="bg-gray-200 text-gray-600 font-semibold rounded-xl"
+                        id={`students`}
+                        name={`students`}
+                      />
+                      {selectedImage && (
+                        <img
+                          src={selectedImageVideo}
+                          height={100}
+                          width={300}
+                          alt="Yeni Seçilen Resim"
+                        />
+                      )}
+
+                      <button
+                        type="submit"
+                        className="text-gray-600 bg-gray-100 p-3 rounded-xl font-semibold m-5"
+                      >
+                        Kaydet
+                      </button>
+                    </form>
+                  </div>
                 </div>
               )}
             </div>

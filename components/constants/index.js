@@ -482,7 +482,7 @@ export const logobanner = [
     logo: "/main-logo-05.png",
     link: "https://caliskanari.com.tr/",
   },
-];
+]; //YAPILDI
 
 export const resources = [
   {

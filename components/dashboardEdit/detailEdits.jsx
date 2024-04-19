@@ -18,7 +18,9 @@ function DetailEdits({ pageId, animation, openModal, setOpenModal }) {
       <h1 className="text-center text-gray-700 text-xl font-semibold">
         {pageId.toUpperCase()}
       </h1>
-      <div className={`flex flex-row flex-wrap editBoxesArea ${animation}`}>
+      <div
+        className={`flex flex-row flex-wrap editBoxesArea items-center justify-center w-full ${animation}`}
+      >
         {pageId === "navbar" && (
           <>
             <EditBox
@@ -131,7 +133,7 @@ function DetailEdits({ pageId, animation, openModal, setOpenModal }) {
               id={6}
               description={`Buradan ${pageId} sayfasına buton ekleme işlemi yapabilirsiniz`}
               image={addButton}
-              title={"Kurs Ekle"}
+              title={"Kurs Düzenle-Ekle"}
             />
           </>
         )}

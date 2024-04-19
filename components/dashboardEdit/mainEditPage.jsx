@@ -29,7 +29,9 @@ function MainEditPage({ selected, setSelected }) {
 
   return (
     <>
-      <div className={`flex flex-row flex-wrap editBoxesArea ${animation1}`}>
+      <div
+        className={`flex flex-row flex-wrap editBoxesArea items-center justify-center w-full ${animation1}`}
+      >
         <EditBox
           id="navbar"
           path="/edit-navbar"
