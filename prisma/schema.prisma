@@ -133,3 +133,159 @@ enum Role {
   teacher
   admin
 }
+
+// Home Page Model 
+model HomeInfo {
+  id                     String   @id @default(auto()) @map("_id") @db.ObjectId
+  title                  String
+  desc1                  String
+  desc2                  String
+  classCoursesTitle1     String
+  classCoursesTitle2     String
+  classCoursesDesc1      String
+  classCoursesDesc2      String
+  learnersStudentsTitle1 String
+  learnersStudentsTitle2 String
+  learnersStudentsDesc   String
+  featuredTitle1         String
+  featuredTitle2         String
+  video                  String
+  videoTitle1            String
+  videoTitle2            String
+  videoTitle3            String
+  videoTitle4            String
+  videoDesc1             String
+  videoDesc2             String
+  videoDesc3             String
+  instructorsTitle1      String
+  instructorsTitle2      String
+  instructorsDesc        String
+  clientTitle1           String
+  clientTitle2           String
+  clientDesc             String
+  bannerTitle1           String
+  bannerTitle2           String
+  beInstractorTitle1     String
+  beInstractorTitle2     String
+  beInstractorDesc       String
+  blogTitle1             String
+  blogTitle2             String
+  blogDesc               String
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
+}
+
+model HomeInformation {
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  icon        String
+  title       String
+  description String
+  color       String
+}
+
+model HomeCoursesCard {
+  id         String @id @default(auto()) @map("_id") @db.ObjectId
+  title      String
+  quantity   Int
+  icon       String
+  border     String
+  background String
+}
+
+model HomeContact {
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  phone   String
+  mapUrl  String
+  address String
+}
+
+model HomeCategories {
+  id   String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+}
+
+model HomeMenus {
+  id    String   @id @default(auto()) @map("_id") @db.ObjectId
+  name  String
+  items String[]
+}
+
+model HomeFeatured {
+  id         String  @id @default(auto()) @map("_id") @db.ObjectId
+  title      String
+  instructor String
+  image      String
+  price      String?
+  discount   String?
+  star       Int
+  topDesc    String
+  students   Int
+  lessons    Int
+}
+
+model HomeInstructors {
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  name    String
+  image   String
+  job     String
+  course  Int
+  student Int
+}
+
+model HomeClients {
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  name    String
+  image   String
+  comment String
+  star    Int
+}
+
+model HomeBlog {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  title String
+  image String
+  date  String
+  role  String
+  by    String
+}
+
+model HomeLogoBanner {
+  id   String @id @default(auto()) @map("_id") @db.ObjectId
+  logo String
+  link String
+}
+
+model HomeResources {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  label String
+}
+
+model HomeFooterCourses {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  label String
+}
+
+model HomeImage {
+  id           String @id @default(auto()) @map("_id") @db.ObjectId
+  logo         String
+  mainSection  String
+  underline    String
+  pencil       String
+  wave         String
+  star         String
+  book         String
+  redCrown     String
+  purpleCrown  String
+  halfCricle   String
+  dots         String
+  greyWave     String
+  studentPhoto String
+  crown        String
+  moreDots     String
+  videoCover   String
+  beInstractor String
+  graduation   String
+  banner       String
+  bannerShape  String
+  beinstractor String
+}
