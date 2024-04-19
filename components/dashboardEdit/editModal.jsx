@@ -21,6 +21,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedImageStudents, setSelectedImageStudents] = useState(null);
   const [selectedImageVideo, setSelectedImageVideo] = useState(null);
+  const [selectedImageMain, setSelectedImageMain] = useState(null);
   const [menus, setMenus] = useState([
     {
       name: "Home",
@@ -717,6 +718,19 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
   }; //VİDEO RESİM DEĞİŞTİRME
 
   const handleSubmitVideo = (event) => {
+    event.preventDefault();
+    console.log(image);
+  }; //VİDEO RESİM DEĞİŞTİRME
+  const handleImageChangeMain = (event) => {
+    const imageFile = event.target.files[0];
+    setSelectedImageMain(imageFile);
+    setImage((prevImage) => ({
+      ...prevImage,
+      mainSection: URL.createObjectURL(imageFile),
+    }));
+  }; //VİDEO RESİM DEĞİŞTİRME
+
+  const handleSubmitMain = (event) => {
     event.preventDefault();
     console.log(image);
   }; //VİDEO RESİM DEĞİŞTİRME
@@ -1537,6 +1551,49 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                       {selectedImage && (
                         <img
                           src={selectedImageVideo}
+                          height={100}
+                          width={300}
+                          alt="Yeni Seçilen Resim"
+                        />
+                      )}
+
+                      <button
+                        type="submit"
+                        className="text-gray-600 bg-gray-100 p-3 rounded-xl font-semibold m-5"
+                      >
+                        Kaydet
+                      </button>
+                    </form>
+                  </div>
+                </div>
+              )}
+              {modalContent === "resim" && pageId === "main" && (
+                <div className="flex flex-col flex-wrap items-center justify-center p-5">
+                  <h1 className="text-gray-700 font-semibold">
+                    {pageId} Sayfası Resim Düzenleme
+                  </h1>
+                  <div className="flex flex-col items-center justify-center">
+                    <img
+                      src={image.mainSection}
+                      height={100}
+                      width={300}
+                      alt={`Logo`}
+                    />
+                    <form
+                      onSubmit={handleSubmitMain}
+                      className="flex flex-col items-center justify-center"
+                    >
+                      <label htmlFor={`students`}>Resim Seçin:</label>
+                      <input
+                        onChange={handleImageChangeMain}
+                        type="file"
+                        className="bg-gray-200 text-gray-600 font-semibold rounded-xl"
+                        id={`students`}
+                        name={`students`}
+                      />
+                      {selectedImage && (
+                        <img
+                          src={selectedImageMain}
                           height={100}
                           width={300}
                           alt="Yeni Seçilen Resim"
