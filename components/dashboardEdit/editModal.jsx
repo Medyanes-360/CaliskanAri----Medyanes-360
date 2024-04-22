@@ -837,9 +837,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
     <div className={modalClass}>
       <div className="absolute w-full h-full flex items-center justify-center">
         <div
-          className={`relative mx-auto px-auto bg-white rounded-2xl animate__animated animate__fadeInDown w-80 lg:w-fit lg:max-w-[700px] ${
-            modalContent === "yazı" ? "max-h-[500px] overflow-scroll pt-10" : ""
-          }`}
+          className={`relative mx-auto px-auto bg-white rounded-2xl animate__animated animate__fadeInDown w-80 lg:w-fit lg:max-w-[700px] `}
         >
           <div>
             <div className="flex flex-col px-3 mx-auto rounded-lg bg-bgWhite">
@@ -940,17 +938,17 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                 <div className="flex flex-col items-center justify-center">
                   <button
                     onClick={() => setAddNavbar(true)}
-                    className="text-gray-600 bg-gray-100 py-3 px-8 rounded-xl font-semibold m-5"
+                    className="text-gray-600 bg-gray-100 py-3 px-8 rounded-xl font-semibold mx-5"
                   >
                     Menü Ekle
                   </button>
                   <form
                     onSubmit={handleSubmitNavbar}
-                    className="flex flex-row flex-wrap items-center justify-center"
+                    className="flex flex-row flex-wrap items-center justify-center max-[768px]:max-h-[500px] overflow-scroll"
                   >
                     {menus.map((menu, menuIndex) => (
                       <div key={menuIndex} className="inputArea">
-                        <div className="bigInput">
+                        <div className="bigInput max-[768px]:flex">
                           <input
                             onChange={(event) =>
                               handleInputChange(event, menuIndex)
@@ -979,17 +977,17 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                 </div>
               )}
               {modalContent === "buton" && pageId === "courses" && (
-                <div className="flex flex-col items-center justify-center max-h-[600px] overflow-scroll pt-10">
+                <div className="flex flex-col items-center justify-center ">
                   <h1 className="text-gray-700 font-semibold">Kurslar</h1>
                   <button
                     onClick={() => setAddCourse(true)}
-                    className="text-gray-600 bg-gray-100 py-3 px-8 rounded-xl font-semibold m-5"
+                    className="text-gray-600 bg-gray-100 py-3 px-8 rounded-xl font-semibold m-5 mb-0"
                   >
                     Kurs Ekle
                   </button>
                   <form
                     onSubmit={handleSubmitCourses}
-                    className="flex flex-row flex-wrap items-center justify-center"
+                    className="flex flex-row flex-wrap items-center justify-center max-h-[500px] overflow-scroll"
                   >
                     {courses.map((course, index) => (
                       <div key={index} className="inputArea">
@@ -1028,31 +1026,29 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                     onSubmit={handleSubmitMainText}
                     className="flex flex-col flex-wrap items-center justify-center"
                   >
-                    <div className="inputArea flex flex-col lg:flex-row flex-wrap items-center justify-center">
-                      <textarea
-                        onChange={(event) =>
-                          handleMainTextInputChange(event, "title")
-                        }
-                        placeholder={info.title}
-                        type="text"
-                        className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl lg:w-48 h-48"
-                      />
-                      <textarea
-                        onChange={(event) =>
-                          handleMainTextInputChange(event, "desc1")
-                        }
-                        placeholder={info.desc1}
-                        type="text"
-                        className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl lg:w-48 h-48"
-                      />
-                    </div>
+                    <textarea
+                      onChange={(event) =>
+                        handleMainTextInputChange(event, "title")
+                      }
+                      placeholder={info.title}
+                      type="text"
+                      className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl lg:w-96 h-36"
+                    />
+                    <textarea
+                      onChange={(event) =>
+                        handleMainTextInputChange(event, "desc1")
+                      }
+                      placeholder={info.desc1}
+                      type="text"
+                      className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl lg:w-96 h-36"
+                    />
                     <textarea
                       onChange={(event) =>
                         handleMainTextInputChange(event, "desc2")
                       }
                       placeholder={info.desc2}
                       type="text"
-                      className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl lg:w-[95%] h-48"
+                      className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl lg:w-96 h-36"
                     />
                     <button
                       type="submit"
@@ -1132,30 +1128,28 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                     onSubmit={handleSubmitStudentsText}
                     className="flex flex-col flex-wrap items-center justify-center"
                   >
-                    <div className="inputArea">
-                      <textarea
-                        onChange={(event) =>
-                          handleStudentsTextInputChange(
-                            event,
-                            "learnersStudentsTitle1"
-                          )
-                        }
-                        placeholder={info.learnersStudentsTitle1}
-                        type="text"
-                        className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-[90%] lg:w-48 lg:h-48 h-24"
-                      />
-                      <textarea
-                        onChange={(event) =>
-                          handleStudentsTextInputChange(
-                            event,
-                            "learnersStudentsTitle2"
-                          )
-                        }
-                        placeholder={info.learnersStudentsTitle2}
-                        type="text"
-                        className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-[90%] lg:w-48 lg:h-48 h-24"
-                      />
-                    </div>
+                    <textarea
+                      onChange={(event) =>
+                        handleStudentsTextInputChange(
+                          event,
+                          "learnersStudentsTitle1"
+                        )
+                      }
+                      placeholder={info.learnersStudentsTitle1}
+                      type="text"
+                      className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-[90%] lg:w-96 lg:h-36 h-24"
+                    />
+                    <textarea
+                      onChange={(event) =>
+                        handleStudentsTextInputChange(
+                          event,
+                          "learnersStudentsTitle2"
+                        )
+                      }
+                      placeholder={info.learnersStudentsTitle2}
+                      type="text"
+                      className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-[90%] lg:w-96 lg:h-36 h-24"
+                    />
                     <textarea
                       onChange={(event) =>
                         handleStudentsTextInputChange(
@@ -1165,7 +1159,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                       }
                       placeholder={info.learnersStudentsDesc}
                       type="text"
-                      className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-[90%] lg:w-[95%] lg:h-48 h-24"
+                      className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-[90%] lg:w-96 lg:h-36 h-24"
                     />
 
                     <button
@@ -1797,6 +1791,9 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
               </div>
             </div>
             <div className="content flex flex-col items-center justify-center">
+              <h1 className="text-gray-500 text-center font-semibold">
+                Alt Menüler
+              </h1>
               {modalContent === "yazı" &&
                 pageId === "navbar" &&
                 selectedBigInputIndex !== null &&
