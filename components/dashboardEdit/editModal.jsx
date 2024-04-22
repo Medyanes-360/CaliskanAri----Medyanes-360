@@ -837,7 +837,9 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
     <div className={modalClass}>
       <div className="absolute w-full h-full flex items-center justify-center">
         <div
-          className={`relative mx-auto px-auto bg-white rounded-2xl animate__animated animate__fadeInDown w-80 lg:w-fit lg:max-w-[700px]`}
+          className={`relative mx-auto px-auto bg-white rounded-2xl animate__animated animate__fadeInDown w-80 lg:w-fit lg:max-w-[700px] ${
+            modalContent === "yazı" ? "max-h-[500px] overflow-scroll pt-10" : ""
+          }`}
         >
           <div>
             <div className="flex flex-col px-3 mx-auto rounded-lg bg-bgWhite">
@@ -977,7 +979,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                 </div>
               )}
               {modalContent === "buton" && pageId === "courses" && (
-                <div className="flex flex-col items-center justify-center">
+                <div className="flex flex-col items-center justify-center max-h-[600px] overflow-scroll pt-10">
                   <h1 className="text-gray-700 font-semibold">Kurslar</h1>
                   <button
                     onClick={() => setAddCourse(true)}
@@ -991,7 +993,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                   >
                     {courses.map((course, index) => (
                       <div key={index} className="inputArea">
-                        <div className="bigInput">
+                        <div className="bigInput flex">
                           <input
                             onChange={(event) =>
                               handleCourseInputChange(event, index, "title")
