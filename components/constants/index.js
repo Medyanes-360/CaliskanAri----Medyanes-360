@@ -1,19 +1,3 @@
-import { GiTiedScroll } from "react-icons/gi";
-import { FcIdea } from "react-icons/fc";
-import { TfiCup } from "react-icons/tfi";
-import {
-  RiNumber0,
-  RiNumber1,
-  RiNumber2,
-  RiNumber3,
-  RiNumber4,
-  RiNumber5,
-  RiNumber6,
-  RiNumber7,
-  RiNumber8,
-  RiNumber9,
-} from "react-icons/ri";
-import { BiLabel } from "react-icons/bi";
 export const image = {
   logo: "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads/2023/08/logo-dark.svg",
   mainSection: "/mainImage.png",
@@ -100,21 +84,21 @@ export const info = {
 }; //YAPILDI
 export const informations = [
   {
-    icon: GiTiedScroll,
+    icon: "/success.png",
     title: "Etkileşimli Öğrenme",
     description:
       "Öğrencilerin aktivite ve oyunlar ile deneyerek hem eğlendikleri hem de öğrendikleri eğitim sistemi.",
     color: "text-cst_green",
   },
   {
-    icon: FcIdea,
+    icon: "/light.png",
     title: "İstatistikler ve Analizler",
     description:
       "Öğrencilerin etkileşimlerdeki başarı oranları, istatistikleri veren ve takip eden öğretmenlere özel altyapı.",
     color: "text-cst_yellow",
   },
   {
-    icon: TfiCup,
+    icon: "/cup.png",
     title: "Öğretmenlere Özel Altyapı",
     description:
       "Öğretmenlerin kendi sınıflarını oluşturup öğrenciler ile sınıf süreçlerini yönetebildiği altyapı.",
@@ -125,56 +109,56 @@ export const coursesCard = [
   {
     title: "1. Sınıf",
     quantity: "1 Course",
-    icon: RiNumber1,
+    icon: "/one.png",
     border: "border-lightpurple",
     background: "linear-gradient(130deg,#7A66FF 0%,#EBDFFF 115%)",
   },
   {
     title: "2. Sınıf",
     quantity: "3 Aktif Kurs",
-    icon: RiNumber2,
+    icon: "/two.png",
     border: "border-cst_orange",
     background: "linear-gradient(130deg, #F57064 0%, #FFD0CC 115%)",
   },
   {
     title: "3. Sınıf",
     quantity: "2 Aktif Kurs",
-    icon: RiNumber3,
+    icon: "/three.png",
     border: "border-bluegreen",
     background: "linear-gradient(130deg, #45C8C2 0%, #B6F7F4 115%)",
   },
   {
     title: "4. Sınıf",
     quantity: "2 Aktif Kurs",
-    icon: RiNumber4,
+    icon: "/four.png",
     border: "border-cst_pink",
     background: "linear-gradient(130deg, #F480D4 0%, #FFD3F3 115%)",
   },
   {
     title: "5. Sınıf",
     quantity: "2 Aktif Kurs",
-    icon: RiNumber5,
+    icon: "/five.png",
     border: "border-lightgreen",
     background: "linear-gradient(130deg, #6ADE33 0%, #C8EFB6 115%)",
   },
   {
     title: "6. Sınıf",
     quantity: "2 Aktif Kurs",
-    icon: RiNumber6,
+    icon: "/six.png",
     border: "border-blue",
     background: "linear-gradient(130deg, #3FC6FF 0%, #D7F3FF 115%)",
   },
   {
     title: "7. Sınıf",
     quantity: "2 Aktif Kurs",
-    icon: RiNumber7,
+    icon: "/seven.png",
     border: "border-cst_yellow",
     background: " linear-gradient(130deg, #FFA41F 0%, #FFE3BB 115%)",
   },
   {
     title: "8. Sınıf",
     quantity: "3 Aktif Kurs",
-    icon: RiNumber8,
+    icon: "/eight.png",
     border: "border-lightpink",
     background: "linear-gradient(130deg, #E69E9E 0%, #F5D9E0 115%)",
   },

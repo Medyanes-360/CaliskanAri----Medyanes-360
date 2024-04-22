@@ -22,6 +22,9 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
   const [selectedImageStudents, setSelectedImageStudents] = useState(null);
   const [selectedImageVideo, setSelectedImageVideo] = useState(null);
   const [selectedImageMain, setSelectedImageMain] = useState(null);
+  const [selectedImagesInformations, setSelectedImagesInformations] = useState(
+    []
+  );
   const [menus, setMenus] = useState([
     {
       name: "Home",
@@ -69,56 +72,56 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
     {
       title: "1. Sınıf",
       quantity: "1 Course",
-      icon: RiNumber1,
+      icon: "/one.png",
       border: "border-lightpurple",
       background: "linear-gradient(130deg,#7A66FF 0%,#EBDFFF 115%)",
     },
     {
       title: "2. Sınıf",
       quantity: "3 Aktif Kurs",
-      icon: RiNumber2,
+      icon: "/two.png",
       border: "border-cst_orange",
       background: "linear-gradient(130deg, #F57064 0%, #FFD0CC 115%)",
     },
     {
       title: "3. Sınıf",
       quantity: "2 Aktif Kurs",
-      icon: RiNumber3,
+      icon: "/three.png",
       border: "border-bluegreen",
       background: "linear-gradient(130deg, #45C8C2 0%, #B6F7F4 115%)",
     },
     {
       title: "4. Sınıf",
       quantity: "2 Aktif Kurs",
-      icon: RiNumber4,
+      icon: "/four.png",
       border: "border-cst_pink",
       background: "linear-gradient(130deg, #F480D4 0%, #FFD3F3 115%)",
     },
     {
       title: "5. Sınıf",
       quantity: "2 Aktif Kurs",
-      icon: RiNumber5,
+      icon: "/five.png",
       border: "border-lightgreen",
       background: "linear-gradient(130deg, #6ADE33 0%, #C8EFB6 115%)",
     },
     {
       title: "6. Sınıf",
       quantity: "2 Aktif Kurs",
-      icon: RiNumber6,
+      icon: "/six.png",
       border: "border-blue",
       background: "linear-gradient(130deg, #3FC6FF 0%, #D7F3FF 115%)",
     },
     {
       title: "7. Sınıf",
       quantity: "2 Aktif Kurs",
-      icon: RiNumber7,
+      icon: "/seven.png",
       border: "border-cst_yellow",
       background: " linear-gradient(130deg, #FFA41F 0%, #FFE3BB 115%)",
     },
     {
       title: "8. Sınıf",
       quantity: "3 Aktif Kurs",
-      icon: RiNumber8,
+      icon: "/eight.png",
       border: "border-lightpink",
       background: "linear-gradient(130deg, #E69E9E 0%, #F5D9E0 115%)",
     },
@@ -174,21 +177,21 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
 
   const [informations, setInformations] = useState([
     {
-      icon: GiTiedScroll,
+      icon: "/success.png",
       title: "Etkileşimli Öğrenme",
       description:
         "Öğrencilerin aktivite ve oyunlar ile deneyerek hem eğlendikleri hem de öğrendikleri eğitim sistemi.",
       color: "text-cst_green",
     },
     {
-      icon: FcIdea,
+      icon: "/light.png",
       title: "İstatistikler ve Analizler",
       description:
         "Öğrencilerin etkileşimlerdeki başarı oranları, istatistikleri veren ve takip eden öğretmenlere özel altyapı.",
       color: "text-cst_yellow",
     },
     {
-      icon: TfiCup,
+      icon: "/cup.png",
       title: "Öğretmenlere Özel Altyapı",
       description:
         "Öğretmenlerin kendi sınıflarını oluşturup öğrenciler ile sınıf süreçlerini yönetebildiği altyapı.",
@@ -304,33 +307,77 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
   const [newCourse, setNewCourse] = useState({
     title: "",
     quantity: "",
-    icon: null,
+    icon: "",
     border: "",
     background: "",
-  });
+  }); //YENİ KURS EKLEME DEĞİŞKENİ
+  const [newNavbar, setNewNavbar] = useState({
+    name: "",
+    items: [],
+  }); //YENİ MENU EKLEME DEĞİŞKENİ
   const handleAddCourseInputChange = (event, field) => {
-    const { value } = event.target;
-    setNewCourse((prevCourse) => ({
-      ...prevCourse,
-      [field]: value,
-    }));
-  };
+    const { value, files } = event.target;
+    if (field === "icon" && files && files.length > 0) {
+      const imageFile = files[0];
+      setNewCourse((prevCourse) => ({
+        ...prevCourse,
+        [field]: URL.createObjectURL(imageFile),
+      }));
+    } else {
+      setNewCourse((prevCourse) => ({
+        ...prevCourse,
+        [field]: value,
+      }));
+    }
+  }; //YENİ KURS EKLEME
 
-  const handleAddCourse = () => {
+  const handleAddCourse = (event) => {
+    event.preventDefault();
     setCourses((prevCourses) => [...prevCourses, newCourse]);
     setNewCourse({
       title: "",
       quantity: "",
-      icon: null,
+      icon: "",
       border: "",
       background: "",
     });
     closeAddCourseModal();
-  };
+  }; //YENİ KURS EKLEME
+  const handleAddNavbarInputChange = (event, field, index) => {
+    const { value } = event.target;
+    if (field === "items") {
+      setNewNavbar((prevNavbar) => {
+        const updatedItems = [...prevNavbar.items]; // Create a copy of the items array
+        updatedItems[index] = value; // Update the value at the specified index
+        return {
+          ...prevNavbar,
+          [field]: updatedItems,
+        };
+      });
+    } else {
+      setNewNavbar((prevNavbar) => ({
+        ...prevNavbar,
+        [field]: value,
+      }));
+    }
+  }; //YENİ MENU EKLEME
 
+  const handleAddNavbar = (event) => {
+    event.preventDefault();
+    setMenus((prevMenus) => [...prevMenus, newNavbar]);
+    setNewNavbar({
+      name: "",
+      items: [],
+    });
+    closeAddNavbarModal();
+  }; // YENİ MENU EKLEME
+  const handleAddAnotherItem = () => {
+    setUnderMenuCount((prevCount) => prevCount + 1);
+  };
   const [selectedBigInputIndex, setSelectedBigInputIndex] = useState(null);
   const [isChildInputModalOpen, setChildInputModalOpen] = useState(false);
   const [addCourse, setAddCourse] = useState(false);
+  const [addNavbar, setAddNavbar] = useState(false);
 
   const handleColorChange = (event) => {
     const color = event.target.value;
@@ -375,6 +422,9 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
   }; //KURS ALANI KURS BİLGİLERİNİ DEĞİŞİTREN FONKSİYON
   const closeAddCourseModal = () => {
     setAddCourse(false);
+  };
+  const closeAddNavbarModal = () => {
+    setAddNavbar(false);
   };
 
   const handleSubmitBackgroundColor = (event) => {
@@ -728,12 +778,47 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
       ...prevImage,
       mainSection: URL.createObjectURL(imageFile),
     }));
-  }; //VİDEO RESİM DEĞİŞTİRME
+  }; //MAİN RESİM DEĞİŞTİRME
 
   const handleSubmitMain = (event) => {
     event.preventDefault();
     console.log(image);
-  }; //VİDEO RESİM DEĞİŞTİRME
+  }; //MAİN RESİM DEĞİŞTİRME
+
+  const handleImageChangeInformations = (event, index) => {
+    const imageFile = event.target.files[0];
+    setSelectedImagesInformations((prevImages) => {
+      const updatedImages = [...prevImages];
+      updatedImages[index] = URL.createObjectURL(imageFile);
+      return updatedImages;
+    });
+
+    setInformations((prevInformations) => {
+      const updatedInformations = [...prevInformations];
+      updatedInformations[index] = {
+        ...updatedInformations[index],
+        icon: URL.createObjectURL(imageFile),
+      };
+      return updatedInformations;
+    });
+  };
+  const handleSubmitInformations = (event, index) => {
+    event.preventDefault();
+
+    const newIconURL = selectedImagesInformations[index];
+
+    setInformations((prevInformations) => {
+      const updatedInformations = [...prevInformations];
+      updatedInformations[index] = {
+        ...updatedInformations[index],
+        icon: newIconURL,
+      };
+      return updatedInformations;
+    });
+
+    console.log("Updated Informations:", informations);
+  };
+
   const openChildInputModal = (index) => {
     setSelectedBigInputIndex(index);
     setChildInputModalOpen(true);
@@ -743,7 +828,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
     setSelectedBigInputIndex(null);
     setChildInputModalOpen(false);
   };
-
+  const [underMenuCount, setUnderMenuCount] = useState(1);
   const modalClass = isOpen
     ? "fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-gray-600 bg-opacity-50"
     : "hidden";
@@ -752,17 +837,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
     <div className={modalClass}>
       <div className="absolute w-full h-full flex items-center justify-center">
         <div
-          className={`relative mx-auto px-auto bg-white rounded-2xl animate__animated animate__fadeInDown w-80 ${
-            modalContent === "backgroundColor"
-              ? "lg:max-w-[500px] lg:min-w-[500px]"
-              : modalContent === "yazı"
-              ? "lg:max-w-[600px] lg:min-w-[600px]"
-              : modalContent === "buton" && pageId === "courses"
-              ? "lg:max-w-[800px] lg:min-w-[800px]"
-              : modalContent === "yazı" && pageId === "informaitons"
-              ? "lg:max-w-[900px] lg:min-w-[900px]"
-              : "lg:w-fit"
-          }`}
+          className={`relative mx-auto px-auto bg-white rounded-2xl animate__animated animate__fadeInDown w-80 lg:w-fit lg:max-w-[700px]`}
         >
           <div>
             <div className="flex flex-col px-3 mx-auto rounded-lg bg-bgWhite">
@@ -802,7 +877,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
             </div>
             <div className="content">
               {modalContent === "backgroundColor" && (
-                <div className="flex flex-col items-center justify-center">
+                <div className="flex flex-col items-center justify-center p-5">
                   <h1 className="text-gray-700 font-semibold">
                     {pageId} Sayfası Arka Plan Renk Seçici
                   </h1>
@@ -831,7 +906,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                 </div>
               )}
               {modalContent === "renk" && (
-                <div className="flex flex-col items-center justify-center">
+                <div className="flex flex-col items-center justify-center p-5">
                   <h1 className="text-gray-700 font-semibold">
                     {pageId} Sayfası Yazı Renkleri
                   </h1>
@@ -861,6 +936,12 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
               )}
               {modalContent === "yazı" && pageId === "navbar" && (
                 <div className="flex flex-col items-center justify-center">
+                  <button
+                    onClick={() => setAddNavbar(true)}
+                    className="text-gray-600 bg-gray-100 py-3 px-8 rounded-xl font-semibold m-5"
+                  >
+                    Menü Ekle
+                  </button>
                   <form
                     onSubmit={handleSubmitNavbar}
                     className="flex flex-row flex-wrap items-center justify-center"
@@ -940,19 +1021,19 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                 </div>
               )}
               {modalContent === "yazı" && pageId === "main" && (
-                <div className="flex flex-col items-center justify-center">
+                <div className="flex flex-col items-center justify-center lg:p-2">
                   <form
                     onSubmit={handleSubmitMainText}
                     className="flex flex-col flex-wrap items-center justify-center"
                   >
-                    <div className="inputArea flex flex-row flex-wrap items-center justify-center">
+                    <div className="inputArea flex flex-col lg:flex-row flex-wrap items-center justify-center">
                       <textarea
                         onChange={(event) =>
                           handleMainTextInputChange(event, "title")
                         }
                         placeholder={info.title}
                         type="text"
-                        className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                        className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl lg:w-48 h-48"
                       />
                       <textarea
                         onChange={(event) =>
@@ -960,7 +1041,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                         }
                         placeholder={info.desc1}
                         type="text"
-                        className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                        className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl lg:w-48 h-48"
                       />
                     </div>
                     <textarea
@@ -969,7 +1050,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                       }
                       placeholder={info.desc2}
                       type="text"
-                      className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                      className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl lg:w-[95%] h-48"
                     />
                     <button
                       type="submit"
@@ -986,7 +1067,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                     onSubmit={handleSubmitCourseText}
                     className="flex flex-col flex-wrap items-center justify-center"
                   >
-                    <div className="inputArea">
+                    <div className="inputArea flex items-center justify-center lg:flex-row flex-col">
                       <textarea
                         onChange={(event) =>
                           handleCourseTextInputChange(
@@ -996,7 +1077,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                         }
                         placeholder={info.classCoursesTitle1}
                         type="text"
-                        className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                        className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-48 lg:h-48 h-24"
                       />
                       <textarea
                         onChange={(event) =>
@@ -1007,25 +1088,33 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                         }
                         placeholder={info.classCoursesTitle2}
                         type="text"
-                        className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                        className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-48 lg:h-48 h-24"
                       />
                     </div>
-                    <textarea
-                      onChange={(event) =>
-                        handleCourseTextInputChange(event, "classCoursesDesc1")
-                      }
-                      placeholder={info.classCoursesDesc1}
-                      type="text"
-                      className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
-                    />
-                    <textarea
-                      onChange={(event) =>
-                        handleCourseTextInputChange(event, "classCoursesDesc2")
-                      }
-                      placeholder={info.classCoursesDesc2}
-                      type="text"
-                      className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
-                    />
+                    <div className="flex items-center justify-center lg:flex-row flex-col">
+                      <textarea
+                        onChange={(event) =>
+                          handleCourseTextInputChange(
+                            event,
+                            "classCoursesDesc1"
+                          )
+                        }
+                        placeholder={info.classCoursesDesc1}
+                        type="text"
+                        className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-48  lg:h-48 h-24"
+                      />
+                      <textarea
+                        onChange={(event) =>
+                          handleCourseTextInputChange(
+                            event,
+                            "classCoursesDesc2"
+                          )
+                        }
+                        placeholder={info.classCoursesDesc2}
+                        type="text"
+                        className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-48 lg:h-48 h-24"
+                      />
+                    </div>
                     <button
                       type="submit"
                       className="text-gray-600 bg-gray-100 py-3 px-8 rounded-xl font-semibold m-5"
@@ -1051,7 +1140,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                         }
                         placeholder={info.learnersStudentsTitle1}
                         type="text"
-                        className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                        className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-[90%] lg:w-48 lg:h-48 h-24"
                       />
                       <textarea
                         onChange={(event) =>
@@ -1062,7 +1151,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                         }
                         placeholder={info.learnersStudentsTitle2}
                         type="text"
-                        className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                        className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-[90%] lg:w-48 lg:h-48 h-24"
                       />
                     </div>
                     <textarea
@@ -1074,7 +1163,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                       }
                       placeholder={info.learnersStudentsDesc}
                       type="text"
-                      className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                      className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-[90%] lg:w-[95%] lg:h-48 h-24"
                     />
 
                     <button
@@ -1124,73 +1213,80 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                 <div className="flex flex-col items-center justify-center">
                   <form
                     onSubmit={handleSubmitVideoText}
-                    className="flex flex-col flex-wrap items-center justify-center"
+                    className="flex lg:flex-row flex-wrap items-center justify-center max-h-[500px] overflow-scroll"
                   >
-                    <div className="inputArea">
-                      <input
-                        onChange={(event) =>
-                          handleVideoTextInputChange(event, "video")
-                        }
-                        placeholder={info.video}
-                        type="text"
-                        className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
-                      />
-                      <input
-                        onChange={(event) =>
-                          handleVideoTextInputChange(event, "videoTitle1")
-                        }
-                        placeholder={info.videoTitle1}
-                        type="text"
-                        className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
-                      />
-                      <input
-                        onChange={(event) =>
-                          handleVideoTextInputChange(event, "videoTitle2")
-                        }
-                        placeholder={info.videoTitle2}
-                        type="text"
-                        className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
-                      />
-                      <input
-                        onChange={(event) =>
-                          handleVideoTextInputChange(event, "videoTitle3")
-                        }
-                        placeholder={info.videoTitle3}
-                        type="text"
-                        className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
-                      />
-                      <input
-                        onChange={(event) =>
-                          handleVideoTextInputChange(event, "videoTitle4")
-                        }
-                        placeholder={info.videoTitle4}
-                        type="text"
-                        className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
-                      />
-                      <textarea
-                        onChange={(event) =>
-                          handleVideoTextInputChange(event, "videoDesc1")
-                        }
-                        placeholder={info.videoDesc1}
-                        type="text"
-                        className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
-                      />
-                      <textarea
-                        onChange={(event) =>
-                          handleVideoTextInputChange(event, "videoDesc2")
-                        }
-                        placeholder={info.videoDesc2}
-                        type="text"
-                        className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
-                      />
-                      <textarea
-                        onChange={(event) =>
-                          handleVideoTextInputChange(event, "videoDesc3")
-                        }
-                        placeholder={info.videoDesc3}
-                        type="text"
-                        className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
-                      />
+                    <input
+                      onChange={(event) =>
+                        handleVideoTextInputChange(event, "video")
+                      }
+                      placeholder={info.video}
+                      type="text"
+                      className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                    />
+                    <input
+                      onChange={(event) =>
+                        handleVideoTextInputChange(event, "videoTitle1")
+                      }
+                      placeholder={info.videoTitle1}
+                      type="text"
+                      className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                    />
+                    <div className="inputArea lg:flex">
+                      <div className="flex flex-col items-center justify-center">
+                        <input
+                          onChange={(event) =>
+                            handleVideoTextInputChange(event, "videoTitle2")
+                          }
+                          placeholder={info.videoTitle2}
+                          type="text"
+                          className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl lg:w-44"
+                        />
+                        <textarea
+                          onChange={(event) =>
+                            handleVideoTextInputChange(event, "videoDesc1")
+                          }
+                          placeholder={info.videoDesc1}
+                          type="text"
+                          className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-[92%] lg:h-48 h-24 lg:w-44"
+                        />
+                      </div>
+                      <div className="flex flex-col items-center justify-center">
+                        <input
+                          onChange={(event) =>
+                            handleVideoTextInputChange(event, "videoTitle3")
+                          }
+                          placeholder={info.videoTitle3}
+                          type="text"
+                          className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl lg:w-44"
+                        />
+                        <textarea
+                          onChange={(event) =>
+                            handleVideoTextInputChange(event, "videoDesc2")
+                          }
+                          placeholder={info.videoDesc2}
+                          type="text"
+                          className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-[92%]  lg:h-48 h-24 lg:w-44"
+                        />
+                      </div>
+                      <div className="flex flex-col items-center justify-center">
+                        <input
+                          onChange={(event) =>
+                            handleVideoTextInputChange(event, "videoTitle4")
+                          }
+                          placeholder={info.videoTitle4}
+                          type="text"
+                          className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl lg:w-44"
+                        />
+
+                        <textarea
+                          onChange={(event) =>
+                            handleVideoTextInputChange(event, "videoDesc3")
+                          }
+                          placeholder={info.videoDesc3}
+                          type="text"
+                          className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-[92%] lg:h-48 h-24 lg:w-44"
+                        />
+                      </div>
                     </div>
 
                     <button
@@ -1208,7 +1304,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                     onSubmit={handleSubmitLogoBannerText}
                     className="flex flex-col flex-wrap items-center justify-center"
                   >
-                    <div className="inputArea">
+                    <div className="inputArea flex flex-wrap items-center justify-center">
                       <input
                         onChange={(event) =>
                           handleLogoBannerTextInputChange(event, "clientTitle1")
@@ -1232,7 +1328,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                         }
                         placeholder={info.clientDesc}
                         type="text"
-                        className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                        className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-[90%] h-48"
                       />
                     </div>
 
@@ -1286,10 +1382,10 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                     onSubmit={handleSubmitInformationsText}
                     className="flex flex-col flex-wrap items-center justify-center"
                   >
-                    <div className="inputArea">
+                    <div className="inputArea lg:flex">
                       {informations.map((info, index) => (
-                        <div key={index} className="inputArea">
-                          <div className="bigInput flex items-center justify-center flex-wrap">
+                        <div key={index} className="inputArea flex">
+                          <div className="bigInput flex items-center justify-center flex-wrap flex-col ">
                             <input
                               onChange={(event) =>
                                 handleInformationsTextInputChange(
@@ -1300,9 +1396,9 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                               }
                               type="text"
                               placeholder={info.title}
-                              className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                              className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-48"
                             />
-                            <input
+                            <textarea
                               onChange={(event) =>
                                 handleInformationsTextInputChange(
                                   event,
@@ -1312,18 +1408,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                               }
                               type="text"
                               placeholder={info.description}
-                              className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
-                            />
-                            <input
-                              onChange={(event) =>
-                                handleInformationsTextInputChange(
-                                  event,
-                                  "color",
-                                  index
-                                )
-                              }
-                              type="color"
-                              className=" m-3 "
+                              className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-48 lg:h-48 h-24"
                             />
                           </div>
                         </div>
@@ -1340,10 +1425,10 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                 </div>
               )}
               {modalContent === "yazı" && pageId === "footer" && (
-                <div className="flex flex-col items-center justify-center">
+                <div className="flex flex-col items-center justify-center ">
                   <form
                     onSubmit={handleSubmitFooterText}
-                    className="flex flex-col flex-wrap items-center justify-center"
+                    className="flex  flex-wrap items-center justify-center max-h-[800px] overflow-scroll"
                   >
                     <h1 className="text-left text-sm text-gray-600 font-semibold m-5 mb-0">
                       İletişim Bilgileri
@@ -1431,14 +1516,14 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                 </div>
               )}
               {modalContent === "resim" && pageId === "logoBanner" && (
-                <div className="flex flex-row flex-wrap items-center justify-center">
+                <div className="flex flex-row flex-wrap items-center justify-center max-h-[600px] overflow-scroll">
                   <h1 className="text-gray-700 font-semibold">
                     {pageId} Sayfası Resim Düzenleme
                   </h1>
                   {logobanner.map((item, index) => (
                     <div
                       key={index}
-                      className="flex flex-row items-center justify-center"
+                      className="flex flex-col lg:flex-row items-center justify-center"
                     >
                       <img
                         src={item.logo}
@@ -1450,12 +1535,12 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                         onSubmit={(event) =>
                           handleSubmitImageLogoBanner(event, index)
                         }
-                        className="flex flex-row items-center justify-center"
+                        className="flex flex-col lg:flex-row items-center justify-center"
                       >
                         <label htmlFor={`image-${index}`}>Resim Seçin:</label>
                         <input
                           type="file"
-                          className="bg-gray-200 text-gray-600 font-semibold rounded-xl"
+                          className="bg-gray-200 text-gray-600 font-semibold rounded-xl w-60"
                           id={`image-${index}`}
                           name={`image-${index}`}
                           onChange={(event) =>
@@ -1490,7 +1575,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                     <img
                       src={image.studentPhoto}
                       height={100}
-                      width={300}
+                      width={200}
                       alt={`Logo`}
                     />
                     <form
@@ -1501,11 +1586,11 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                       <input
                         onChange={handleImageChangeStudents}
                         type="file"
-                        className="bg-gray-200 text-gray-600 font-semibold rounded-xl"
+                        className="bg-gray-200 text-gray-600 font-semibold rounded-xl w-60"
                         id={`students`}
                         name={`students`}
                       />
-                      {selectedImage && (
+                      {selectedImageStudents && (
                         <img
                           src={selectedImageStudents}
                           height={100}
@@ -1533,7 +1618,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                     <img
                       src={image.videoCover}
                       height={100}
-                      width={300}
+                      width={200}
                       alt={`Logo`}
                     />
                     <form
@@ -1544,11 +1629,11 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                       <input
                         onChange={handleImageChangeVideo}
                         type="file"
-                        className="bg-gray-200 text-gray-600 font-semibold rounded-xl"
+                        className="bg-gray-200 text-gray-600 font-semibold rounded-xl w-60"
                         id={`students`}
                         name={`students`}
                       />
-                      {selectedImage && (
+                      {selectedImageVideo && (
                         <img
                           src={selectedImageVideo}
                           height={100}
@@ -1576,7 +1661,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                     <img
                       src={image.mainSection}
                       height={100}
-                      width={300}
+                      width={200}
                       alt={`Logo`}
                     />
                     <form
@@ -1587,11 +1672,11 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                       <input
                         onChange={handleImageChangeMain}
                         type="file"
-                        className="bg-gray-200 text-gray-600 font-semibold rounded-xl"
+                        className="bg-gray-200 text-gray-600 font-semibold rounded-xl w-60"
                         id={`students`}
                         name={`students`}
                       />
-                      {selectedImage && (
+                      {selectedImageMain && (
                         <img
                           src={selectedImageMain}
                           height={100}
@@ -1607,6 +1692,64 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                         Kaydet
                       </button>
                     </form>
+                  </div>
+                </div>
+              )}
+              {modalContent === "resim" && pageId === "informations" && (
+                <div className="flex flex-col flex-wrap items-center justify-center p-5">
+                  <h1 className="text-gray-700 font-semibold text-center">
+                    {pageId} Sayfası Resim Düzenleme
+                  </h1>
+                  <div className="flex flex-col lg:flex-row items-center justify-center">
+                    {informations.map((info, index) => (
+                      <div
+                        key={index}
+                        className="flex flex-col items-center justify-center mt-5 mx-2"
+                      >
+                        <h2 className="text-gray-700 font-semibold">
+                          {info.title}
+                        </h2>
+                        <div className="flex flex-col items-center justify-center">
+                          <img
+                            src={info.icon}
+                            height={50}
+                            width={50}
+                            alt={`Icon ${index}`}
+                          />
+                          <form
+                            onSubmit={(e) => handleSubmitInformations(e, index)}
+                            className="flex flex-col items-center justify-center mt-3"
+                          >
+                            <label htmlFor={`image${index}`}>
+                              Resim Seçin:
+                            </label>
+                            <input
+                              onChange={(e) =>
+                                handleImageChangeInformations(e, index)
+                              }
+                              type="file"
+                              className="bg-gray-200 text-gray-600 font-semibold rounded-xl w-48"
+                              id={`image${index}`}
+                              name={`image${index}`}
+                            />
+                            {selectedImagesInformations[index] && (
+                              <img
+                                src={selectedImagesInformations[index]}
+                                height={50}
+                                width={50}
+                                alt={`Yeni Seçilen Resim`}
+                              />
+                            )}
+                            <button
+                              type="submit"
+                              className="text-gray-600 bg-gray-100 p-3 rounded-xl font-semibold mt-3"
+                            >
+                              Kaydet
+                            </button>
+                          </form>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
               )}
@@ -1690,38 +1833,54 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                           }
                           className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
                         />
+                        <Image
+                          src={courses[selectedBigInputIndex].icon}
+                          width={50}
+                          height={50}
+                          alt={courses[selectedBigInputIndex].icon}
+                        />
                         <input
                           onChange={(event) =>
                             handleCourseInputChange(event, index, "icon")
                           }
-                          type="icon"
-                          placeholder={
-                            courses[selectedBigInputIndex].icon || "İcon"
-                          }
-                          className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                          type="file"
+                          className="bg-gray-200 text-gray-600 font-semibold rounded-xl w-60"
                         />
-                        <input
-                          onChange={(event) =>
-                            handleCourseInputChange(event, index, "border")
-                          }
-                          type="text"
-                          placeholder={
-                            courses[selectedBigInputIndex].border ||
-                            "Çerçeve rengi"
-                          }
-                          className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
-                        />
-                        <input
-                          onChange={(event) =>
-                            handleCourseInputChange(event, index, "background")
-                          }
-                          type="text"
-                          placeholder={
-                            courses[selectedBigInputIndex].background ||
-                            "Arka plan rengi"
-                          }
-                          className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
-                        />
+                        <div className="flex  bg-gray-100 px-4 rounded-xl mt-3">
+                          <label
+                            htmlFor="border"
+                            className="text-gray-600 font-semibold mr-2 flex justify-center items-center"
+                          >
+                            Çerçeve Rengi:
+                          </label>
+                          <input
+                            onChange={(event) =>
+                              handleCourseInputChange(event, index, "border")
+                            }
+                            type="color"
+                            className="bg-gray-100 text-gray-600 font-semibold m-3 rounded-xl"
+                          />
+                        </div>
+                        <div className="flex  bg-gray-100 px-4 rounded-xl mt-3">
+                          <label
+                            htmlFor="border"
+                            className="text-gray-600 font-semibold mr-2 flex justify-center items-center"
+                          >
+                            Arka Plan Rengi:
+                          </label>
+                          <input
+                            onChange={(event) =>
+                              handleCourseInputChange(
+                                event,
+                                index,
+                                "background"
+                              )
+                            }
+                            type="color"
+                            className="bg-gray-100 text-gray-600 font-semibold m-3 rounded-xl"
+                          />
+                        </div>
+
                         <input
                           onChange={(event) =>
                             handleCourseInputChange(event, index, "extraField")
@@ -1801,23 +1960,45 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                           placeholder="Kurs sayısı"
                           className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
                         />
+                        <div className="flex  bg-gray-100 px-4 mb-3 rounded-xl">
+                          <label
+                            htmlFor="border"
+                            className="text-gray-600 font-semibold mr-2 flex justify-center items-center"
+                          >
+                            Çerçeve Rengi:
+                          </label>
+                          <input
+                            onChange={(event) =>
+                              handleAddCourseInputChange(event, "border")
+                            }
+                            type="color"
+                            className="bg-gray-100 font-semibold m-3 rounded-xl"
+                          />
+                        </div>
                         <input
                           onChange={(event) =>
-                            handleAddCourseInputChange(event, "border")
+                            handleAddCourseInputChange(event, "icon")
                           }
-                          type="text"
-                          placeholder="Çerçeve rengi"
-                          className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                          type="file"
+                          accept="image/*"
+                          placeholder="İkon"
+                          className="bg-gray-200 text-gray-600 font-semibold rounded-xl w-60"
                         />
-                        <input
-                          onChange={(event) =>
-                            handleAddCourseInputChange(event, "background")
-                          }
-                          type="text"
-                          placeholder="Arka plan rengi"
-                          className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
-                        />
-
+                        <div className="flex  bg-gray-100 px-4 rounded-xl mt-3">
+                          <label
+                            htmlFor="border"
+                            className="text-gray-600 font-semibold mr-2 flex justify-center items-center"
+                          >
+                            Arka Plan Rengi:
+                          </label>
+                          <input
+                            onChange={(event) =>
+                              handleAddCourseInputChange(event, "background")
+                            }
+                            type="color"
+                            className="bg-gray-100 font-semibold m-3 rounded-xl"
+                          />
+                        </div>
                         <input
                           onChange={(event) =>
                             handleAddCourseInputChange(event, "extraField")
@@ -1826,10 +2007,95 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                           type="text"
                           className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
                         />
+                        <button
+                          type="submit"
+                          className="text-gray-600 bg-gray-100 py-3 px-8 rounded-xl font-semibold m-5"
+                        >
+                          Oluştur
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </>
+            </div>
+          </div>
+        </div>
+      )}
+      {/* add navbar modal */}
+      {addNavbar && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-gray-600 bg-opacity-50">
+          <div className="relative mx-auto px-auto bg-white rounded-2xl animate__animated animate__fadeInDown w-80 lg:w-auto lg:max-w-[400px] lg:min-w-[400px]">
+            <div className="flex flex-col md:flex-row justify-evenly items-center gap-x-2 lg:gap-x-5 mt-3 md:mt-16 text-xs lg:text-sm">
+              <div className="flex items-center justify-center relative w-full">
+                <div
+                  className="w-5 h-5 md:w-10 md:h-10 rounded-md p-4 cursor-pointer transition-all duration-700  bg-gray-400/50 hover:bg-red-500 group absolute right-2 bottom-1"
+                  onClick={closeAddNavbarModal}
+                >
+                  <svg
+                    stroke="currentColor"
+                    fill="currentColor"
+                    strokeWidth="0"
+                    viewBox="0 0 512 512"
+                    className="text-txtRed transition-all duration-700 rotate-180 flex absolute group-hover:opacity-0 group-hover:rotate-0 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                    height="30"
+                    width="30"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path d="M289.94 256l95-95A24 24 0 00351 127l-95 95-95-95a24 24 0 00-34 34l95 95-95 95a24 24 0 1034 34l95-95 95 95a24 24 0 0034-34z"></path>
+                  </svg>
+                  <svg
+                    stroke="currentColor"
+                    fill="currentColor"
+                    strokeWidth="0"
+                    viewBox="0 0 24 24"
+                    className="text-white rotate-0 transition-all duration-700 opacity-0 group-hover:block group-hover:rotate-180 group-hover:opacity-100 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                    height="30"
+                    width="30"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path d="M4.5 12.75a.75.75 0 0 1 .75-.75h13.5a.75.75 0 0 1 0 1.5H5.25a.75.75 0 0 1-.75-.75Z"></path>
+                  </svg>
+                </div>
+              </div>
+            </div>
+            <div className="content flex flex-col items-center justify-center">
+              <>
+                <div className="flex flex-col items-center justify-center">
+                  <div className="inputArea ">
+                    <div className="detailInputs flex flex-col items-center justify-center">
+                      <button
+                        onClick={handleAddAnotherItem}
+                        className="text-gray-600 bg-gray-100 py-3 px-8 rounded-xl font-semibold m-5"
+                      >
+                        Alt Menü Ekle
+                      </button>
+                      <form
+                        onSubmit={handleAddNavbar}
+                        className="flex flex-row flex-wrap items-center justify-center"
+                      >
+                        <input
+                          onChange={(event) =>
+                            handleAddNavbarInputChange(event, "name")
+                          }
+                          type="text"
+                          placeholder="Menü ismi"
+                          className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                        />
+                        {[...Array(underMenuCount)].map((_, index) => (
+                          <input
+                            key={index}
+                            onChange={(event) =>
+                              handleAddNavbarInputChange(event, "items", index)
+                            }
+                            type="text"
+                            placeholder={`Alt Menü ${index + 1}`}
+                            className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                          />
+                        ))}
 
                         <button
                           type="submit"
-                          onClick={handleAddCourse}
                           className="text-gray-600 bg-gray-100 py-3 px-8 rounded-xl font-semibold m-5"
                         >
                           Oluştur
