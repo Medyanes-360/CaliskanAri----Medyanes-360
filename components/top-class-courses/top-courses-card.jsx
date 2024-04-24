@@ -1,7 +1,7 @@
 import { coursesCard } from "../constants";
-import "./top-courses.css"
+import "./top-courses.css";
+import Image from "next/image";
 export const TopCoursesCard = () => {
-
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-20 pt-20">
       {coursesCard.map((course, index) => (
@@ -10,7 +10,7 @@ export const TopCoursesCard = () => {
           className="hover:bg-cst_purple hover:cursor-pointer group top-courses bg-no-repeat bg-right-bottom flex flex-row items-center justify-start gap-6 border bg-card border-gray-200 rounded-md pt-10 pb-10 ps-5 pe-5 "
         >
           <div
-            className={`text-3xl flex items-center justify-center border-2 border-solid ${course.border} rounded-full bg-transparent h-16 w-16 text-white p-9`}
+            className={`text-3xl flex items-center justify-center border-2 border-solid ${course.border} rounded-full bg-transparent h-16 w-16 text-white`}
             style={{
               backgroundImage: `${course.background}`,
               boxShadow: "0 4px 20px #d0d0d0",
@@ -18,17 +18,19 @@ export const TopCoursesCard = () => {
             }}
           >
             {
-              <span>
-                <course.icon />
-              </span>
+              <Image
+                src={course.icon}
+                width={50}
+                height={50}
+                alt={course.icon}
+              />
             }
           </div>
           <div className="flex flex-col">
             <p className="text-xl text-cst_purple">{course.title}</p>
             {/* <p className="text-base text-cst_grey ">{course.quantity}</p> */}
           </div>
-          <div>
-          </div>
+          <div></div>
         </div>
       ))}
     </div>
