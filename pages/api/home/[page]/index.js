@@ -1,4 +1,5 @@
 import { getAllData } from "@/services/serviceOperations";
+import { PostHomeInfo } from "./posts";
 
 async function homeHandler(req, res) {
   const section = req.url.split("/")[3];
@@ -12,14 +13,17 @@ async function homeHandler(req, res) {
       } catch (error) {
         return res.status(500).json({ error: error.message });
       }
-    case "POST":
+    case "PUT":
       switch (section) {
         case "HomeInfo":
-          
+          return PostHomeInfo({ section, req, res });
+        default:
+          return res
+            .status(405)
+            .end(`Bad request: ${section} is not a valid section`);
       }
-      break;
     default:
-      res.setHeader("Allow", ["GET", "POST"]);
+      res.setHeader("Allow", ["GET", "PUT"]);
       return res.status(405).end(`Method ${requestMethod} Not Allowed`);
   }
 }
