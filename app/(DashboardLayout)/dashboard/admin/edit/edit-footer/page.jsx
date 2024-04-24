@@ -27,7 +27,7 @@ const Page = () => {
             className="w-full rounded-xl"
           />
         </div>
-        <div className="informations  flex flex-col items-start justify-center bg-gray-100 p-5 rounded-xl my-5">
+        <div className="informations  flex flex-col items-start justify-center bg-gray-100 p-1 lg:p-5 rounded-xl my-5">
           <div className="infoBox flex flex-row m-5">
             <Image
               src={n1}

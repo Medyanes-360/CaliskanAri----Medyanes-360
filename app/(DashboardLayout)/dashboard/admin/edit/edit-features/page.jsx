@@ -3,7 +3,7 @@
 import SelectedDetail from "@/components/dashboardEdit/selectedDetail";
 import { useState } from "react";
 import Image from "next/image";
-import navbar from "@/assets/image/dashboardImages/students.png";
+import navbar from "@/assets/image/dashboardImages/features.png";
 import n1 from "@/assets/image/dashboardImages/number-1.png";
 import n2 from "@/assets/image/dashboardImages/number-2.png";
 import n3 from "@/assets/image/dashboardImages/number-3.png";
@@ -26,29 +26,8 @@ const Page = () => {
             alt="navbar"
             className="w-full rounded-xl"
           />
-          <Image
-            src={n1}
-            width={"30vw"}
-            height={"10vw"}
-            alt="navbar"
-            className="w-6 h-6 mr-4 my-auto absolute top-[180px] left-[770px]"
-          />
-          <Image
-            src={n2}
-            width={"30vw"}
-            height={"10vw"}
-            alt="navbar"
-            className="w-6 h-6 mr-4 my-auto absolute bottom-5 left-5"
-          />
-          <Image
-            src={n3}
-            width={"30vw"}
-            height={"10vw"}
-            alt="navbar"
-            className="w-6 h-6 mr-4 my-auto absolute left-[320px] top-[200px]"
-          />
         </div>
-        <div className="informations  flex flex-col items-start justify-center bg-gray-100 p-5 rounded-xl my-5">
+        <div className="informations  flex flex-col items-start justify-center bg-gray-100 p-1 lg:p-5 rounded-xl my-5">
           <div className="infoBox flex flex-row m-5">
             <Image
               src={n1}
@@ -84,7 +63,21 @@ const Page = () => {
               className="w-6 h-6 mr-4 my-auto "
             />
             <h1 className="text-xs lg:text-sm text-left text-gray-600 font-semibold flex items-center justify-center">
-              Resimleri değiştir alanından buradaki resimi değiştirebilirsiniz.
+              Ders Düzenle-Ekle alanından var olan dersleri düzenleyebilir yeni
+              dersler ekleyebilirsiniz.
+            </h1>
+          </div>
+          <div className="infoBox flex flex-row m-5">
+            <Image
+              src={n4}
+              width={"30vw"}
+              height={"10vw"}
+              alt="navbar"
+              className="w-6 h-6 mr-4 my-auto "
+            />
+            <h1 className="text-xs lg:text-sm text-left text-gray-600 font-semibold flex items-center justify-center">
+              Kategori Düzenle-Ekle alanından var olan Kategorileri
+              düzenleyebilir yeni Kategoriler ekleyebilirsiniz.
             </h1>
           </div>
         </div>

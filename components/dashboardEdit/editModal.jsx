@@ -1,19 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  RiNumber0,
-  RiNumber1,
-  RiNumber2,
-  RiNumber3,
-  RiNumber4,
-  RiNumber5,
-  RiNumber6,
-  RiNumber7,
-  RiNumber8,
-  RiNumber9,
-} from "react-icons/ri";
-import { GiTiedScroll } from "react-icons/gi";
-import { FcIdea } from "react-icons/fc";
-import { TfiCup } from "react-icons/tfi";
+import { SketchPicker } from "react-color";
 import Image from "next/image";
 const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
   const [selectedColor, setSelectedColor] = useState("#000000");
@@ -22,6 +8,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
   const [selectedImageStudents, setSelectedImageStudents] = useState(null);
   const [selectedImageVideo, setSelectedImageVideo] = useState(null);
   const [selectedImageMain, setSelectedImageMain] = useState(null);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(null);
   const [selectedImagesInformations, setSelectedImagesInformations] = useState(
     []
   );
@@ -223,7 +210,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
     {
       label: "Term Conditions",
     },
-  ]);
+  ]); //FOOTER KAYNAKLAR DEĞİŞKENİ
 
   const [logobanner, setLogoBanner] = useState([
     {
@@ -303,7 +290,96 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
     {
       label: "SEO Optimize",
     },
-  ]);
+  ]); //FOOTER KURSLAR DEĞİŞKENİ
+  const [featured, setFeatured] = useState([
+    {
+      title: "The Complete Android Development Course",
+      name: "- Floyd Miles",
+      image:
+        "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads/2023/07/crs_img_1-380x277.jpg",
+      price: "",
+      star: 0,
+      topDesc: "Business",
+    },
+    {
+      title: "The Complete Android Java Developer Course",
+      name: "-  Millar Richard",
+      image:
+        "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads/2023/07/crs_img_2-380x277.jpg",
+      price: "",
+      discount: "",
+      star: 4,
+      topDesc: "Technology",
+      students: 11,
+      lessons: 8,
+    },
+    {
+      title: "The Complete WordPress Plugin Development Course",
+      name: "-  Jenny Wilson",
+      image:
+        "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads/2023/07/crs_img_3-380x277.jpg",
+      price: "",
+      star: 4,
+      topDesc: "Development",
+      students: 5,
+      lessons: 6,
+    },
+    {
+      title: "The Complete React Native Course",
+      name: "- Floyd Miles",
+      image:
+        "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads/2023/07/crs_img_5-380x277.jpg",
+      price: "Free",
+      star: 0,
+      topDesc: "Finance",
+      students: 7,
+      lessons: 5,
+    },
+    {
+      title: "JQuery and JavaScript Fundamental Course",
+      name: "- Jenny Wilson",
+      image:
+        "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads/2023/07/crs_img_4-380x277.jpg",
+      price: "",
+      star: 0,
+      topDesc: "Business",
+      students: 1,
+      lessons: 5,
+    },
+    {
+      title: "The Complete Cyber Security Course",
+      name: "- Kristin Watson",
+      image:
+        "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads/2023/07/crs_img_9-380x277.jpg",
+      price: "",
+      star: 0,
+      topDesc: "Technology",
+      students: 1,
+      lessons: 0,
+    },
+    {
+      title: "The Complete SEO & Digital Marketing Course",
+      name: "- Millar Richard",
+      image:
+        "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads/2023/07/crs_img_11-768x557.jpg",
+      price: "",
+      star: 5,
+      topDesc: "Technology",
+      students: 3,
+      lessons: 0,
+    },
+    {
+      title: "The Complete C and C++ Course for Beginners",
+      name: "- Eleanor Pena",
+      image:
+        "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads/2023/07/crs_img_8jpg-768x557.jpg",
+      price: "",
+      star: 0,
+      topDesc: "Development",
+      students: 0,
+      lessons: 0,
+    },
+  ]); //FEATURED DEĞİŞKENİ
   const [newCourse, setNewCourse] = useState({
     title: "",
     quantity: "",
@@ -311,6 +387,16 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
     border: "",
     background: "",
   }); //YENİ KURS EKLEME DEĞİŞKENİ
+  const [newFeature, setNewFeature] = useState({
+    title: "",
+    name: "",
+    image: "",
+    price: "",
+    star: "",
+    topDesc: "",
+    students: "",
+    lessons: "",
+  }); //YENİ DERS EKLEME DEĞİŞKENİ
   const [newNavbar, setNewNavbar] = useState({
     name: "",
     items: [],
@@ -331,6 +417,22 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
     }
   }; //YENİ KURS EKLEME
 
+  const handleAddFeatureInputChange = (event, field) => {
+    const { value, files } = event.target;
+    if (field === "image" && files && files.length > 0) {
+      const imageFile = files[0];
+      setNewFeature((prevFeature) => ({
+        ...prevFeature,
+        [field]: URL.createObjectURL(imageFile),
+      }));
+    } else {
+      setNewFeature((prevFeature) => ({
+        ...prevFeature,
+        [field]: value,
+      }));
+    }
+  }; //YENİ DERS EKLEME
+
   const handleAddCourse = (event) => {
     event.preventDefault();
     setCourses((prevCourses) => [...prevCourses, newCourse]);
@@ -342,6 +444,22 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
       background: "",
     });
     closeAddCourseModal();
+  }; //YENİ KURS EKLEME
+
+  const handleAddFeature = (event) => {
+    event.preventDefault();
+    setFeatured((prevFeature) => [...prevFeature, newFeature]);
+    setNewFeature({
+      title: "",
+      name: "",
+      image: "",
+      price: "",
+      star: "",
+      topDesc: "",
+      students: "",
+      lessons: "",
+    });
+    closeAddFeatureModal();
   }; //YENİ KURS EKLEME
   const handleAddNavbarInputChange = (event, field, index) => {
     const { value } = event.target;
@@ -374,18 +492,21 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
   const handleAddAnotherItem = () => {
     setUnderMenuCount((prevCount) => prevCount + 1);
   };
+  const handleDeleteAnotherItem = () => {
+    setUnderMenuCount((prevCount) => prevCount - 1);
+  };
   const [selectedBigInputIndex, setSelectedBigInputIndex] = useState(null);
   const [isChildInputModalOpen, setChildInputModalOpen] = useState(false);
   const [addCourse, setAddCourse] = useState(false);
   const [addNavbar, setAddNavbar] = useState(false);
+  const [addFeature, setAddFeature] = useState(false);
 
-  const handleColorChange = (event) => {
-    const color = event.target.value;
-    setSelectedColor(color);
+  const handleColorChange = (color) => {
+    setSelectedColor(color.hex);
   };
-  const handleTextColorChange = (event) => {
-    const color = event.target.value;
-    setSelectedTextColor(color);
+
+  const handleTextColorChange = (color) => {
+    setSelectedTextColor(color.hex);
   };
 
   const handleInputChange = (event, menuIndex, itemIndex = null) => {
@@ -420,28 +541,54 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
     };
     setCourses(newCourses);
   }; //KURS ALANI KURS BİLGİLERİNİ DEĞİŞİTREN FONKSİYON
+
+  const handleFeaturesInputChange = (event, index, field) => {
+    const { value } = event.target;
+    const newFeature = [...featured];
+    newFeature[index] = {
+      ...newFeature[index],
+      [field]: value,
+    };
+    setFeatured(newFeature);
+  }; //KURS ALANI KURS BİLGİLERİNİ DEĞİŞİTREN FONKSİYON
+
   const closeAddCourseModal = () => {
     setAddCourse(false);
+  };
+  const closeAddFeatureModal = () => {
+    setAddFeature(false);
   };
   const closeAddNavbarModal = () => {
     setAddNavbar(false);
   };
 
-  const handleSubmitBackgroundColor = (event) => {
+  const handleSubmitBackgroundColor = (event, pageId) => {
     event.preventDefault();
-    console.log("Seçilen renk:", selectedColor);
-  };
-  const handleSubmitTextColor = (event) => {
+    console.log(
+      pageId + " sayfası" + " Seçilen arka plan rengi:" + selectedColor
+    );
+  }; //HER KISIM İÇİN PAGEID ALIP ONA GÖRE DB YE GÖNDERECEĞİZ ARKA PLAN RENGİNİ
+  const handleSubmitTextColor = (event, pageId) => {
     event.preventDefault();
-    console.log("Seçilen Yazı renk:", selectedTextColor);
-  };
+    console.log(
+      pageId + " sayfası" + " Seçilen yazı rengi:" + selectedTextColor
+    );
+  }; //HER KISIM İÇİN PAGEID ALIP ONA GÖRE DB YE GÖNDERECEĞİZ YAZI RENGİNİ
   const handleSubmitNavbar = (event) => {
     event.preventDefault();
     console.log("Menüler:", menus);
-  };
+    closeAddNavbarModal();
+  }; //NAVBAR YAPTIĞIMIZ EKLEME DEĞİŞTİRME İŞLEMLERNİ KAYDEDEN FONKSİYON
   const handleSubmitCourses = (event) => {
+    event.preventDefault();
     console.log("Kurslar:", courses);
-  };
+    closeAddCourseModal();
+  }; //KURSLARDA YAPTIĞIMIZ EKLEME DEĞİŞTİRME İŞLEMLERNİ KAYDEDEN FONKSİYON
+  const handleSubmitFeature = (event) => {
+    event.preventDefault();
+    console.log("Dersler:", featured);
+    closeAddCourseModal();
+  }; //KURSLARDA YAPTIĞIMIZ EKLEME DEĞİŞTİRME İŞLEMLERNİ KAYDEDEN FONKSİYON
   const handleSubmitMainText = (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
@@ -722,8 +869,6 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
     };
     setFootercourses(updatedInformations);
   };
-  const [selectedImageIndex, setSelectedImageIndex] = useState(null);
-
   const handleImageChangeLogoBanner = (event, index) => {
     const imageFile = event.target.files[0];
     setSelectedImage(imageFile);
@@ -841,10 +986,10 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
         >
           <div>
             <div className="flex flex-col px-3 mx-auto rounded-lg bg-bgWhite">
-              <div className="flex flex-col md:flex-row justify-evenly items-center gap-x-2 lg:gap-x-5 mt-3 md:mt-16 text-xs lg:text-sm">
-                <div className="flex items-center justify-center relative w-full">
+              <div className="flex flex-col md:flex-row justify-evenly items-center gap-x-2 lg:gap-x-5 mt-3 text-xs lg:text-sm ml-auto">
+                <div className="flex items-center justify-center relative w-full ml-auto">
                   <div
-                    className="w-5 h-5 md:w-10 md:h-10 rounded-md p-4 cursor-pointer transition-all duration-700  bg-gray-400/50 hover:bg-red-500 group absolute right-2 bottom-1"
+                    className="w-5 h-5 md:w-10 md:h-10 rounded-md p-4 cursor-pointer transition-all duration-700  bg-gray-400/50 hover:bg-red-500 group  right-2 bottom-1"
                     onClick={onClose}
                   >
                     <svg
@@ -882,16 +1027,15 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                     {pageId} Sayfası Arka Plan Renk Seçici
                   </h1>
                   <form
-                    onSubmit={handleSubmitBackgroundColor}
+                    onSubmit={(event) =>
+                      handleSubmitBackgroundColor(event, pageId)
+                    }
                     className="flex flex-col items-center justify-center"
                   >
-                    <label htmlFor="color">Renk Seçin:</label>
-                    <input
-                      type="color"
-                      id="color"
-                      name="color"
-                      value={selectedColor}
-                      onChange={handleColorChange}
+                    <SketchPicker
+                      className="my-3 w-full !p-5"
+                      color={selectedColor}
+                      onChange={(color) => handleColorChange(color)}
                     />
                     <h1 className="text-gray-500 text-center font-semibold m-3 mb-0">
                       Seçtiğiniz renk kodu: {selectedColor}
@@ -911,17 +1055,15 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                     {pageId} Sayfası Yazı Renkleri
                   </h1>
                   <form
-                    onSubmit={handleSubmitTextColor}
+                    onSubmit={(event) => handleSubmitTextColor(event, pageId)}
                     className="flex flex-col items-center justify-center"
                   >
-                    <label htmlFor="color">Renk Seçin:</label>
-                    <input
-                      type="color"
-                      id="color"
-                      name="color"
-                      value={selectedTextColor}
-                      onChange={handleTextColorChange}
+                    <SketchPicker
+                      className="my-3 w-full !p-5"
+                      color={selectedTextColor}
+                      onChange={(color) => handleTextColorChange(color)}
                     />
+
                     <h1 className="text-gray-500 text-center font-semibold m-3 mb-0">
                       Seçtiğiniz renk kodu: {selectedTextColor}
                     </h1>
@@ -970,6 +1112,50 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                     <button
                       type="submit"
                       className="text-gray-600 bg-gray-100 py-3 px-24 rounded-xl font-semibold m-5"
+                    >
+                      Kaydet
+                    </button>
+                  </form>
+                </div>
+              )}
+              {modalContent === "buton" && pageId === "features" && (
+                <div className="flex flex-col items-center justify-center ">
+                  <h1 className="text-gray-700 font-semibold">Dersler</h1>
+                  <button
+                    onClick={() => setAddFeature(true)}
+                    className="text-gray-600 bg-gray-100 py-3 px-8 rounded-xl font-semibold m-5 mb-0"
+                  >
+                    Ders Ekle
+                  </button>
+                  <form
+                    onSubmit={handleSubmitFeature}
+                    className="flex flex-row flex-wrap items-center justify-center max-h-[500px] overflow-scroll"
+                  >
+                    {featured.map((feature, index) => (
+                      <div key={index} className="inputArea">
+                        <div className="bigInput flex">
+                          <input
+                            onChange={(event) =>
+                              handleFeaturesInputChange(event, index, "title")
+                            }
+                            placeholder="Ders Adı"
+                            type="text"
+                            value={feature.title}
+                            className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => openChildInputModal(index)}
+                            className="text-gray-600 bg-gray-100 py-3 px-5 rounded-xl font-semibold m-5 ml-0"
+                          >
+                            <i class="fa-solid fa-angle-right"></i>
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                    <button
+                      type="submit"
+                      className="text-gray-600 bg-gray-100 py-3 px-8 rounded-xl font-semibold m-5"
                     >
                       Kaydet
                     </button>
@@ -1757,43 +1943,50 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
       {isChildInputModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-gray-600 bg-opacity-50">
           <div className="relative mx-auto px-auto bg-white rounded-2xl animate__animated animate__fadeInDown w-80 lg:w-auto lg:max-w-[400px] lg:min-w-[400px]">
-            <div className="flex flex-col md:flex-row justify-evenly items-center gap-x-2 lg:gap-x-5 mt-3 md:mt-16 text-xs lg:text-sm">
-              <div className="flex items-center justify-center relative w-full">
-                <div
-                  className="w-5 h-5 md:w-10 md:h-10 rounded-md p-4 cursor-pointer transition-all duration-700  bg-gray-400/50 hover:bg-red-500 group absolute right-2 bottom-1"
-                  onClick={closeChildInputModal}
-                >
-                  <svg
-                    stroke="currentColor"
-                    fill="currentColor"
-                    strokeWidth="0"
-                    viewBox="0 0 512 512"
-                    className="text-txtRed transition-all duration-700 rotate-180 flex absolute group-hover:opacity-0 group-hover:rotate-0 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-                    height="30"
-                    width="30"
-                    xmlns="http://www.w3.org/2000/svg"
+            <div className="flex flex-col px-3 mx-auto rounded-lg bg-bgWhite">
+              <div className="flex flex-col md:flex-row justify-evenly items-center gap-x-2 lg:gap-x-5 mt-3 text-xs lg:text-sm ml-auto">
+                <div className="flex items-center justify-center relative w-full ml-auto">
+                  <div
+                    className="w-5 h-5 md:w-10 md:h-10 rounded-md p-4 cursor-pointer transition-all duration-700  bg-gray-400/50 hover:bg-red-500 group  right-2 bottom-1"
+                    onClick={closeChildInputModal}
                   >
-                    <path d="M289.94 256l95-95A24 24 0 00351 127l-95 95-95-95a24 24 0 00-34 34l95 95-95 95a24 24 0 1034 34l95-95 95 95a24 24 0 0034-34z"></path>
-                  </svg>
-                  <svg
-                    stroke="currentColor"
-                    fill="currentColor"
-                    strokeWidth="0"
-                    viewBox="0 0 24 24"
-                    className="text-white rotate-0 transition-all duration-700 opacity-0 group-hover:block group-hover:rotate-180 group-hover:opacity-100 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-                    height="30"
-                    width="30"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path d="M4.5 12.75a.75.75 0 0 1 .75-.75h13.5a.75.75 0 0 1 0 1.5H5.25a.75.75 0 0 1-.75-.75Z"></path>
-                  </svg>
+                    <svg
+                      stroke="currentColor"
+                      fill="currentColor"
+                      strokeWidth="0"
+                      viewBox="0 0 512 512"
+                      className="text-txtRed transition-all duration-700 rotate-180 flex absolute group-hover:opacity-0 group-hover:rotate-0 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                      height="30"
+                      width="30"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path d="M289.94 256l95-95A24 24 0 00351 127l-95 95-95-95a24 24 0 00-34 34l95 95-95 95a24 24 0 1034 34l95-95 95 95a24 24 0 0034-34z"></path>
+                    </svg>
+                    <svg
+                      stroke="currentColor"
+                      fill="currentColor"
+                      strokeWidth="0"
+                      viewBox="0 0 24 24"
+                      className="text-white rotate-0 transition-all duration-700 opacity-0 group-hover:block group-hover:rotate-180 group-hover:opacity-100 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                      height="30"
+                      width="30"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path d="M4.5 12.75a.75.75 0 0 1 .75-.75h13.5a.75.75 0 0 1 0 1.5H5.25a.75.75 0 0 1-.75-.75Z"></path>
+                    </svg>
+                  </div>
                 </div>
               </div>
             </div>
             <div className="content flex flex-col items-center justify-center">
-              <h1 className="text-gray-500 text-center font-semibold">
-                Alt Menüler
-              </h1>
+              {modalContent === "yazı" &&
+                pageId === "navbar" &&
+                selectedBigInputIndex !== null && (
+                  <h1 className="text-gray-500 text-center font-semibold">
+                    Alt Menüler
+                  </h1>
+                )}
+
               {modalContent === "yazı" &&
                 pageId === "navbar" &&
                 selectedBigInputIndex !== null &&
@@ -1893,6 +2086,104 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                   </div>
                 </>
               )}
+              {modalContent === "buton" && pageId === "features" && (
+                <h1 className="text-gray-500 text-center font-semibold">
+                  Ders Bilgileri
+                </h1>
+              )}
+              {modalContent === "buton" && pageId === "features" && (
+                <>
+                  <div className="flex flex-col items-center justify-center">
+                    <div className="inputArea ">
+                      <div className="detailInputs flex flex-col items-center justify-center">
+                        <input
+                          onChange={(event) =>
+                            handleFeaturesInputChange(event, index, "title")
+                          }
+                          type="text"
+                          placeholder={featured[selectedBigInputIndex].title}
+                          className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                        />
+
+                        <input
+                          onChange={(event) =>
+                            handleFeaturesInputChange(event, index, "name")
+                          }
+                          type="text"
+                          placeholder={featured[selectedBigInputIndex].name}
+                          className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                        />
+                        <Image
+                          src={featured[selectedBigInputIndex].image}
+                          width={150}
+                          height={150}
+                          alt={featured[selectedBigInputIndex].image}
+                        />
+                        <input
+                          onChange={(event) =>
+                            handleFeaturesInputChange(event, index, "image")
+                          }
+                          type="file"
+                          className="bg-gray-200 text-gray-600 font-semibold rounded-xl w-60"
+                        />
+                        <input
+                          onChange={(event) =>
+                            handleFeaturesInputChange(event, index, "price")
+                          }
+                          type="text"
+                          placeholder={
+                            featured[selectedBigInputIndex].price || "Ücret"
+                          }
+                          className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                        />
+                        <input
+                          onChange={(event) =>
+                            handleFeaturesInputChange(event, index, "star")
+                          }
+                          type="text"
+                          placeholder={
+                            featured[selectedBigInputIndex].star || "Yıldız"
+                          }
+                          className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                        />
+                        <input
+                          onChange={(event) =>
+                            handleFeaturesInputChange(event, index, "topDesc")
+                          }
+                          type="text"
+                          placeholder={
+                            featured[selectedBigInputIndex].topDesc ||
+                            "Kategori"
+                          }
+                          className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                        />
+                        <input
+                          onChange={(event) =>
+                            handleFeaturesInputChange(event, index, "students")
+                          }
+                          type="text"
+                          placeholder={
+                            featured[selectedBigInputIndex].students ||
+                            "Öğrenci Sayısı"
+                          }
+                          className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                        />
+                        <input
+                          onChange={(event) =>
+                            handleFeaturesInputChange(event, index, "lessons")
+                          }
+                          type="text"
+                          placeholder={
+                            featured[selectedBigInputIndex].lessons ||
+                            "Ders Sayısı"
+                          }
+                          className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </div>
@@ -1901,36 +2192,38 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
       {addCourse && (
         <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-gray-600 bg-opacity-50">
           <div className="relative mx-auto px-auto bg-white rounded-2xl animate__animated animate__fadeInDown w-80 lg:w-auto lg:max-w-[400px] lg:min-w-[400px]">
-            <div className="flex flex-col md:flex-row justify-evenly items-center gap-x-2 lg:gap-x-5 mt-3 md:mt-16 text-xs lg:text-sm">
-              <div className="flex items-center justify-center relative w-full">
-                <div
-                  className="w-5 h-5 md:w-10 md:h-10 rounded-md p-4 cursor-pointer transition-all duration-700  bg-gray-400/50 hover:bg-red-500 group absolute right-2 bottom-1"
-                  onClick={closeAddCourseModal}
-                >
-                  <svg
-                    stroke="currentColor"
-                    fill="currentColor"
-                    strokeWidth="0"
-                    viewBox="0 0 512 512"
-                    className="text-txtRed transition-all duration-700 rotate-180 flex absolute group-hover:opacity-0 group-hover:rotate-0 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-                    height="30"
-                    width="30"
-                    xmlns="http://www.w3.org/2000/svg"
+            <div className="flex flex-col px-3 mx-auto rounded-lg bg-bgWhite">
+              <div className="flex flex-col md:flex-row justify-evenly items-center gap-x-2 lg:gap-x-5 mt-3 text-xs lg:text-sm ml-auto">
+                <div className="flex items-center justify-center relative w-full ml-auto">
+                  <div
+                    className="w-5 h-5 md:w-10 md:h-10 rounded-md p-4 cursor-pointer transition-all duration-700  bg-gray-400/50 hover:bg-red-500 group  right-2 bottom-1"
+                    onClick={closeAddCourseModal}
                   >
-                    <path d="M289.94 256l95-95A24 24 0 00351 127l-95 95-95-95a24 24 0 00-34 34l95 95-95 95a24 24 0 1034 34l95-95 95 95a24 24 0 0034-34z"></path>
-                  </svg>
-                  <svg
-                    stroke="currentColor"
-                    fill="currentColor"
-                    strokeWidth="0"
-                    viewBox="0 0 24 24"
-                    className="text-white rotate-0 transition-all duration-700 opacity-0 group-hover:block group-hover:rotate-180 group-hover:opacity-100 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-                    height="30"
-                    width="30"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path d="M4.5 12.75a.75.75 0 0 1 .75-.75h13.5a.75.75 0 0 1 0 1.5H5.25a.75.75 0 0 1-.75-.75Z"></path>
-                  </svg>
+                    <svg
+                      stroke="currentColor"
+                      fill="currentColor"
+                      strokeWidth="0"
+                      viewBox="0 0 512 512"
+                      className="text-txtRed transition-all duration-700 rotate-180 flex absolute group-hover:opacity-0 group-hover:rotate-0 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                      height="30"
+                      width="30"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path d="M289.94 256l95-95A24 24 0 00351 127l-95 95-95-95a24 24 0 00-34 34l95 95-95 95a24 24 0 1034 34l95-95 95 95a24 24 0 0034-34z"></path>
+                    </svg>
+                    <svg
+                      stroke="currentColor"
+                      fill="currentColor"
+                      strokeWidth="0"
+                      viewBox="0 0 24 24"
+                      className="text-white rotate-0 transition-all duration-700 opacity-0 group-hover:block group-hover:rotate-180 group-hover:opacity-100 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                      height="30"
+                      width="30"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path d="M4.5 12.75a.75.75 0 0 1 .75-.75h13.5a.75.75 0 0 1 0 1.5H5.25a.75.75 0 0 1-.75-.75Z"></path>
+                    </svg>
+                  </div>
                 </div>
               </div>
             </div>
@@ -2021,40 +2314,41 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
           </div>
         </div>
       )}
-      {/* add navbar modal */}
-      {addNavbar && (
+      {addFeature && (
         <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-gray-600 bg-opacity-50">
           <div className="relative mx-auto px-auto bg-white rounded-2xl animate__animated animate__fadeInDown w-80 lg:w-auto lg:max-w-[400px] lg:min-w-[400px]">
-            <div className="flex flex-col md:flex-row justify-evenly items-center gap-x-2 lg:gap-x-5 mt-3 md:mt-16 text-xs lg:text-sm">
-              <div className="flex items-center justify-center relative w-full">
-                <div
-                  className="w-5 h-5 md:w-10 md:h-10 rounded-md p-4 cursor-pointer transition-all duration-700  bg-gray-400/50 hover:bg-red-500 group absolute right-2 bottom-1"
-                  onClick={closeAddNavbarModal}
-                >
-                  <svg
-                    stroke="currentColor"
-                    fill="currentColor"
-                    strokeWidth="0"
-                    viewBox="0 0 512 512"
-                    className="text-txtRed transition-all duration-700 rotate-180 flex absolute group-hover:opacity-0 group-hover:rotate-0 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-                    height="30"
-                    width="30"
-                    xmlns="http://www.w3.org/2000/svg"
+            <div className="flex flex-col px-3 mx-auto rounded-lg bg-bgWhite">
+              <div className="flex flex-col md:flex-row justify-evenly items-center gap-x-2 lg:gap-x-5 mt-3 text-xs lg:text-sm ml-auto">
+                <div className="flex items-center justify-center relative w-full ml-auto">
+                  <div
+                    className="w-5 h-5 md:w-10 md:h-10 rounded-md p-4 cursor-pointer transition-all duration-700  bg-gray-400/50 hover:bg-red-500 group  right-2 bottom-1"
+                    onClick={closeAddFeatureModal}
                   >
-                    <path d="M289.94 256l95-95A24 24 0 00351 127l-95 95-95-95a24 24 0 00-34 34l95 95-95 95a24 24 0 1034 34l95-95 95 95a24 24 0 0034-34z"></path>
-                  </svg>
-                  <svg
-                    stroke="currentColor"
-                    fill="currentColor"
-                    strokeWidth="0"
-                    viewBox="0 0 24 24"
-                    className="text-white rotate-0 transition-all duration-700 opacity-0 group-hover:block group-hover:rotate-180 group-hover:opacity-100 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-                    height="30"
-                    width="30"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path d="M4.5 12.75a.75.75 0 0 1 .75-.75h13.5a.75.75 0 0 1 0 1.5H5.25a.75.75 0 0 1-.75-.75Z"></path>
-                  </svg>
+                    <svg
+                      stroke="currentColor"
+                      fill="currentColor"
+                      strokeWidth="0"
+                      viewBox="0 0 512 512"
+                      className="text-txtRed transition-all duration-700 rotate-180 flex absolute group-hover:opacity-0 group-hover:rotate-0 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                      height="30"
+                      width="30"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path d="M289.94 256l95-95A24 24 0 00351 127l-95 95-95-95a24 24 0 00-34 34l95 95-95 95a24 24 0 1034 34l95-95 95 95a24 24 0 0034-34z"></path>
+                    </svg>
+                    <svg
+                      stroke="currentColor"
+                      fill="currentColor"
+                      strokeWidth="0"
+                      viewBox="0 0 24 24"
+                      className="text-white rotate-0 transition-all duration-700 opacity-0 group-hover:block group-hover:rotate-180 group-hover:opacity-100 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                      height="30"
+                      width="30"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path d="M4.5 12.75a.75.75 0 0 1 .75-.75h13.5a.75.75 0 0 1 0 1.5H5.25a.75.75 0 0 1-.75-.75Z"></path>
+                    </svg>
+                  </div>
                 </div>
               </div>
             </div>
@@ -2063,6 +2357,141 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                 <div className="flex flex-col items-center justify-center">
                   <div className="inputArea ">
                     <div className="detailInputs flex flex-col items-center justify-center">
+                      <form
+                        onSubmit={handleAddFeature}
+                        className="flex flex-row flex-wrap items-center justify-center"
+                      >
+                        <input
+                          onChange={(event) =>
+                            handleAddFeatureInputChange(event, "title")
+                          }
+                          type="text"
+                          placeholder={"İsim"}
+                          className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                        />
+
+                        <input
+                          onChange={(event) =>
+                            handleAddFeatureInputChange(event, "name")
+                          }
+                          type="text"
+                          placeholder={"Yayıncı"}
+                          className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                        />
+
+                        <input
+                          onChange={(event) =>
+                            handleAddFeatureInputChange(event, "image")
+                          }
+                          type="file"
+                          className="bg-gray-200 text-gray-600 font-semibold rounded-xl w-60"
+                        />
+                        <input
+                          onChange={(event) =>
+                            handleAddFeatureInputChange(event, "price")
+                          }
+                          type="text"
+                          placeholder={"Ücret"}
+                          className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                        />
+                        <input
+                          onChange={(event) =>
+                            handleAddFeatureInputChange(event, "star")
+                          }
+                          type="text"
+                          placeholder={"Yıldız"}
+                          className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                        />
+                        <input
+                          onChange={(event) =>
+                            handleAddFeatureInputChange(event, "topDesc")
+                          }
+                          type="text"
+                          placeholder={"Kategori"}
+                          className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                        />
+                        <input
+                          onChange={(event) =>
+                            handleAddFeatureInputChange(
+                              event,
+
+                              "students"
+                            )
+                          }
+                          type="text"
+                          placeholder={"Öğrenci Sayısı"}
+                          className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                        />
+                        <input
+                          onChange={(event) =>
+                            handleAddFeatureInputChange(event, "lessons")
+                          }
+                          type="text"
+                          placeholder={"Ders Sayısı"}
+                          className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                        />
+                        <button
+                          type="submit"
+                          className="text-gray-600 bg-gray-100 py-3 px-8 rounded-xl font-semibold m-5"
+                        >
+                          Oluştur
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </>
+            </div>
+          </div>
+        </div>
+      )}
+      {/* add navbar modal */}
+      {addNavbar && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-gray-600 bg-opacity-50">
+          <div className=" bg-white rounded-2xl animate__animated animate__fadeInDown w-80 lg:w-auto lg:max-w-[400px] lg:min-w-[400px]">
+            <div className="flex flex-col px-3 mx-auto rounded-lg bg-bgWhite">
+              <div className="flex flex-col md:flex-row justify-evenly items-center gap-x-2 lg:gap-x-5 mt-3 text-xs lg:text-sm ml-auto">
+                <div className="flex items-center justify-center relative w-full ml-auto">
+                  <div
+                    className="w-5 h-5 md:w-10 md:h-10 rounded-md p-4 cursor-pointer transition-all duration-700  bg-gray-400/50 hover:bg-red-500 group  right-2 bottom-1"
+                    onClick={closeAddNavbarModal}
+                  >
+                    <svg
+                      stroke="currentColor"
+                      fill="currentColor"
+                      strokeWidth="0"
+                      viewBox="0 0 512 512"
+                      className="text-txtRed transition-all duration-700 rotate-180 flex absolute group-hover:opacity-0 group-hover:rotate-0 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                      height="30"
+                      width="30"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path d="M289.94 256l95-95A24 24 0 00351 127l-95 95-95-95a24 24 0 00-34 34l95 95-95 95a24 24 0 1034 34l95-95 95 95a24 24 0 0034-34z"></path>
+                    </svg>
+                    <svg
+                      stroke="currentColor"
+                      fill="currentColor"
+                      strokeWidth="0"
+                      viewBox="0 0 24 24"
+                      className="text-white rotate-0 transition-all duration-700 opacity-0 group-hover:block group-hover:rotate-180 group-hover:opacity-100 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                      height="30"
+                      width="30"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path d="M4.5 12.75a.75.75 0 0 1 .75-.75h13.5a.75.75 0 0 1 0 1.5H5.25a.75.75 0 0 1-.75-.75Z"></path>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="content flex flex-col items-center justify-center">
+              <>
+                <div className="flex flex-col items-center justify-center">
+                  <div className="inputArea ">
+                    <div className="detailInputs flex flex-col items-center justify-center">
+                      <h1 className="text-gray-500 text-center font-semibold">
+                        Alt Menüler
+                      </h1>
                       <button
                         onClick={handleAddAnotherItem}
                         className="text-gray-600 bg-gray-100 py-3 px-8 rounded-xl font-semibold m-5"
@@ -2082,15 +2511,27 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                           className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
                         />
                         {[...Array(underMenuCount)].map((_, index) => (
-                          <input
-                            key={index}
-                            onChange={(event) =>
-                              handleAddNavbarInputChange(event, "items", index)
-                            }
-                            type="text"
-                            placeholder={`Alt Menü ${index + 1}`}
-                            className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
-                          />
+                          <div>
+                            <input
+                              key={index}
+                              onChange={(event) =>
+                                handleAddNavbarInputChange(
+                                  event,
+                                  "items",
+                                  index
+                                )
+                              }
+                              type="text"
+                              placeholder={`Alt Menü ${index + 1}`}
+                              className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                            />
+                            <button
+                              onClick={() => handleDeleteAnotherItem()}
+                              className="bg-gray-100 py-3 px-5 text-gray-600 font-semibold  rounded-xl"
+                            >
+                              X
+                            </button>
+                          </div>
                         ))}
 
                         <button

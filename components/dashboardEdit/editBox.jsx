@@ -8,6 +8,7 @@ function EditBox({
   onClick,
   id,
   path,
+  number,
   small = false,
 }) {
   return (
@@ -15,9 +16,16 @@ function EditBox({
       <div
         className={`generalBoxDiv w-36 h-32 ${
           small ? "lg:w-52" : "lg:w-64"
-        } lg:h-52 bg-gray-100 rounded-xl p-2 lg:p-5 flex flex-col items-center justify-center cursor-pointer`}
+        } lg:h-52 bg-gray-100 rounded-xl p-2 lg:p-5 flex flex-col items-center justify-center cursor-pointer relative`}
         onClick={onClick}
       >
+        {number !== undefined && (
+          <div className="numberImageArea bg-red-600 lg:w-8 lg:h-8 h-5 w-5 rounded-full absolute top-2 right-2 flex items-center justify-center">
+            <h1 className="text-white font-semibold text-center text-xs lg:text-sm">
+              {number}
+            </h1>
+          </div>
+        )}
         <div className="imgArea flex items-center justify-center">
           <Image
             src={image}

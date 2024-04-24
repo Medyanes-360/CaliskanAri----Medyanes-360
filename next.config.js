@@ -4,9 +4,13 @@ const nextConfig = {
     //appDir: true,
   },
   images: {
-    domains: ['source.unsplash.com', 'images.unsplash.com', 'free4kwallpapers.com'],
+    domains: [
+      "source.unsplash.com",
+      "images.unsplash.com",
+      "free4kwallpapers.com",
+      "www.radiustheme.com",
+    ],
   },
+};
 
-}
-
-module.exports = nextConfig
+module.exports = nextConfig;
