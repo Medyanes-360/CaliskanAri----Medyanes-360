@@ -92,48 +92,6 @@ const buttons = [
           },
         ],
       },
-      {
-        id: "1.1",
-        icon: UserIcon,
-        label: "Add Company",
-        path: "/dashboard/addcompany",
-      },
-      {
-        id: "1.2",
-        label: "Add Person",
-        icon: UserIcon,
-        path: "/dashboard/Addperson",
-      },
-      {
-        id: "1.3",
-        label: "Add Suplier",
-        icon: UserIcon,
-        path: "/dashboard/addsuplier",
-      },
-    ],
-  },
-  {
-    title: "Others",
-    buttons: [
-      {
-        id: "1.4",
-        label: "Stock",
-        icon: UserIcon,
-        childs: [
-          {
-            id: "1.4.1",
-            label: "Stock",
-            icon: UserIcon,
-            path: "/dashboard/Stock",
-          },
-          {
-            id: "1.4.2",
-            label: "Stock Control",
-            path: "/dashboard/Stockcontrol",
-            icon: UserIcon,
-          },
-        ],
-      },
     ],
   },
 ];

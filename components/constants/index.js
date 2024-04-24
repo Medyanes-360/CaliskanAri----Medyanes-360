@@ -34,7 +34,7 @@ export const image = {
     "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads/2023/08/banner-shape1.svg",
   beinstractor:
     "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads/2023/08/become-instructor.png",
-};
+}; //yapıldı
 export const info = {
   title: "Start Learning From Our Top Experts",
   desc1: "ÖĞRENİRKEN EĞLENİN",
@@ -310,7 +310,7 @@ export const featured = [
     students: 0,
     lessons: 0,
   },
-];
+]; //YAPILDI
 export const instructors = [
   {
     image:
