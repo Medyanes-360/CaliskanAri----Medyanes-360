@@ -12,6 +12,16 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
   const [selectedImagesInformations, setSelectedImagesInformations] = useState(
     []
   );
+  const [categories, setCategories] = useState([
+    { name: "All" },
+    { name: "Art & Design" },
+    { name: "Business" },
+    { name: "Data Science" },
+    { name: "Development" },
+    { name: "Finance" },
+    { name: "Health & Fitness" },
+    { name: "Technology" },
+  ]);
   const [menus, setMenus] = useState([
     {
       name: "Home",
@@ -401,6 +411,9 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
     name: "",
     items: [],
   }); //YENİ MENU EKLEME DEĞİŞKENİ
+  const [newFeatureCategory, setNewFeatureCategory] = useState({
+    name: "",
+  }); //YENİ KATEGORİ EKLEME DEĞİŞKENİ
   const handleAddCourseInputChange = (event, field) => {
     const { value, files } = event.target;
     if (field === "icon" && files && files.length > 0) {
@@ -432,6 +445,22 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
       }));
     }
   }; //YENİ DERS EKLEME
+
+  const handleAddFeatureCategoryInputChange = (event, field) => {
+    const { value, files } = event.target;
+    if (field === "image" && files && files.length > 0) {
+      const imageFile = files[0];
+      setNewFeatureCategory((prevFeatureCategories) => ({
+        ...prevFeatureCategories,
+        [field]: URL.createObjectURL(imageFile),
+      }));
+    } else {
+      setNewFeatureCategory((prevFeatureCategories) => ({
+        ...prevFeatureCategories,
+        [field]: value,
+      }));
+    }
+  }; //YENİ KATEGORİ EKLEME
 
   const handleAddCourse = (event) => {
     event.preventDefault();
@@ -479,7 +508,27 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
       }));
     }
   }; //YENİ MENU EKLEME
+  const deleteNavbarMenu = (indexToDelete) => {
+    setMenus((prevMenus) =>
+      prevMenus.filter((menu, index) => index !== indexToDelete)
+    );
+  }; //NAVBAR DAN MENÜ SİLME
 
+  const deleteCourse = (indexToDelete) => {
+    setCourses((prevCourses) =>
+      prevCourses.filter((menu, index) => index !== indexToDelete)
+    );
+  }; //KURS SİLME
+  const deleteFeature = (indexToDelete) => {
+    setFeatured((prevFeature) =>
+      prevFeature.filter((menu, index) => index !== indexToDelete)
+    );
+  }; //DERS SİLME
+  const deleteFeatureCategory = (indexToDelete) => {
+    setCategories((prevFeatureCategories) =>
+      prevFeatureCategories.filter((menu, index) => index !== indexToDelete)
+    );
+  }; //KATEGORİ SİLME
   const handleAddNavbar = (event) => {
     event.preventDefault();
     setMenus((prevMenus) => [...prevMenus, newNavbar]);
@@ -488,6 +537,17 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
       items: [],
     });
     closeAddNavbarModal();
+  }; // YENİ MENU EKLEME
+  const handleAddFeatureCategory = (event) => {
+    event.preventDefault();
+    setCategories((prevFeatureCategories) => [
+      ...prevFeatureCategories,
+      newFeatureCategory,
+    ]);
+    setNewFeatureCategory({
+      name: "",
+    });
+    closeAddFeatureCategoryModal();
   }; // YENİ MENU EKLEME
   const handleAddAnotherItem = () => {
     setUnderMenuCount((prevCount) => prevCount + 1);
@@ -499,6 +559,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
   const [isChildInputModalOpen, setChildInputModalOpen] = useState(false);
   const [addCourse, setAddCourse] = useState(false);
   const [addNavbar, setAddNavbar] = useState(false);
+  const [addFeatureCategory, setAddFeatureCategory] = useState(false);
   const [addFeature, setAddFeature] = useState(false);
 
   const handleColorChange = (color) => {
@@ -551,12 +612,24 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
     };
     setFeatured(newFeature);
   }; //KURS ALANI KURS BİLGİLERİNİ DEĞİŞİTREN FONKSİYON
+  const handleFeaturesCategoryInputChange = (event, index, field) => {
+    const { value } = event.target;
+    const newFeatureCategory = [...categories];
+    newFeatureCategory[index] = {
+      ...newFeatureCategory[index],
+      [field]: value,
+    };
+    setCategories(newFeatureCategory);
+  }; //KURS ALANI KURS BİLGİLERİNİ DEĞİŞİTREN FONKSİYON
 
   const closeAddCourseModal = () => {
     setAddCourse(false);
   };
   const closeAddFeatureModal = () => {
     setAddFeature(false);
+  };
+  const closeAddFeatureCategoryModal = () => {
+    setAddFeatureCategory(false);
   };
   const closeAddNavbarModal = () => {
     setAddNavbar(false);
@@ -587,8 +660,13 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
   const handleSubmitFeature = (event) => {
     event.preventDefault();
     console.log("Dersler:", featured);
-    closeAddCourseModal();
-  }; //KURSLARDA YAPTIĞIMIZ EKLEME DEĞİŞTİRME İŞLEMLERNİ KAYDEDEN FONKSİYON
+    closeAddFeatureModal();
+  }; //DERSELERE YAPTIĞIMIZ EKLEME DEĞİŞTİRME İŞLEMLERNİ KAYDEDEN FONKSİYON
+  const handleSubmitFeatureCategory = (event) => {
+    event.preventDefault();
+    console.log("Kategoriler:", categories);
+    closeAddFeatureCategoryModal();
+  }; //DERSELERE YAPTIĞIMIZ EKLEME DEĞİŞTİRME İŞLEMLERNİ KAYDEDEN FONKSİYON
   const handleSubmitMainText = (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
@@ -982,7 +1060,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
     <div className={modalClass}>
       <div className="absolute w-full h-full flex items-center justify-center">
         <div
-          className={`relative mx-auto px-auto bg-white rounded-2xl animate__animated animate__fadeInDown w-80 lg:w-fit lg:max-w-[700px] `}
+          className={`relative mx-auto px-auto bg-white rounded-2xl animate__animated animate__fadeInDown w-80 lg:w-fit lg:max-w-[800px] `}
         >
           <div>
             <div className="flex flex-col px-3 mx-auto rounded-lg bg-bgWhite">
@@ -1097,14 +1175,21 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                             }
                             placeholder={menu.name}
                             type="text"
-                            className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                            className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-36 lg:w-auto"
                           />
                           <button
                             type="button"
                             onClick={() => openChildInputModal(menuIndex)}
-                            className="text-gray-600 bg-gray-100 py-3 px-5 rounded-xl font-semibold m-5 ml-0"
+                            className="text-gray-600 bg-gray-100 py-3 px-5 rounded-xl font-semibold m-5 mr-2 ml-0"
                           >
                             <i class="fa-solid fa-angle-right"></i>
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => deleteNavbarMenu(menuIndex)}
+                            className="text-gray-600 bg-gray-100 py-3 px-5 rounded-xl font-semibold m-5 mr-0 ml-0"
+                          >
+                            <i class="fa-solid fa-trash"></i>
                           </button>
                         </div>
                       </div>
@@ -1141,7 +1226,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                             placeholder="Ders Adı"
                             type="text"
                             value={feature.title}
-                            className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                            className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl  w-36 lg:w-auto"
                           />
                           <button
                             type="button"
@@ -1149,6 +1234,62 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                             className="text-gray-600 bg-gray-100 py-3 px-5 rounded-xl font-semibold m-5 ml-0"
                           >
                             <i class="fa-solid fa-angle-right"></i>
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => deleteFeature(index)}
+                            className="text-gray-600 bg-gray-100 py-3 px-5 rounded-xl font-semibold m-5 mr-0 ml-0"
+                          >
+                            <i class="fa-solid fa-trash"></i>
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                    <button
+                      type="submit"
+                      className="text-gray-600 bg-gray-100 py-3 px-8 rounded-xl font-semibold m-5"
+                    >
+                      Kaydet
+                    </button>
+                  </form>
+                </div>
+              )}
+              {modalContent === "butonCategory" && pageId === "features" && (
+                <div className="flex flex-col items-center justify-center ">
+                  <h1 className="text-gray-700 font-semibold">Kategoriler</h1>
+                  <button
+                    onClick={() => setAddFeatureCategory(true)}
+                    className="text-gray-600 bg-gray-100 py-3 px-8 rounded-xl font-semibold m-5 mb-0"
+                  >
+                    Kategori Ekle
+                  </button>
+                  <form
+                    onSubmit={handleSubmitFeatureCategory}
+                    className="flex flex-row flex-wrap items-center justify-center max-h-[500px] overflow-scroll"
+                  >
+                    {categories.map((category, index) => (
+                      <div key={index} className="inputArea">
+                        <div className="bigInput flex">
+                          <input
+                            onChange={(event) =>
+                              handleFeaturesCategoryInputChange(
+                                event,
+                                index,
+                                "name"
+                              )
+                            }
+                            placeholder="İsim"
+                            type="text"
+                            value={category.name}
+                            className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl  w-36 lg:w-auto"
+                          />
+
+                          <button
+                            type="button"
+                            onClick={() => deleteFeatureCategory(index)}
+                            className="text-gray-600 bg-gray-100 py-3 px-5 rounded-xl font-semibold m-5 mr-0 ml-0"
+                          >
+                            <i class="fa-solid fa-trash"></i>
                           </button>
                         </div>
                       </div>
@@ -1185,7 +1326,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                             placeholder="Kurs Adı"
                             type="text"
                             value={course.title}
-                            className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                            className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-36 lg:w-auto"
                           />
                           <button
                             type="button"
@@ -1193,6 +1334,13 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                             className="text-gray-600 bg-gray-100 py-3 px-5 rounded-xl font-semibold m-5 ml-0"
                           >
                             <i class="fa-solid fa-angle-right"></i>
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => deleteCourse(index)}
+                            className="text-gray-600 bg-gray-100 py-3 px-5 rounded-xl font-semibold m-5 mr-0 ml-0"
+                          >
+                            <i class="fa-solid fa-trash"></i>
                           </button>
                         </div>
                       </div>
@@ -2314,6 +2462,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
           </div>
         </div>
       )}
+      {/* add lecture modal */}
       {addFeature && (
         <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-gray-600 bg-opacity-50">
           <div className="relative mx-auto px-auto bg-white rounded-2xl animate__animated animate__fadeInDown w-80 lg:w-auto lg:max-w-[400px] lg:min-w-[400px]">
@@ -2533,6 +2682,78 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                             </button>
                           </div>
                         ))}
+
+                        <button
+                          type="submit"
+                          className="text-gray-600 bg-gray-100 py-3 px-8 rounded-xl font-semibold m-5"
+                        >
+                          Oluştur
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </>
+            </div>
+          </div>
+        </div>
+      )}
+      {/* add category modal */}
+      {addFeatureCategory && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-gray-600 bg-opacity-50">
+          <div className="relative mx-auto px-auto bg-white rounded-2xl animate__animated animate__fadeInDown w-80 lg:w-auto lg:max-w-[400px] lg:min-w-[400px]">
+            <div className="flex flex-col px-3 mx-auto rounded-lg bg-bgWhite">
+              <div className="flex flex-col md:flex-row justify-evenly items-center gap-x-2 lg:gap-x-5 mt-3 text-xs lg:text-sm ml-auto">
+                <div className="flex items-center justify-center relative w-full ml-auto">
+                  <div
+                    className="w-5 h-5 md:w-10 md:h-10 rounded-md p-4 cursor-pointer transition-all duration-700  bg-gray-400/50 hover:bg-red-500 group  right-2 bottom-1"
+                    onClick={closeAddFeatureCategoryModal}
+                  >
+                    <svg
+                      stroke="currentColor"
+                      fill="currentColor"
+                      strokeWidth="0"
+                      viewBox="0 0 512 512"
+                      className="text-txtRed transition-all duration-700 rotate-180 flex absolute group-hover:opacity-0 group-hover:rotate-0 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                      height="30"
+                      width="30"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path d="M289.94 256l95-95A24 24 0 00351 127l-95 95-95-95a24 24 0 00-34 34l95 95-95 95a24 24 0 1034 34l95-95 95 95a24 24 0 0034-34z"></path>
+                    </svg>
+                    <svg
+                      stroke="currentColor"
+                      fill="currentColor"
+                      strokeWidth="0"
+                      viewBox="0 0 24 24"
+                      className="text-white rotate-0 transition-all duration-700 opacity-0 group-hover:block group-hover:rotate-180 group-hover:opacity-100 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                      height="30"
+                      width="30"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path d="M4.5 12.75a.75.75 0 0 1 .75-.75h13.5a.75.75 0 0 1 0 1.5H5.25a.75.75 0 0 1-.75-.75Z"></path>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="content flex flex-col items-center justify-center">
+              <>
+                <div className="flex flex-col items-center justify-center">
+                  <div className="inputArea ">
+                    <div className="detailInputs flex flex-col items-center justify-center">
+                      <form
+                        onSubmit={handleAddFeatureCategory}
+                        className="flex flex-row flex-wrap items-center justify-center"
+                      >
+                        <input
+                          onChange={(event) =>
+                            handleAddFeatureCategoryInputChange(event, "name")
+                          }
+                          type="text"
+                          placeholder={"Kategori İsmi"}
+                          className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                        />
 
                         <button
                           type="submit"

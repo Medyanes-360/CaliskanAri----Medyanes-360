@@ -35,9 +35,9 @@ function MainEditPage({ selected, setSelected }) {
         <EditBox
           id="navbar"
           path="/edit-navbar"
-          description={"Buradan navbarı değiştirebilirsiniz"}
+          description={"Buradan Gezinme Çubuğunu değiştirebilirsiniz"}
           image={changeNavbar}
-          title={"Navbar Alanını Değiştir"}
+          title={"Gezinme Çubuğu Alanını Değiştir"}
           onClick={() =>
             handleBoxClick("navbar", "/dashboard/admin/edit/edit-navbar")
           }
@@ -45,9 +45,9 @@ function MainEditPage({ selected, setSelected }) {
         <EditBox
           id="main"
           path="/edit-main"
-          description={"Buradan Main alanını değiştirebilirsiniz"}
+          description={"Buradan Anasayfa alanını değiştirebilirsiniz"}
           image={changeMainSection}
-          title={"Main Alanını Değiştir"}
+          title={"Anasayfa Alanını Değiştir"}
           onClick={() =>
             handleBoxClick("main", "/dashboard/admin/edit/edit-main")
           }
@@ -55,7 +55,7 @@ function MainEditPage({ selected, setSelected }) {
         <EditBox
           id="info"
           path="/edit-informations"
-          description={"Buradan info alanını değiştirebilirsiniz"}
+          description={"Buradan bilgiler alanını değiştirebilirsiniz"}
           image={changeInfoSection}
           title={"Bilgiler Alanını Değiştir"}
           onClick={() =>
@@ -75,9 +75,7 @@ function MainEditPage({ selected, setSelected }) {
         <EditBox
           id="students"
           path="/edit-students"
-          description={
-            "Buradan Learners and Students alanını değiştirebilirsiniz"
-          }
+          description={"Buradan Öğrenciler alanını değiştirebilirsiniz"}
           image={changeStudentsSection}
           title={"Öğrenciler Alanını Değiştir"}
           onClick={() =>
@@ -87,9 +85,9 @@ function MainEditPage({ selected, setSelected }) {
         <EditBox
           id="features"
           path="/edit-features"
-          description={"Buradan özellikler alanını değiştirebilirsiniz"}
+          description={"Buradan dersler alanını değiştirebilirsiniz"}
           image={changeFeatureSection}
-          title={"Özellikler Alanını Değiştir"}
+          title={"Dersler Alanını Değiştir"}
           onClick={() =>
             handleBoxClick("features", "/dashboard/admin/edit/edit-features")
           }
@@ -107,9 +105,9 @@ function MainEditPage({ selected, setSelected }) {
         <EditBox
           id="logoBanner"
           path="/edit-logo-banner"
-          description={"Buradan logo ve banner alanını değiştirebilirsiniz"}
+          description={"Buradan Logo ve Afiş alanını değiştirebilirsiniz"}
           image={changeLogoBannerSection}
-          title={"Logo-Banner Alanını Değiştir"}
+          title={"Logo ve Afiş Alanını Değiştir"}
           onClick={() =>
             handleBoxClick(
               "logoBanner",
@@ -120,9 +118,9 @@ function MainEditPage({ selected, setSelected }) {
         <EditBox
           id="banner"
           path="/edit-banner"
-          description={"Buradan banner alanını değiştirebilirsiniz"}
+          description={"Buradan afiş alanını değiştirebilirsiniz"}
           image={changeBannerSection}
-          title={"Banner Alanını Değiştir"}
+          title={"Afiş Alanını Değiştir"}
           onClick={() =>
             handleBoxClick("banner", "/dashboard/admin/edit/edit-banner")
           }
@@ -130,9 +128,9 @@ function MainEditPage({ selected, setSelected }) {
         <EditBox
           id="footer"
           path="/edit-footer"
-          description={"Buradan Footer alanını değiştirebilirsiniz"}
+          description={"Buradan altbilgi alanını değiştirebilirsiniz"}
           image={changeFooterSection}
-          title={"Footer Alanını Değiştir"}
+          title={"Altbilgi Alanını Değiştir"}
           onClick={() =>
             handleBoxClick("footer", "/dashboard/admin/edit/edit-footer")
           }
