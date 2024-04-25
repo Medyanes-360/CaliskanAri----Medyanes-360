@@ -213,7 +213,7 @@ model HomeMenus {
 model HomeFeatured {
   id         String  @id @default(auto()) @map("_id") @db.ObjectId
   title      String
-  instructor String
+  name       String
   image      String
   price      String?
   discount   String?

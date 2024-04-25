@@ -21,7 +21,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
     { name: "Finance" },
     { name: "Health & Fitness" },
     { name: "Technology" },
-  ]);
+  ]); //DERSLER KATEGORİLER
   const [menus, setMenus] = useState([
     {
       name: "Home",
@@ -594,23 +594,45 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
   }; //NAVBAR YAZI DEĞİŞTİREN FONKSİTON
 
   const handleCourseInputChange = (event, index, field) => {
-    const { value } = event.target;
-    const newCourses = [...courses];
-    newCourses[index] = {
-      ...newCourses[index],
-      [field]: value,
-    };
-    setCourses(newCourses);
+    if (field === "icon") {
+      const file = event.target.files[0]; // Kullanıcının seçtiği dosya
+      const imageUrl = URL.createObjectURL(file); // Resmin URL'sini oluştur
+      const newCourses = [...courses];
+      newCourses[index] = {
+        ...newCourses[index],
+        [field]: imageUrl, // Resmin URL'sini sakla
+      };
+      setCourses(newCourses); // Yeni durum değerini ayarla
+    } else {
+      const { value } = event.target;
+      const newCourses = [...courses];
+      newCourses[index] = {
+        ...newCourses[index],
+        [field]: value,
+      };
+      setCourses(newCourses);
+    }
   }; //KURS ALANI KURS BİLGİLERİNİ DEĞİŞİTREN FONKSİYON
 
   const handleFeaturesInputChange = (event, index, field) => {
-    const { value } = event.target;
-    const newFeature = [...featured];
-    newFeature[index] = {
-      ...newFeature[index],
-      [field]: value,
-    };
-    setFeatured(newFeature);
+    if (field === "image") {
+      const file = event.target.files[0]; // Kullanıcının seçtiği dosya
+      const imageUrl = URL.createObjectURL(file); // Resmin URL'sini oluştur
+      const newFeature = [...featured];
+      newFeature[index] = {
+        ...newFeature[index],
+        [field]: imageUrl, // Resmin URL'sini sakla
+      };
+      setFeatured(newFeature); // Yeni durum değerini ayarla
+    } else {
+      const { value } = event.target;
+      const newFeature = [...featured];
+      newFeature[index] = {
+        ...newFeature[index],
+        [field]: value,
+      };
+      setFeatured(newFeature);
+    }
   }; //KURS ALANI KURS BİLGİLERİNİ DEĞİŞİTREN FONKSİYON
   const handleFeaturesCategoryInputChange = (event, index, field) => {
     const { value } = event.target;
@@ -2156,7 +2178,11 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                       <div className="detailInputs flex flex-col items-center justify-center">
                         <input
                           onChange={(event) =>
-                            handleCourseInputChange(event, index, "title")
+                            handleCourseInputChange(
+                              event,
+                              selectedBigInputIndex,
+                              "title"
+                            )
                           }
                           type="text"
                           placeholder={courses[selectedBigInputIndex].title}
@@ -2164,7 +2190,11 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                         />
                         <input
                           onChange={(event) =>
-                            handleCourseInputChange(event, index, "quantity")
+                            handleCourseInputChange(
+                              event,
+                              selectedBigInputIndex,
+                              "quantity"
+                            )
                           }
                           type="text"
                           placeholder={
@@ -2181,7 +2211,11 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                         />
                         <input
                           onChange={(event) =>
-                            handleCourseInputChange(event, index, "icon")
+                            handleCourseInputChange(
+                              event,
+                              selectedBigInputIndex,
+                              "icon"
+                            )
                           }
                           type="file"
                           className="bg-gray-200 text-gray-600 font-semibold rounded-xl w-60"
@@ -2195,7 +2229,11 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                           </label>
                           <input
                             onChange={(event) =>
-                              handleCourseInputChange(event, index, "border")
+                              handleCourseInputChange(
+                                event,
+                                selectedBigInputIndex,
+                                "border"
+                              )
                             }
                             type="color"
                             className="bg-gray-100 text-gray-600 font-semibold m-3 rounded-xl"
@@ -2212,7 +2250,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                             onChange={(event) =>
                               handleCourseInputChange(
                                 event,
-                                index,
+                                selectedBigInputIndex,
                                 "background"
                               )
                             }
@@ -2223,7 +2261,11 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
 
                         <input
                           onChange={(event) =>
-                            handleCourseInputChange(event, index, "extraField")
+                            handleCourseInputChange(
+                              event,
+                              selectedBigInputIndex,
+                              "extraField"
+                            )
                           }
                           placeholder="Ekstra Bilgi"
                           type="text"
@@ -2246,7 +2288,11 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                       <div className="detailInputs flex flex-col items-center justify-center">
                         <input
                           onChange={(event) =>
-                            handleFeaturesInputChange(event, index, "title")
+                            handleFeaturesInputChange(
+                              event,
+                              selectedBigInputIndex,
+                              "title"
+                            )
                           }
                           type="text"
                           placeholder={featured[selectedBigInputIndex].title}
@@ -2255,7 +2301,11 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
 
                         <input
                           onChange={(event) =>
-                            handleFeaturesInputChange(event, index, "name")
+                            handleFeaturesInputChange(
+                              event,
+                              selectedBigInputIndex,
+                              "name"
+                            )
                           }
                           type="text"
                           placeholder={featured[selectedBigInputIndex].name}
@@ -2269,14 +2319,22 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                         />
                         <input
                           onChange={(event) =>
-                            handleFeaturesInputChange(event, index, "image")
+                            handleFeaturesInputChange(
+                              event,
+                              selectedBigInputIndex,
+                              "image"
+                            )
                           }
                           type="file"
                           className="bg-gray-200 text-gray-600 font-semibold rounded-xl w-60"
                         />
                         <input
                           onChange={(event) =>
-                            handleFeaturesInputChange(event, index, "price")
+                            handleFeaturesInputChange(
+                              event,
+                              selectedBigInputIndex,
+                              "price"
+                            )
                           }
                           type="text"
                           placeholder={
@@ -2286,7 +2344,11 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                         />
                         <input
                           onChange={(event) =>
-                            handleFeaturesInputChange(event, index, "star")
+                            handleFeaturesInputChange(
+                              event,
+                              selectedBigInputIndex,
+                              "star"
+                            )
                           }
                           type="text"
                           placeholder={
@@ -2294,20 +2356,34 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                           }
                           className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
                         />
-                        <input
+                        <select
                           onChange={(event) =>
-                            handleFeaturesInputChange(event, index, "topDesc")
+                            handleFeaturesInputChange(
+                              event,
+                              selectedBigInputIndex,
+                              "topDesc"
+                            )
                           }
-                          type="text"
                           placeholder={
                             featured[selectedBigInputIndex].topDesc ||
                             "Kategori"
                           }
-                          className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
-                        />
+                          className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-[90%]"
+                        >
+                          {categories.map((category, index) => (
+                            <option key={index} value={category.name}>
+                              {category.name}
+                            </option>
+                          ))}
+                        </select>
+
                         <input
                           onChange={(event) =>
-                            handleFeaturesInputChange(event, index, "students")
+                            handleFeaturesInputChange(
+                              event,
+                              selectedBigInputIndex,
+                              "students"
+                            )
                           }
                           type="text"
                           placeholder={
@@ -2318,7 +2394,11 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                         />
                         <input
                           onChange={(event) =>
-                            handleFeaturesInputChange(event, index, "lessons")
+                            handleFeaturesInputChange(
+                              event,
+                              selectedBigInputIndex,
+                              "lessons"
+                            )
                           }
                           type="text"
                           placeholder={
@@ -2551,14 +2631,19 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                           placeholder={"Yıldız"}
                           className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
                         />
-                        <input
+                        <select
                           onChange={(event) =>
                             handleAddFeatureInputChange(event, "topDesc")
                           }
-                          type="text"
-                          placeholder={"Kategori"}
-                          className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
-                        />
+                          className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-[60%]"
+                        >
+                          {categories.map((category, index) => (
+                            <option key={index} value={category.name}>
+                              {category.name}
+                            </option>
+                          ))}
+                        </select>
+
                         <input
                           onChange={(event) =>
                             handleAddFeatureInputChange(
