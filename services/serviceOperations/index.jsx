@@ -2,7 +2,7 @@
 // where:     eşleşecek tablodaki verinin anahtar değeri örn: {email: "enes.gulcu@hotmail.com"} (mail) değeri oluyor.
 // newData:   yeni eklenecek veya güncellenecek veri
 
-import prisma from "@/lib/prisma/index";
+import prisma from '@/lib/prisma/index';
 
 // GET ALL
 export async function getAllData(tableName) {
@@ -101,6 +101,7 @@ export default {
   getAllData,
 
   createNewData,
+  createNewDataMany,
 
   getDataByUnique,
 
