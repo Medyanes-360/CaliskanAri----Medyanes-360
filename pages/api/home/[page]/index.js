@@ -1,9 +1,10 @@
 import { getAllData } from "@/services/serviceOperations";
+import { data } from "autoprefixer";
 
 async function homeHandler(req, res) {
   const section = req.url.split("/")[3];
   const requestMethod = req.method;
-
+  const data = req.body;
   switch (requestMethod) {
     case "GET":
       try {
@@ -15,7 +16,13 @@ async function homeHandler(req, res) {
     case "POST":
       switch (section) {
         case "HomeInfo":
-          
+        case "addFeature":
+          data.array.forEach((course) => {
+            course.students = parseInt(course.students);
+            course.lessons = parseInt(course.lessons);
+          });
+          const response = await createNewDataMany("HomeFeatured", data);
+          return res.status(200).json({ message: "test", data: data });
       }
       break;
     default:

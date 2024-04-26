@@ -10,7 +10,17 @@ export async function getAllData(tableName) {
     const data = await prisma[tableName].findMany();
     return data;
   } catch (error) {
-   return { error: error.message};
+    return { error: error.message };
+  }
+}
+
+//MANY POST
+export async function createNewDataMany(tableName, newData) {
+  try {
+    const data = await prisma[tableName].createMany({ data: newData });
+    return data;
+  } catch (error) {
+    return { error: error.message };
   }
 }
 
@@ -20,30 +30,29 @@ export async function createNewData(tableName, newData) {
     const data = await prisma[tableName].create({ data: newData });
     return data;
   } catch (error) {
-   return { error: error.message};
+    return { error: error.message };
   }
 }
 
 // GET BY UNIQUE ONE VALUE
 export async function getDataByUnique(tableName, where) {
   try {
-    const data = await prisma[tableName].findUnique({ where:  where });
+    const data = await prisma[tableName].findUnique({ where: where });
     return data;
   } catch (error) {
-    return { error: error.message};
+    return { error: error.message };
   }
 }
 
 // GET BY UNIQUE MANY VALUE
 export async function getDataByMany(tableName, where) {
   try {
-    const data = await prisma[tableName].findMany({ where:  where });
+    const data = await prisma[tableName].findMany({ where: where });
     return data;
   } catch (error) {
-    return { error: error.message};
+    return { error: error.message };
   }
 }
-
 
 // UPDATE
 export async function updateDataByAny(tableName, where, newData) {
@@ -54,10 +63,9 @@ export async function updateDataByAny(tableName, where, newData) {
     });
     return data;
   } catch (error) {
-   return { error: error.message};
+    return { error: error.message };
   }
 }
-
 
 //DELETE
 export async function deleteDataByAny(tableName, where) {
@@ -65,27 +73,27 @@ export async function deleteDataByAny(tableName, where) {
     const data = await prisma[tableName].delete({ where: where });
     return data;
   } catch (error) {
-   return  { error: error.message};
+    return { error: error.message };
   }
 }
 
 //DELETE MANY
 export async function deleteDataByMany(tableName, where) {
   try {
-    const data = await prisma[tableName].deleteMany({where: where})
+    const data = await prisma[tableName].deleteMany({ where: where });
     return data;
   } catch (error) {
-    return  { error: error.message};
+    return { error: error.message };
   }
 }
 
 //DELETE ALL
 export async function deleteDataAll(tableName) {
   try {
-    const data = await prisma[tableName].deleteMany({})
+    const data = await prisma[tableName].deleteMany({});
     return data;
   } catch (error) {
-    return  { error: error.message};
+    return { error: error.message };
   }
 }
 
@@ -97,11 +105,10 @@ export default {
   getDataByUnique,
 
   updateDataByAny,
-  
+
   deleteDataByAny,
 
   deleteDataByMany,
 
-  deleteDataAll
-  
+  deleteDataAll,
 };

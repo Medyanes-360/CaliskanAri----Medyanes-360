@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { SketchPicker } from "react-color";
 import Image from "next/image";
+import { postAPI } from "@/services/fetchAPI";
+
 const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
   const [selectedColor, setSelectedColor] = useState("#000000");
   const [selectedTextColor, setSelectedTextColor] = useState("#000000");
@@ -402,10 +404,10 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
     name: "",
     image: "",
     price: "",
-    star: "",
+    star: null,
     topDesc: "",
-    students: "",
-    lessons: "",
+    students: null,
+    lessons: null,
   }); //YENİ DERS EKLEME DEĞİŞKENİ
   const [newNavbar, setNewNavbar] = useState({
     name: "",
@@ -483,10 +485,10 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
       name: "",
       image: "",
       price: "",
-      star: "",
+      star: null,
       topDesc: "",
-      students: "",
-      lessons: "",
+      students: null,
+      lessons: null,
     });
     closeAddFeatureModal();
   }; //YENİ KURS EKLEME
@@ -679,9 +681,12 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
     console.log("Kurslar:", courses);
     closeAddCourseModal();
   }; //KURSLARDA YAPTIĞIMIZ EKLEME DEĞİŞTİRME İŞLEMLERNİ KAYDEDEN FONKSİYON
-  const handleSubmitFeature = (event) => {
+  const handleSubmitFeature = async (event) => {
     event.preventDefault();
     console.log("Dersler:", featured);
+
+    const response = await postAPI("/home/addFeature", featured);
+    console.log("response: ", response);
     closeAddFeatureModal();
   }; //DERSELERE YAPTIĞIMIZ EKLEME DEĞİŞTİRME İŞLEMLERNİ KAYDEDEN FONKSİYON
   const handleSubmitFeatureCategory = (event) => {
