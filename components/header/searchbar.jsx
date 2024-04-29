@@ -2,12 +2,13 @@ import { useEffect, useState } from "react";
 import { Dialog, Disclosure } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
-import { image, menus } from "../constants/index";
+import { image } from "../constants/index";
 import { TopBar } from "./topbar";
 import { CiSearch } from "react-icons/ci";
 import { IoIosLogIn } from "react-icons/io";
 import "./header.css";
 import MenuItems from "./MenuItems";
+import { getAPI } from "@/services/fetchAPI";
 import { menuItems } from "@/mocks/menuItems";
 
 function classNames(...classes) {
@@ -17,7 +18,17 @@ export const SearchBar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isHeaderFixed, setIsHeaderFixed] = useState(false);
   const [isLogoVisible, setIsLogoVisible] = useState(false);
+  const [menus, setMenus] = useState([]);
+  useEffect(() => {
+    const MenusData = getAPI("/home/HomeMenus");
 
+    MenusData.then(function (result) {
+      console.log(result);
+      setMenus(result);
+    }).catch(function (error) {
+      console.error("Hata oluştu:", error);
+    });
+  }, []);
   const { logo } = image;
   useEffect(() => {
     const handleScroll = () => {
@@ -80,7 +91,9 @@ export const SearchBar = () => {
             {menuItems.map((menu, index) => {
               const depthLevel = 1;
 
-              return <MenuItems items={menu} key={index} depthLevel={depthLevel}/>
+              return (
+                <MenuItems items={menu} key={index} depthLevel={depthLevel} />
+              );
             })}
           </div>
           {/* <div className="lg:flex items-center gap-4 hidden pr-20 pt-2">

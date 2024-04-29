@@ -1,7 +1,21 @@
-import { coursesCard } from "../constants";
+import { useEffect, useState } from "react";
 import "./top-courses.css";
 import Image from "next/image";
+import { getAPI } from "@/services/fetchAPI";
 export const TopCoursesCard = () => {
+  const [coursesCard, setCoursesCard] = useState([]);
+  useEffect(() => {
+    const coursesData = getAPI("/home/HomeCoursesCard");
+
+    coursesData
+      .then(function (result) {
+        console.log(result);
+        setCoursesCard(result);
+      })
+      .catch(function (error) {
+        console.error("Hata oluştu:", error);
+      });
+  }, []);
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-20 pt-20">
       {coursesCard.map((course, index) => (

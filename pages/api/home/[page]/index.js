@@ -1,6 +1,7 @@
 import {
   getAllData,
   createNewDataMany,
+  deleteDataAll,
   deleteDataByAny,
 } from "@/services/serviceOperations";
 
@@ -63,12 +64,17 @@ async function homeHandler(req, res) {
         case "addFeature":
           data.forEach((course) => {
             course.students = parseInt(course.students);
+            course.star = parseInt(course.star);
             course.lessons = parseInt(course.lessons);
           });
           const response = await createNewDataMany("HomeFeatured", data);
           console.log(response);
           return res.status(200).json({ message: "test", data: data });
+
         case "addCourse":
+          data.forEach((course) => {
+            course.quantity = parseInt(course.quantity);
+          });
           const responseForCourse = await createNewDataMany(
             "HomeCoursesCard",
             data
@@ -76,8 +82,8 @@ async function homeHandler(req, res) {
           console.log(responseForCourse);
           return res.status(200).json({ message: "test", data: data });
         case "addMenu":
+          console.log(data);
           const responseForMenu = await createNewDataMany("HomeMenus", data);
-
           console.log(responseForMenu);
           return res.status(200).json({ message: "test", data: data });
         case "addCategory":

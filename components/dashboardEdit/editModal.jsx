@@ -138,10 +138,11 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
 
   const [newCourse, setNewCourse] = useState({
     title: "",
-    quantity: "",
+    quantity: null,
     icon: "",
     border: "",
     background: "",
+    extraField: "",
   }); //YENİ KURS EKLEME DEĞİŞKENİ
   const [newFeature, setNewFeature] = useState({
     title: "",
@@ -213,10 +214,11 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
     setCourses((prevCourses) => [...prevCourses, newCourse]);
     setNewCourse({
       title: "",
-      quantity: "",
+      quantity: null,
       icon: "",
       border: "",
       background: "",
+      extraField: "",
     });
     closeAddCourseModal();
   }; //YENİ KURS EKLEME
