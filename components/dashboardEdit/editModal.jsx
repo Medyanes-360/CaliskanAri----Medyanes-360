@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { SketchPicker } from "react-color";
 import Image from "next/image";
 import { postAPI, getAPI } from "@/services/fetchAPI";
+import { coursesCard } from "../constants";
 
 const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
   const [selectedColor, setSelectedColor] = useState("#000000");
@@ -14,304 +15,127 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
   const [selectedImagesInformations, setSelectedImagesInformations] = useState(
     []
   );
-  const [categories, setCategories] = useState([
-    { name: "All" },
-    { name: "Art & Design" },
-    { name: "Business" },
-    { name: "Data Science" },
-    { name: "Development" },
-    { name: "Finance" },
-    { name: "Health & Fitness" },
-    { name: "Technology" },
-  ]); //DERSLER KATEGORİLER
-  const [menus, setMenus] = useState([
-    {
-      name: "Home",
-      items: ["Home 01", "Home 02", "Home 03", "Home 04"],
-    },
-    {
-      name: "Aktif Kurs",
-      items: ["Course Layout", "Course Category"],
-    },
-    {
-      name: "Events",
-      items: ["All Events", "Events Details", "All Speaker", "Speaker Details"],
-    },
-    {
-      name: "Shop",
-      items: ["Shop", "Shop Details", "Cart", "Checkout"],
-    },
-    {
-      name: "Pages",
-      items: [
-        "Elements",
-        "About",
-        "Instructor",
-        "Instructor Profile",
-        "Zoom Meeting",
-        "Zoom Live Lesson",
-        "Pricing Table",
-        "FAQ Page",
-        "404 Page",
-      ],
-    },
-    {
-      name: "Blogs",
-      items: [
-        "Blog Grid",
-        "Blog List",
-        "Post Standard",
-        "Post Gallery",
-        "Post Video",
-      ],
-    },
-  ]); //SABİT OLAN VERİLERR BUNU DB DEN ÇEKECEĞİZ
-
-  const [courses, setCourses] = useState([
-    {
-      title: "1. Sınıf",
-      quantity: "1 Course",
-      icon: "/one.png",
-      border: "border-lightpurple",
-      background: "linear-gradient(130deg,#7A66FF 0%,#EBDFFF 115%)",
-    },
-    {
-      title: "2. Sınıf",
-      quantity: "3 Aktif Kurs",
-      icon: "/two.png",
-      border: "border-cst_orange",
-      background: "linear-gradient(130deg, #F57064 0%, #FFD0CC 115%)",
-    },
-    {
-      title: "3. Sınıf",
-      quantity: "2 Aktif Kurs",
-      icon: "/three.png",
-      border: "border-bluegreen",
-      background: "linear-gradient(130deg, #45C8C2 0%, #B6F7F4 115%)",
-    },
-    {
-      title: "4. Sınıf",
-      quantity: "2 Aktif Kurs",
-      icon: "/four.png",
-      border: "border-cst_pink",
-      background: "linear-gradient(130deg, #F480D4 0%, #FFD3F3 115%)",
-    },
-    {
-      title: "5. Sınıf",
-      quantity: "2 Aktif Kurs",
-      icon: "/five.png",
-      border: "border-lightgreen",
-      background: "linear-gradient(130deg, #6ADE33 0%, #C8EFB6 115%)",
-    },
-    {
-      title: "6. Sınıf",
-      quantity: "2 Aktif Kurs",
-      icon: "/six.png",
-      border: "border-blue",
-      background: "linear-gradient(130deg, #3FC6FF 0%, #D7F3FF 115%)",
-    },
-    {
-      title: "7. Sınıf",
-      quantity: "2 Aktif Kurs",
-      icon: "/seven.png",
-      border: "border-cst_yellow",
-      background: " linear-gradient(130deg, #FFA41F 0%, #FFE3BB 115%)",
-    },
-    {
-      title: "8. Sınıf",
-      quantity: "3 Aktif Kurs",
-      icon: "/eight.png",
-      border: "border-lightpink",
-      background: "linear-gradient(130deg, #E69E9E 0%, #F5D9E0 115%)",
-    },
-  ]); //SABİT OLAN KURSLAR
-
-  const [info, setInfo] = useState({
-    title: "Start Learning From Our Top Experts",
-    desc1: "ÖĞRENİRKEN EĞLENİN",
-    desc2:
-      "Okul dönemlerinde her gün binlerce öğrencimiz, %100 MEB uyumlu Çalışkan Arı Akademi ile öğrendiklerini pekiştiriyor ve geliştiriyor.",
-    classCoursesTitle1: "EĞLENDİRİRKEN ÖĞRETEN UYGULAMA",
-    classCoursesTitle2: "Şimdi Eğitici Alıştırmaları Keşfet!",
-    classCoursesDesc1:
-      "Sınıf seviyenize ve müfredat ilerleyişine uygun ilerleyiş ve",
-    classCoursesDesc2: "%100 MEB uyumlu alıştırmalar",
-    learnersStudentsTitle1: "LEARNERS AND STUDENTS",
-    learnersStudentsTitle2:
-      "Evde, Okulda ve Nerede İstersen Orada, Alıştırmalar İle Pekiştirebilir ve Öğrenebilirsiniz.",
-    learnersStudentsDesc:
-      "Bilgiler okulda öğrenildiğinde, evde tekrar edildiğinde farklı akıllı alıştırmalar ile pekiştirildiğinde çok daha kalıcı olduğu ve unutulmadığı bilimsel olarak kanıtlanmıştır!",
-    featuredTitle1: "ALIŞTIRMALAR",
-    featuredTitle2: "Etkileşimli İçerikleri İncele",
-    video: "https://www.youtube.com/watch?v=BwKLNfZhy3g",
-    videoTitle1: "Çalışkan Arı 1. Sınıf 2. Dönem Seti Çıktı!",
-    videoTitle2: "Kazanım Odaklı",
-    videoTitle3: "Haftalık Tekrar",
-    videoTitle4: "Serbest Etkinlik",
-    videoDesc1:
-      "Kazanım odaklı yeni nesil etkinlikler ile hem eğlenicek hem de öğrenicekler. Örnek çözümler ile konuyu anlama ve değerlendirme aşamaları ile verimli öğrenme yöntemleri.",
-    videoDesc2:
-      "Haftalık tekrar çalışmaları ile öğrendiklerini pekiştirecek ve alıştırmalar ile öğrencilerin bilgileri hep güncel tutulacak.",
-    videoDesc3:
-      "Serbest Etkinlik ile 'BiLabel, Bul, Çöz ve Eğlen' teması ile öğrenciler araştıracak, bulacak ve keşfedecekler.",
-    instructorsTitle1: "OUR INSTRUCTORS",
-    instructorsTitle2: "Greatest Teachers Inspire",
-    instructorsDesc:
-      "When An Unknown Printer Took A Galley Offer Area Type Scrambled To Make A Type Specimen Book.",
-    clientTitle1: "OUR CLIENTS",
-    clientTitle2: "What's Our Real Client Strories About Our Work & Passion",
-    clientDesc:
-      "When An Unknown Printer Took A Galley Of Type And Scrambled It To Make A Type SpecimenBook It Has Survived Not Only Five Centuries",
-    bannerTitle1: "Dijital ve akıllı tahta içerikleri için ve",
-    bannerTitle2: "Hizmetlerimiz hakkında daha fazla bilgi almak için",
-    beInstractorTitle1: "BECOME AN INSTRUCTOR",
-    beInstractorTitle2: "Let's Join Us & Spread Your Knowledge",
-    beInstractorDesc:
-      "When An Unknown Printer Took A Galley Offer Area Type And Scrambled To Make A Type Specimen Bookan Unknown Printer Took Alley Ffer Area Typey And Scrambled To Make A Type Specimen Book Hass",
-    blogTitle1: "TOP ARTICLES",
-    blogTitle2: "Want To Learn More? Read Blog",
-    blogDesc:
-      "When An Unknown Printer Took A Galley Of Type And Scrambled It To Make A Type Specimen Book It Has Survived Not Only Five Centuries",
-  }); // SABİT BİLGİLERİ ALIDIĞIMIZ DEĞİŞKEN
-
-  const [informations, setInformations] = useState([
-    {
-      icon: "/success.png",
-      title: "Etkileşimli Öğrenme",
-      description:
-        "Öğrencilerin aktivite ve oyunlar ile deneyerek hem eğlendikleri hem de öğrendikleri eğitim sistemi.",
-      color: "text-cst_green",
-    },
-    {
-      icon: "/light.png",
-      title: "İstatistikler ve Analizler",
-      description:
-        "Öğrencilerin etkileşimlerdeki başarı oranları, istatistikleri veren ve takip eden öğretmenlere özel altyapı.",
-      color: "text-cst_yellow",
-    },
-    {
-      icon: "/cup.png",
-      title: "Öğretmenlere Özel Altyapı",
-      description:
-        "Öğretmenlerin kendi sınıflarını oluşturup öğrenciler ile sınıf süreçlerini yönetebildiği altyapı.",
-      color: "text-cst_red",
-    },
-  ]); //İNFORMATİONS ALANI İÇİN SABİT VERİLER
-  const [contact, setContact] = useState({
-    phone: "(0212) 639 39 12",
-    mapUrl: "https://maps.app.goo.gl/H4pa8u1oWw6HkHUe6",
-    address: "463 7th Ave, NY 10018, USA",
-  }); //FOOTER İLETİŞİM BİLGİLERİ
-
-  const [resources, setResources] = useState([
-    {
-      label: "About",
-    },
-    {
-      label: "Contact",
-    },
-    {
-      label: "Refund",
-    },
-    {
-      label: "Help Center",
-    },
-    {
-      label: "Returns Policy",
-    },
-    {
-      label: "Term Conditions",
-    },
-  ]); //FOOTER KAYNAKLAR DEĞİŞKENİ
-
-  const [logobanner, setLogoBanner] = useState([
-    {
-      logo: "/main-logo-01.png",
-      link: "https://www.meb.gov.tr/",
-    },
-    {
-      logo: "/main-logo-02.png",
-      link: "https://caliskanari.com.tr/",
-    },
-    {
-      logo: "/main-logo-03.png",
-      link: "https://kucukarilarakademisi.com/",
-    },
-    {
-      logo: "/main-logo-04.png",
-      link: "https://heydayenglish.com/",
-    },
-    {
-      logo: "/main-logo-05.png",
-      link: "https://caliskanari.com.tr/",
-    },
-  ]); //LOGO BANNER SAYFASINDAKİ RESİMLER
-  const [image, setImage] = useState({
-    logo: "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads/2023/08/logo-dark.svg",
-    mainSection: "/mainImage.png",
-    underline:
-      "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads/2023/08/underline-shape.svg",
-    pencil:
-      "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads/2023/08/hero-shape-4.svg",
-    wave: "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads/2023/08/hero-shape-3.svg",
-    star: "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads/2023/08/hero-shape-2.svg",
-    book: "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads/2023/08/hero-shape-1.svg",
-    redCrown:
-      "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads/2023/08/shape2.svg",
-    purpleCrown:
-      "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads/2023/08/shape3.svg",
-    halfCricle:
-      "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads/2023/08/shape1.svg",
-    dots: "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/themes/quiklearn/assets/element/course-cat-1.svg",
-    greyWave:
-      "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/themes/quiklearn/assets/element/course-cat.svg",
-    studentPhoto: "/studentFinger.png",
-    crown:
-      "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads/2023/08/about-shape-1.svg",
-    moreDots:
-      "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads/2023/08/about-shape-1.svg",
-    videoCover:
-      "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads/2023/08/video_banner_03.png",
-    beInstractor:
-      "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads/2023/08/become-instructor.png",
-    graduation:
-      "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads/2023/08/call-action-img1.png",
-    banner:
-      "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads/2023/08/banner-shape1.svg",
-    bannerShape:
-      "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads/2023/08/banner-shape1.svg",
-    beinstractor:
-      "https://www.radiustheme.com/demo/wordpress/themes/quiklearn/wp-content/uploads/2023/08/become-instructor.png",
-  });
-  const [footercourses, setFootercourses] = useState([
-    {
-      label: "Life Coach",
-    },
-    {
-      label: "Business Coach",
-    },
-    {
-      label: "Health Coach",
-    },
-    {
-      label: "Development",
-    },
-    {
-      label: "Web Design",
-    },
-    {
-      label: "SEO Optimize",
-    },
-  ]); //FOOTER KURSLAR DEĞİŞKENİ
-  const featuresData = getAPI("/home/HomeFeatured");
+  const [categories, setCategories] = useState([]); //DERSLER KATEGORİLER
+  const [menus, setMenus] = useState([]); //SABİT OLAN VERİLERR BUNU DB DEN ÇEKECEĞİZ
+  const [courses, setCourses] = useState([]); //SABİT OLAN KURSLAR
+  const [info, setInfo] = useState({}); // SABİT BİLGİLERİ ALIDIĞIMIZ DEĞİŞKEN
+  const [informations, setInformations] = useState([]); //İNFORMATİONS ALANI İÇİN SABİT VERİLER
+  const [contact, setContact] = useState({}); //FOOTER İLETİŞİM BİLGİLERİ
+  const [resources, setResources] = useState([]); //FOOTER KAYNAKLAR DEĞİŞKENİ
+  const [logobanner, setLogoBanner] = useState([]); //LOGO BANNER SAYFASINDAKİ RESİMLER
+  const [image, setImage] = useState({});
+  const [footercourses, setFootercourses] = useState([]); //FOOTER KURSLAR DEĞİŞKENİ
   const [featured, setFeatured] = useState([]); //FEATURED DEĞİŞKENİ
-  featuresData
-    .then(function (result) {
-      setFeatured(result);
-    })
-    .catch(function (error) {
+  useEffect(() => {
+    const featuresData = getAPI("/home/HomeFeatured");
+    featuresData
+      .then(function (result) {
+        setFeatured(result);
+        console.log(result);
+      })
+      .catch(function (error) {
+        console.error("Hata oluştu:", error);
+      });
+    const MenusData = getAPI("/home/HomeMenus");
+
+    MenusData.then(function (result) {
+      setMenus(result);
+      console.log(result);
+    }).catch(function (error) {
       console.error("Hata oluştu:", error);
     });
+    const coursesData = getAPI("/home/HomeCoursesCard");
+
+    coursesData
+      .then(function (result) {
+        console.log(result);
+        setCourses(result);
+      })
+      .catch(function (error) {
+        console.error("Hata oluştu:", error);
+      });
+    const categoryData = getAPI("/home/HomeCategories");
+
+    categoryData
+      .then(function (result) {
+        console.log(result);
+        setCategories(result);
+      })
+      .catch(function (error) {
+        console.error("Hata oluştu:", error);
+      });
+    const infoData = getAPI("/home/HomeInfo");
+
+    infoData
+      .then(function (result) {
+        console.log(result);
+        setInfo(result);
+      })
+      .catch(function (error) {
+        console.error("Hata oluştu:", error);
+      });
+    const informationsData = getAPI("/home/HomeInformation");
+
+    informationsData
+      .then(function (result) {
+        console.log(result);
+        setInformations(result);
+      })
+      .catch(function (error) {
+        console.error("Hata oluştu:", error);
+      });
+    const footerCoursesData = getAPI("/home/HomeFooterCourses");
+
+    footerCoursesData
+      .then(function (result) {
+        console.log(result);
+        setFootercourses(result);
+      })
+      .catch(function (error) {
+        console.error("Hata oluştu:", error);
+      });
+    const footerResourcesData = getAPI("/home/HomeResources");
+
+    footerResourcesData
+      .then(function (result) {
+        console.log(result);
+        setResources(result);
+      })
+      .catch(function (error) {
+        console.error("Hata oluştu:", error);
+      });
+    const footerContactData = getAPI("/home/HomeFooterCourses");
+
+    footerContactData
+      .then(function (result) {
+        console.log(result);
+        setContact(result);
+      })
+      .catch(function (error) {
+        console.error("Hata oluştu:", error);
+      });
+    const imagetData = getAPI("/home/HomeImage");
+
+    imagetData
+      .then(function (result) {
+        console.log(result);
+        setImage(result);
+      })
+      .catch(function (error) {
+        console.error("Hata oluştu:", error);
+      });
+    const logoBannertData = getAPI("/home/HomeLogoBanner");
+
+    logoBannertData
+      .then(function (result) {
+        console.log(result);
+        setLogoBanner(result);
+      })
+      .catch(function (error) {
+        console.error("Hata oluştu:", error);
+      });
+  }, []);
+
   const [newCourse, setNewCourse] = useState({
     title: "",
     quantity: "",
@@ -430,31 +254,43 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
       }));
     }
   }; //YENİ MENU EKLEME
-  const deleteNavbarMenu = (indexToDelete) => {
-    setMenus((prevMenus) =>
-      prevMenus.filter((menu, index) => index !== indexToDelete)
+  const deleteNavbarMenu = async (deleteObject) => {
+    console.log(deleteObject.id);
+    const response = await postAPI(
+      "/home/deleteMenu",
+      deleteObject.id,
+      "DELETE"
     );
+    console.log(response);
   }; //NAVBAR DAN MENÜ SİLME
 
-  const deleteCourse = (indexToDelete) => {
-    setCourses((prevCourses) =>
-      prevCourses.filter((menu, index) => index !== indexToDelete)
+  const deleteCourse = async (deleteObject) => {
+    console.log(deleteObject.id);
+    const response = await postAPI(
+      "/home/deleteCourse",
+      deleteObject.id,
+      "DELETE"
     );
+    console.log(response);
   }; //KURS SİLME
   const deleteFeature = async (deleteObject) => {
-    console.log(deleteObject);
+    console.log(deleteObject.id);
     const response = await postAPI(
       "/home/deleteFeature",
-      deleteObject,
+      deleteObject.id,
       "DELETE"
     );
     console.log("API response:", response);
   }; //DERS SİLME
 
-  const deleteFeatureCategory = (indexToDelete) => {
-    setCategories((prevFeatureCategories) =>
-      prevFeatureCategories.filter((menu, index) => index !== indexToDelete)
+  const deleteFeatureCategory = async (deleteObject) => {
+    console.log(deleteObject.id);
+    const response = await postAPI(
+      "/home/deleteCategory",
+      deleteObject.id,
+      "DELETE"
     );
+    console.log(response);
   }; //KATEGORİ SİLME
   const handleAddNavbar = (event) => {
     event.preventDefault();
@@ -596,14 +432,18 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
       pageId + " sayfası" + " Seçilen yazı rengi:" + selectedTextColor
     );
   }; //HER KISIM İÇİN PAGEID ALIP ONA GÖRE DB YE GÖNDERECEĞİZ YAZI RENGİNİ
-  const handleSubmitNavbar = (event) => {
+  const handleSubmitNavbar = async (event) => {
     event.preventDefault();
     console.log("Menüler:", menus);
+    const response = await postAPI("/home/addMenu", menus);
+    console.log(response);
     closeAddNavbarModal();
   }; //NAVBAR YAPTIĞIMIZ EKLEME DEĞİŞTİRME İŞLEMLERNİ KAYDEDEN FONKSİYON
-  const handleSubmitCourses = (event) => {
+  const handleSubmitCourses = async (event) => {
     event.preventDefault();
     console.log("Kurslar:", courses);
+    const response = await postAPI("/home/addCourse", courses);
+    console.log(response);
     closeAddCourseModal();
   }; //KURSLARDA YAPTIĞIMIZ EKLEME DEĞİŞTİRME İŞLEMLERNİ KAYDEDEN FONKSİYON
   const handleSubmitFeature = async (event) => {
@@ -614,12 +454,14 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
     console.log("response: ", response);
     closeAddFeatureModal();
   }; //DERSELERE YAPTIĞIMIZ EKLEME DEĞİŞTİRME İŞLEMLERNİ KAYDEDEN FONKSİYON
-  const handleSubmitFeatureCategory = (event) => {
+  const handleSubmitFeatureCategory = async (event) => {
     event.preventDefault();
     console.log("Kategoriler:", categories);
+    const response = await postAPI("/home/addCategory", categories);
+    console.log("response: ", response);
     closeAddFeatureCategoryModal();
   }; //DERSELERE YAPTIĞIMIZ EKLEME DEĞİŞTİRME İŞLEMLERNİ KAYDEDEN FONKSİYON
-  const handleSubmitMainText = (event) => {
+  const handleSubmitMainText = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
     const updatedTitle = formData.get("title") || info.title;
@@ -634,10 +476,12 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
     };
 
     setInfo(newInfo);
+    const response = await postAPI("/home/addInfo", newInfo);
+    console.log(response);
     console.log(newInfo);
     onClose();
   }; // MAİN KISIMDAKİ YAZILARI GÜNCELLEYEN FONKSİYON
-  const handleSubmitCourseText = (event) => {
+  const handleSubmitCourseText = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
     const updatedclassCoursesTitle1 =
@@ -657,11 +501,13 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
     };
 
     setInfo(newInfo);
+    const response = await postAPI("/home/addInfo", newInfo);
+    console.log(response);
     console.log(newInfo);
     onClose();
   }; // COURSES KISIMDAKİ YAZILARI GÜNCELLEYEN FONKSİYON
 
-  const handleSubmitStudentsText = (event) => {
+  const handleSubmitStudentsText = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
     const updatedlearnersStudentsTitle1 =
@@ -678,11 +524,13 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
     };
 
     setInfo(newInfo);
+    const response = await postAPI("/home/addInfo", newInfo);
+    console.log(response);
     console.log(newInfo);
     onClose();
   }; // STUDENTS KISIMDAKİ YAZILARI GÜNCELLEYEN FONKSİYON
 
-  const handleSubmitFeaturesText = (event) => {
+  const handleSubmitFeaturesText = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
     const updatedfeaturedTitle1 =
@@ -696,11 +544,13 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
     };
 
     setInfo(newInfo);
+    const response = await postAPI("/home/addInfo", newInfo);
+    console.log(response);
     console.log(newInfo);
     onClose();
   }; // STUDENTS KISIMDAKİ YAZILARI GÜNCELLEYEN FONKSİYON
 
-  const handleSubmitVideoText = (event) => {
+  const handleSubmitVideoText = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
     const updatedvideo = formData.get("video") || info.video;
@@ -724,11 +574,13 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
     };
 
     setInfo(newInfo);
+    const response = await postAPI("/home/addInfo", newInfo);
+    console.log(response);
     console.log(newInfo);
     onClose();
   }; // VİDEO KISIMDAKİ YAZILARI GÜNCELLEYEN FONKSİYON
 
-  const handleSubmitLogoBannerText = (event) => {
+  const handleSubmitLogoBannerText = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
     const updatedclientTitle1 =
@@ -744,11 +596,13 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
     };
 
     setInfo(newInfo);
+    const response = await postAPI("/home/addInfo", newInfo);
+    console.log(response);
     console.log(newInfo);
     onClose();
   }; // LOGO-BANNER KISIMDAKİ YAZILARI GÜNCELLEYEN FONKSİYON
 
-  const handleSubmitBannerText = (event) => {
+  const handleSubmitBannerText = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
     const updatedbannerTitle1 =
@@ -762,11 +616,13 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
     };
 
     setInfo(newInfo);
+    const response = await postAPI("/home/addInfo", newInfo);
+    console.log(response);
     console.log(newInfo);
     onClose();
   }; // BANNER KISIMDAKİ YAZILARI GÜNCELLEYEN FONKSİYON
 
-  const handleSubmitInformationsText = (event) => {
+  const handleSubmitInformationsText = async (event) => {
     event.preventDefault();
 
     const updatedInformations = informations.map((info) => ({
@@ -778,11 +634,16 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
     }));
 
     setInformations(updatedInformations);
+    const response = await postAPI(
+      "/home/addInformations",
+      updatedInformations
+    );
+    console.log(response);
     console.log(informations);
     onClose();
   }; // INFORMATİONS KISIMDAKİ YAZILARI GÜNCELLEYEN FONKSİYON
 
-  const handleSubmitFooterText = (event) => {
+  const handleSubmitFooterText = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
     const updatedphone = formData.get("phone") || info.phone;
@@ -806,12 +667,21 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
     }));
 
     setFootercourses(updatedCourses);
+    const response = await postAPI("/home/addFooterCourses", updatedCourses);
+    console.log(response);
     console.log(footercourses);
 
     setResources(updatedResources);
+    const response1 = await postAPI(
+      "/home/addFooterResources",
+      updatedResources
+    );
+    console.log(response1);
     console.log(resources);
 
     setContact(newInfo);
+    const response2 = await postAPI("/home/addFooterContact", newInfo);
+    console.log(response2);
     console.log(newInfo);
     onClose();
   }; // FOOTER KISIMDAKİ YAZILARI GÜNCELLEYEN FONKSİYON
@@ -905,7 +775,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
     setSelectedImageIndex(index);
   }; //LOGOBANNER RESİM DEĞİŞTİRME
 
-  const handleSubmitImageLogoBanner = (event) => {
+  const handleSubmitImageLogoBanner = async (event) => {
     event.preventDefault();
     if (selectedImage !== null && selectedImageIndex !== null) {
       setLogoBanner((prevLogobanner) => {
@@ -916,6 +786,8 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
       });
       console.log(logobanner);
       setSelectedImage(null);
+      const response = await postAPI("/home/addLogoBanner", logobanner);
+      console.log(response);
       setSelectedImageIndex(null);
     }
   }; //LOGOBANNER RESİM DEĞİŞTİRME
@@ -955,8 +827,10 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
     }));
   }; //MAİN RESİM DEĞİŞTİRME
 
-  const handleSubmitMain = (event) => {
+  const handleSubmitMain = async (event) => {
     event.preventDefault();
+    const response = await postAPI("/home/addImage", Image);
+    console.log(response);
     console.log(image);
   }; //MAİN RESİM DEĞİŞTİRME
 
@@ -977,7 +851,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
       return updatedInformations;
     });
   };
-  const handleSubmitInformations = (event, index) => {
+  const handleSubmitInformations = async (event, index) => {
     event.preventDefault();
 
     const newIconURL = selectedImagesInformations[index];
@@ -990,7 +864,8 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
       };
       return updatedInformations;
     });
-
+    const response = await postAPI("/home/addInformations", informations);
+    console.log(response);
     console.log("Updated Informations:", informations);
   };
 
