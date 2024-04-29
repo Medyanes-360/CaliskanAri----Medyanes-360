@@ -1,6 +1,7 @@
 import {
   getAllData,
   createNewDataMany,
+  createNewData,
   deleteDataAll,
   deleteDataByAny,
 } from "@/services/serviceOperations";
@@ -62,20 +63,17 @@ async function homeHandler(req, res) {
         case "HomeInfo":
           return;
         case "addFeature":
-          data.forEach((course) => {
-            course.students = parseInt(course.students);
-            course.star = parseInt(course.star);
-            course.lessons = parseInt(course.lessons);
-          });
-          const response = await createNewDataMany("HomeFeatured", data);
+          data.students = parseInt(data.students);
+          data.star = parseInt(data.star);
+          data.lessons = parseInt(data.lessons);
+          console.log(data);
+          const response = await createNewData("HomeFeatured", data);
           console.log(response);
           return res.status(200).json({ message: "test", data: data });
 
         case "addCourse":
-          data.forEach((course) => {
-            course.quantity = parseInt(course.quantity);
-          });
-          const responseForCourse = await createNewDataMany(
+          data.quantity = parseInt(data.quantity);
+          const responseForCourse = await createNewData(
             "HomeCoursesCard",
             data
           );
@@ -83,57 +81,57 @@ async function homeHandler(req, res) {
           return res.status(200).json({ message: "test", data: data });
         case "addMenu":
           console.log(data);
-          const responseForMenu = await createNewDataMany("HomeMenus", data);
+          const responseForMenu = await createNewData("HomeMenus", data);
           console.log(responseForMenu);
           return res.status(200).json({ message: "test", data: data });
         case "addCategory":
-          const responseForCategory = await createNewDataMany(
+          const responseForCategory = await createNewData(
             "HomeCategories",
             data
           );
           console.log(responseForCategory);
           return res.status(200).json({ message: "test", data: data });
         case "addInfo":
-          const responseForInfo = await createNewDataMany("HomeInfo", data);
+          const responseForInfo = await createNewData("HomeInfo", data);
           console.log(responseForInfo);
           return res.status(200).json({ message: "test", data: data });
         case "addInformations":
-          const responseForInfoformations = await createNewDataMany(
+          const responseForInfoformations = await createNewData(
             "HomeInformation",
             data
           );
           console.log(responseForInfoformations);
           return res.status(200).json({ message: "test", data: data });
         case "addFooterCourses":
-          const responseForFooterCourses = await createNewDataMany(
+          const responseForFooterCourses = await createNewData(
             "HomeFooterCourses",
             data
           );
           console.log(responseForFooterCourses);
           return res.status(200).json({ message: "test", data: data });
         case "addFooterResources":
-          const responseForFooterResources = await createNewDataMany(
+          const responseForFooterResources = await createNewData(
             "HomeResources",
             data
           );
           console.log(responseForFooterResources);
           return res.status(200).json({ message: "test", data: data });
         case "addFooterContact":
-          const responseForFooterContact = await createNewDataMany(
+          const responseForFooterContact = await createNewData(
             "HomeContact",
             data
           );
           console.log(responseForFooterContact);
           return res.status(200).json({ message: "test", data: data });
         case "addLogoBanner":
-          const responseForLogoBanner = await createNewDataMany(
+          const responseForLogoBanner = await createNewData(
             "HomeLogoBanner",
             data
           );
           console.log(responseForLogoBanner);
           return res.status(200).json({ message: "test", data: data });
         case "addImage":
-          const responseImage = await createNewDataMany("HomeImage", data);
+          const responseImage = await createNewData("HomeImage", data);
           console.log(responseImage);
           return res.status(200).json({ message: "test", data: data });
       }

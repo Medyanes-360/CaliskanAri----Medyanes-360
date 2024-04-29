@@ -209,7 +209,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
     }
   }; //YENİ KATEGORİ EKLEME
 
-  const handleAddCourse = (event) => {
+  const handleAddCourse = async (event) => {
     event.preventDefault();
     setCourses((prevCourses) => [...prevCourses, newCourse]);
     setNewCourse({
@@ -220,10 +220,12 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
       background: "",
       extraField: "",
     });
+    const response = await postAPI("/home/addCourse", newCourse);
+    console.log("response: ", response);
     closeAddCourseModal();
   }; //YENİ KURS EKLEME
 
-  const handleAddFeature = (event) => {
+  const handleAddFeature = async (event) => {
     event.preventDefault();
     setFeatured((prevFeature) => [...prevFeature, newFeature]);
     setNewFeature({
@@ -236,6 +238,9 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
       students: null,
       lessons: null,
     });
+    console.log(newFeature);
+    const response = await postAPI("/home/addFeature", newFeature);
+    console.log("response: ", response);
     closeAddFeatureModal();
   }; //YENİ KURS EKLEME
   const handleAddNavbarInputChange = (event, field, index) => {
@@ -294,16 +299,17 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
     );
     console.log(response);
   }; //KATEGORİ SİLME
-  const handleAddNavbar = (event) => {
+  const handleAddNavbar = async (event) => {
     event.preventDefault();
-    setMenus((prevMenus) => [...prevMenus, newNavbar]);
     setNewNavbar({
       name: "",
       items: [],
     });
+    const response = await postAPI("/home/addMenus", newNavbar);
+    console.log("response: ", response);
     closeAddNavbarModal();
   }; // YENİ MENU EKLEME
-  const handleAddFeatureCategory = (event) => {
+  const handleAddFeatureCategory = async (event) => {
     event.preventDefault();
     setCategories((prevFeatureCategories) => [
       ...prevFeatureCategories,
@@ -312,6 +318,8 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
     setNewFeatureCategory({
       name: "",
     });
+    const response = await postAPI("/home/addCategory", newFeatureCategory);
+    console.log("response: ", response);
     closeAddFeatureCategoryModal();
   }; // YENİ MENU EKLEME
   const handleAddAnotherItem = () => {
@@ -452,8 +460,6 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
     event.preventDefault();
     console.log("Dersler:", featured);
 
-    const response = await postAPI("/home/addFeature", featured);
-    console.log("response: ", response);
     closeAddFeatureModal();
   }; //DERSELERE YAPTIĞIMIZ EKLEME DEĞİŞTİRME İŞLEMLERNİ KAYDEDEN FONKSİYON
   const handleSubmitFeatureCategory = async (event) => {
@@ -2426,7 +2432,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                           onChange={(event) =>
                             handleAddFeatureInputChange(event, "price")
                           }
-                          type="text"
+                          type="number"
                           placeholder={"Ücret"}
                           className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
                         />
@@ -2434,7 +2440,8 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                           onChange={(event) =>
                             handleAddFeatureInputChange(event, "star")
                           }
-                          type="text"
+                          max={5}
+                          type="number"
                           placeholder={"Yıldız"}
                           className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
                         />
@@ -2459,7 +2466,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                               "students"
                             )
                           }
-                          type="text"
+                          type="number"
                           placeholder={"Öğrenci Sayısı"}
                           className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
                         />
@@ -2467,7 +2474,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                           onChange={(event) =>
                             handleAddFeatureInputChange(event, "lessons")
                           }
-                          type="text"
+                          type="number"
                           placeholder={"Ders Sayısı"}
                           className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
                         />

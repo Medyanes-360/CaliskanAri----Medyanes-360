@@ -136,7 +136,7 @@ enum Role {
 
 // Home Page Model 
 model HomeInfo {
-  id                     String    @id @unique @default(autoincrement())
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
   title                  String
   desc1                  String
   desc2                  String
@@ -176,7 +176,7 @@ model HomeInfo {
 }
 
 model HomeInformation {
-  id          String  @id @unique @default(autoincrement())
+   id          String    @id @default(auto()) @map("_id") @db.ObjectId
   icon        String
   title       String
   description String
@@ -184,7 +184,7 @@ model HomeInformation {
 }
 
 model HomeCoursesCard {
-  id         String  @id @unique @default(autoincrement())
+   id          String    @id @default(auto()) @map("_id") @db.ObjectId
   title      String
   quantity   Int
   icon       String
@@ -194,30 +194,29 @@ model HomeCoursesCard {
 }
 
 model HomeContact {
-  id      String  @id @unique @default(autoincrement())
+   id          String    @id @default(auto()) @map("_id") @db.ObjectId
   phone   String
   mapUrl  String
   address String
 }
 
 model HomeCategories {
-  id   String  @id @unique @default(autoincrement())
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
   name String
 }
 
 model HomeMenus {
-  id   String  @id @unique @default(autoincrement())
+   id          String    @id @default(auto()) @map("_id") @db.ObjectId
   name  String
   items String[]
 }
 
 model HomeFeatured {
-  id         String   @id @unique @default(autoincrement())
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
   title      String
   name       String
   image      String
-  price      String?
-  discount   String?
+  price      String
   star       Int
   topDesc    String
   students   Int
@@ -251,24 +250,23 @@ model HomeBlog {
 }
 
 model HomeLogoBanner {
-  id   String  @id @unique @default(autoincrement())
+    id          String    @id @default(auto()) @map("_id") @db.ObjectId
   logo String
   link String
 }
 
 model HomeResources {
-  id    String  @id @unique @default(autoincrement())
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
   label String
 }
 
 model HomeFooterCourses {
-  id    String  @id @unique @default(autoincrement())
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
   label String
 }
 
 model HomeImage {
-  id           String  @id @unique @default(autoincrement())
-  logo         String
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
   mainSection  String
   underline    String
   pencil       String
