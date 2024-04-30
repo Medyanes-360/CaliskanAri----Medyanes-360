@@ -13,6 +13,7 @@ export const FeaturedCourses = () => {
   const { featuredTitle1, featuredTitle2 } = info;
   const { underline } = image;
   const [features, setFeatures] = useState([]);
+  const [categories, setCategories] = useState([]);
   useEffect(() => {
     const featuresData = getAPI("/home/HomeFeatured");
     featuresData
@@ -23,13 +24,22 @@ export const FeaturedCourses = () => {
       .catch(function (error) {
         console.error("Hata oluştu:", error);
       });
+    const categoryData = getAPI("/home/HomeCategories");
+    categoryData
+      .then(function (result) {
+        setCategories(result);
+        console.log(result);
+      })
+      .catch(function (error) {
+        console.error("Hata oluştu:", error);
+      });
   }, []);
   const handleCategoryClick = (category) => {
     setSelectedCategory(category);
   };
   const filteredFeatured = selectedCategory
-    ? featured.filter((item) => item.topDesc === selectedCategory)
-    : featured;
+    ? features.filter((item) => item.topDesc === selectedCategory)
+    : features;
 
   const container = {
     hidden: { opacity: 1, scale: 0 },
@@ -61,7 +71,7 @@ export const FeaturedCourses = () => {
               <img src={underline} alt="" className="absolute right-20" />
             </h2>
           </div>
-          <div className="flex flex-wrap gap-2 w-full justify-center  items-center pt-8 pb-8">
+          <div className="flex flex-wrap gap-2 w-full justify-center items-center pt-8 pb-8">
             <button
               onClick={() => handleCategoryClick(null)}
               className={
@@ -72,46 +82,19 @@ export const FeaturedCourses = () => {
             >
               Hepsi
             </button>
-            <button
-              onClick={() => handleCategoryClick("Business")}
-              className={
-                selectedCategory === "Business"
-                  ? "featured-button"
-                  : "featured-select"
-              }
-            >
-              Matematik
-            </button>
-            <button
-              onClick={() => handleCategoryClick("Development")}
-              className={
-                selectedCategory === "Development"
-                  ? "featured-button"
-                  : "featured-select"
-              }
-            >
-              Türkçe
-            </button>
-            <button
-              onClick={() => handleCategoryClick("Finance")}
-              className={
-                selectedCategory === "Finance"
-                  ? "featured-button"
-                  : "featured-select"
-              }
-            >
-              Fen Bilimleri
-            </button>
-            <button
-              onClick={() => handleCategoryClick("Technology")}
-              className={
-                selectedCategory === "Technology"
-                  ? "featured-button"
-                  : "featured-select"
-              }
-            >
-              İngilizce
-            </button>
+            {categories.map((category, index) => (
+              <button
+                key={index}
+                onClick={() => handleCategoryClick(category.name)}
+                className={
+                  selectedCategory === category.name
+                    ? "featured-button"
+                    : "featured-select"
+                }
+              >
+                {category.name}
+              </button>
+            ))}
           </div>
         </div>
 
@@ -121,7 +104,7 @@ export const FeaturedCourses = () => {
           initial="hidden"
           animate="visible"
         >
-          {features.map((featured, index) => (
+          {filteredFeatured.map((featured, index) => (
             <motion.li
               key={index}
               className="group relative bg-white border-border border rounded-lg item shadow-lg"

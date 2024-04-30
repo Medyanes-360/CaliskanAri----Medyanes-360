@@ -3,6 +3,7 @@ import {
   createNewDataMany,
   createNewData,
   deleteDataAll,
+  updateDataByAny,
   deleteDataByAny,
 } from "@/services/serviceOperations";
 
@@ -70,7 +71,6 @@ async function homeHandler(req, res) {
           const response = await createNewData("HomeFeatured", data);
           console.log(response);
           return res.status(200).json({ message: "test", data: data });
-
         case "addCourse":
           data.quantity = parseInt(data.quantity);
           const responseForCourse = await createNewData(
@@ -133,6 +133,13 @@ async function homeHandler(req, res) {
         case "addImage":
           const responseImage = await createNewData("HomeImage", data);
           console.log(responseImage);
+          return res.status(200).json({ message: "test", data: data });
+        case "updateMenu":
+          const responseUpdateMenu = await updateDataByAny("HomeImage", {
+            id: data.id,
+            data: data,
+          });
+          console.log(responseUpdateMenu);
           return res.status(200).json({ message: "test", data: data });
       }
       break;

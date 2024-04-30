@@ -447,27 +447,26 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
     console.log("Menüler:", menus);
     const response = await postAPI("/home/addMenu", menus);
     console.log(response);
-    closeAddNavbarModal();
+    onClose();
   }; //NAVBAR YAPTIĞIMIZ EKLEME DEĞİŞTİRME İŞLEMLERNİ KAYDEDEN FONKSİYON
   const handleSubmitCourses = async (event) => {
     event.preventDefault();
     console.log("Kurslar:", courses);
     const response = await postAPI("/home/addCourse", courses);
     console.log(response);
-    closeAddCourseModal();
+    onClose();
   }; //KURSLARDA YAPTIĞIMIZ EKLEME DEĞİŞTİRME İŞLEMLERNİ KAYDEDEN FONKSİYON
   const handleSubmitFeature = async (event) => {
     event.preventDefault();
     console.log("Dersler:", featured);
-
-    closeAddFeatureModal();
+    onClose();
   }; //DERSELERE YAPTIĞIMIZ EKLEME DEĞİŞTİRME İŞLEMLERNİ KAYDEDEN FONKSİYON
   const handleSubmitFeatureCategory = async (event) => {
     event.preventDefault();
     console.log("Kategoriler:", categories);
     const response = await postAPI("/home/addCategory", categories);
     console.log("response: ", response);
-    closeAddFeatureCategoryModal();
+    onClose();
   }; //DERSELERE YAPTIĞIMIZ EKLEME DEĞİŞTİRME İŞLEMLERNİ KAYDEDEN FONKSİYON
   const handleSubmitMainText = async (event) => {
     event.preventDefault();
