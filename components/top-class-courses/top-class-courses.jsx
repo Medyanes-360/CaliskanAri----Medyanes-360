@@ -1,7 +1,21 @@
-import { info, image } from "../constants/index";
+import { image } from "../constants/index";
 import { TopCoursesCard } from "./top-courses-card";
+import { useEffect, useState } from "react";
+import { getAPI } from "@/services/fetchAPI";
 
 export const TopClassCourses = () => {
+  const [info, setInfo] = useState([]);
+  useEffect(() => {
+    const infoData = getAPI("/home/HomeInfo");
+    infoData
+      .then(function (result) {
+        console.log(result);
+        setInfo(result[0]);
+      })
+      .catch(function (error) {
+        console.error("Hata oluştu:", error);
+      });
+  }, []);
   const {
     classCoursesTitle1,
     classCoursesTitle2,
@@ -12,7 +26,9 @@ export const TopClassCourses = () => {
     <div className="bg-cream">
       <div className="mx-auto container flex flex-col items-center justify-between p-6 ">
         <div className="flex flex-col justify-center items-center">
-          <p className="text-sm text-cst_grey pb-5 pt-24">{classCoursesTitle1}</p>
+          <p className="text-sm text-cst_grey pb-5 pt-24">
+            {classCoursesTitle1}
+          </p>
           <h2 className="text-cst_purple text-4xl font-semibold">
             {classCoursesTitle2}
             <img src={image.underline} alt="" />

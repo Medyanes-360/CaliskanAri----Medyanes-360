@@ -1,9 +1,22 @@
 import { image, info } from "../constants/index";
 import { CustomButton } from "../helpers/custom-button";
 import { motion } from "framer-motion";
-
+import { useEffect, useState } from "react";
+import { getAPI } from "@/services/fetchAPI";
 const LearnersStudents = () => {
   const { studentPhoto, underline, redCrown } = image;
+  const [info, setInfo] = useState([]);
+  useEffect(() => {
+    const infoData = getAPI("/home/HomeInfo");
+    infoData
+      .then(function (result) {
+        console.log(result);
+        setInfo(result[0]);
+      })
+      .catch(function (error) {
+        console.error("Hata oluştu:", error);
+      });
+  }, []);
   const {
     learnersStudentsTitle1,
     learnersStudentsTitle2,

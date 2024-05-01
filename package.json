@@ -69,6 +69,7 @@
     "redux": "^4.2.1",
     "shadcn-ui": "^0.4.1",
     "styled-components": "^6.1.1",
+    "sweetalert2": "^11.10.8",
     "swiper": "^11.0.5",
     "tailwind-merge": "^2.1.0",
     "tailwindcss-animate": "^1.0.7",

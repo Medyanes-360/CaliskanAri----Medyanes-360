@@ -91,9 +91,18 @@ async function homeHandler(req, res) {
           );
           console.log(responseForCategory);
           return res.status(200).json({ message: "test", data: data });
+        case "updateInfo":
+          const idNumberForInfo = data[0]["id"];
+          delete data[0]["id"];
+          const responseForInfo = await updateDataByAny(
+            "HomeInfo",
+            { id: idNumberForInfo },
+            data[0]
+          );
+          return res.status(200).json({ message: "test", data: data });
         case "addInfo":
-          const responseForInfo = await createNewData("HomeInfo", data);
-          console.log(responseForInfo);
+          const responseForInfoo = await createNewData("HomeInfo", data);
+          console.log(responseForInfoo);
           return res.status(200).json({ message: "test", data: data });
         case "addInformations":
           const responseForInfoformations = await createNewData(
@@ -135,11 +144,36 @@ async function homeHandler(req, res) {
           console.log(responseImage);
           return res.status(200).json({ message: "test", data: data });
         case "updateMenu":
-          const responseUpdateMenu = await updateDataByAny("HomeImage", {
-            id: data.id,
-            data: data,
-          });
-          console.log(responseUpdateMenu);
+          const idNumber = data["id"];
+          delete data["id"];
+          const responseUpdateMenu = await updateDataByAny(
+            "HomeMenus",
+            { id: idNumber },
+            data
+          );
+          return res.status(200).json({ message: "test", data: data });
+        case "updateCourse":
+          data.quantity = parseInt(data.quantity);
+          const idNumberCourse = data["id"];
+          delete data["id"];
+          const responseUpdateCourse = await updateDataByAny(
+            "HomeCoursesCard",
+            { id: idNumberCourse },
+            data
+          );
+          console.log(responseUpdateCourse);
+          return res.status(200).json({ message: "test", data: data });
+        case "updateFeature":
+          const idNumberFeature = data["id"];
+          data.students = parseInt(data.students);
+          data.star = parseInt(data.star);
+          data.lessons = parseInt(data.lessons);
+          delete data["id"];
+          const responseUpdateFeature = await updateDataByAny(
+            "HomeFeatured",
+            { id: idNumberFeature },
+            data
+          );
           return res.status(200).json({ message: "test", data: data });
       }
       break;

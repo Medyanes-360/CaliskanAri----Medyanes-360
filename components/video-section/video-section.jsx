@@ -5,9 +5,22 @@ import { GoVideo } from "react-icons/go";
 import { AiOutlineControl } from "react-icons/ai";
 import { BsBoxes } from "react-icons/bs";
 import { FaPlay } from "react-icons/fa";
-
+import { useEffect, useState } from "react";
+import { getAPI } from "@/services/fetchAPI";
 
 export const VideoSection = () => {
+  const [info, setInfo] = useState([]);
+  useEffect(() => {
+    const infoData = getAPI("/home/HomeInfo");
+    infoData
+      .then(function (result) {
+        console.log(result);
+        setInfo(result[0]);
+      })
+      .catch(function (error) {
+        console.error("Hata oluştu:", error);
+      });
+  }, []);
   const {
     videoTitle1,
     video,
@@ -29,11 +42,11 @@ export const VideoSection = () => {
           </h2>
         </div>
         <div className="flex flex-col lg:flex-row items-center justify-center py-10 px-8 lg:px-0">
-          <div> 
-             <Tabs defaultValue={0} orientation="vertical" className="flex"   >
+          <div>
+            <Tabs defaultValue={0} orientation="vertical" className="flex">
               <TabsList className="flex flex-col items-start pl-2 gap-10">
                 <div>
-                  <Tab className="text-white text-xl flex items-center gap-3" >
+                  <Tab className="text-white text-xl flex items-center gap-3">
                     <span className="text-4xl">
                       <GoVideo />
                     </span>
@@ -70,17 +83,21 @@ export const VideoSection = () => {
           </div>
 
           <div className="w-full mt-10 lg:mt-0 hover:scale-105 transition-all">
-            
-            <a href={video} target="_blank" rel="noopener noreferrer" className="relative">
-            <img
-              src={videoCover}
-              alt=""
-              className="video-cover bg-videocover bg-no-repeat bg-bottom"
-            />
+            <a
+              href={video}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="relative"
+            >
+              <img
+                src={videoCover}
+                alt=""
+                className="video-cover bg-videocover bg-no-repeat bg-bottom"
+              />
 
-            <span className="absolute right-2/4 bottom-2/4 rounded-full bg-white text-buttonColor w-16 h-16 flex items-center justify-center">
-              <FaPlay />
-            </span>
+              <span className="absolute right-2/4 bottom-2/4 rounded-full bg-white text-buttonColor w-16 h-16 flex items-center justify-center">
+                <FaPlay />
+              </span>
             </a>
           </div>
         </div>

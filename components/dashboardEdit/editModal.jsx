@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { SketchPicker } from "react-color";
 import Image from "next/image";
 import { postAPI, getAPI } from "@/services/fetchAPI";
-import { coursesCard } from "../constants";
+import Swal from "sweetalert2";
 
 const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
   const [selectedColor, setSelectedColor] = useState("#000000");
@@ -221,7 +221,11 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
       extraField: "",
     });
     const response = await postAPI("/home/addCourse", newCourse);
-    console.log("response: ", response);
+    Swal.fire({
+      title: "Başarılı",
+      text: "Kurs başarılı bir şekilde eklendi.",
+      icon: "success",
+    });
     closeAddCourseModal();
   }; //YENİ KURS EKLEME
 
@@ -240,7 +244,11 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
     });
     console.log(newFeature);
     const response = await postAPI("/home/addFeature", newFeature);
-    console.log("response: ", response);
+    Swal.fire({
+      title: "Başarılı",
+      text: "Ders başarılı bir şekilde eklendi.",
+      icon: "success",
+    });
     closeAddFeatureModal();
   }; //YENİ KURS EKLEME
   const handleAddNavbarInputChange = (event, field, index) => {
@@ -262,42 +270,117 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
     }
   }; //YENİ MENU EKLEME
   const deleteNavbarMenu = async (deleteObject) => {
-    console.log(deleteObject.id);
-    const response = await postAPI(
-      "/home/deleteMenu",
-      deleteObject.id,
-      "DELETE"
-    );
-    console.log(response);
+    Swal.fire({
+      title: "Menüyü Sil",
+      text: "Menüyü gerçekten silmek istiyor musunuz ?",
+      showCancelButton: true,
+      icon: "warning",
+      confirmButtonColor: "#241341",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Evet",
+      cancelButtonText: `İptal`,
+    }).then(async (result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        const response = await postAPI(
+          "/home/deleteMenu",
+          deleteObject.id,
+          "DELETE"
+        );
+        const updatedMenus = menus.filter(
+          (menu) => menu.id !== deleteObject.id
+        );
+        setMenus(updatedMenus);
+        Swal.fire("Silindi !", "", "success");
+      } else if (result.isDenied) {
+        Swal.fire("İşlem iptal edildi !", "", "info");
+      }
+    });
   }; //NAVBAR DAN MENÜ SİLME
 
   const deleteCourse = async (deleteObject) => {
-    console.log(deleteObject.id);
-    const response = await postAPI(
-      "/home/deleteCourse",
-      deleteObject.id,
-      "DELETE"
-    );
-    console.log(response);
+    Swal.fire({
+      title: "Kursu Sil",
+      text: "Kursu gerçekten silmek istiyor musunuz ?",
+      showCancelButton: true,
+      icon: "warning",
+      confirmButtonColor: "#241341",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Evet",
+      cancelButtonText: `İptal`,
+    }).then(async (result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        const updatedCourses = courses.filter(
+          (course) => course.id !== deleteObject.id
+        );
+        setCourses(updatedCourses);
+        const response = await postAPI(
+          "/home/deleteCourse",
+          deleteObject.id,
+          "DELETE"
+        );
+        Swal.fire("Silindi !", "", "success");
+      } else if (result.isDenied) {
+        Swal.fire("İşlem iptal edildi !", "", "info");
+      }
+    });
   }; //KURS SİLME
   const deleteFeature = async (deleteObject) => {
-    console.log(deleteObject.id);
-    const response = await postAPI(
-      "/home/deleteFeature",
-      deleteObject.id,
-      "DELETE"
-    );
-    console.log("API response:", response);
+    Swal.fire({
+      title: "Dersi Sil",
+      text: "Dersi gerçekten silmek istiyor musunuz ?",
+      showCancelButton: true,
+      icon: "warning",
+      confirmButtonColor: "#241341",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Evet",
+      cancelButtonText: `İptal`,
+    }).then(async (result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        const updatedFeatures = featured.filter(
+          (feature) => feature.id !== deleteObject.id
+        );
+        setFeatured(updatedFeatures);
+        const response = await postAPI(
+          "/home/deleteFeature",
+          deleteObject.id,
+          "DELETE"
+        );
+        Swal.fire("Silindi !", "", "success");
+      } else if (result.isDenied) {
+        Swal.fire("İşlem iptal edildi !", "", "info");
+      }
+    });
   }; //DERS SİLME
 
   const deleteFeatureCategory = async (deleteObject) => {
-    console.log(deleteObject.id);
-    const response = await postAPI(
-      "/home/deleteCategory",
-      deleteObject.id,
-      "DELETE"
-    );
-    console.log(response);
+    Swal.fire({
+      title: "Kategoriyi Sil",
+      text: "Kategoriyi gerçekten silmek istiyor musunuz ?",
+      showCancelButton: true,
+      icon: "warning",
+      confirmButtonColor: "#241341",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Evet",
+      cancelButtonText: `İptal`,
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const updatedCategory = categories.filter(
+          (category) => category.id !== deleteObject.id
+        );
+        setCategories(updatedCategory);
+        const response = await postAPI(
+          "/home/deleteCategory",
+          deleteObject.id,
+          "DELETE"
+        );
+        Swal.fire("Silindi !", "", "success");
+      } else if (result.isDenied) {
+        Swal.fire("İşlem iptal edildi !", "", "info");
+      }
+    });
   }; //KATEGORİ SİLME
   const handleAddNavbar = async (event) => {
     event.preventDefault();
@@ -305,8 +388,13 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
       name: "",
       items: [],
     });
-    const response = await postAPI("/home/addMenus", newNavbar);
-    console.log("response: ", response);
+    setMenus((preMenus) => [...preMenus, newNavbar]);
+    const response = await postAPI("/home/addMenu", newNavbar);
+    Swal.fire({
+      title: "Başarılı",
+      text: "Menü başarılı bir şekilde eklendi.",
+      icon: "success",
+    });
     closeAddNavbarModal();
   }; // YENİ MENU EKLEME
   const handleAddFeatureCategory = async (event) => {
@@ -319,7 +407,11 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
       name: "",
     });
     const response = await postAPI("/home/addCategory", newFeatureCategory);
-    console.log("response: ", response);
+    Swal.fire({
+      title: "Başarılı",
+      text: "Kategori başarılı bir şekilde eklendi.",
+      icon: "success",
+    });
     closeAddFeatureCategoryModal();
   }; // YENİ MENU EKLEME
   const handleAddAnotherItem = () => {
@@ -365,6 +457,12 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
       setMenus(newMenus);
     }
   }; //NAVBAR YAZI DEĞİŞTİREN FONKSİTON
+
+  const handleInputChangeInfo = (event, key) => {
+    const newInfo = { ...info }; // Info objesini kopyala
+    newInfo[0][key] = event.target.value; // Belirtilen anahtarın değerini değiştir
+    setInfo(newInfo); // Güncellenmiş bilgileri ayarla
+  }; //INFO YAZI DEĞİŞTİREN FONKSİTON
 
   const handleCourseInputChange = (event, index, field) => {
     if (field === "icon") {
@@ -429,7 +527,50 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
   const closeAddNavbarModal = () => {
     setAddNavbar(false);
   };
+  const updateInfo = async (updatedInfo) => {
+    // Güncellenmiş bilgileri sunucuya gönderme işlemi
+    const response = await postAPI("/home/updateInfo", updatedInfo);
 
+    // Başarılı güncelleme mesajı
+    Swal.fire({
+      title: "Başarılı",
+      text: "Bilgiler başarılı bir şekilde güncellendi.",
+      icon: "success",
+    });
+
+    closeChildInputModal();
+  };
+
+  const updateNavbar = async (updatedMenu) => {
+    const response = await postAPI("/home/updateMenu", updatedMenu);
+    console.log(response);
+    Swal.fire({
+      title: "Başarılı",
+      text: "Menü verileri başarılı bir şekilde güncellendi.",
+      icon: "success",
+    });
+    closeChildInputModal();
+  };
+  const updateCourse = async (updatedCourse) => {
+    const response = await postAPI("/home/updateCourse", updatedCourse);
+    console.log(response);
+    Swal.fire({
+      title: "Başarılı",
+      text: "Kurs verileri başarılı bir şekilde güncellendi.",
+      icon: "success",
+    });
+    closeChildInputModal();
+  };
+  const updateFeature = async (updatedFeature) => {
+    const response = await postAPI("/home/updateFeature", updatedFeature);
+    console.log(response);
+    Swal.fire({
+      title: "Başarılı",
+      text: "Ders verileri başarılı bir şekilde güncellendi.",
+      icon: "success",
+    });
+    closeChildInputModal();
+  };
   const handleSubmitBackgroundColor = (event, pageId) => {
     event.preventDefault();
     console.log(
@@ -468,166 +609,6 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
     console.log("response: ", response);
     onClose();
   }; //DERSELERE YAPTIĞIMIZ EKLEME DEĞİŞTİRME İŞLEMLERNİ KAYDEDEN FONKSİYON
-  const handleSubmitMainText = async (event) => {
-    event.preventDefault();
-    const formData = new FormData(event.target);
-    const updatedTitle = formData.get("title") || info.title;
-    const updatedDesc1 = formData.get("desc1") || info.desc1;
-    const updatedDesc2 = formData.get("desc2") || info.desc2;
-
-    const newInfo = {
-      ...info,
-      title: updatedTitle,
-      desc1: updatedDesc1,
-      desc2: updatedDesc2,
-    };
-
-    setInfo(newInfo);
-    const response = await postAPI("/home/addInfo", newInfo);
-    console.log(response);
-    console.log(newInfo);
-    onClose();
-  }; // MAİN KISIMDAKİ YAZILARI GÜNCELLEYEN FONKSİYON
-  const handleSubmitCourseText = async (event) => {
-    event.preventDefault();
-    const formData = new FormData(event.target);
-    const updatedclassCoursesTitle1 =
-      formData.get("classCoursesTitle1") || info.classCoursesTitle1;
-    const updatedclassCoursesTitle2 =
-      formData.get("classCoursesTitle2") || info.classCoursesTitle2;
-    const updatedclassCoursesDesc1 =
-      formData.get("classCoursesDesc1") || info.classCoursesDesc1;
-    const updatedclassCoursesDesc2 =
-      formData.get("classCoursesDesc2") || info.classCoursesDesc2;
-    const newInfo = {
-      ...info,
-      classCoursesTitle1: updatedclassCoursesTitle1,
-      classCoursesTitle2: updatedclassCoursesTitle2,
-      classCoursesDesc1: updatedclassCoursesDesc1,
-      classCoursesDesc2: updatedclassCoursesDesc2,
-    };
-
-    setInfo(newInfo);
-    const response = await postAPI("/home/addInfo", newInfo);
-    console.log(response);
-    console.log(newInfo);
-    onClose();
-  }; // COURSES KISIMDAKİ YAZILARI GÜNCELLEYEN FONKSİYON
-
-  const handleSubmitStudentsText = async (event) => {
-    event.preventDefault();
-    const formData = new FormData(event.target);
-    const updatedlearnersStudentsTitle1 =
-      formData.get("learnersStudentsTitle1") || info.learnersStudentsTitle1;
-    const updatedlearnersStudentsTitle2 =
-      formData.get("learnersStudentsTitle2") || info.learnersStudentsTitle2;
-    const updatedlearnersStudentsDesc =
-      formData.get("learnersStudentsDesc") || info.learnersStudentsDesc;
-    const newInfo = {
-      ...info,
-      learnersStudentsTitle1: updatedlearnersStudentsTitle1,
-      learnersStudentsTitle2: updatedlearnersStudentsTitle2,
-      learnersStudentsDesc: updatedlearnersStudentsDesc,
-    };
-
-    setInfo(newInfo);
-    const response = await postAPI("/home/addInfo", newInfo);
-    console.log(response);
-    console.log(newInfo);
-    onClose();
-  }; // STUDENTS KISIMDAKİ YAZILARI GÜNCELLEYEN FONKSİYON
-
-  const handleSubmitFeaturesText = async (event) => {
-    event.preventDefault();
-    const formData = new FormData(event.target);
-    const updatedfeaturedTitle1 =
-      formData.get("featuredTitle1") || info.featuredTitle1;
-    const updatedfeaturedTitle2 =
-      formData.get("featuredTitle2") || info.featuredTitle2;
-    const newInfo = {
-      ...info,
-      featuredTitle1: updatedfeaturedTitle1,
-      featuredTitle2: updatedfeaturedTitle2,
-    };
-
-    setInfo(newInfo);
-    const response = await postAPI("/home/addInfo", newInfo);
-    console.log(response);
-    console.log(newInfo);
-    onClose();
-  }; // STUDENTS KISIMDAKİ YAZILARI GÜNCELLEYEN FONKSİYON
-
-  const handleSubmitVideoText = async (event) => {
-    event.preventDefault();
-    const formData = new FormData(event.target);
-    const updatedvideo = formData.get("video") || info.video;
-    const updatedvideoTitle1 = formData.get("videoTitle1") || info.videoTitle1;
-    const updatedvideoTitle2 = formData.get("videoTitle2") || info.videoTitle2;
-    const updatedvideoTitle3 = formData.get("videoTitle3") || info.videoTitle3;
-    const updatedvideoTitle4 = formData.get("videoTitle4") || info.videoTitle4;
-    const updatedvideoDesc1 = formData.get("videoDesc1") || info.videoDesc1;
-    const updatedvideoDesc2 = formData.get("videoDesc2") || info.videoDesc2;
-    const updatedvideoDesc3 = formData.get("videoDesc3") || info.videoDesc3;
-    const newInfo = {
-      ...info,
-      video: updatedvideo,
-      videoTitle1: updatedvideoTitle1,
-      videoTitle2: updatedvideoTitle2,
-      videoTitle3: updatedvideoTitle3,
-      videoTitle4: updatedvideoTitle4,
-      videoDesc1: updatedvideoDesc1,
-      videoDesc2: updatedvideoDesc2,
-      videoDesc3: updatedvideoDesc3,
-    };
-
-    setInfo(newInfo);
-    const response = await postAPI("/home/addInfo", newInfo);
-    console.log(response);
-    console.log(newInfo);
-    onClose();
-  }; // VİDEO KISIMDAKİ YAZILARI GÜNCELLEYEN FONKSİYON
-
-  const handleSubmitLogoBannerText = async (event) => {
-    event.preventDefault();
-    const formData = new FormData(event.target);
-    const updatedclientTitle1 =
-      formData.get("clientTitle1") || info.clientTitle1;
-    const updatedclientTitle2 =
-      formData.get("clientTitle2") || info.clientTitle2;
-    const updatedclientDesc = formData.get("clientDesc") || info.clientDesc;
-    const newInfo = {
-      ...info,
-      clientTitle1: updatedclientTitle1,
-      clientTitle2: updatedclientTitle2,
-      clientDesc: updatedclientDesc,
-    };
-
-    setInfo(newInfo);
-    const response = await postAPI("/home/addInfo", newInfo);
-    console.log(response);
-    console.log(newInfo);
-    onClose();
-  }; // LOGO-BANNER KISIMDAKİ YAZILARI GÜNCELLEYEN FONKSİYON
-
-  const handleSubmitBannerText = async (event) => {
-    event.preventDefault();
-    const formData = new FormData(event.target);
-    const updatedbannerTitle1 =
-      formData.get("bannerTitle1") || info.bannerTitle1;
-    const updatedbannerTitle2 =
-      formData.get("bannerTitle2") || info.bannerTitle2;
-    const newInfo = {
-      ...info,
-      bannerTitle1: updatedbannerTitle1,
-      bannerTitle2: updatedbannerTitle2,
-    };
-
-    setInfo(newInfo);
-    const response = await postAPI("/home/addInfo", newInfo);
-    console.log(response);
-    console.log(newInfo);
-    onClose();
-  }; // BANNER KISIMDAKİ YAZILARI GÜNCELLEYEN FONKSİYON
 
   const handleSubmitInformationsText = async (event) => {
     event.preventDefault();
@@ -645,8 +626,11 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
       "/home/addInformations",
       updatedInformations
     );
-    console.log(response);
-    console.log(informations);
+    Swal.fire({
+      title: "Başarılı",
+      text: "Yazılar başarılı bir şekilde eklendi.",
+      icon: "success",
+    });
     onClose();
   }; // INFORMATİONS KISIMDAKİ YAZILARI GÜNCELLEYEN FONKSİYON
 
@@ -675,73 +659,21 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
 
     setFootercourses(updatedCourses);
     const response = await postAPI("/home/addFooterCourses", updatedCourses);
-    console.log(response);
-    console.log(footercourses);
-
     setResources(updatedResources);
     const response1 = await postAPI(
       "/home/addFooterResources",
       updatedResources
     );
-    console.log(response1);
-    console.log(resources);
-
     setContact(newInfo);
     const response2 = await postAPI("/home/addFooterContact", newInfo);
-    console.log(response2);
-    console.log(newInfo);
+    Swal.fire({
+      title: "Başarılı",
+      text: "Yazılar başarılı bir şekilde eklendi.",
+      icon: "success",
+    });
     onClose();
   }; // FOOTER KISIMDAKİ YAZILARI GÜNCELLEYEN FONKSİYON
 
-  const handleMainTextInputChange = (event, field) => {
-    const { value } = event.target;
-    setInfo((prevInfo) => ({
-      ...prevInfo,
-      [field]: value,
-    }));
-  };
-  const handleCourseTextInputChange = (event, field) => {
-    const { value } = event.target;
-    setInfo((prevInfo) => ({
-      ...prevInfo,
-      [field]: value,
-    }));
-  };
-  const handleStudentsTextInputChange = (event, field) => {
-    const { value } = event.target;
-    setInfo((prevInfo) => ({
-      ...prevInfo,
-      [field]: value,
-    }));
-  };
-  const handleFeaturesTextInputChange = (event, field) => {
-    const { value } = event.target;
-    setInfo((prevInfo) => ({
-      ...prevInfo,
-      [field]: value,
-    }));
-  };
-  const handleVideoTextInputChange = (event, field) => {
-    const { value } = event.target;
-    setInfo((prevInfo) => ({
-      ...prevInfo,
-      [field]: value,
-    }));
-  };
-  const handleLogoBannerTextInputChange = (event, field) => {
-    const { value } = event.target;
-    setInfo((prevInfo) => ({
-      ...prevInfo,
-      [field]: value,
-    }));
-  };
-  const handleBannerTextInputChange = (event, field) => {
-    const { value } = event.target;
-    setInfo((prevInfo) => ({
-      ...prevInfo,
-      [field]: value,
-    }));
-  };
   const handleInformationsTextInputChange = (event, field, index) => {
     const { value } = event.target;
     const updatedInformations = [...informations];
@@ -794,7 +726,11 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
       console.log(logobanner);
       setSelectedImage(null);
       const response = await postAPI("/home/addLogoBanner", logobanner);
-      console.log(response);
+      Swal.fire({
+        title: "Başarılı",
+        text: "Yazılar başarılı bir şekilde eklendi.",
+        icon: "success",
+      });
       setSelectedImageIndex(null);
     }
   }; //LOGOBANNER RESİM DEĞİŞTİRME
@@ -1190,354 +1126,290 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
               )}
               {modalContent === "yazı" && pageId === "main" && (
                 <div className="flex flex-col items-center justify-center lg:p-2">
-                  <form
-                    onSubmit={handleSubmitMainText}
-                    className="flex flex-col flex-wrap items-center justify-center"
+                  <textarea
+                    onChange={(event) => handleInputChangeInfo(event, "title")}
+                    placeholder={info[0].title}
+                    type="text"
+                    className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl lg:w-96 h-36"
+                  />
+                  <textarea
+                    onChange={(event) => handleInputChangeInfo(event, "desc1")}
+                    placeholder={info[0].desc1}
+                    type="text"
+                    className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl lg:w-96 h-36"
+                  />
+                  <textarea
+                    onChange={(event) => handleInputChangeInfo(event, "desc2")}
+                    placeholder={info[0].desc2}
+                    type="text"
+                    className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl lg:w-96 h-36"
+                  />
+                  <button
+                    onClick={() => updateInfo(info)}
+                    className="text-gray-600 bg-gray-100 py-3 px-8 rounded-xl font-semibold m-5"
                   >
-                    <textarea
-                      onChange={(event) =>
-                        handleMainTextInputChange(event, "title")
-                      }
-                      placeholder={info.title}
-                      type="text"
-                      className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl lg:w-96 h-36"
-                    />
-                    <textarea
-                      onChange={(event) =>
-                        handleMainTextInputChange(event, "desc1")
-                      }
-                      placeholder={info.desc1}
-                      type="text"
-                      className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl lg:w-96 h-36"
-                    />
-                    <textarea
-                      onChange={(event) =>
-                        handleMainTextInputChange(event, "desc2")
-                      }
-                      placeholder={info.desc2}
-                      type="text"
-                      className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl lg:w-96 h-36"
-                    />
-                    <button
-                      type="submit"
-                      className="text-gray-600 bg-gray-100 py-3 px-8 rounded-xl font-semibold m-5"
-                    >
-                      Kaydet
-                    </button>
-                  </form>
+                    Kaydet
+                  </button>
                 </div>
               )}
               {modalContent === "yazı" && pageId === "courses" && (
                 <div className="flex flex-col items-center justify-center">
-                  <form
-                    onSubmit={handleSubmitCourseText}
-                    className="flex flex-col flex-wrap items-center justify-center"
+                  <div className="inputArea flex items-center justify-center lg:flex-row flex-col">
+                    <textarea
+                      onChange={(event) =>
+                        handleInputChangeInfo(event, "classCoursesTitle1")
+                      }
+                      placeholder={info[0].classCoursesTitle1}
+                      type="text"
+                      className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-48 lg:h-48 h-24"
+                    />
+                    <textarea
+                      onChange={(event) =>
+                        handleInputChangeInfo(event, "classCoursesTitle2")
+                      }
+                      placeholder={info[0].classCoursesTitle2}
+                      type="text"
+                      className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-48 lg:h-48 h-24"
+                    />
+                  </div>
+                  <div className="flex items-center justify-center lg:flex-row flex-col">
+                    <textarea
+                      onChange={(event) =>
+                        handleInputChangeInfo(event, "classCoursesDesc1")
+                      }
+                      placeholder={info[0].classCoursesDesc1}
+                      type="text"
+                      className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-48  lg:h-48 h-24"
+                    />
+                    <textarea
+                      onChange={(event) =>
+                        handleInputChangeInfo(event, "classCoursesDesc2")
+                      }
+                      placeholder={info[0].classCoursesDesc2}
+                      type="text"
+                      className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-48 lg:h-48 h-24"
+                    />
+                  </div>
+                  <button
+                    onClick={() => updateInfo(info)}
+                    className="text-gray-600 bg-gray-100 py-3 px-8 rounded-xl font-semibold m-5"
                   >
-                    <div className="inputArea flex items-center justify-center lg:flex-row flex-col">
-                      <textarea
-                        onChange={(event) =>
-                          handleCourseTextInputChange(
-                            event,
-                            "classCoursesTitle1"
-                          )
-                        }
-                        placeholder={info.classCoursesTitle1}
-                        type="text"
-                        className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-48 lg:h-48 h-24"
-                      />
-                      <textarea
-                        onChange={(event) =>
-                          handleCourseTextInputChange(
-                            event,
-                            "classCoursesTitle2"
-                          )
-                        }
-                        placeholder={info.classCoursesTitle2}
-                        type="text"
-                        className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-48 lg:h-48 h-24"
-                      />
-                    </div>
-                    <div className="flex items-center justify-center lg:flex-row flex-col">
-                      <textarea
-                        onChange={(event) =>
-                          handleCourseTextInputChange(
-                            event,
-                            "classCoursesDesc1"
-                          )
-                        }
-                        placeholder={info.classCoursesDesc1}
-                        type="text"
-                        className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-48  lg:h-48 h-24"
-                      />
-                      <textarea
-                        onChange={(event) =>
-                          handleCourseTextInputChange(
-                            event,
-                            "classCoursesDesc2"
-                          )
-                        }
-                        placeholder={info.classCoursesDesc2}
-                        type="text"
-                        className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-48 lg:h-48 h-24"
-                      />
-                    </div>
-                    <button
-                      type="submit"
-                      className="text-gray-600 bg-gray-100 py-3 px-8 rounded-xl font-semibold m-5"
-                    >
-                      Kaydet
-                    </button>
-                  </form>
+                    Kaydet
+                  </button>
                 </div>
               )}
               {modalContent === "yazı" && pageId === "students" && (
                 <div className="flex flex-col items-center justify-center">
-                  <form
-                    onSubmit={handleSubmitStudentsText}
-                    className="flex flex-col flex-wrap items-center justify-center"
-                  >
-                    <textarea
-                      onChange={(event) =>
-                        handleStudentsTextInputChange(
-                          event,
-                          "learnersStudentsTitle1"
-                        )
-                      }
-                      placeholder={info.learnersStudentsTitle1}
-                      type="text"
-                      className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-[90%] lg:w-96 lg:h-36 h-24"
-                    />
-                    <textarea
-                      onChange={(event) =>
-                        handleStudentsTextInputChange(
-                          event,
-                          "learnersStudentsTitle2"
-                        )
-                      }
-                      placeholder={info.learnersStudentsTitle2}
-                      type="text"
-                      className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-[90%] lg:w-96 lg:h-36 h-24"
-                    />
-                    <textarea
-                      onChange={(event) =>
-                        handleStudentsTextInputChange(
-                          event,
-                          "learnersStudentsDesc"
-                        )
-                      }
-                      placeholder={info.learnersStudentsDesc}
-                      type="text"
-                      className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-[90%] lg:w-96 lg:h-36 h-24"
-                    />
+                  <textarea
+                    onChange={(event) =>
+                      handleInputChangeInfo(event, "learnersStudentsTitle1")
+                    }
+                    placeholder={info[0].learnersStudentsTitle1}
+                    type="text"
+                    className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-[90%] lg:w-96 lg:h-36 h-24"
+                  />
+                  <textarea
+                    onChange={(event) =>
+                      handleInputChangeInfo(event, "learnersStudentsTitle2")
+                    }
+                    placeholder={info[0].learnersStudentsTitle2}
+                    type="text"
+                    className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-[90%] lg:w-96 lg:h-36 h-24"
+                  />
+                  <textarea
+                    onChange={(event) =>
+                      handleInputChangeInfo(event, "learnersStudentsDesc")
+                    }
+                    placeholder={info[0].learnersStudentsDesc}
+                    type="text"
+                    className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-[90%] lg:w-96 lg:h-36 h-24"
+                  />
 
-                    <button
-                      type="submit"
-                      className="text-gray-600 bg-gray-100 py-3 px-8 rounded-xl font-semibold m-5"
-                    >
-                      Kaydet
-                    </button>
-                  </form>
+                  <button
+                    onClick={() => updateInfo(info)}
+                    className="text-gray-600 bg-gray-100 py-3 px-8 rounded-xl font-semibold m-5"
+                  >
+                    Kaydet
+                  </button>
                 </div>
               )}
               {modalContent === "yazı" && pageId === "features" && (
                 <div className="flex flex-col items-center justify-center">
-                  <form
-                    onSubmit={handleSubmitFeaturesText}
-                    className="flex flex-col flex-wrap items-center justify-center"
-                  >
-                    <div className="inputArea">
-                      <input
-                        onChange={(event) =>
-                          handleFeaturesTextInputChange(event, "featuredTitle1")
-                        }
-                        placeholder={info.featuredTitle1}
-                        type="text"
-                        className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
-                      />
-                      <input
-                        onChange={(event) =>
-                          handleFeaturesTextInputChange(event, "featuredTitle2")
-                        }
-                        placeholder={info.featuredTitle2}
-                        type="text"
-                        className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
-                      />
-                    </div>
+                  <div className="inputArea">
+                    <input
+                      onChange={(event) =>
+                        handleInputChangeInfo(event, "featuredTitle1")
+                      }
+                      placeholder={info[0].featuredTitle1}
+                      type="text"
+                      className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                    />
+                    <input
+                      onChange={(event) =>
+                        handleInputChangeInfo(event, "featuredTitle2")
+                      }
+                      placeholder={info[0].featuredTitle2}
+                      type="text"
+                      className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                    />
+                  </div>
 
-                    <button
-                      type="submit"
-                      className="text-gray-600 bg-gray-100 py-3 px-8 rounded-xl font-semibold m-5"
-                    >
-                      Kaydet
-                    </button>
-                  </form>
+                  <button
+                    onClick={() => updateInfo(info)}
+                    className="text-gray-600 bg-gray-100 py-3 px-8 rounded-xl font-semibold m-5"
+                  >
+                    Kaydet
+                  </button>
                 </div>
               )}
               {modalContent === "yazı" && pageId === "video" && (
                 <div className="flex flex-col items-center justify-center">
-                  <form
-                    onSubmit={handleSubmitVideoText}
-                    className="flex lg:flex-row flex-wrap items-center justify-center max-h-[500px] overflow-scroll"
-                  >
-                    <input
-                      onChange={(event) =>
-                        handleVideoTextInputChange(event, "video")
-                      }
-                      placeholder={info.video}
-                      type="text"
-                      className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
-                    />
-                    <input
-                      onChange={(event) =>
-                        handleVideoTextInputChange(event, "videoTitle1")
-                      }
-                      placeholder={info.videoTitle1}
-                      type="text"
-                      className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
-                    />
-                    <div className="inputArea lg:flex">
-                      <div className="flex flex-col items-center justify-center">
-                        <input
-                          onChange={(event) =>
-                            handleVideoTextInputChange(event, "videoTitle2")
-                          }
-                          placeholder={info.videoTitle2}
-                          type="text"
-                          className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl lg:w-44"
-                        />
-                        <textarea
-                          onChange={(event) =>
-                            handleVideoTextInputChange(event, "videoDesc1")
-                          }
-                          placeholder={info.videoDesc1}
-                          type="text"
-                          className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-[92%] lg:h-48 h-24 lg:w-44"
-                        />
-                      </div>
-                      <div className="flex flex-col items-center justify-center">
-                        <input
-                          onChange={(event) =>
-                            handleVideoTextInputChange(event, "videoTitle3")
-                          }
-                          placeholder={info.videoTitle3}
-                          type="text"
-                          className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl lg:w-44"
-                        />
-                        <textarea
-                          onChange={(event) =>
-                            handleVideoTextInputChange(event, "videoDesc2")
-                          }
-                          placeholder={info.videoDesc2}
-                          type="text"
-                          className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-[92%]  lg:h-48 h-24 lg:w-44"
-                        />
-                      </div>
-                      <div className="flex flex-col items-center justify-center">
-                        <input
-                          onChange={(event) =>
-                            handleVideoTextInputChange(event, "videoTitle4")
-                          }
-                          placeholder={info.videoTitle4}
-                          type="text"
-                          className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl lg:w-44"
-                        />
-
-                        <textarea
-                          onChange={(event) =>
-                            handleVideoTextInputChange(event, "videoDesc3")
-                          }
-                          placeholder={info.videoDesc3}
-                          type="text"
-                          className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-[92%] lg:h-48 h-24 lg:w-44"
-                        />
-                      </div>
+                  <input
+                    onChange={(event) => handleInputChangeInfo(event, "video")}
+                    placeholder={info[0].video}
+                    type="text"
+                    className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                  />
+                  <input
+                    onChange={(event) =>
+                      handleInputChangeInfo(event, "videoTitle1")
+                    }
+                    placeholder={info[0].videoTitle1}
+                    type="text"
+                    className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                  />
+                  <div className="inputArea lg:flex">
+                    <div className="flex flex-col items-center justify-center">
+                      <input
+                        onChange={(event) =>
+                          handleInputChangeInfo(event, "videoTitle2")
+                        }
+                        placeholder={info[0].videoTitle2}
+                        type="text"
+                        className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl lg:w-44"
+                      />
+                      <textarea
+                        onChange={(event) =>
+                          handleInputChangeInfo(event, "videoDesc1")
+                        }
+                        placeholder={info[0].videoDesc1}
+                        type="text"
+                        className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-[92%] lg:h-48 h-24 lg:w-44"
+                      />
                     </div>
+                    <div className="flex flex-col items-center justify-center">
+                      <input
+                        onChange={(event) =>
+                          handleInputChangeInfo(event, "videoTitle3")
+                        }
+                        placeholder={info[0].videoTitle3}
+                        type="text"
+                        className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl lg:w-44"
+                      />
+                      <textarea
+                        onChange={(event) =>
+                          handleInputChangeInfo(event, "videoDesc2")
+                        }
+                        placeholder={info[0].videoDesc2}
+                        type="text"
+                        className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-[92%]  lg:h-48 h-24 lg:w-44"
+                      />
+                    </div>
+                    <div className="flex flex-col items-center justify-center">
+                      <input
+                        onChange={(event) =>
+                          handleInputChangeInfo(event, "videoTitle4")
+                        }
+                        placeholder={info[0].videoTitle4}
+                        type="text"
+                        className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl lg:w-44"
+                      />
 
-                    <button
-                      type="submit"
-                      className="text-gray-600 bg-gray-100 py-3 px-8 rounded-xl font-semibold m-5"
-                    >
-                      Kaydet
-                    </button>
-                  </form>
+                      <textarea
+                        onChange={(event) =>
+                          handleInputChangeInfo(event, "videoDesc3")
+                        }
+                        placeholder={info[0].videoDesc3}
+                        type="text"
+                        className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-[92%] lg:h-48 h-24 lg:w-44"
+                      />
+                    </div>
+                  </div>
+
+                  <button
+                    onClick={() => updateInfo(info)}
+                    className="text-gray-600 bg-gray-100 py-3 px-8 rounded-xl font-semibold m-5"
+                  >
+                    Kaydet
+                  </button>
                 </div>
               )}
               {modalContent === "yazı" && pageId === "logoBanner" && (
                 <div className="flex flex-col items-center justify-center">
-                  <form
-                    onSubmit={handleSubmitLogoBannerText}
-                    className="flex flex-col flex-wrap items-center justify-center"
+                  <div className="inputArea flex flex-wrap items-center justify-center">
+                    <input
+                      onChange={(event) =>
+                        handleInputChangeInfo(event, "clientTitle1")
+                      }
+                      placeholder={info[0].clientTitle1}
+                      type="text"
+                      className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                    />
+
+                    <input
+                      onChange={(event) =>
+                        handleInputChangeInfo(event, "clientTitle2")
+                      }
+                      placeholder={info[0].clientTitle2}
+                      type="text"
+                      className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                    />
+                    <textarea
+                      onChange={(event) =>
+                        handleInputChangeInfo(event, "clientDesc")
+                      }
+                      placeholder={info[0].clientDesc}
+                      type="text"
+                      className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-[90%] h-48"
+                    />
+                  </div>
+
+                  <button
+                    onClick={() => updateInfo(info)}
+                    className="text-gray-600 bg-gray-100 py-3 px-8 rounded-xl font-semibold m-5"
                   >
-                    <div className="inputArea flex flex-wrap items-center justify-center">
-                      <input
-                        onChange={(event) =>
-                          handleLogoBannerTextInputChange(event, "clientTitle1")
-                        }
-                        placeholder={info.clientTitle1}
-                        type="text"
-                        className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
-                      />
-
-                      <input
-                        onChange={(event) =>
-                          handleLogoBannerTextInputChange(event, "clientTitle2")
-                        }
-                        placeholder={info.clientTitle2}
-                        type="text"
-                        className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
-                      />
-                      <textarea
-                        onChange={(event) =>
-                          handleLogoBannerTextInputChange(event, "clientDesc")
-                        }
-                        placeholder={info.clientDesc}
-                        type="text"
-                        className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-[90%] h-48"
-                      />
-                    </div>
-
-                    <button
-                      type="submit"
-                      className="text-gray-600 bg-gray-100 py-3 px-8 rounded-xl font-semibold m-5"
-                    >
-                      Kaydet
-                    </button>
-                  </form>
+                    Kaydet
+                  </button>
                 </div>
               )}
               {modalContent === "yazı" && pageId === "banner" && (
                 <div className="flex flex-col items-center justify-center">
-                  <form
-                    onSubmit={handleSubmitBannerText}
-                    className="flex flex-col flex-wrap items-center justify-center"
+                  <div className="inputArea">
+                    <input
+                      onChange={(event) =>
+                        handleInputChangeInfo(event, "bannerTitle1")
+                      }
+                      placeholder={info[0].bannerTitle1}
+                      type="text"
+                      className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                    />
+
+                    <input
+                      onChange={(event) =>
+                        handleInputChangeInfo(event, "bannerTitle2")
+                      }
+                      placeholder={info[0].bannerTitle2}
+                      type="text"
+                      className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                    />
+                  </div>
+
+                  <button
+                    onClick={() => updateInfo(info)}
+                    className="text-gray-600 bg-gray-100 py-3 px-8 rounded-xl font-semibold m-5"
                   >
-                    <div className="inputArea">
-                      <input
-                        onChange={(event) =>
-                          handleBannerTextInputChange(event, "bannerTitle1")
-                        }
-                        placeholder={info.bannerTitle1}
-                        type="text"
-                        className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
-                      />
-
-                      <input
-                        onChange={(event) =>
-                          handleBannerTextInputChange(event, "bannerTitle2")
-                        }
-                        placeholder={info.bannerTitle2}
-                        type="text"
-                        className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
-                      />
-                    </div>
-
-                    <button
-                      type="submit"
-                      className="text-gray-600 bg-gray-100 py-3 px-8 rounded-xl font-semibold m-5"
-                    >
-                      Kaydet
-                    </button>
-                  </form>
+                    Kaydet
+                  </button>
                 </div>
               )}
               {modalContent === "yazı" && pageId === "informations" && (
@@ -1559,7 +1431,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                                 )
                               }
                               type="text"
-                              placeholder={info.title}
+                              placeholder={info[0].title}
                               className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-48"
                             />
                             <textarea
@@ -1571,7 +1443,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                                 )
                               }
                               type="text"
-                              placeholder={info.description}
+                              placeholder={info[0].description}
                               className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-48 lg:h-48 h-24"
                             />
                           </div>
@@ -1971,22 +1843,46 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
 
               {modalContent === "yazı" &&
                 pageId === "navbar" &&
-                selectedBigInputIndex !== null &&
-                menus[selectedBigInputIndex].items.map((item, itemIndex) => (
-                  <input
-                    onChange={(event) =>
-                      handleInputChange(event, selectedBigInputIndex, itemIndex)
-                    }
-                    key={itemIndex}
-                    placeholder={item}
-                    type="text"
-                    className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
-                  />
-                ))}
+                selectedBigInputIndex !== null && (
+                  <>
+                    <input
+                      onChange={(event) =>
+                        handleInputChange(event, selectedBigInputIndex)
+                      }
+                      placeholder={menus[selectedBigInputIndex].name}
+                      type="text"
+                      className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-36 lg:w-auto"
+                    />
+                    {menus[selectedBigInputIndex].items.map(
+                      (item, itemIndex) => (
+                        <input
+                          onChange={(event) =>
+                            handleInputChange(
+                              event,
+                              selectedBigInputIndex,
+                              itemIndex
+                            )
+                          }
+                          key={itemIndex}
+                          placeholder={item}
+                          type="text"
+                          className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                        />
+                      )
+                    )}
+                    <button
+                      onClick={() => updateNavbar(menus[selectedBigInputIndex])}
+                      className="bg-gray-100 text-gray-600 px-5 py-3 rounded-xl font-semibold m-3 mt-0"
+                    >
+                      Kaydet
+                    </button>
+                  </>
+                )}
+
               {modalContent === "buton" && pageId === "courses" && (
                 <>
                   <div className="flex flex-col items-center justify-center">
-                    <div className="inputArea ">
+                    <div className="inputArea flex flex-col items-center">
                       <div className="detailInputs flex flex-col items-center justify-center">
                         <input
                           onChange={(event) =>
@@ -2084,6 +1980,14 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                           className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
                         />
                       </div>
+                      <button
+                        onClick={() =>
+                          updateCourse(courses[selectedBigInputIndex])
+                        }
+                        className="bg-gray-100 text-gray-600 px-5 py-3 rounded-xl font-semibold m-3 mt-0"
+                      >
+                        Kaydet
+                      </button>
                     </div>
                   </div>
                 </>
@@ -2219,6 +2123,14 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                           }
                           className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
                         />
+                        <button
+                          onClick={() =>
+                            updateFeature(featured[selectedBigInputIndex])
+                          }
+                          className="bg-gray-100 text-gray-600 px-5 py-3 rounded-xl font-semibold m-3 mt-0"
+                        >
+                          Kaydet
+                        </button>
                       </div>
                     </div>
                   </div>

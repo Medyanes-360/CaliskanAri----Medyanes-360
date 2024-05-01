@@ -10,6 +10,18 @@ import "./featured-card.css";
 
 export const FeaturedCourses = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [info, setInfo] = useState([]);
+  useEffect(() => {
+    const infoData = getAPI("/home/HomeInfo");
+    infoData
+      .then(function (result) {
+        console.log(result);
+        setInfo(result[0]);
+      })
+      .catch(function (error) {
+        console.error("Hata oluştu:", error);
+      });
+  }, []);
   const { featuredTitle1, featuredTitle2 } = info;
   const { underline } = image;
   const [features, setFeatures] = useState([]);

@@ -6,7 +6,6 @@ export const TopCoursesCard = () => {
   const [coursesCard, setCoursesCard] = useState([]);
   useEffect(() => {
     const coursesData = getAPI("/home/HomeCoursesCard");
-
     coursesData
       .then(function (result) {
         console.log(result);
@@ -21,12 +20,15 @@ export const TopCoursesCard = () => {
       {coursesCard.map((course, index) => (
         <div
           key={index}
-          className="hover:bg-cst_purple hover:cursor-pointer group top-courses bg-no-repeat bg-right-bottom flex flex-row items-center justify-start gap-6 border bg-card border-gray-200 rounded-md pt-10 pb-10 ps-5 pe-5 "
+          style={{
+            backgroundColor: course.background,
+          }}
+          className={`hover:bg-cst_purple hover:cursor-pointer group top-courses bg-no-repeat bg-right-bottom flex flex-row items-center justify-start gap-6 border border-gray-200 rounded-md pt-10 pb-10 ps-5 pe-5 `}
         >
           <div
-            className={`text-3xl flex items-center justify-center border-2 border-solid ${course.border} rounded-full bg-transparent h-16 w-16 text-white`}
+            className={`text-3xl flex items-center justify-center border-2 border-solid border-[${course.border}] rounded-full bg-transparent h-16 w-16 text-white bg-[${course.background}]`}
             style={{
-              backgroundImage: `${course.background}`,
+              backgroundColor: course.background,
               boxShadow: "0 4px 20px #d0d0d0",
               transition: "all .41s ease-in-out ",
             }}
