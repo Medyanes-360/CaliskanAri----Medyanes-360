@@ -118,6 +118,10 @@ async function homeHandler(req, res) {
           );
           console.log(responseForFooterCourses);
           return res.status(200).json({ message: "test", data: data });
+        case "addContact":
+          const responseContact = await createNewData("HomeContact", data);
+          console.log(responseContact);
+          return res.status(200).json({ message: "test", data: data });
         case "addFooterResources":
           const responseForFooterResources = await createNewData(
             "HomeResources",
@@ -133,7 +137,7 @@ async function homeHandler(req, res) {
           console.log(responseForFooterContact);
           return res.status(200).json({ message: "test", data: data });
         case "addLogoBanner":
-          const responseForLogoBanner = await createNewData(
+          const responseForLogoBanner = await createNewDataMany(
             "HomeLogoBanner",
             data
           );
@@ -174,6 +178,42 @@ async function homeHandler(req, res) {
             { id: idNumberFeature },
             data
           );
+          return res.status(200).json({ message: "test", data: data });
+        case "updateLogoBanner":
+          const idNumberLogoBanner = data["id"];
+          delete data["id"];
+          const responseUpdateLogoBanner = await updateDataByAny(
+            "addLogoBanner",
+            { id: idNumber },
+            data
+          );
+          return res.status(200).json({ message: "test", data: data });
+        case "updateFooterCourses":
+          const deleteForUpdate = await deleteDataAll("HomeFooterCourses");
+          const responseUpdateFooterCourses = await createNewDataMany(
+            "HomeFooterCourses",
+            data
+          );
+          console.log(responseUpdateFooterCourses);
+          return res.status(200).json({ message: "test", data: data });
+        case "updateFooterResources":
+          console.log(data);
+          const deleteForUpdate1 = await deleteDataAll("HomeResources");
+          const responseUpdateFooterResources = await createNewDataMany(
+            "HomeResources",
+            data
+          );
+          console.log(responseUpdateFooterResources);
+          return res.status(200).json({ message: "test", data: data });
+        case "updateFooterContact":
+          const idNumberFooterContact = data[0]["id"];
+          delete data[0]["id"];
+          const responseUpdateFooterContact = await updateDataByAny(
+            "HomeContact",
+            { id: idNumberFooterContact },
+            data[0]
+          );
+          console.log(responseUpdateFooterContact);
           return res.status(200).json({ message: "test", data: data });
       }
       break;

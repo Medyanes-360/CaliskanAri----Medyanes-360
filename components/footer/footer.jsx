@@ -2,14 +2,48 @@ import { contact, resources, footercourses } from "../constants/index.js";
 import { RiMapPin5Line } from "react-icons/ri";
 import { FiPhoneCall } from "react-icons/fi";
 import { CgFacebook } from "react-icons/cg";
-import { BsTwitter,BsDot } from "react-icons/bs";
+import { BsTwitter, BsDot } from "react-icons/bs";
 import { TiSocialLinkedin } from "react-icons/ti";
 import { BiLogoPinterestAlt } from "react-icons/bi";
 import { PiInstagramLogo } from "react-icons/pi";
 import { ScrollToTop } from "../helpers/scroll-to-top.jsx";
+import { useEffect, useState } from "react";
+import { getAPI } from "@/services/fetchAPI";
 
 export const Footer = () => {
-  const { phone, mapUrl,address } = contact;
+  const [contact, setContact] = useState([]);
+  const [resources, setResources] = useState([]);
+  const [courses, setCourses] = useState([]);
+  useEffect(() => {
+    const infoData = getAPI("/home/HomeContact");
+    infoData
+      .then(function (result) {
+        console.log(result[0]);
+        setContact(result[0]);
+      })
+      .catch(function (error) {
+        console.error("Hata oluştu:", error);
+      });
+    const resourceData = getAPI("/home/HomeResources");
+    resourceData
+      .then(function (result) {
+        console.log(result);
+        setResources(result);
+      })
+      .catch(function (error) {
+        console.error("Hata oluştu:", error);
+      });
+    const courseData = getAPI("/home/HomeFooterCourses");
+    courseData
+      .then(function (result) {
+        console.log(result);
+        setCourses(result);
+      })
+      .catch(function (error) {
+        console.error("Hata oluştu:", error);
+      });
+  }, []);
+  const { phone, mapUrl, address } = contact;
   return (
     <>
       <div className="bg-white text-center grid lg:grid-cols-4 md:grid-cols-2 md:text-start my-20 container mx-auto ">
@@ -36,7 +70,10 @@ export const Footer = () => {
               </a>
             </li>
             <li>
-              <a href={`tel:${phone}`} className="flex items-center justify-center md:justify-start gap-2">
+              <a
+                href={`tel:${phone}`}
+                className="flex items-center justify-center md:justify-start gap-2"
+              >
                 <span className="text-tabs text-lg">
                   <FiPhoneCall />
                 </span>
@@ -74,7 +111,9 @@ export const Footer = () => {
         </div>
         <div>
           <ul className="text-cst_grey flex flex-col gap-3 leading-7 mt-7">
-            <li className="text-cst_purple font-semibold text-xl pb-3">Resource</li>
+            <li className="text-cst_purple font-semibold text-xl pb-3">
+              Resource
+            </li>
             {resources.map((item, index) => (
               <li key={index}> {item.label} </li>
             ))}
@@ -82,8 +121,10 @@ export const Footer = () => {
         </div>
         <div>
           <ul className="text-cst_grey flex flex-col gap-3 leading-7 mt-7">
-            <li className="text-cst_purple font-semibold text-xl pb-3">Courses</li>
-            {footercourses.map((item, index) => (
+            <li className="text-cst_purple font-semibold text-xl pb-3">
+              Courses
+            </li>
+            {courses.map((item, index) => (
               <li key={index}>{item.label}</li>
             ))}
           </ul>
@@ -114,18 +155,15 @@ export const Footer = () => {
             <li>We Only Send Interesting And Relevant Emails.</li>
           </ul>
         </div>
-
       </div>
       <div className="lg:flex lg:justify-around  bg-cream pt-8 pb-5 text-cst_grey text-center text-sm relative">
         <p>© 2023 quiklearn. All Rights Reserved by RadiusTheme</p>
         <div className="flex items-center justify-center gap-3">
           <span>Privacy Policy</span>
-         <BsDot />
+          <BsDot />
           <span>Term Conditions</span>
         </div>
-      <ScrollToTop/>
-
-
+        <ScrollToTop />
       </div>
     </>
   );

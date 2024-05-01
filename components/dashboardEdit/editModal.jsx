@@ -104,7 +104,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
       .catch(function (error) {
         console.error("Hata oluştu:", error);
       });
-    const footerContactData = getAPI("/home/HomeFooterCourses");
+    const footerContactData = getAPI("/home/HomeContact");
 
     footerContactData
       .then(function (result) {
@@ -464,6 +464,32 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
     setInfo(newInfo); // Güncellenmiş bilgileri ayarla
   }; //INFO YAZI DEĞİŞTİREN FONKSİTON
 
+  // Kurs bilgileri için input değişiklik işlevi
+  const handleInputChangeFooterCourse = (event, index) => {
+    // console.log(footercourses);
+    const newFootercourses = [...footercourses]; // Kursları kopyala
+    newFootercourses[index] = {
+      ...newFootercourses[index],
+      label: event.target.value,
+    }; // Belirtilen kursun etiket değerini güncelle
+    console.log(newFootercourses);
+    setFootercourses(newFootercourses); // Güncellenmiş kursları ayarla
+  };
+
+  // Kaynak bilgileri için input değişiklik işlevi
+  const handleInputChangeFooterResources = (event, index) => {
+    const newResources = [...resources]; // Kaynakları kopyala
+    newResources[index] = { ...newResources[index], label: event.target.value }; // Belirtilen kaynağın etiket değerini güncelle
+    setResources(newResources); // Güncellenmiş kaynakları ayarla
+  };
+
+  // İletişim bilgileri için input değişiklik işlevi
+  const handleInputChangeFooterContact = (event, key) => {
+    const newContact = { ...contact }; // İletişim bilgilerini kopyala
+    newContact[0][key] = event.target.value; // Belirtilen anahtarın değerini güncelle
+    setContact(newContact); // Güncellenmiş iletişim bilgilerini ayarla
+  };
+
   const handleCourseInputChange = (event, index, field) => {
     if (field === "icon") {
       const file = event.target.files[0]; // Kullanıcının seçtiği dosya
@@ -547,6 +573,21 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
     Swal.fire({
       title: "Başarılı",
       text: "Menü verileri başarılı bir şekilde güncellendi.",
+      icon: "success",
+    });
+    closeChildInputModal();
+  };
+  const updateFooter = async (footercourses, resources, contact) => {
+    console.log(contact);
+    console.log(resources);
+    console.log(footercourses);
+    const response = await postAPI("/home/updateFooterCourses", footercourses);
+    const response1 = await postAPI("/home/updateFooterResources", resources);
+    const response2 = await postAPI("/home/updateFooterContact", contact);
+
+    Swal.fire({
+      title: "Başarılı",
+      text: "Bilgiler başarılı bir şekilde güncellendi.",
       icon: "success",
     });
     closeChildInputModal();
@@ -821,6 +862,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
     setSelectedBigInputIndex(null);
     setChildInputModalOpen(false);
   };
+
   const [underMenuCount, setUnderMenuCount] = useState(1);
   const modalClass = isOpen
     ? "fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-gray-600 bg-opacity-50"
@@ -1370,7 +1412,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                       }
                       placeholder={info[0].clientDesc}
                       type="text"
-                      className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-[90%] h-48"
+                      className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-[70%] h-48"
                     />
                   </div>
 
@@ -1385,22 +1427,22 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
               {modalContent === "yazı" && pageId === "banner" && (
                 <div className="flex flex-col items-center justify-center">
                   <div className="inputArea">
-                    <input
+                    <textarea
                       onChange={(event) =>
                         handleInputChangeInfo(event, "bannerTitle1")
                       }
                       placeholder={info[0].bannerTitle1}
                       type="text"
-                      className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                      className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-[92%] lg:h-48 h-24 lg:w-44"
                     />
 
-                    <input
+                    <textarea
                       onChange={(event) =>
                         handleInputChangeInfo(event, "bannerTitle2")
                       }
                       placeholder={info[0].bannerTitle2}
                       type="text"
-                      className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                      className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-[92%] lg:h-48 h-24 lg:w-44"
                     />
                   </div>
 
@@ -1462,93 +1504,82 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
               )}
               {modalContent === "yazı" && pageId === "footer" && (
                 <div className="flex flex-col items-center justify-center ">
-                  <form
-                    onSubmit={handleSubmitFooterText}
-                    className="flex  flex-wrap items-center justify-center max-h-[800px] overflow-scroll"
-                  >
-                    <h1 className="text-left text-sm text-gray-600 font-semibold m-5 mb-0">
-                      İletişim Bilgileri
-                    </h1>
-                    <div className="inputArea flex items-center justify-center flex-wrap">
-                      <input
-                        onChange={(event) =>
-                          handleFooterTextInputChange(event, "phone")
-                        }
-                        placeholder={contact.phone}
-                        type="text"
-                        className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
-                      />
+                  <h1 className="text-left text-sm text-gray-600 font-semibold m-5 mb-0">
+                    İletişim Bilgileri
+                  </h1>
+                  <div className="inputArea flex items-center justify-center flex-wrap">
+                    <input
+                      onChange={(event) =>
+                        handleInputChangeFooterContact(event, "phone")
+                      }
+                      placeholder={contact[0].phone}
+                      type="text"
+                      className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                    />
 
-                      <input
-                        onChange={(event) =>
-                          handleFooterTextInputChange(event, "mapUrl")
-                        }
-                        placeholder={contact.mapUrl}
-                        type="text"
-                        className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
-                      />
-                      <input
-                        onChange={(event) =>
-                          handleFooterTextInputChange(event, "address")
-                        }
-                        placeholder={contact.address}
-                        type="text"
-                        className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
-                      />
-                    </div>
-                    <h1 className="text-left text-sm text-gray-600 font-semibold m-5 mb-0">
-                      Kaynak Bilgileri
-                    </h1>
-                    <div className="inputArea flex items-center justify-center flex-wrap">
-                      {resources.map((resource, index) => (
-                        <div key={index} className="inputArea">
-                          <div className="bigInput flex items-center justify-center flex-row flex-wrap">
-                            <input
-                              onChange={(event) =>
-                                handleFooterResourcesTextInputChange(
-                                  event,
-                                  "label",
-                                  index
-                                )
-                              }
-                              type="text"
-                              placeholder={resource.label}
-                              className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
-                            />
-                          </div>
+                    <input
+                      onChange={(event) =>
+                        handleInputChangeFooterContact(event, "mapUrl")
+                      }
+                      placeholder={contact[0].mapUrl}
+                      type="text"
+                      className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                    />
+                    <input
+                      onChange={(event) =>
+                        handleInputChangeFooterContact(event, "address")
+                      }
+                      placeholder={contact[0].address}
+                      type="text"
+                      className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                    />
+                  </div>
+                  <h1 className="text-left text-sm text-gray-600 font-semibold m-5 mb-0">
+                    Kaynak Bilgileri
+                  </h1>
+                  <div className="inputArea flex items-center justify-center flex-wrap">
+                    {resources.map((resource, index) => (
+                      <div key={index} className="inputArea">
+                        <div className="bigInput flex items-center justify-center flex-row flex-wrap">
+                          <input
+                            onChange={(event) =>
+                              handleInputChangeFooterResources(event, index)
+                            }
+                            type="text"
+                            placeholder={resource.label}
+                            className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                          />
                         </div>
-                      ))}
-                    </div>
-                    <h1 className="text-left text-sm text-gray-600 font-semibold m-5 mb-0">
-                      Kurs Bilgileri
-                    </h1>
-                    <div className="inputArea flex items-center justify-center flex-wrap">
-                      {footercourses.map((footercourse, index) => (
-                        <div key={index} className="inputArea">
-                          <div className="bigInput flex items-center justify-center flex-row flex-wrap">
-                            <input
-                              onChange={(event) =>
-                                handleFooterCoursesTextInputChange(
-                                  event,
-                                  "label",
-                                  index
-                                )
-                              }
-                              type="text"
-                              placeholder={footercourse.label}
-                              className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
-                            />
-                          </div>
+                      </div>
+                    ))}
+                  </div>
+                  <h1 className="text-left text-sm text-gray-600 font-semibold m-5 mb-0">
+                    Kurs Bilgileri
+                  </h1>
+                  <div className="inputArea flex items-center justify-center flex-wrap">
+                    {footercourses.map((footercourse, index) => (
+                      <div key={index} className="inputArea">
+                        <div className="bigInput flex items-center justify-center flex-row flex-wrap">
+                          <input
+                            onChange={(event) =>
+                              handleInputChangeFooterCourse(event, index)
+                            }
+                            type="text"
+                            placeholder={footercourse.label}
+                            className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                          />
                         </div>
-                      ))}
-                    </div>
-                    <button
-                      type="submit"
-                      className="text-gray-600 bg-gray-100 py-3 px-8 rounded-xl font-semibold m-5"
-                    >
-                      Kaydet
-                    </button>
-                  </form>
+                      </div>
+                    ))}
+                  </div>
+                  <button
+                    onClick={() =>
+                      updateFooter(footercourses, resources, contact)
+                    }
+                    className="text-gray-600 bg-gray-100 py-3 px-8 rounded-xl font-semibold m-5"
+                  >
+                    Kaydet
+                  </button>
                 </div>
               )}
               {modalContent === "resim" && pageId === "logoBanner" && (
