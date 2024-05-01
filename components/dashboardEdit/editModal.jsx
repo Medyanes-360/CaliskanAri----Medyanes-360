@@ -675,46 +675,6 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
     onClose();
   }; // INFORMATİONS KISIMDAKİ YAZILARI GÜNCELLEYEN FONKSİYON
 
-  const handleSubmitFooterText = async (event) => {
-    event.preventDefault();
-    const formData = new FormData(event.target);
-    const updatedphone = formData.get("phone") || info.phone;
-    const updatedmapUrl = formData.get("mapUrl") || info.mapUrl;
-    const updatedaddress = formData.get("address") || info.address;
-
-    const newInfo = {
-      phone: updatedphone,
-      mapUrl: updatedmapUrl,
-      address: updatedaddress,
-    };
-    const updatedResources = resources.map((resource) => ({
-      ...resource,
-      label: resource.label !== "" ? resource.label : resource.label,
-    }));
-
-    const updatedCourses = footercourses.map((footercourse) => ({
-      ...footercourse,
-      label:
-        footercourse.label !== "" ? footercourse.label : footercourse.label,
-    }));
-
-    setFootercourses(updatedCourses);
-    const response = await postAPI("/home/addFooterCourses", updatedCourses);
-    setResources(updatedResources);
-    const response1 = await postAPI(
-      "/home/addFooterResources",
-      updatedResources
-    );
-    setContact(newInfo);
-    const response2 = await postAPI("/home/addFooterContact", newInfo);
-    Swal.fire({
-      title: "Başarılı",
-      text: "Yazılar başarılı bir şekilde eklendi.",
-      icon: "success",
-    });
-    onClose();
-  }; // FOOTER KISIMDAKİ YAZILARI GÜNCELLEYEN FONKSİYON
-
   const handleInformationsTextInputChange = (event, field, index) => {
     const { value } = event.target;
     const updatedInformations = [...informations];
@@ -724,31 +684,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
     };
     setInformations(updatedInformations);
   };
-  const handleFooterTextInputChange = (event, field) => {
-    const { value } = event.target;
-    setInfo((prevInfo) => ({
-      ...prevInfo,
-      [field]: value,
-    }));
-  };
-  const handleFooterResourcesTextInputChange = (event, field, index) => {
-    const { value } = event.target;
-    const updatedInformations = [...resources];
-    updatedInformations[index] = {
-      ...updatedInformations[index],
-      [field]: value,
-    };
-    setResources(updatedInformations);
-  };
-  const handleFooterCoursesTextInputChange = (event, field, index) => {
-    const { value } = event.target;
-    const updatedInformations = [...footercourses];
-    updatedInformations[index] = {
-      ...updatedInformations[index],
-      [field]: value,
-    };
-    setFootercourses(updatedInformations);
-  };
+
   const handleImageChangeLogoBanner = (event, index) => {
     const imageFile = event.target.files[0];
     setSelectedImage(imageFile);
