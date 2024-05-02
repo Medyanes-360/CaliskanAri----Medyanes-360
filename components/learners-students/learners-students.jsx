@@ -6,7 +6,42 @@ import { getAPI } from "@/services/fetchAPI";
 const LearnersStudents = () => {
   const { studentPhoto, underline, redCrown } = image;
   const [info, setInfo] = useState([]);
+  const [bgColor, setBgColor] = useState("");
+  const [textColor, setTextColor] = useState(""); // Değişken ismi düzeltildi, küçük harf kullanıldı
   useEffect(() => {
+    const textColorData = getAPI("/home/HomeTextColor"); // textColorData tanımlandı
+    textColorData
+      .then(function (result) {
+        console.log(result);
+        const mainTextColorInfo = result.find(
+          (item) => item.pageId === "students"
+        );
+        if (mainTextColorInfo) {
+          setTextColor(mainTextColorInfo.TextColor); // setTextColor çağrısı düzeltildi
+        } else {
+          console.log("Main page için textColor bulunamadı."); // Log mesajı düzeltildi
+        }
+      })
+      .catch(function (error) {
+        console.error("Hata oluştu:", error);
+      });
+
+    const bgColorData = getAPI("/home/HomeBgColor");
+    bgColorData
+      .then(function (result) {
+        console.log(result);
+        const mainBgColorInfo = result.find(
+          (item) => item.pageId === "students"
+        );
+        if (mainBgColorInfo) {
+          setBgColor(mainBgColorInfo.bgColor);
+        } else {
+          console.log("Main page için bgColor bulunamadı.");
+        }
+      })
+      .catch(function (error) {
+        console.error("Hata oluştu:", error);
+      });
     const infoData = getAPI("/home/HomeInfo");
     infoData
       .then(function (result) {
@@ -23,7 +58,7 @@ const LearnersStudents = () => {
     learnersStudentsDesc,
   } = info;
   return (
-    <div className="bg-cream">
+    <div className="" style={{ backgroundColor: bgColor, color: textColor }}>
       <div className="container mx-auto flex flex-col lg:flex-row items-center justify-center p-6">
         <div className="w-full relative mx-4">
           <img src={studentPhoto} alt="" />
@@ -41,14 +76,14 @@ const LearnersStudents = () => {
           />
         </div>
         <div className="flex flex-col gap-6">
-          <p className="text-sm text-cst_grey pt-8">{learnersStudentsTitle1}</p>
+          <p className="text-sm  pt-8">{learnersStudentsTitle1}</p>
           <div>
-            <h2 className="text-4xl text-cst_purple font-semibold relative">
+            <h2 className="text-4xl  font-semibold relative">
               {learnersStudentsTitle2}
               <img src={underline} alt="" className="absolute " />
             </h2>
           </div>
-          <p className="text-base text-cst_grey">{learnersStudentsDesc}</p>
+          <p className="text-base ">{learnersStudentsDesc}</p>
           <div>
             <CustomButton title="Etkileşimli Alıştırmaları Keşfet" />
           </div>

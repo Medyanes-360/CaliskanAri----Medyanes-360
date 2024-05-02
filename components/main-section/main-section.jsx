@@ -7,6 +7,8 @@ import { getAPI } from "@/services/fetchAPI";
 
 const MainSection = () => {
   const [info, setInfo] = useState([]);
+  const [bgColor, setBgColor] = useState("");
+  const [textColor, setTextColor] = useState(""); // Değişken ismi düzeltildi, küçük harf kullanıldı
   useEffect(() => {
     const infoData = getAPI("/home/HomeInfo");
     infoData
@@ -17,17 +19,48 @@ const MainSection = () => {
       .catch(function (error) {
         console.error("Hata oluştu:", error);
       });
+    const bgColorData = getAPI("/home/HomeBgColor");
+    bgColorData
+      .then(function (result) {
+        console.log(result);
+        const mainBgColorInfo = result.find((item) => item.pageId === "main");
+        if (mainBgColorInfo) {
+          setBgColor(mainBgColorInfo.bgColor);
+        } else {
+          console.log("Main page için bgColor bulunamadı.");
+        }
+      })
+      .catch(function (error) {
+        console.error("Hata oluştu:", error);
+      });
+    const textColorData = getAPI("/home/HomeTextColor"); // textColorData tanımlandı
+    textColorData
+      .then(function (result) {
+        console.log(result);
+        const mainTextColorInfo = result.find((item) => item.pageId === "main");
+        if (mainTextColorInfo) {
+          setTextColor(mainTextColorInfo.TextColor); // setTextColor çağrısı düzeltildi
+        } else {
+          console.log("Main page için textColor bulunamadı."); // Log mesajı düzeltildi
+        }
+      })
+      .catch(function (error) {
+        console.error("Hata oluştu:", error);
+      });
   }, []);
   const { title, desc1, desc2 } = info;
   const { mainSection, underline, book, pencil, wave, star } = image;
 
   return (
-    <div className="bg-cream  xl:pt-[0px] main-section-hover">
+    <div
+      className={`xl:pt-[0px] main-section-hover`}
+      style={{ backgroundColor: bgColor, color: textColor }} // textColor eklendi
+    >
       <div className=" flex flex-col md:flex-row items-center justify-between container mx-auto pb-20">
         <div className="flex flex-col gap-6 item-center md:items-start justify-center px-8">
-          <p className="text-cst_grey text-sm">{desc1}</p>
+          <p className=" text-sm">{desc1}</p>
           <div>
-            <h1 className="lg:text-6xl text-2xl relative text-cst_purple font-semibold">
+            <h1 className="lg:text-6xl text-2xl relative  font-semibold">
               {title}
               <img
                 src={underline}
@@ -37,7 +70,7 @@ const MainSection = () => {
             </h1>
           </div>
 
-          <p className="text-cst_grey text-s">{desc2}</p>
+          <p className=" text-s">{desc2}</p>
           <CustomButton title="Etkileşimli Alıştırmaları Keşfet" />
         </div>
         <div className="w-full pt-10 md:pt-4 xl:pl-48 px-8 relative scale-90">

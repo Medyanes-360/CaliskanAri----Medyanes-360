@@ -14,7 +14,39 @@ export const Footer = () => {
   const [contact, setContact] = useState([]);
   const [resources, setResources] = useState([]);
   const [courses, setCourses] = useState([]);
+  const [bgColor, setBgColor] = useState("");
+  const [textColor, setTextColor] = useState(""); // Değişken ismi düzeltildi, küçük harf kullanıldı
   useEffect(() => {
+    const textColorData = getAPI("/home/HomeTextColor"); // textColorData tanımlandı
+    textColorData
+      .then(function (result) {
+        console.log(result);
+        const mainTextColorInfo = result.find(
+          (item) => item.pageId === "footer"
+        );
+        if (mainTextColorInfo) {
+          setTextColor(mainTextColorInfo.TextColor); // setTextColor çağrısı düzeltildi
+        } else {
+          console.log("Main page için textColor bulunamadı."); // Log mesajı düzeltildi
+        }
+      })
+      .catch(function (error) {
+        console.error("Hata oluştu:", error);
+      });
+    const bgColorData = getAPI("/home/HomeBgColor");
+    bgColorData
+      .then(function (result) {
+        console.log(result);
+        const mainBgColorInfo = result.find((item) => item.pageId === "footer");
+        if (mainBgColorInfo) {
+          setBgColor(mainBgColorInfo.bgColor);
+        } else {
+          console.log("Main page için bgColor bulunamadı.");
+        }
+      })
+      .catch(function (error) {
+        console.error("Hata oluştu:", error);
+      });
     const infoData = getAPI("/home/HomeContact");
     infoData
       .then(function (result) {
@@ -46,7 +78,10 @@ export const Footer = () => {
   const { phone, mapUrl, address } = contact;
   return (
     <>
-      <div className="bg-white text-center grid lg:grid-cols-4 md:grid-cols-2 md:text-start my-20 container mx-auto ">
+      <div
+        className=" text-center grid lg:grid-cols-4 md:grid-cols-2 md:text-start my-20 container mx-auto "
+        style={{ backgroundColor: bgColor, color: textColor }}
+      >
         <div>
           <ul className="text-cst_grey flex flex-col gap-3 leading-7">
             <li className="text-cst_purple font-semibold text-xl pb-3">

@@ -31,7 +31,6 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
     featuresData
       .then(function (result) {
         setFeatured(result);
-        console.log(result);
       })
       .catch(function (error) {
         console.error("Hata oluştu:", error);
@@ -40,7 +39,6 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
 
     MenusData.then(function (result) {
       setMenus(result);
-      console.log(result);
     }).catch(function (error) {
       console.error("Hata oluştu:", error);
     });
@@ -48,7 +46,6 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
 
     coursesData
       .then(function (result) {
-        console.log(result);
         setCourses(result);
       })
       .catch(function (error) {
@@ -58,7 +55,6 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
 
     categoryData
       .then(function (result) {
-        console.log(result);
         setCategories(result);
       })
       .catch(function (error) {
@@ -68,7 +64,6 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
 
     infoData
       .then(function (result) {
-        console.log(result);
         setInfo(result);
       })
       .catch(function (error) {
@@ -78,7 +73,6 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
 
     informationsData
       .then(function (result) {
-        console.log(result);
         setInformations(result);
       })
       .catch(function (error) {
@@ -88,7 +82,6 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
 
     footerCoursesData
       .then(function (result) {
-        console.log(result);
         setFootercourses(result);
       })
       .catch(function (error) {
@@ -98,7 +91,6 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
 
     footerResourcesData
       .then(function (result) {
-        console.log(result);
         setResources(result);
       })
       .catch(function (error) {
@@ -108,7 +100,6 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
 
     footerContactData
       .then(function (result) {
-        console.log(result);
         setContact(result);
       })
       .catch(function (error) {
@@ -118,7 +109,6 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
 
     imagetData
       .then(function (result) {
-        console.log(result);
         setImage(result);
       })
       .catch(function (error) {
@@ -128,7 +118,6 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
 
     logoBannertData
       .then(function (result) {
-        console.log(result);
         setLogoBanner(result);
       })
       .catch(function (error) {
@@ -242,7 +231,6 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
       students: null,
       lessons: null,
     });
-    console.log(newFeature);
     const response = await postAPI("/home/addFeature", newFeature);
     Swal.fire({
       title: "Başarılı",
@@ -466,13 +454,11 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
 
   // Kurs bilgileri için input değişiklik işlevi
   const handleInputChangeFooterCourse = (event, index) => {
-    // console.log(footercourses);
     const newFootercourses = [...footercourses]; // Kursları kopyala
     newFootercourses[index] = {
       ...newFootercourses[index],
       label: event.target.value,
     }; // Belirtilen kursun etiket değerini güncelle
-    console.log(newFootercourses);
     setFootercourses(newFootercourses); // Güncellenmiş kursları ayarla
   };
 
@@ -569,7 +555,6 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
 
   const updateNavbar = async (updatedMenu) => {
     const response = await postAPI("/home/updateMenu", updatedMenu);
-    console.log(response);
     Swal.fire({
       title: "Başarılı",
       text: "Menü verileri başarılı bir şekilde güncellendi.",
@@ -578,9 +563,6 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
     closeChildInputModal();
   };
   const updateFooter = async (footercourses, resources, contact) => {
-    console.log(contact);
-    console.log(resources);
-    console.log(footercourses);
     const response = await postAPI("/home/updateFooterCourses", footercourses);
     const response1 = await postAPI("/home/updateFooterResources", resources);
     const response2 = await postAPI("/home/updateFooterContact", contact);
@@ -594,7 +576,6 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
   };
   const updateCourse = async (updatedCourse) => {
     const response = await postAPI("/home/updateCourse", updatedCourse);
-    console.log(response);
     Swal.fire({
       title: "Başarılı",
       text: "Kurs verileri başarılı bir şekilde güncellendi.",
@@ -604,7 +585,6 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
   };
   const updateFeature = async (updatedFeature) => {
     const response = await postAPI("/home/updateFeature", updatedFeature);
-    console.log(response);
     Swal.fire({
       title: "Başarılı",
       text: "Ders verileri başarılı bir şekilde güncellendi.",
@@ -612,79 +592,81 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
     });
     closeChildInputModal();
   };
-  const handleSubmitBackgroundColor = (event, pageId) => {
+  const handleSubmitBackgroundColor = async (event, pageId) => {
     event.preventDefault();
-    console.log(
-      pageId + " sayfası" + " Seçilen arka plan rengi:" + selectedColor
-    );
+    const data = {
+      pageId: pageId,
+      bgColor: selectedColor,
+    };
+    const response = await postAPI("/home/updateBgColor", data);
+    Swal.fire({
+      title: "Başarılı",
+      text: "Arka plan rengi başarılı bir şekilde güncellendi.",
+      icon: "success",
+    });
   }; //HER KISIM İÇİN PAGEID ALIP ONA GÖRE DB YE GÖNDERECEĞİZ ARKA PLAN RENGİNİ
-  const handleSubmitTextColor = (event, pageId) => {
+
+  const handleSubmitTextColor = async (event, pageId) => {
     event.preventDefault();
-    console.log(
-      pageId + " sayfası" + " Seçilen yazı rengi:" + selectedTextColor
-    );
-  }; //HER KISIM İÇİN PAGEID ALIP ONA GÖRE DB YE GÖNDERECEĞİZ YAZI RENGİNİ
+    const data = {
+      pageId: pageId,
+      TextColor: selectedTextColor,
+    };
+    const response = await postAPI("/home/updateTextColor", data);
+    Swal.fire({
+      title: "Başarılı",
+      text: "Yazı rengi başarılı bir şekilde güncellendi.",
+      icon: "success",
+    });
+  }; //HER KISIM İÇİN PAGEID ALIP ONA GÖRE DB YE GÖNDERECEĞİZ ARKA PLAN RENGİNİ
   const handleSubmitNavbar = async (event) => {
     event.preventDefault();
-    console.log("Menüler:", menus);
     const response = await postAPI("/home/addMenu", menus);
-    console.log(response);
     onClose();
   }; //NAVBAR YAPTIĞIMIZ EKLEME DEĞİŞTİRME İŞLEMLERNİ KAYDEDEN FONKSİYON
   const handleSubmitCourses = async (event) => {
     event.preventDefault();
-    console.log("Kurslar:", courses);
     const response = await postAPI("/home/addCourse", courses);
-    console.log(response);
     onClose();
   }; //KURSLARDA YAPTIĞIMIZ EKLEME DEĞİŞTİRME İŞLEMLERNİ KAYDEDEN FONKSİYON
   const handleSubmitFeature = async (event) => {
     event.preventDefault();
-    console.log("Dersler:", featured);
     onClose();
   }; //DERSELERE YAPTIĞIMIZ EKLEME DEĞİŞTİRME İŞLEMLERNİ KAYDEDEN FONKSİYON
   const handleSubmitFeatureCategory = async (event) => {
     event.preventDefault();
-    console.log("Kategoriler:", categories);
     const response = await postAPI("/home/addCategory", categories);
-    console.log("response: ", response);
     onClose();
   }; //DERSELERE YAPTIĞIMIZ EKLEME DEĞİŞTİRME İŞLEMLERNİ KAYDEDEN FONKSİYON
 
-  const handleSubmitInformationsText = async (event) => {
-    event.preventDefault();
-
-    const updatedInformations = informations.map((info) => ({
-      ...info,
-      title: info.title !== "" ? info.title : info.title,
-      description:
-        info.description !== "" ? info.description : info.description,
-      color: info.color !== "" ? info.color : info.color,
-    }));
-
-    setInformations(updatedInformations);
-    const response = await postAPI(
-      "/home/addInformations",
-      updatedInformations
-    );
-    Swal.fire({
-      title: "Başarılı",
-      text: "Yazılar başarılı bir şekilde eklendi.",
-      icon: "success",
-    });
-    onClose();
-  }; // INFORMATİONS KISIMDAKİ YAZILARI GÜNCELLEYEN FONKSİYON
-
+  const [updatedInformation, setUpdatedInformation] = useState();
+  const updateInformations = async (updatedInformation) => {
+    try {
+      const response = await postAPI(
+        "/home/updateInformations",
+        updatedInformation
+      );
+      Swal.fire({
+        title: "Başarılı",
+        text: "Yazılar başarılı bir şekilde eklendi.",
+        icon: "success",
+      });
+      onClose();
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
   const handleInformationsTextInputChange = (event, field, index) => {
     const { value } = event.target;
     const updatedInformations = [...informations];
-    updatedInformations[index] = {
+    const updatedInformation = {
       ...updatedInformations[index],
       [field]: value,
     };
+    updatedInformations[index] = updatedInformation;
     setInformations(updatedInformations);
+    setUpdatedInformation(updatedInformation); // Güncellenen veriyi gönder
   };
-
   const handleImageChangeLogoBanner = (event, index) => {
     const imageFile = event.target.files[0];
     setSelectedImage(imageFile);
@@ -700,7 +682,6 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
           URL.createObjectURL(selectedImage);
         return newLogobanner;
       });
-      console.log(logobanner);
       setSelectedImage(null);
       const response = await postAPI("/home/addLogoBanner", logobanner);
       Swal.fire({
@@ -723,7 +704,6 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
 
   const handleSubmitStudents = (event) => {
     event.preventDefault();
-    console.log(image);
   }; //STUDENTS RESİM DEĞİŞTİRME
   const handleImageChangeVideo = (event) => {
     const imageFile = event.target.files[0];
@@ -736,7 +716,6 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
 
   const handleSubmitVideo = (event) => {
     event.preventDefault();
-    console.log(image);
   }; //VİDEO RESİM DEĞİŞTİRME
   const handleImageChangeMain = (event) => {
     const imageFile = event.target.files[0];
@@ -750,8 +729,6 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
   const handleSubmitMain = async (event) => {
     event.preventDefault();
     const response = await postAPI("/home/addImage", Image);
-    console.log(response);
-    console.log(image);
   }; //MAİN RESİM DEĞİŞTİRME
 
   const handleImageChangeInformations = (event, index) => {
@@ -785,8 +762,6 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
       return updatedInformations;
     });
     const response = await postAPI("/home/addInformations", informations);
-    console.log(response);
-    console.log("Updated Informations:", informations);
   };
 
   const openChildInputModal = (index) => {
@@ -1392,50 +1367,45 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
               )}
               {modalContent === "yazı" && pageId === "informations" && (
                 <div className="flex flex-col items-center justify-center">
-                  <form
-                    onSubmit={handleSubmitInformationsText}
-                    className="flex flex-col flex-wrap items-center justify-center"
-                  >
-                    <div className="inputArea lg:flex">
-                      {informations.map((info, index) => (
-                        <div key={index} className="inputArea flex">
-                          <div className="bigInput flex items-center justify-center flex-wrap flex-col ">
-                            <input
-                              onChange={(event) =>
-                                handleInformationsTextInputChange(
-                                  event,
-                                  "title",
-                                  index
-                                )
-                              }
-                              type="text"
-                              placeholder={info[0].title}
-                              className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-48"
-                            />
-                            <textarea
-                              onChange={(event) =>
-                                handleInformationsTextInputChange(
-                                  event,
-                                  "description",
-                                  index
-                                )
-                              }
-                              type="text"
-                              placeholder={info[0].description}
-                              className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-48 lg:h-48 h-24"
-                            />
-                          </div>
+                  <div className="inputArea lg:flex">
+                    {informations.map((information, index) => (
+                      <div key={index} className="inputArea flex">
+                        <div className="bigInput flex items-center justify-center flex-wrap flex-col ">
+                          <input
+                            onChange={(event) =>
+                              handleInformationsTextInputChange(
+                                event,
+                                "title",
+                                index
+                              )
+                            }
+                            type="text"
+                            placeholder={information.title}
+                            className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-48"
+                          />
+                          <textarea
+                            onChange={(event) =>
+                              handleInformationsTextInputChange(
+                                event,
+                                "description",
+                                index
+                              )
+                            }
+                            type="text"
+                            placeholder={information.description}
+                            className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-48 lg:h-48 h-24"
+                          />
                         </div>
-                      ))}
-                    </div>
+                      </div>
+                    ))}
+                  </div>
 
-                    <button
-                      type="submit"
-                      className="text-gray-600 bg-gray-100 py-3 px-8 rounded-xl font-semibold m-5"
-                    >
-                      Kaydet
-                    </button>
-                  </form>
+                  <button
+                    onClick={() => updateInformations(updatedInformation)}
+                    className="text-gray-600 bg-gray-100 py-3 px-8 rounded-xl font-semibold m-5"
+                  >
+                    Kaydet
+                  </button>
                 </div>
               )}
               {modalContent === "yazı" && pageId === "footer" && (

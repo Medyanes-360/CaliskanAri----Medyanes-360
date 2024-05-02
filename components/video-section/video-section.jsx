@@ -10,7 +10,40 @@ import { getAPI } from "@/services/fetchAPI";
 
 export const VideoSection = () => {
   const [info, setInfo] = useState([]);
+  const [bgColor, setBgColor] = useState("");
+  const [textColor, setTextColor] = useState(""); // Değişken ismi düzeltildi, küçük harf kullanıldı
   useEffect(() => {
+    const textColorData = getAPI("/home/HomeTextColor"); // textColorData tanımlandı
+    textColorData
+      .then(function (result) {
+        console.log(result);
+        const mainTextColorInfo = result.find(
+          (item) => item.pageId === "video"
+        );
+        if (mainTextColorInfo) {
+          setTextColor(mainTextColorInfo.TextColor); // setTextColor çağrısı düzeltildi
+        } else {
+          console.log("Main page için textColor bulunamadı."); // Log mesajı düzeltildi
+        }
+      })
+      .catch(function (error) {
+        console.error("Hata oluştu:", error);
+      });
+
+    const bgColorData = getAPI("/home/HomeBgColor");
+    bgColorData
+      .then(function (result) {
+        console.log(result);
+        const mainBgColorInfo = result.find((item) => item.pageId === "video");
+        if (mainBgColorInfo) {
+          setBgColor(mainBgColorInfo.bgColor);
+        } else {
+          console.log("Main page için bgColor bulunamadı.");
+        }
+      })
+      .catch(function (error) {
+        console.error("Hata oluştu:", error);
+      });
     const infoData = getAPI("/home/HomeInfo");
     infoData
       .then(function (result) {
@@ -33,9 +66,12 @@ export const VideoSection = () => {
   } = info;
   const { videoCover, underline } = image;
   return (
-    <div className="bg-cst_purple video-section bg-left-top bg-no-repeat pt-8 ">
+    <div
+      className=" video-section bg-left-top bg-no-repeat pt-8 "
+      style={{ backgroundColor: bgColor, color: textColor }}
+    >
       <div className="flex-col items-center justify-center mx-auto container ">
-        <div className="flex flex-col items-center justify-center text-white mb-5 lg:mb-0 px-8 lg:px-0">
+        <div className="flex flex-col items-center justify-center  mb-5 lg:mb-0 px-8 lg:px-0">
           <h2 className="text-4xl relative">
             {videoTitle1}
             <img src={underline} alt="" className="absolute right-0" />
@@ -46,7 +82,7 @@ export const VideoSection = () => {
             <Tabs defaultValue={0} orientation="vertical" className="flex">
               <TabsList className="flex flex-col items-start pl-2 gap-10">
                 <div>
-                  <Tab className="text-white text-xl flex items-center gap-3">
+                  <Tab className="text-xl flex items-center gap-3">
                     <span className="text-4xl">
                       <GoVideo />
                     </span>
@@ -57,7 +93,7 @@ export const VideoSection = () => {
                   </TabPanel>
                 </div>
                 <div>
-                  <Tab className="text-white text-xl flex items-center gap-3">
+                  <Tab className=" text-xl flex items-center gap-3">
                     <span className="text-4xl">
                       <AiOutlineControl />
                     </span>
@@ -68,7 +104,7 @@ export const VideoSection = () => {
                   </TabPanel>
                 </div>
                 <div>
-                  <Tab className="text-white text-xl flex items-center gap-3">
+                  <Tab className=" text-xl flex items-center gap-3">
                     <span className="text-4xl">
                       <BsBoxes />
                     </span>

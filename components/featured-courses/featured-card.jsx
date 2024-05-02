@@ -11,7 +11,42 @@ import "./featured-card.css";
 export const FeaturedCourses = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [info, setInfo] = useState([]);
+  const [bgColor, setBgColor] = useState("");
+  const [textColor, setTextColor] = useState(""); // Değişken ismi düzeltildi, küçük harf kullanıldı
   useEffect(() => {
+    const textColorData = getAPI("/home/HomeTextColor"); // textColorData tanımlandı
+    textColorData
+      .then(function (result) {
+        console.log(result);
+        const mainTextColorInfo = result.find(
+          (item) => item.pageId === "features"
+        );
+        if (mainTextColorInfo) {
+          setTextColor(mainTextColorInfo.TextColor); // setTextColor çağrısı düzeltildi
+        } else {
+          console.log("Main page için textColor bulunamadı."); // Log mesajı düzeltildi
+        }
+      })
+      .catch(function (error) {
+        console.error("Hata oluştu:", error);
+      });
+
+    const bgColorData = getAPI("/home/HomeBgColor");
+    bgColorData
+      .then(function (result) {
+        console.log(result);
+        const mainBgColorInfo = result.find(
+          (item) => item.pageId === "features"
+        );
+        if (mainBgColorInfo) {
+          setBgColor(mainBgColorInfo.bgColor);
+        } else {
+          console.log("Main page için bgColor bulunamadı.");
+        }
+      })
+      .catch(function (error) {
+        console.error("Hata oluştu:", error);
+      });
     const infoData = getAPI("/home/HomeInfo");
     infoData
       .then(function (result) {
@@ -73,12 +108,12 @@ export const FeaturedCourses = () => {
     },
   };
   return (
-    <div className="bg-cream">
+    <div className="" style={{ color: textColor }}>
       <div className="mx-auto container px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
         <div className="flex flex-col items-center justify-between md:flex-row flex-wrap lg:flex-nowrap">
           <div className="w-full flex justify-center items-center flex-col">
-            <p className="text-cst_grey text-sm pb-2">{featuredTitle1}</p>
-            <h2 className="text-4xl font-semibold relative pb-8 text-[#241442]">
+            <p className=" text-sm pb-2">{featuredTitle1}</p>
+            <h2 className="text-4xl font-semibold relative pb-8 ">
               {featuredTitle2}
               <img src={underline} alt="" className="absolute right-20" />
             </h2>

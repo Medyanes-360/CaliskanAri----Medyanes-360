@@ -4,7 +4,41 @@ import { getAPI } from "@/services/fetchAPI";
 export const LogoBanner = () => {
   const [logobanner, setLogobanner] = useState([]);
   const [info, setInfo] = useState([]);
+  const [bgColor, setBgColor] = useState("");
+  const [textColor, setTextColor] = useState(""); // Değişken ismi düzeltildi, küçük harf kullanıldı
   useEffect(() => {
+    const textColorData = getAPI("/home/HomeTextColor"); // textColorData tanımlandı
+    textColorData
+      .then(function (result) {
+        console.log(result);
+        const mainTextColorInfo = result.find(
+          (item) => item.pageId === "logoBanner"
+        );
+        if (mainTextColorInfo) {
+          setTextColor(mainTextColorInfo.TextColor); // setTextColor çağrısı düzeltildi
+        } else {
+          console.log("Main page için textColor bulunamadı."); // Log mesajı düzeltildi
+        }
+      })
+      .catch(function (error) {
+        console.error("Hata oluştu:", error);
+      });
+    const bgColorData = getAPI("/home/HomeBgColor");
+    bgColorData
+      .then(function (result) {
+        console.log(result);
+        const mainBgColorInfo = result.find(
+          (item) => item.pageId === "logoBanner"
+        );
+        if (mainBgColorInfo) {
+          setBgColor(mainBgColorInfo.bgColor);
+        } else {
+          console.log("Main page için bgColor bulunamadı.");
+        }
+      })
+      .catch(function (error) {
+        console.error("Hata oluştu:", error);
+      });
     const infoData = getAPI("/home/HomeInfo");
     infoData
       .then(function (result) {
@@ -26,15 +60,18 @@ export const LogoBanner = () => {
   }, []);
   const { clientTitle1, clientTitle2, clientDesc } = info;
   return (
-    <div className="bg-cream py-24 sm:py-32">
+    <div
+      className="py-24 sm:py-32"
+      style={{ backgroundColor: bgColor, color: textColor }}
+    >
       <div className="mx-auto container px-6">
-        <h2 className="text-center text-2xl  font-semibold leading-8 text-gray-900">
+        <h2 className="text-center text-2xl  font-semibold leading-8 ">
           {clientTitle1}
         </h2>
-        <h2 className="text-center text-lg  font-semibold leading-8 text-gray-700">
+        <h2 className="text-center text-lg  font-semibold leading-8 ">
           {clientTitle2}
         </h2>
-        <p className="text-center text-cst_grey text-base pt-4">{clientDesc}</p>
+        <p className="text-center  text-base pt-4">{clientDesc}</p>
         <div className=" mt-10 flex flex-row gap-10 justify-around">
           {logobanner.map((item, index) => (
             <a href={item.link ? item.link : "#"} key={index}>

@@ -84,6 +84,19 @@ async function homeHandler(req, res) {
           const responseForMenu = await createNewData("HomeMenus", data);
           console.log(responseForMenu);
           return res.status(200).json({ message: "test", data: data });
+        case "addBgColor":
+          console.log(data);
+          const responseForBgColor = await createNewData("HomeBgColor", data);
+          console.log(responseForBgColor);
+          return res.status(200).json({ message: "test", data: data });
+        case "addTextColor":
+          console.log(data);
+          const responseForTextColor = await createNewData(
+            "HomeTextColor",
+            data
+          );
+          console.log(responseForTextColor);
+          return res.status(200).json({ message: "test", data: data });
         case "addCategory":
           const responseForCategory = await createNewData(
             "HomeCategories",
@@ -155,6 +168,33 @@ async function homeHandler(req, res) {
             { id: idNumber },
             data
           );
+          return res.status(200).json({ message: "test", data: data });
+        case "updateInformations":
+          console.log(data);
+          const idNumberInformations = data["id"];
+          delete data["id"];
+          const responseUpdateInformations = await updateDataByAny(
+            "HomeInformation",
+            { id: idNumberInformations },
+            data
+          );
+          console.log(responseUpdateInformations);
+          return res.status(200).json({ message: "test", data: data });
+        case "updateBgColor":
+          const responseUpdateBgColor = await updateDataByAny(
+            "HomeBgColor",
+            { pageId: data.pageId },
+            data
+          );
+          console.log(responseUpdateBgColor);
+          return res.status(200).json({ message: "test", data: data });
+        case "updateTextColor":
+          const responseUpdateTextColor = await updateDataByAny(
+            "HomeTextColor",
+            { pageId: data.pageId },
+            data
+          );
+          console.log(responseUpdateTextColor);
           return res.status(200).json({ message: "test", data: data });
         case "updateCourse":
           data.quantity = parseInt(data.quantity);

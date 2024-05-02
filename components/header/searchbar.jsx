@@ -9,7 +9,6 @@ import { IoIosLogIn } from "react-icons/io";
 import "./header.css";
 import MenuItems from "./MenuItems";
 import { getAPI } from "@/services/fetchAPI";
-import { menuItems } from "@/mocks/menuItems";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -88,9 +87,8 @@ export const SearchBar = () => {
           </div>
 
           <div className="lg:flex lg:flex-1 hidden gap-2">
-            {menuItems.map((menu, index) => {
+            {menus.map((menu, index) => {
               const depthLevel = 1;
-
               return (
                 <MenuItems items={menu} key={index} depthLevel={depthLevel} />
               );

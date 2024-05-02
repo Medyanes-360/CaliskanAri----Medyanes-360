@@ -50,7 +50,7 @@ const MenuItems = ({ items, depthLevel }) => {
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
       >
-        {items.submenu ? (
+        {items.items ? (
           <>
             <button
               type="button"
@@ -58,7 +58,7 @@ const MenuItems = ({ items, depthLevel }) => {
               aria-expanded={dropdown ? "true" : "false"}
               onClick={() => setDropdown((prev) => !prev)}
             >
-              {items.title}{" "}
+              {items.name}{" "}
               {depthLevel === 1 && (
                 <ChevronDownIcon
                   className={`transition-all duration-200 ease-in-out h-4 w-4 text-gray-400 ml-2 ${
@@ -78,12 +78,12 @@ const MenuItems = ({ items, depthLevel }) => {
             </button>
             <DropDown
               depthLevel={depthLevel}
-              submenus={items.submenu}
+              submenus={items.items}
               dropdown={dropdown}
             />
           </>
         ) : (
-          <a href="/#">{items.title}</a>
+          <a href="/#">{items.name}</a>
         )}
       </div>
     </div>

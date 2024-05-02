@@ -135,6 +135,20 @@ enum Role {
 }
 
 // Home Page Model 
+
+model HomeBgColor {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  pageId   String   @unique
+  bgColor  String
+}
+
+model HomeTextColor {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  pageId   String   @unique
+  TextColor  String
+}
+
+
 model HomeInfo {
   id          String    @id @default(auto()) @map("_id") @db.ObjectId
   title                  String
