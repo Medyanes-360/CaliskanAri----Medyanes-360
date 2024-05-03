@@ -204,7 +204,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
     const { value, files } = event.target;
     if (field === "image" && files && files.length > 0) {
       const imageFile = files[0];
-
+      console.log(imageFile);
       uploadImageToS3(imageFile, field);
     } else {
       setNewFeature((prevFeature) => ({
@@ -221,12 +221,13 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
       accessKeyId: process.env.NEXT_PUBLIC_AWS_ACCESS_KEY,
       secretAccessKey: process.env.NEXT_PUBLIC_AWS_SECRET_ACCESS_KEY,
     });
+    console.log(process.env.NEXT_PUBLIC_AWS_ACCESS_KEY);
     const params = {
       Bucket: S3_BUCKET,
       Key: `images/${imageFile.name}`,
       Body: imageFile,
     };
-
+    console.log(params);
     const s3 = new AWS.S3({
       params: { Bucket: S3_BUCKET },
       region: REGION,
@@ -546,13 +547,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
   const handleCourseInputChange = (event, index, field) => {
     if (field === "icon") {
       const file = event.target.files[0]; // Kullanıcının seçtiği dosya
-      const imageUrl = URL.createObjectURL(file); // Resmin URL'sini oluştur
-      const newCourses = [...courses];
-      newCourses[index] = {
-        ...newCourses[index],
-        [field]: imageUrl, // Resmin URL'sini sakla
-      };
-      setCourses(newCourses); // Yeni durum değerini ayarla
+      uploadImageToS3Course(file, field);
     } else {
       const { value } = event.target;
       const newCourses = [...courses];
@@ -567,13 +562,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
   const handleFeaturesInputChange = (event, index, field) => {
     if (field === "image") {
       const file = event.target.files[0]; // Kullanıcının seçtiği dosya
-      const imageUrl = URL.createObjectURL(file); // Resmin URL'sini oluştur
-      const newFeature = [...featured];
-      newFeature[index] = {
-        ...newFeature[index],
-        [field]: imageUrl, // Resmin URL'sini sakla
-      };
-      setFeatured(newFeature); // Yeni durum değerini ayarla
+      uploadImageToS3(file, field);
     } else {
       const { value } = event.target;
       const newFeature = [...featured];
