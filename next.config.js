@@ -9,6 +9,7 @@ const nextConfig = {
       "images.unsplash.com",
       "free4kwallpapers.com",
       "www.radiustheme.com",
+      "caliskanari.s3.amazonaws.com",
     ],
   },
 };

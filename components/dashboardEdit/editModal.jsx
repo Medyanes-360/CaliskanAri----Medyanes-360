@@ -3,7 +3,7 @@ import { SketchPicker } from "react-color";
 import Image from "next/image";
 import { postAPI, getAPI } from "@/services/fetchAPI";
 import Swal from "sweetalert2";
-
+import AWS from "aws-sdk";
 const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
   const [selectedColor, setSelectedColor] = useState("#000000");
   const [selectedTextColor, setSelectedTextColor] = useState("#000000");
@@ -26,6 +26,42 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
   const [image, setImage] = useState({});
   const [footercourses, setFootercourses] = useState([]); //FOOTER KURSLAR DEĞİŞKENİ
   const [featured, setFeatured] = useState([]); //FEATURED DEĞİŞKENİ
+  const uploadImageToS3Course = async (imageFile, field) => {
+    const S3_BUCKET = "caliskanari";
+    const REGION = "us-east-1";
+    AWS.config.update({
+      accessKeyId: process.env.NEXT_PUBLIC_AWS_ACCESS_KEY,
+      secretAccessKey: process.env.NEXT_PUBLIC_AWS_SECRET_ACCESS_KEY,
+    });
+    const params = {
+      Bucket: S3_BUCKET,
+      Key: `images/${imageFile.name}`,
+      Body: imageFile,
+    };
+
+    const s3 = new AWS.S3({
+      params: { Bucket: S3_BUCKET },
+      region: REGION,
+    });
+
+    var upload = s3
+      .putObject(params)
+      .on("httpUploadProgress", (evt) => {
+        console.log(
+          "Uploading " + parseInt((evt.loaded * 100) / evt.total) + "%"
+        );
+      })
+      .promise();
+
+    await upload.then((err, data) => {
+      console.log(data);
+      setNewCourse((prevCourse) => ({
+        ...prevCourse,
+        [field]: `https://caliskanari.s3.amazonaws.com/images/${imageFile.name}`,
+      }));
+      console.log(err);
+    });
+  };
   useEffect(() => {
     const featuresData = getAPI("/home/HomeFeatured");
     featuresData
@@ -150,14 +186,12 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
   const [newFeatureCategory, setNewFeatureCategory] = useState({
     name: "",
   }); //YENİ KATEGORİ EKLEME DEĞİŞKENİ
+
   const handleAddCourseInputChange = (event, field) => {
     const { value, files } = event.target;
     if (field === "icon" && files && files.length > 0) {
       const imageFile = files[0];
-      setNewCourse((prevCourse) => ({
-        ...prevCourse,
-        [field]: URL.createObjectURL(imageFile),
-      }));
+      uploadImageToS3Course(imageFile, field);
     } else {
       setNewCourse((prevCourse) => ({
         ...prevCourse,
@@ -170,18 +204,51 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
     const { value, files } = event.target;
     if (field === "image" && files && files.length > 0) {
       const imageFile = files[0];
-      setNewFeature((prevFeature) => ({
-        ...prevFeature,
-        [field]: URL.createObjectURL(imageFile),
-      }));
+
+      uploadImageToS3(imageFile, field);
     } else {
       setNewFeature((prevFeature) => ({
         ...prevFeature,
         [field]: value,
       }));
     }
-  }; //YENİ DERS EKLEME
+  };
 
+  const uploadImageToS3 = async (imageFile, field) => {
+    const S3_BUCKET = "caliskanari";
+    const REGION = "us-east-1";
+    AWS.config.update({
+      accessKeyId: process.env.NEXT_PUBLIC_AWS_ACCESS_KEY,
+      secretAccessKey: process.env.NEXT_PUBLIC_AWS_SECRET_ACCESS_KEY,
+    });
+    const params = {
+      Bucket: S3_BUCKET,
+      Key: `images/${imageFile.name}`,
+      Body: imageFile,
+    };
+
+    const s3 = new AWS.S3({
+      params: { Bucket: S3_BUCKET },
+      region: REGION,
+    });
+
+    var upload = s3
+      .putObject(params)
+      .on("httpUploadProgress", (evt) => {
+        console.log(
+          "Uploading " + parseInt((evt.loaded * 100) / evt.total) + "%"
+        );
+      })
+      .promise();
+
+    await upload.then((err, data) => {
+      setNewFeature((prevFeature) => ({
+        ...prevFeature,
+        [field]: `https://caliskanari.s3.amazonaws.com/images/${imageFile.name}`,
+      }));
+      console.log(err);
+    });
+  };
   const handleAddFeatureCategoryInputChange = (event, field) => {
     const { value, files } = event.target;
     if (field === "image" && files && files.length > 0) {
@@ -669,21 +736,61 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
   };
   const handleImageChangeLogoBanner = (event, index) => {
     const imageFile = event.target.files[0];
-    setSelectedImage(imageFile);
     setSelectedImageIndex(index);
+    uploadImageToS3LogoBanner(imageFile, index);
   }; //LOGOBANNER RESİM DEĞİŞTİRME
+  const uploadImageToS3LogoBanner = async (imageFile, selectedImageIndex) => {
+    const S3_BUCKET = "caliskanari";
+    const REGION = "us-east-1";
+    AWS.config.update({
+      accessKeyId: process.env.NEXT_PUBLIC_AWS_ACCESS_KEY,
+      secretAccessKey: process.env.NEXT_PUBLIC_AWS_SECRET_ACCESS_KEY,
+    });
+    console.log(imageFile);
+    const params = {
+      Bucket: S3_BUCKET,
+      Key: `images/${imageFile.name}`,
+      Body: imageFile,
+    };
 
-  const handleSubmitImageLogoBanner = async (event) => {
-    event.preventDefault();
-    if (selectedImage !== null && selectedImageIndex !== null) {
+    const s3 = new AWS.S3({
+      params: { Bucket: S3_BUCKET },
+      region: REGION,
+    });
+
+    var upload = s3
+      .putObject(params)
+      .on("httpUploadProgress", (evt) => {
+        console.log(
+          "Uploading " + parseInt((evt.loaded * 100) / evt.total) + "%"
+        );
+      })
+      .promise();
+
+    await upload.then((err, data) => {
       setLogoBanner((prevLogobanner) => {
         const newLogobanner = [...prevLogobanner];
-        newLogobanner[selectedImageIndex].logo =
-          URL.createObjectURL(selectedImage);
+        newLogobanner[
+          selectedImageIndex
+        ].logo = `https://caliskanari.s3.amazonaws.com/images/${imageFile.name}`;
         return newLogobanner;
       });
+      console.log(err);
+    });
+  };
+  const handleSubmitImageLogoBanner = async (event) => {
+    event.preventDefault();
+    console.log(selectedImage);
+    console.log(selectedImageIndex);
+
+    if (selectedImageIndex !== null) {
+      uploadImageToS3LogoBanner(selectedImage);
       setSelectedImage(null);
-      const response = await postAPI("/home/addLogoBanner", logobanner);
+      const response = await postAPI(
+        "/home/updateLogoBanner",
+        logobanner[selectedImageIndex]
+      );
+      console.log(response);
       Swal.fire({
         title: "Başarılı",
         text: "Yazılar başarılı bir şekilde eklendi.",
@@ -1505,9 +1612,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                         alt={`Logo ${index + 1}`}
                       />
                       <form
-                        onSubmit={(event) =>
-                          handleSubmitImageLogoBanner(event, index)
-                        }
+                        onSubmit={handleSubmitImageLogoBanner}
                         className="flex flex-col lg:flex-row items-center justify-center"
                       >
                         <label htmlFor={`image-${index}`}>Resim Seçin:</label>
@@ -1841,7 +1946,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                               "quantity"
                             )
                           }
-                          type="text"
+                          type="number"
                           placeholder={
                             courses[selectedBigInputIndex].quantity ||
                             "Kurs sayısı"

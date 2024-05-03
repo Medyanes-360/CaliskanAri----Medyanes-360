@@ -169,6 +169,7 @@ async function homeHandler(req, res) {
             data
           );
           return res.status(200).json({ message: "test", data: data });
+
         case "updateInformations":
           console.log(data);
           const idNumberInformations = data["id"];
@@ -223,10 +224,11 @@ async function homeHandler(req, res) {
           const idNumberLogoBanner = data["id"];
           delete data["id"];
           const responseUpdateLogoBanner = await updateDataByAny(
-            "addLogoBanner",
-            { id: idNumber },
+            "HomeLogoBanner",
+            { id: idNumberLogoBanner },
             data
           );
+          console.log(responseUpdateLogoBanner);
           return res.status(200).json({ message: "test", data: data });
         case "updateFooterCourses":
           const deleteForUpdate = await deleteDataAll("HomeFooterCourses");
