@@ -193,7 +193,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
           onClick={isCollapsed ? resetWidth : collapse}
           role="button"
           className={classNames(
-            "h-6 w-6 rounded-lg absolute top-3 right-2 transition"
+            "h-6 w-6 rounded-lg absolute top-3 right-2 transition text-black"
           )}
         >
           {isMobile && isCollapsed ? (

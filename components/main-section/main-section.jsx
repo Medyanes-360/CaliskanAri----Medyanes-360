@@ -72,8 +72,10 @@ const MainSection = () => {
       style={{ backgroundColor: bgColor, color: textColor }} // textColor eklendi
     >
       <div
-        className={` flex flex-col ${
-          position == 1 ? "md:flex-row-reverse" : "md:flex-row"
+        className={` flex  ${
+          position == 1
+            ? "md:flex-row-reverse flex-col-reverse"
+            : "md:flex-row flex-col"
         } items-center justify-between container mx-auto pb-20`}
       >
         <div className="flex flex-col gap-6 item-center md:items-start justify-center px-8">

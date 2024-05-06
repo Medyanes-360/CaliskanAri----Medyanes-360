@@ -94,8 +94,10 @@ export const VideoSection = () => {
           </h2>
         </div>
         <div
-          className={`flex flex-col ${
-            position == 1 ? "md:flex-row" : "md:flex-row-reverse"
+          className={`flex ${
+            position == 1
+              ? "md:flex-row flex-col"
+              : "md:flex-row-reverse flex-col-reverse"
           } items-center justify-center py-10 px-8 lg:px-0`}
         >
           <div>

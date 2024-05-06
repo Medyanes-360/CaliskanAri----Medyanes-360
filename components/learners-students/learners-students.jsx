@@ -78,8 +78,10 @@ const LearnersStudents = () => {
   return (
     <div className="" style={{ backgroundColor: bgColor, color: textColor }}>
       <div
-        className={`container mx-auto flex flex-col ${
-          position == 1 ? "md:flex-row" : "md:flex-row-reverse"
+        className={`container mx-auto flex  ${
+          position == 1
+            ? "md:flex-row flex-col"
+            : "md:flex-row-reverse flex-col-reverse"
         } items-center justify-center p-6`}
       >
         <div className="w-full relative mx-4">

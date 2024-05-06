@@ -5,8 +5,8 @@ import { postAPI, getAPI } from "@/services/fetchAPI";
 import Swal from "sweetalert2";
 import AWS from "aws-sdk";
 const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
-  const [selectedColor, setSelectedColor] = useState("#000000");
-  const [selectedTextColor, setSelectedTextColor] = useState("#000000");
+  const [selectedColor, setSelectedColor] = useState("");
+  const [selectedTextColor, setSelectedTextColor] = useState("");
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedImageStudents, setSelectedImageStudents] = useState(null);
   const [selectedImageVideo, setSelectedImageVideo] = useState(null);
@@ -46,15 +46,10 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
 
     var upload = s3
       .putObject(params)
-      .on("httpUploadProgress", (evt) => {
-        console.log(
-          "Uploading " + parseInt((evt.loaded * 100) / evt.total) + "%"
-        );
-      })
+      .on("httpUploadProgress", (evt) => {})
       .promise();
 
     await upload.then((err, data) => {
-      console.log(data);
       setNewCourse((prevCourse) => ({
         ...prevCourse,
         [field]: `https://caliskanari.s3.amazonaws.com/images/${imageFile.name}`,
@@ -192,6 +187,12 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
     if (field === "icon" && files && files.length > 0) {
       const imageFile = files[0];
       uploadImageToS3Course(imageFile, field);
+    } else if (field === "icon" && files.length < 0) {
+      Swal.fire({
+        title: "Hata",
+        text: "Lütfen bir resim seçiniz.",
+        icon: "error",
+      });
     } else {
       setNewCourse((prevCourse) => ({
         ...prevCourse,
@@ -204,8 +205,13 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
     const { value, files } = event.target;
     if (field === "image" && files && files.length > 0) {
       const imageFile = files[0];
-      console.log(imageFile);
       uploadImageToS3(imageFile, field);
+    } else if (field === "image" && files.length < 0) {
+      Swal.fire({
+        title: "Hata",
+        text: "Lütfen bir resim seçiniz.",
+        icon: "error",
+      });
     } else {
       setNewFeature((prevFeature) => ({
         ...prevFeature,
@@ -221,13 +227,11 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
       accessKeyId: process.env.NEXT_PUBLIC_AWS_ACCESS_KEY,
       secretAccessKey: process.env.NEXT_PUBLIC_AWS_SECRET_ACCESS_KEY,
     });
-    console.log(process.env.NEXT_PUBLIC_AWS_ACCESS_KEY);
     const params = {
       Bucket: S3_BUCKET,
       Key: `images/${imageFile.name}`,
       Body: imageFile,
     };
-    console.log(params);
     const s3 = new AWS.S3({
       params: { Bucket: S3_BUCKET },
       region: REGION,
@@ -235,11 +239,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
 
     var upload = s3
       .putObject(params)
-      .on("httpUploadProgress", (evt) => {
-        console.log(
-          "Uploading " + parseInt((evt.loaded * 100) / evt.total) + "%"
-        );
-      })
+      .on("httpUploadProgress", (evt) => {})
       .promise();
 
     await upload.then((err, data) => {
@@ -268,7 +268,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
 
   const handleAddCourse = async (event) => {
     event.preventDefault();
-    setCourses((prevCourses) => [...prevCourses, newCourse]);
+
     setNewCourse({
       title: "",
       quantity: null,
@@ -277,35 +277,68 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
       background: "",
       extraField: "",
     });
-    const response = await postAPI("/home/addCourse", newCourse);
-    Swal.fire({
-      title: "Başarılı",
-      text: "Kurs başarılı bir şekilde eklendi.",
-      icon: "success",
-    });
-    closeAddCourseModal();
+    if (
+      !newCourse.title ||
+      newCourse.quantity === null ||
+      !newCourse.icon ||
+      !newCourse.border ||
+      !newCourse.background ||
+      !newCourse.extraField
+    ) {
+      Swal.fire({
+        title: "Hata",
+        text: "Lütfen tüm alanları doldurun.",
+        icon: "error",
+      });
+    } else {
+      setCourses((prevCourses) => [...prevCourses, newCourse]);
+      const response = await postAPI("/home/addCourse", newCourse);
+      Swal.fire({
+        title: "Başarılı",
+        text: "Kurs başarılı bir şekilde eklendi.",
+        icon: "success",
+      });
+      closeAddCourseModal();
+    }
   }; //YENİ KURS EKLEME
 
   const handleAddFeature = async (event) => {
     event.preventDefault();
-    setFeatured((prevFeature) => [...prevFeature, newFeature]);
-    setNewFeature({
-      title: "",
-      name: "",
-      image: "",
-      price: "",
-      star: null,
-      topDesc: "",
-      students: null,
-      lessons: null,
-    });
-    const response = await postAPI("/home/addFeature", newFeature);
-    Swal.fire({
-      title: "Başarılı",
-      text: "Ders başarılı bir şekilde eklendi.",
-      icon: "success",
-    });
-    closeAddFeatureModal();
+    if (
+      !newFeature.title ||
+      newFeature.name ||
+      !newFeature.image ||
+      !newFeature.price ||
+      !newFeature.topDesc ||
+      !newFeature.star === null ||
+      !newFeature.students === null ||
+      !newFeature.lessons === null
+    ) {
+      Swal.fire({
+        title: "Hata",
+        text: "Lütfen tüm alanları doldurun.",
+        icon: "error",
+      });
+    } else {
+      setFeatured((prevFeature) => [...prevFeature, newFeature]);
+      setNewFeature({
+        title: "",
+        name: "",
+        image: "",
+        price: "",
+        star: null,
+        topDesc: "",
+        students: null,
+        lessons: null,
+      });
+      const response = await postAPI("/home/addFeature", newFeature);
+      Swal.fire({
+        title: "Başarılı",
+        text: "Ders başarılı bir şekilde eklendi.",
+        icon: "success",
+      });
+      closeAddFeatureModal();
+    }
   }; //YENİ KURS EKLEME
   const handleAddNavbarInputChange = (event, field, index) => {
     const { value } = event.target;
@@ -440,35 +473,51 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
   }; //KATEGORİ SİLME
   const handleAddNavbar = async (event) => {
     event.preventDefault();
-    setNewNavbar({
-      name: "",
-      items: [],
-    });
-    setMenus((preMenus) => [...preMenus, newNavbar]);
-    const response = await postAPI("/home/addMenu", newNavbar);
-    Swal.fire({
-      title: "Başarılı",
-      text: "Menü başarılı bir şekilde eklendi.",
-      icon: "success",
-    });
-    closeAddNavbarModal();
+    if (!newNavbar.name || !newNavbar.items) {
+      Swal.fire({
+        title: "Hata",
+        text: "Lütfen tüm alanları doldurun.",
+        icon: "error",
+      });
+    } else {
+      setNewNavbar({
+        name: "",
+        items: [],
+      });
+      setMenus((preMenus) => [...preMenus, newNavbar]);
+      const response = await postAPI("/home/addMenu", newNavbar);
+      Swal.fire({
+        title: "Başarılı",
+        text: "Menü başarılı bir şekilde eklendi.",
+        icon: "success",
+      });
+      closeAddNavbarModal();
+    }
   }; // YENİ MENU EKLEME
   const handleAddFeatureCategory = async (event) => {
     event.preventDefault();
-    setCategories((prevFeatureCategories) => [
-      ...prevFeatureCategories,
-      newFeatureCategory,
-    ]);
-    setNewFeatureCategory({
-      name: "",
-    });
-    const response = await postAPI("/home/addCategory", newFeatureCategory);
-    Swal.fire({
-      title: "Başarılı",
-      text: "Kategori başarılı bir şekilde eklendi.",
-      icon: "success",
-    });
-    closeAddFeatureCategoryModal();
+    if (!newFeatureCategory) {
+      Swal.fire({
+        title: "Hata",
+        text: "Lütfen tüm alanları doldurun.",
+        icon: "error",
+      });
+    } else {
+      setCategories((prevFeatureCategories) => [
+        ...prevFeatureCategories,
+        newFeatureCategory,
+      ]);
+      setNewFeatureCategory({
+        name: "",
+      });
+      const response = await postAPI("/home/addCategory", newFeatureCategory);
+      Swal.fire({
+        title: "Başarılı",
+        text: "Kategori başarılı bir şekilde eklendi.",
+        icon: "success",
+      });
+      closeAddFeatureCategoryModal();
+    }
   }; // YENİ MENU EKLEME
   const handleAddAnotherItem = () => {
     setUnderMenuCount((prevCount) => prevCount + 1);
@@ -545,9 +594,15 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
   };
 
   const handleCourseInputChange = (event, index, field) => {
-    if (field === "icon") {
-      const file = event.target.files[0]; // Kullanıcının seçtiği dosya
+    const file = event.target.files[0];
+    if (field === "icon" && file.lenght > 0) {
       uploadImageToS3Course(file, field);
+    } else if (field === "icon" && file.lenght < 0) {
+      Swal.fire({
+        title: "Hata",
+        text: "Lütfen bir resim seçiniz.",
+        icon: "error",
+      });
     } else {
       const { value } = event.target;
       const newCourses = [...courses];
@@ -560,9 +615,15 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
   }; //KURS ALANI KURS BİLGİLERİNİ DEĞİŞİTREN FONKSİYON
 
   const handleFeaturesInputChange = (event, index, field) => {
-    if (field === "image") {
-      const file = event.target.files[0]; // Kullanıcının seçtiği dosya
+    const file = event.target.files[0]; // Kullanıcının seçtiği dosya
+    if (field === "image" && file.lenght > 0) {
       uploadImageToS3(file, field);
+    } else if (field === "image" && file.lenght < 0) {
+      Swal.fire({
+        title: "Hata",
+        text: "Lütfen bir resim seçiniz.",
+        icon: "error",
+      });
     } else {
       const { value } = event.target;
       const newFeature = [...featured];
@@ -650,30 +711,46 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
   };
   const handleSubmitBackgroundColor = async (event, pageId) => {
     event.preventDefault();
-    const data = {
-      pageId: pageId,
-      bgColor: selectedColor,
-    };
-    const response = await postAPI("/home/updateBgColor", data);
-    Swal.fire({
-      title: "Başarılı",
-      text: "Arka plan rengi başarılı bir şekilde güncellendi.",
-      icon: "success",
-    });
+    if (selectedColor === "") {
+      Swal.fire({
+        title: "Hata",
+        text: "Lütfen bir renk seçiniz.",
+        icon: "error",
+      });
+    } else {
+      const data = {
+        pageId: pageId,
+        bgColor: selectedColor,
+      };
+      const response = await postAPI("/home/updateBgColor", data);
+      Swal.fire({
+        title: "Başarılı",
+        text: "Arka plan rengi başarılı bir şekilde güncellendi.",
+        icon: "success",
+      });
+    }
   }; //HER KISIM İÇİN PAGEID ALIP ONA GÖRE DB YE GÖNDERECEĞİZ ARKA PLAN RENGİNİ
 
   const handleSubmitTextColor = async (event, pageId) => {
     event.preventDefault();
-    const data = {
-      pageId: pageId,
-      TextColor: selectedTextColor,
-    };
-    const response = await postAPI("/home/updateTextColor", data);
-    Swal.fire({
-      title: "Başarılı",
-      text: "Yazı rengi başarılı bir şekilde güncellendi.",
-      icon: "success",
-    });
+    if (selectedTextColor === "") {
+      Swal.fire({
+        title: "Hata",
+        text: "Lütfen bir renk seçiniz.",
+        icon: "error",
+      });
+    } else {
+      const data = {
+        pageId: pageId,
+        TextColor: selectedTextColor,
+      };
+      const response = await postAPI("/home/updateTextColor", data);
+      Swal.fire({
+        title: "Başarılı",
+        text: "Yazı rengi başarılı bir şekilde güncellendi.",
+        icon: "success",
+      });
+    }
   }; //HER KISIM İÇİN PAGEID ALIP ONA GÖRE DB YE GÖNDERECEĞİZ ARKA PLAN RENGİNİ
   const handleSubmitNavbar = async (event) => {
     event.preventDefault();
@@ -735,7 +812,6 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
       accessKeyId: process.env.NEXT_PUBLIC_AWS_ACCESS_KEY,
       secretAccessKey: process.env.NEXT_PUBLIC_AWS_SECRET_ACCESS_KEY,
     });
-    console.log(imageFile);
     const params = {
       Bucket: S3_BUCKET,
       Key: `images/${imageFile.name}`,
@@ -749,11 +825,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
 
     var upload = s3
       .putObject(params)
-      .on("httpUploadProgress", (evt) => {
-        console.log(
-          "Uploading " + parseInt((evt.loaded * 100) / evt.total) + "%"
-        );
-      })
+      .on("httpUploadProgress", (evt) => {})
       .promise();
 
     await upload.then((err, data) => {
@@ -769,17 +841,19 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
   };
   const handleSubmitImageLogoBanner = async (event) => {
     event.preventDefault();
-    console.log(selectedImage);
-    console.log(selectedImageIndex);
-
-    if (selectedImageIndex !== null) {
+    if (selectedImageIndex === null) {
+      Swal.fire({
+        title: "Hata",
+        text: "Lütfen bir resim seçiniz.",
+        icon: "error",
+      });
+    } else if (selectedImageIndex !== null) {
       uploadImageToS3LogoBanner(selectedImage);
       setSelectedImage(null);
       const response = await postAPI(
         "/home/updateLogoBanner",
         logobanner[selectedImageIndex]
       );
-      console.log(response);
       Swal.fire({
         title: "Başarılı",
         text: "Yazılar başarılı bir şekilde eklendi.",
@@ -795,7 +869,6 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
       accessKeyId: process.env.NEXT_PUBLIC_AWS_ACCESS_KEY,
       secretAccessKey: process.env.NEXT_PUBLIC_AWS_SECRET_ACCESS_KEY,
     });
-    console.log(imageFile);
     const params = {
       Bucket: S3_BUCKET,
       Key: `images/${imageFile.name}`,
@@ -809,11 +882,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
 
     var upload = s3
       .putObject(params)
-      .on("httpUploadProgress", (evt) => {
-        console.log(
-          "Uploading " + parseInt((evt.loaded * 100) / evt.total) + "%"
-        );
-      })
+      .on("httpUploadProgress", (evt) => {})
       .promise();
 
     await upload.then((err, data) => {
@@ -834,12 +903,20 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
 
   const handleSubmitStudents = async (event) => {
     event.preventDefault();
-    const response = await postAPI("/home/updateImage", image);
-    Swal.fire({
-      title: "Başarılı",
-      text: "Resim başarılı bir şekilde değiştirildi.",
-      icon: "success",
-    });
+    if (selectedImageStudents === null) {
+      Swal.fire({
+        title: "Hata",
+        text: "Lütfen bir resim seçiniz.",
+        icon: "error",
+      });
+    } else {
+      const response = await postAPI("/home/updateImage", image);
+      Swal.fire({
+        title: "Başarılı",
+        text: "Resim başarılı bir şekilde değiştirildi.",
+        icon: "success",
+      });
+    }
   }; //STUDENTS RESİM DEĞİŞTİRME
   const uploadImageToS3Video = async (imageFile) => {
     const S3_BUCKET = "caliskanari";
@@ -848,7 +925,6 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
       accessKeyId: process.env.NEXT_PUBLIC_AWS_ACCESS_KEY,
       secretAccessKey: process.env.NEXT_PUBLIC_AWS_SECRET_ACCESS_KEY,
     });
-    console.log(imageFile);
     const params = {
       Bucket: S3_BUCKET,
       Key: `images/${imageFile.name}`,
@@ -862,11 +938,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
 
     var upload = s3
       .putObject(params)
-      .on("httpUploadProgress", (evt) => {
-        console.log(
-          "Uploading " + parseInt((evt.loaded * 100) / evt.total) + "%"
-        );
-      })
+      .on("httpUploadProgress", (evt) => {})
       .promise();
 
     await upload.then((err, data) => {
@@ -887,12 +959,20 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
 
   const handleSubmitVideo = async (event) => {
     event.preventDefault();
-    const response = await postAPI("/home/updateImage", image);
-    Swal.fire({
-      title: "Başarılı",
-      text: "Resim başarılı bir şekilde değiştirildi.",
-      icon: "success",
-    });
+    if (selectedImageVideo === null) {
+      Swal.fire({
+        title: "Hata",
+        text: "Lütfen bir resim seçiniz.",
+        icon: "error",
+      });
+    } else {
+      const response = await postAPI("/home/updateImage", image);
+      Swal.fire({
+        title: "Başarılı",
+        text: "Resim başarılı bir şekilde değiştirildi.",
+        icon: "success",
+      });
+    }
   }; //VİDEO RESİM DEĞİŞTİRME
   const uploadImageToS3Main = async (imageFile) => {
     const S3_BUCKET = "caliskanari";
@@ -901,7 +981,6 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
       accessKeyId: process.env.NEXT_PUBLIC_AWS_ACCESS_KEY,
       secretAccessKey: process.env.NEXT_PUBLIC_AWS_SECRET_ACCESS_KEY,
     });
-    console.log(imageFile);
     const params = {
       Bucket: S3_BUCKET,
       Key: `images/${imageFile.name}`,
@@ -915,11 +994,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
 
     var upload = s3
       .putObject(params)
-      .on("httpUploadProgress", (evt) => {
-        console.log(
-          "Uploading " + parseInt((evt.loaded * 100) / evt.total) + "%"
-        );
-      })
+      .on("httpUploadProgress", (evt) => {})
       .promise();
 
     await upload.then((err, data) => {
@@ -939,12 +1014,20 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
 
   const handleSubmitMain = async (event) => {
     event.preventDefault();
-    const response = await postAPI("/home/updateImage", image);
-    Swal.fire({
-      title: "Başarılı",
-      text: "Resim başarılı bir şekilde değiştirildi.",
-      icon: "success",
-    });
+    if (selectedImageMain === null) {
+      Swal.fire({
+        title: "Hata",
+        text: "Lütfen bir resim seçiniz.",
+        icon: "error",
+      });
+    } else {
+      const response = await postAPI("/home/updateImage", image);
+      Swal.fire({
+        title: "Başarılı",
+        text: "Resim başarılı bir şekilde değiştirildi.",
+        icon: "success",
+      });
+    }
   }; //MAİN RESİM DEĞİŞTİRME
   const uploadImageToS3Informations = async (imageFile, index) => {
     const S3_BUCKET = "caliskanari";
@@ -953,7 +1036,6 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
       accessKeyId: process.env.NEXT_PUBLIC_AWS_ACCESS_KEY,
       secretAccessKey: process.env.NEXT_PUBLIC_AWS_SECRET_ACCESS_KEY,
     });
-    console.log(imageFile);
     const params = {
       Bucket: S3_BUCKET,
       Key: `images/${imageFile.name}`,
@@ -967,11 +1049,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
 
     var upload = s3
       .putObject(params)
-      .on("httpUploadProgress", (evt) => {
-        console.log(
-          "Uploading " + parseInt((evt.loaded * 100) / evt.total) + "%"
-        );
-      })
+      .on("httpUploadProgress", (evt) => {})
       .promise();
 
     await upload.then((err, data) => {
@@ -1001,13 +1079,10 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
   };
   const handleSubmitInformations = async (event, index) => {
     event.preventDefault();
-    // const responseDelete = await postAPI("/home/deleteInformation", "DELETE");
-    console.log(informations[index]);
     const response = await postAPI(
       "/home/updateInformations",
       informations[index]
     );
-    console.log(response);
     Swal.fire({
       title: "Başarılı",
       text: "Resim başarılı bir şekilde değiştirildi.",
@@ -1034,7 +1109,6 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
       position: selectedOption,
     };
     const response = await postAPI("/home/updatePosition", data);
-    console.log(response);
     Swal.fire({
       title: "Başarılı",
       text: "Pozisyon başarılı bir şekilde güncellendi.",
