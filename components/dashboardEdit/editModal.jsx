@@ -1960,7 +1960,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                       className="imageSelectionForm"
                     >
                       <div className="imageAreaForPosition flex flex-col md:flex-row items-center justify-center mt-3">
-                        <div className="img1 mr-3 relative">
+                        <div className="img1 md:mr-3 mb-3 relative">
                           <label>
                             <input
                               className="absolute top-2 left-2 w-5 h-5"
@@ -2031,7 +2031,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                       className="imageSelectionForm"
                     >
                       <div className="imageAreaForPosition flex flex-col md:flex-row items-center justify-center mt-3">
-                        <div className="img1 mr-3 relative">
+                        <div className="img1 md:mr-3 mb-3 relative">
                           <label>
                             <input
                               className="absolute top-2 left-2 w-5 h-5"
@@ -2102,7 +2102,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                       className="imageSelectionForm"
                     >
                       <div className="imageAreaForPosition flex flex-col md:flex-row items-center justify-center mt-3">
-                        <div className="img1 mr-3 relative">
+                        <div className="img1 md:mr-3 mb-3 relative">
                           <label>
                             <input
                               className="absolute top-2 left-2 w-5 h-5"
