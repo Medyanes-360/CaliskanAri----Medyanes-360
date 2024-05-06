@@ -222,22 +222,6 @@ function DetailEdits({ pageId, animation, openModal, setOpenModal }) {
               image={changeColor}
               title={"Renkleri Değiştir"}
             />
-            <EditBox
-              onClick={() => openModalWithContent("yer")}
-              small={true}
-              id={5}
-              description={`Buradan ${pageId} sayfasında yer alan ögelerin yerlerini değiştirebilirsiniz`}
-              image={changePosition}
-              title={"Yer Değiştir"}
-            />
-            <EditBox
-              onClick={() => openModalWithContent("buton")}
-              small={true}
-              id={6}
-              description={`Buradan ${pageId} sayfasına buton ekleme işlemi yapabilirsiniz`}
-              image={addButton}
-              title={"Buton Ekle"}
-            />
           </>
         )}
         {pageId === "informations" && (

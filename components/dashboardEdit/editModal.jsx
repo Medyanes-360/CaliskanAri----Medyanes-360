@@ -4,6 +4,7 @@ import Image from "next/image";
 import { postAPI, getAPI } from "@/services/fetchAPI";
 import Swal from "sweetalert2";
 import AWS from "aws-sdk";
+import { BsMenuButtonWideFill } from "react-icons/bs";
 const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
   const [selectedColor, setSelectedColor] = useState("");
   const [selectedTextColor, setSelectedTextColor] = useState("");
@@ -1185,7 +1186,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                     </h1>
                     <button
                       type="submit"
-                      className="text-gray-600 bg-gray-100 p-3 rounded-xl font-semibold m-5"
+                      className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 w-[85%] p-3 rounded-xl font-semibold m-5"
                     >
                       Kaydet
                     </button>
@@ -1212,7 +1213,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                     </h1>
                     <button
                       type="submit"
-                      className="text-gray-600 bg-gray-100 p-3 rounded-xl font-semibold m-5"
+                      className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 w-[85%] p-3 rounded-xl font-semibold m-5"
                     >
                       Kaydet
                     </button>
@@ -1221,47 +1222,50 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
               )}
               {modalContent === "yazı" && pageId === "navbar" && (
                 <div className="flex flex-col items-center justify-center">
+                  <h1 className="text-center font-semibold text-gray-600 my-3">
+                    Gezinme Çubuğu Menü Ekleme
+                  </h1>
                   <button
                     onClick={() => setAddNavbar(true)}
-                    className="text-gray-600 bg-gray-100 py-3 px-8 rounded-xl font-semibold mx-5"
+                    className="bg-gray-200 p-3 text-gray-600  py-3 px-8 rounded-xl font-semibold w-[80%]"
                   >
                     Menü Ekle
                   </button>
                   <form
                     onSubmit={handleSubmitNavbar}
-                    className="flex flex-row flex-wrap items-center justify-center max-[768px]:max-h-[500px] overflow-scroll"
+                    className="flex flex-col mx-5 mt-3 flex-wrap items-center justify-center max-[768px]:max-h-[500px] overflow-scroll"
                   >
                     {menus.map((menu, menuIndex) => (
                       <div key={menuIndex} className="inputArea">
-                        <div className="bigInput max-[768px]:flex">
+                        <div className="bigInput flex items-center justify-center">
                           <input
                             onChange={(event) =>
                               handleInputChange(event, menuIndex)
                             }
                             placeholder={menu.name}
                             type="text"
-                            className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-36 lg:w-auto"
+                            className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 mr-0 rounded-l-xl w-44 focus:border-0 lg:w-40 focus:outline-none"
                           />
                           <button
                             type="button"
                             onClick={() => openChildInputModal(menuIndex)}
-                            className="text-gray-600 bg-gray-100 py-3 px-5 rounded-xl font-semibold m-5 mr-2 ml-0"
+                            className="text-gray-600 bg-gray-100 lg:py-3 lg:px-5 px-4 h-12 font-semibold my-auto"
                           >
-                            <i class="fa-solid fa-angle-right"></i>
+                            <BsMenuButtonWideFill className="my-auto w-5 h-5" />
                           </button>
                           <button
                             type="button"
                             onClick={() => deleteNavbarMenu(menu)}
-                            className="text-gray-600 bg-gray-100 py-3 px-5 rounded-xl font-semibold m-5 mr-0 ml-0"
+                            className="text-gray-600 bg-gray-100 lg:py-3 lg:px-5 py-1 px-4 h-12 my-auto font-semibold rounded-r-xl"
                           >
-                            <i class="fa-solid fa-trash"></i>
+                            <i className="fa-solid fa-trash text-red-600 w-5 h-5"></i>
                           </button>
                         </div>
                       </div>
                     ))}
                     <button
                       type="submit"
-                      className="text-gray-600 bg-gray-100 py-3 px-24 rounded-xl font-semibold m-5"
+                      className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 py-3 w-[85%] rounded-xl font-semibold m-5"
                     >
                       Kaydet
                     </button>
@@ -1273,17 +1277,17 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                   <h1 className="text-gray-700 font-semibold">Dersler</h1>
                   <button
                     onClick={() => setAddFeature(true)}
-                    className="text-gray-600 bg-gray-100 py-3 px-8 rounded-xl font-semibold m-5 mb-0"
+                    className="text-gray-600 bg-gray-100 py-3 px-8 rounded-xl font-semibold m-5 mb-0 w-[80%]"
                   >
                     Ders Ekle
                   </button>
                   <form
                     onSubmit={handleSubmitFeature}
-                    className="flex flex-row flex-wrap items-center justify-center max-h-[500px] overflow-scroll"
+                    className="flex flex-col flex-wrap items-center justify-center max-h-[500px] overflow-scroll m-5"
                   >
                     {featured.map((feature, index) => (
                       <div key={index} className="inputArea">
-                        <div className="bigInput flex">
+                        <div className="bigInput flex items-center justify-center">
                           <input
                             onChange={(event) =>
                               handleFeaturesInputChange(event, index, "title")
@@ -1291,28 +1295,28 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                             placeholder="Ders Adı"
                             type="text"
                             value={feature.title}
-                            className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl  w-36 lg:w-auto"
+                            className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 mr-0 rounded-l-xl w-44 focus:border-0 lg:w-40 focus:outline-none"
                           />
                           <button
                             type="button"
                             onClick={() => openChildInputModal(index)}
-                            className="text-gray-600 bg-gray-100 py-3 px-5 rounded-xl font-semibold m-5 ml-0"
+                            className="text-gray-600 bg-gray-100 lg:py-3 lg:px-5 px-4 h-12 font-semibold my-auto"
                           >
-                            <i class="fa-solid fa-angle-right"></i>
+                            <BsMenuButtonWideFill className="my-auto w-5 h-5" />
                           </button>
                           <button
                             type="button"
                             onClick={() => deleteFeature(feature)}
-                            className="text-gray-600 bg-gray-100 py-3 px-5 rounded-xl font-semibold m-5 mr-0 ml-0"
+                            className="text-gray-600 bg-gray-100 lg:py-3 lg:px-5 py-1 px-4 h-12 my-auto font-semibold rounded-r-xl"
                           >
-                            <i class="fa-solid fa-trash"></i>
+                            <i class="fa-solid fa-trash text-red-600"></i>
                           </button>
                         </div>
                       </div>
                     ))}
                     <button
                       type="submit"
-                      className="text-gray-600 bg-gray-100 py-3 px-8 rounded-xl font-semibold m-5"
+                      className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 w-[85%] py-3 px-8 rounded-xl font-semibold m-5"
                     >
                       Kaydet
                     </button>
@@ -1324,14 +1328,11 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                   <h1 className="text-gray-700 font-semibold">Kategoriler</h1>
                   <button
                     onClick={() => setAddFeatureCategory(true)}
-                    className="text-gray-600 bg-gray-100 py-3 px-8 rounded-xl font-semibold m-5 mb-0"
+                    className="text-gray-600 bg-gray-100 py-3 px-8 rounded-xl font-semibold m-5 mb-0 w-[80%]"
                   >
                     Kategori Ekle
                   </button>
-                  <form
-                    onSubmit={handleSubmitFeatureCategory}
-                    className="flex flex-row flex-wrap items-center justify-center max-h-[500px] overflow-scroll"
-                  >
+                  <div className="flex flex-col flex-wrap items-center justify-center max-h-[500px] overflow-scroll mx-5 mt-3">
                     {categories.map((category, index) => (
                       <div key={index} className="inputArea">
                         <div className="bigInput flex">
@@ -1346,34 +1347,34 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                             placeholder="İsim"
                             type="text"
                             value={category.name}
-                            className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl  w-36 lg:w-auto"
+                            className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 mr-0 rounded-l-xl w-52 focus:border-0 lg:w-48 focus:outline-none"
                           />
 
                           <button
                             type="button"
                             onClick={() => deleteFeatureCategory(category)}
-                            className="text-gray-600 bg-gray-100 py-3 px-5 rounded-xl font-semibold m-5 mr-0 ml-0"
+                            className="text-gray-600 bg-gray-100 py-3 px-5 my-auto font-semibold rounded-r-xl h-12"
                           >
-                            <i class="fa-solid fa-trash"></i>
+                            <i class="fa-solid fa-trash text-red-600"></i>
                           </button>
                         </div>
                       </div>
                     ))}
-                    <button
-                      type="submit"
-                      className="text-gray-600 bg-gray-100 py-3 px-8 rounded-xl font-semibold m-5"
-                    >
-                      Kaydet
-                    </button>
-                  </form>
+                  </div>
+                  <button
+                    onClick={handleSubmitFeatureCategory}
+                    className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 w-[85%] py-3 px-8 rounded-xl font-semibold m-5 mt-0"
+                  >
+                    Kaydet
+                  </button>
                 </div>
               )}
               {modalContent === "buton" && pageId === "courses" && (
-                <div className="flex flex-col items-center justify-center ">
+                <div className="flex flex-col items-center justify-center max-w-[600px]">
                   <h1 className="text-gray-700 font-semibold">Kurslar</h1>
                   <button
                     onClick={() => setAddCourse(true)}
-                    className="text-gray-600 bg-gray-100 py-3 px-8 rounded-xl font-semibold m-5 mb-0"
+                    className="text-gray-600 bg-gray-100 py-3 px-8 rounded-xl font-semibold m-5 mb-0 w-[80%]"
                   >
                     Kurs Ekle
                   </button>
@@ -1383,7 +1384,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                   >
                     {courses.map((course, index) => (
                       <div key={index} className="inputArea">
-                        <div className="bigInput flex">
+                        <div className="bigInput flex items-center justify-center">
                           <input
                             onChange={(event) =>
                               handleCourseInputChange(event, index, "title")
@@ -1391,28 +1392,28 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                             placeholder="Kurs Adı"
                             type="text"
                             value={course.title}
-                            className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-36 lg:w-auto"
+                            className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 mr-0 rounded-l-xl w-40 focus:border-0 lg:w-36 focus:outline-none"
                           />
                           <button
                             type="button"
                             onClick={() => openChildInputModal(index)}
-                            className="text-gray-600 bg-gray-100 py-3 px-5 rounded-xl font-semibold m-5 ml-0"
+                            className="text-gray-600 bg-gray-100 lg:py-3 lg:px-5 px-4 h-12 font-semibold my-auto"
                           >
-                            <i class="fa-solid fa-angle-right"></i>
+                            <BsMenuButtonWideFill className="my-auto w-5 h-5" />
                           </button>
                           <button
                             type="button"
                             onClick={() => deleteCourse(course)}
-                            className="text-gray-600 bg-gray-100 py-3 px-5 rounded-xl font-semibold m-5 mr-0 ml-0"
+                            className="text-gray-600 bg-gray-100 py-3 px-5  my-auto font-semibold rounded-r-xl h-12"
                           >
-                            <i class="fa-solid fa-trash"></i>
+                            <i class="fa-solid fa-trash text-red-600"></i>
                           </button>
                         </div>
                       </div>
                     ))}
                     <button
                       type="submit"
-                      className="text-gray-600 bg-gray-100 py-3 px-8 rounded-xl font-semibold m-5"
+                      className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 w-[85%] py-3 px-8 rounded-xl font-semibold m-5"
                     >
                       Kaydet
                     </button>
@@ -1441,7 +1442,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                   />
                   <button
                     onClick={() => updateInfo(info)}
-                    className="text-gray-600 bg-gray-100 py-3 px-8 rounded-xl font-semibold m-5"
+                    className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 w-[85%] py-3 px-8 rounded-xl font-semibold m-5"
                   >
                     Kaydet
                   </button>
@@ -1487,7 +1488,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                   </div>
                   <button
                     onClick={() => updateInfo(info)}
-                    className="text-gray-600 bg-gray-100 py-3 px-8 rounded-xl font-semibold m-5"
+                    className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 w-[85%] py-3 px-8 rounded-xl font-semibold m-5"
                   >
                     Kaydet
                   </button>
@@ -1522,7 +1523,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
 
                   <button
                     onClick={() => updateInfo(info)}
-                    className="text-gray-600 bg-gray-100 py-3 px-8 rounded-xl font-semibold m-5"
+                    className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 w-[85%] py-3 px-8 rounded-xl font-semibold m-5"
                   >
                     Kaydet
                   </button>
@@ -1551,7 +1552,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
 
                   <button
                     onClick={() => updateInfo(info)}
-                    className="text-gray-600 bg-gray-100 py-3 px-8 rounded-xl font-semibold m-5"
+                    className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 w-[85%] py-3 px-8 rounded-xl font-semibold m-5"
                   >
                     Kaydet
                   </button>
@@ -1633,7 +1634,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
 
                   <button
                     onClick={() => updateInfo(info)}
-                    className="text-gray-600 bg-gray-100 py-3 px-8 rounded-xl font-semibold m-5"
+                    className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 w-[85%] py-3 px-8 rounded-xl font-semibold m-5"
                   >
                     Kaydet
                   </button>
@@ -1671,7 +1672,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
 
                   <button
                     onClick={() => updateInfo(info)}
-                    className="text-gray-600 bg-gray-100 py-3 px-8 rounded-xl font-semibold m-5"
+                    className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 w-[85%] py-3 px-8 rounded-xl font-semibold m-5"
                   >
                     Kaydet
                   </button>
@@ -1701,7 +1702,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
 
                   <button
                     onClick={() => updateInfo(info)}
-                    className="text-gray-600 bg-gray-100 py-3 px-8 rounded-xl font-semibold m-5"
+                    className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 w-[85%] py-3 px-8 rounded-xl font-semibold m-5"
                   >
                     Kaydet
                   </button>
@@ -1744,7 +1745,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
 
                   <button
                     onClick={() => updateInformations(updatedInformation)}
-                    className="text-gray-600 bg-gray-100 py-3 px-8 rounded-xl font-semibold m-5"
+                    className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 w-[85%] py-3 px-8 rounded-xl font-semibold m-5"
                   >
                     Kaydet
                   </button>
@@ -1824,7 +1825,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                     onClick={() =>
                       updateFooter(footercourses, resources, contact)
                     }
-                    className="text-gray-600 bg-gray-100 py-3 px-8 rounded-xl font-semibold m-5"
+                    className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 w-[85%] py-3 px-8 rounded-xl font-semibold m-5"
                   >
                     Kaydet
                   </button>
@@ -1870,7 +1871,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                         )}
                         <button
                           type="submit"
-                          className="text-gray-600 bg-gray-100 p-3 rounded-xl font-semibold m-5"
+                          className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 w-[85%] p-3 rounded-xl font-semibold m-5"
                         >
                           Kaydet
                         </button>
@@ -1905,7 +1906,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                       />
                       <button
                         type="submit"
-                        className="text-gray-600 bg-gray-100 p-3 rounded-xl font-semibold m-5"
+                        className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 w-[85%] p-3 rounded-xl font-semibold m-5"
                       >
                         Kaydet
                       </button>
@@ -1939,7 +1940,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                       />
                       <button
                         type="submit"
-                        className="text-gray-600 bg-gray-100 p-3 rounded-xl font-semibold m-5"
+                        className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 w-[85%] p-3 rounded-xl font-semibold m-5"
                       >
                         Kaydet
                       </button>
@@ -1973,7 +1974,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                       />
                       <button
                         type="submit"
-                        className="text-gray-600 bg-gray-100 p-3 rounded-xl font-semibold m-5"
+                        className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 w-[85%] p-3 rounded-xl font-semibold m-5"
                       >
                         Kaydet
                       </button>
@@ -2014,7 +2015,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                         </div>
                         <button
                           onClick={(e) => handleSubmitInformations(e, index)}
-                          className="text-gray-600 bg-gray-100 p-3 rounded-xl font-semibold mt-3"
+                          className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 w-[85%] p-3 rounded-xl font-semibold mt-3"
                         >
                           Kaydet
                         </button>
@@ -2085,7 +2086,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                       <div className="w-full flex items-center justify-center">
                         <button
                           type="submit"
-                          className="bg-gray-100  text-gray-600 font-bold py-2 px-4 rounded mt-3 object-center "
+                          className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 w-[85%] font-bold py-2 px-4 rounded mt-3 object-center "
                         >
                           Kaydet
                         </button>
@@ -2156,7 +2157,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                       <div className="w-full flex items-center justify-center">
                         <button
                           type="submit"
-                          className="bg-gray-100  text-gray-600 font-bold py-2 px-4 rounded mt-3 object-center "
+                          className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 w-[85%] font-bold py-2 px-4 rounded mt-3 object-center "
                         >
                           Kaydet
                         </button>
@@ -2227,7 +2228,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                       <div className="w-full flex items-center justify-center">
                         <button
                           type="submit"
-                          className="bg-gray-100  text-gray-600 font-bold py-2 px-4 rounded mt-3 object-center "
+                          className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 w-[85%] font-bold py-2 px-4 rounded mt-3 object-center "
                         >
                           Kaydet
                         </button>
@@ -2287,7 +2288,13 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                     Alt Menüler
                   </h1>
                 )}
-
+              {modalContent === "buton" &&
+                pageId === "courses" &&
+                selectedBigInputIndex !== null && (
+                  <h1 className="text-gray-500 text-center font-semibold">
+                    Kurs Bilgileri
+                  </h1>
+                )}
               {modalContent === "yazı" &&
                 pageId === "navbar" &&
                 selectedBigInputIndex !== null && (
@@ -2319,7 +2326,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                     )}
                     <button
                       onClick={() => updateNavbar(menus[selectedBigInputIndex])}
-                      className="bg-gray-100 text-gray-600 px-5 py-3 rounded-xl font-semibold m-3 mt-0"
+                      className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 w-[85%] px-5 py-3 rounded-xl font-semibold m-3 mt-0"
                     >
                       Kaydet
                     </button>
@@ -2431,7 +2438,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                         onClick={() =>
                           updateCourse(courses[selectedBigInputIndex])
                         }
-                        className="bg-gray-100 text-gray-600 px-5 py-3 rounded-xl font-semibold m-3 mt-0"
+                        className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 w-[85%] px-5 py-3 rounded-xl font-semibold m-3 mt-0"
                       >
                         Kaydet
                       </button>
@@ -2574,7 +2581,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                           onClick={() =>
                             updateFeature(featured[selectedBigInputIndex])
                           }
-                          className="bg-gray-100 text-gray-600 px-5 py-3 rounded-xl font-semibold m-3 mt-0"
+                          className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 w-[85%] px-5 py-3 rounded-xl font-semibold m-3 mt-0"
                         >
                           Kaydet
                         </button>
@@ -2700,7 +2707,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                         />
                         <button
                           type="submit"
-                          className="text-gray-600 bg-gray-100 py-3 px-8 rounded-xl font-semibold m-5"
+                          className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 py-3 px-8 rounded-xl font-semibold m-5"
                         >
                           Oluştur
                         </button>
@@ -2838,7 +2845,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                         />
                         <button
                           type="submit"
-                          className="text-gray-600 bg-gray-100 py-3 px-8 rounded-xl font-semibold m-5"
+                          className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 py-3 px-8 rounded-xl font-semibold m-5"
                         >
                           Oluştur
                         </button>
@@ -2942,7 +2949,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
 
                         <button
                           type="submit"
-                          className="text-gray-600 bg-gray-100 py-3 px-8 rounded-xl font-semibold m-5"
+                          className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 py-3 px-8 rounded-xl font-semibold m-5"
                         >
                           Oluştur
                         </button>
@@ -3014,7 +3021,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
 
                         <button
                           type="submit"
-                          className="text-gray-600 bg-gray-100 py-3 px-8 rounded-xl font-semibold m-5"
+                          className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 py-3 px-8 rounded-xl font-semibold m-5"
                         >
                           Oluştur
                         </button>
@@ -3032,3 +3039,4 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
 };
 
 export default EditModal;
+BsMenuButtonWideFill;
