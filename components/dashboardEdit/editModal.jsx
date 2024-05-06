@@ -145,7 +145,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
 
     imagetData
       .then(function (result) {
-        setImage(result);
+        setImage(result[0]);
       })
       .catch(function (error) {
         console.error("Hata oluştu:", error);
@@ -788,76 +788,231 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
       setSelectedImageIndex(null);
     }
   }; //LOGOBANNER RESİM DEĞİŞTİRME
+  const uploadImageToS3Students = async (imageFile) => {
+    const S3_BUCKET = "caliskanari";
+    const REGION = "us-east-1";
+    AWS.config.update({
+      accessKeyId: process.env.NEXT_PUBLIC_AWS_ACCESS_KEY,
+      secretAccessKey: process.env.NEXT_PUBLIC_AWS_SECRET_ACCESS_KEY,
+    });
+    console.log(imageFile);
+    const params = {
+      Bucket: S3_BUCKET,
+      Key: `images/${imageFile.name}`,
+      Body: imageFile,
+    };
 
+    const s3 = new AWS.S3({
+      params: { Bucket: S3_BUCKET },
+      region: REGION,
+    });
+
+    var upload = s3
+      .putObject(params)
+      .on("httpUploadProgress", (evt) => {
+        console.log(
+          "Uploading " + parseInt((evt.loaded * 100) / evt.total) + "%"
+        );
+      })
+      .promise();
+
+    await upload.then((err, data) => {
+      setSelectedImageMain(imageFile);
+      setImage((prevImage) => ({
+        ...prevImage,
+        studentPhoto: `https://caliskanari.s3.amazonaws.com/images/${imageFile.name}`,
+      }));
+
+      console.log(err);
+    });
+  };
   const handleImageChangeStudents = (event) => {
     const imageFile = event.target.files[0];
     setSelectedImageStudents(imageFile);
-    setImage((prevImage) => ({
-      ...prevImage,
-      studentPhoto: URL.createObjectURL(imageFile),
-    }));
+    uploadImageToS3Students(imageFile);
   }; //STUDENTS RESİM DEĞİŞTİRME
 
-  const handleSubmitStudents = (event) => {
+  const handleSubmitStudents = async (event) => {
     event.preventDefault();
+    const response = await postAPI("/home/updateImage", image);
+    Swal.fire({
+      title: "Başarılı",
+      text: "Resim başarılı bir şekilde değiştirildi.",
+      icon: "success",
+    });
   }; //STUDENTS RESİM DEĞİŞTİRME
+  const uploadImageToS3Video = async (imageFile) => {
+    const S3_BUCKET = "caliskanari";
+    const REGION = "us-east-1";
+    AWS.config.update({
+      accessKeyId: process.env.NEXT_PUBLIC_AWS_ACCESS_KEY,
+      secretAccessKey: process.env.NEXT_PUBLIC_AWS_SECRET_ACCESS_KEY,
+    });
+    console.log(imageFile);
+    const params = {
+      Bucket: S3_BUCKET,
+      Key: `images/${imageFile.name}`,
+      Body: imageFile,
+    };
+
+    const s3 = new AWS.S3({
+      params: { Bucket: S3_BUCKET },
+      region: REGION,
+    });
+
+    var upload = s3
+      .putObject(params)
+      .on("httpUploadProgress", (evt) => {
+        console.log(
+          "Uploading " + parseInt((evt.loaded * 100) / evt.total) + "%"
+        );
+      })
+      .promise();
+
+    await upload.then((err, data) => {
+      setSelectedImageMain(imageFile);
+      setImage((prevImage) => ({
+        ...prevImage,
+        videoCover: `https://caliskanari.s3.amazonaws.com/images/${imageFile.name}`,
+      }));
+
+      console.log(err);
+    });
+  };
   const handleImageChangeVideo = (event) => {
     const imageFile = event.target.files[0];
     setSelectedImageVideo(imageFile);
-    setImage((prevImage) => ({
-      ...prevImage,
-      videoCover: URL.createObjectURL(imageFile),
-    }));
+    uploadImageToS3Video(imageFile);
   }; //VİDEO RESİM DEĞİŞTİRME
 
-  const handleSubmitVideo = (event) => {
+  const handleSubmitVideo = async (event) => {
     event.preventDefault();
+    const response = await postAPI("/home/updateImage", image);
+    Swal.fire({
+      title: "Başarılı",
+      text: "Resim başarılı bir şekilde değiştirildi.",
+      icon: "success",
+    });
   }; //VİDEO RESİM DEĞİŞTİRME
+  const uploadImageToS3Main = async (imageFile) => {
+    const S3_BUCKET = "caliskanari";
+    const REGION = "us-east-1";
+    AWS.config.update({
+      accessKeyId: process.env.NEXT_PUBLIC_AWS_ACCESS_KEY,
+      secretAccessKey: process.env.NEXT_PUBLIC_AWS_SECRET_ACCESS_KEY,
+    });
+    console.log(imageFile);
+    const params = {
+      Bucket: S3_BUCKET,
+      Key: `images/${imageFile.name}`,
+      Body: imageFile,
+    };
+
+    const s3 = new AWS.S3({
+      params: { Bucket: S3_BUCKET },
+      region: REGION,
+    });
+
+    var upload = s3
+      .putObject(params)
+      .on("httpUploadProgress", (evt) => {
+        console.log(
+          "Uploading " + parseInt((evt.loaded * 100) / evt.total) + "%"
+        );
+      })
+      .promise();
+
+    await upload.then((err, data) => {
+      setSelectedImageMain(imageFile);
+      setImage((prevImage) => ({
+        ...prevImage,
+        mainSection: `https://caliskanari.s3.amazonaws.com/images/${imageFile.name}`,
+      }));
+
+      console.log(err);
+    });
+  };
   const handleImageChangeMain = (event) => {
     const imageFile = event.target.files[0];
-    setSelectedImageMain(imageFile);
-    setImage((prevImage) => ({
-      ...prevImage,
-      mainSection: URL.createObjectURL(imageFile),
-    }));
+    uploadImageToS3Main(imageFile);
   }; //MAİN RESİM DEĞİŞTİRME
 
   const handleSubmitMain = async (event) => {
     event.preventDefault();
-    const response = await postAPI("/home/addImage", Image);
+    const response = await postAPI("/home/updateImage", image);
+    Swal.fire({
+      title: "Başarılı",
+      text: "Resim başarılı bir şekilde değiştirildi.",
+      icon: "success",
+    });
   }; //MAİN RESİM DEĞİŞTİRME
+  const uploadImageToS3Informations = async (imageFile, index) => {
+    const S3_BUCKET = "caliskanari";
+    const REGION = "us-east-1";
+    AWS.config.update({
+      accessKeyId: process.env.NEXT_PUBLIC_AWS_ACCESS_KEY,
+      secretAccessKey: process.env.NEXT_PUBLIC_AWS_SECRET_ACCESS_KEY,
+    });
+    console.log(imageFile);
+    const params = {
+      Bucket: S3_BUCKET,
+      Key: `images/${imageFile.name}`,
+      Body: imageFile,
+    };
 
+    const s3 = new AWS.S3({
+      params: { Bucket: S3_BUCKET },
+      region: REGION,
+    });
+
+    var upload = s3
+      .putObject(params)
+      .on("httpUploadProgress", (evt) => {
+        console.log(
+          "Uploading " + parseInt((evt.loaded * 100) / evt.total) + "%"
+        );
+      })
+      .promise();
+
+    await upload.then((err, data) => {
+      setSelectedImagesInformations((prevImages) => {
+        const updatedImages = [...prevImages];
+        updatedImages[
+          index
+        ] = `https://caliskanari.s3.amazonaws.com/images/${imageFile.name}`;
+        return updatedImages;
+      });
+
+      setInformations((prevInformations) => {
+        const updatedInformations = [...prevInformations];
+        updatedInformations[index] = {
+          ...updatedInformations[index],
+          icon: `https://caliskanari.s3.amazonaws.com/images/${imageFile.name}`,
+        };
+        return updatedInformations;
+      });
+
+      console.log(err);
+    });
+  };
   const handleImageChangeInformations = (event, index) => {
     const imageFile = event.target.files[0];
-    setSelectedImagesInformations((prevImages) => {
-      const updatedImages = [...prevImages];
-      updatedImages[index] = URL.createObjectURL(imageFile);
-      return updatedImages;
-    });
-
-    setInformations((prevInformations) => {
-      const updatedInformations = [...prevInformations];
-      updatedInformations[index] = {
-        ...updatedInformations[index],
-        icon: URL.createObjectURL(imageFile),
-      };
-      return updatedInformations;
-    });
+    uploadImageToS3Informations(imageFile, index);
   };
   const handleSubmitInformations = async (event, index) => {
     event.preventDefault();
-
-    const newIconURL = selectedImagesInformations[index];
-
-    setInformations((prevInformations) => {
-      const updatedInformations = [...prevInformations];
-      updatedInformations[index] = {
-        ...updatedInformations[index],
-        icon: newIconURL,
-      };
-      return updatedInformations;
+    // const responseDelete = await postAPI("/home/deleteInformation", "DELETE");
+    console.log(informations[index]);
+    const response = await postAPI(
+      "/home/updateInformations",
+      informations[index]
+    );
+    console.log(response);
+    Swal.fire({
+      title: "Başarılı",
+      text: "Resim başarılı bir şekilde değiştirildi.",
+      icon: "success",
     });
-    const response = await postAPI("/home/addInformations", informations);
   };
 
   const openChildInputModal = (index) => {
@@ -868,6 +1023,23 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
   const closeChildInputModal = () => {
     setSelectedBigInputIndex(null);
     setChildInputModalOpen(false);
+  };
+
+  const [selectedOption, setSelectedOption] = useState(null);
+
+  const handleSubmit = async (event, pageId) => {
+    event.preventDefault();
+    const data = {
+      pageId: pageId,
+      position: selectedOption,
+    };
+    const response = await postAPI("/home/updatePosition", data);
+    console.log(response);
+    Swal.fire({
+      title: "Başarılı",
+      text: "Pozisyon başarılı bir şekilde güncellendi.",
+      icon: "success",
+    });
   };
 
   const [underMenuCount, setUnderMenuCount] = useState(1);
@@ -1509,7 +1681,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                   <h1 className="text-left text-sm text-gray-600 font-semibold m-5 mb-0">
                     İletişim Bilgileri
                   </h1>
-                  <div className="inputArea flex items-center justify-center flex-wrap">
+                  <div className="inputArea flex items-center justify-center flex-wrap max-[768px]:max-h-[500px] overflow-scroll">
                     <input
                       onChange={(event) =>
                         handleInputChangeFooterContact(event, "phone")
@@ -1587,7 +1759,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
               {modalContent === "resim" && pageId === "logoBanner" && (
                 <div className="flex flex-row flex-wrap items-center justify-center max-h-[600px] overflow-scroll">
                   <h1 className="text-gray-700 font-semibold">
-                    {pageId} Sayfası Resim Düzenleme
+                    Logo ve Afiş Sayfası Resim Düzenleme
                   </h1>
                   {logobanner.map((item, index) => (
                     <div
@@ -1636,7 +1808,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
               {modalContent === "resim" && pageId === "students" && (
                 <div className="flex flex-col flex-wrap items-center justify-center p-5">
                   <h1 className="text-gray-700 font-semibold">
-                    {pageId} Sayfası Resim Düzenleme
+                    Öğrenciler Sayfası Resim Düzenleme
                   </h1>
                   <div className="flex flex-col items-center justify-center">
                     <img
@@ -1657,15 +1829,6 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                         id={`students`}
                         name={`students`}
                       />
-                      {selectedImageStudents && (
-                        <img
-                          src={selectedImageStudents}
-                          height={100}
-                          width={300}
-                          alt="Yeni Seçilen Resim"
-                        />
-                      )}
-
                       <button
                         type="submit"
                         className="text-gray-600 bg-gray-100 p-3 rounded-xl font-semibold m-5"
@@ -1679,7 +1842,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
               {modalContent === "resim" && pageId === "video" && (
                 <div className="flex flex-col flex-wrap items-center justify-center p-5">
                   <h1 className="text-gray-700 font-semibold">
-                    {pageId} Sayfası Resim Düzenleme
+                    Video Sayfası Resim Düzenleme
                   </h1>
                   <div className="flex flex-col items-center justify-center">
                     <img
@@ -1700,15 +1863,6 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                         id={`students`}
                         name={`students`}
                       />
-                      {selectedImageVideo && (
-                        <img
-                          src={selectedImageVideo}
-                          height={100}
-                          width={300}
-                          alt="Yeni Seçilen Resim"
-                        />
-                      )}
-
                       <button
                         type="submit"
                         className="text-gray-600 bg-gray-100 p-3 rounded-xl font-semibold m-5"
@@ -1722,7 +1876,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
               {modalContent === "resim" && pageId === "main" && (
                 <div className="flex flex-col flex-wrap items-center justify-center p-5">
                   <h1 className="text-gray-700 font-semibold">
-                    {pageId} Sayfası Resim Düzenleme
+                    Anasayfa Resim Düzenleme
                   </h1>
                   <div className="flex flex-col items-center justify-center">
                     <img
@@ -1743,15 +1897,6 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                         id={`students`}
                         name={`students`}
                       />
-                      {selectedImageMain && (
-                        <img
-                          src={selectedImageMain}
-                          height={100}
-                          width={300}
-                          alt="Yeni Seçilen Resim"
-                        />
-                      )}
-
                       <button
                         type="submit"
                         className="text-gray-600 bg-gray-100 p-3 rounded-xl font-semibold m-5"
@@ -1765,7 +1910,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
               {modalContent === "resim" && pageId === "informations" && (
                 <div className="flex flex-col flex-wrap items-center justify-center p-5">
                   <h1 className="text-gray-700 font-semibold text-center">
-                    {pageId} Sayfası Resim Düzenleme
+                    Bilgiler Sayfası Resim Düzenleme
                   </h1>
                   <div className="flex flex-col lg:flex-row items-center justify-center">
                     {informations.map((info, index) => (
@@ -1783,40 +1928,237 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                             width={50}
                             alt={`Icon ${index}`}
                           />
-                          <form
-                            onSubmit={(e) => handleSubmitInformations(e, index)}
-                            className="flex flex-col items-center justify-center mt-3"
-                          >
-                            <label htmlFor={`image${index}`}>
-                              Resim Seçin:
-                            </label>
-                            <input
-                              onChange={(e) =>
-                                handleImageChangeInformations(e, index)
-                              }
-                              type="file"
-                              className="bg-gray-200 text-gray-600 font-semibold rounded-xl w-48"
-                              id={`image${index}`}
-                              name={`image${index}`}
-                            />
-                            {selectedImagesInformations[index] && (
-                              <img
-                                src={selectedImagesInformations[index]}
-                                height={50}
-                                width={50}
-                                alt={`Yeni Seçilen Resim`}
-                              />
-                            )}
-                            <button
-                              type="submit"
-                              className="text-gray-600 bg-gray-100 p-3 rounded-xl font-semibold mt-3"
-                            >
-                              Kaydet
-                            </button>
-                          </form>
+                          <input
+                            onChange={(e) =>
+                              handleImageChangeInformations(e, index)
+                            }
+                            type="file"
+                            className="bg-gray-200 text-gray-600 font-semibold rounded-xl w-48 mt-3"
+                            id={`image${index}`}
+                            name={`image${index}`}
+                          />
                         </div>
+                        <button
+                          onClick={(e) => handleSubmitInformations(e, index)}
+                          className="text-gray-600 bg-gray-100 p-3 rounded-xl font-semibold mt-3"
+                        >
+                          Kaydet
+                        </button>
                       </div>
                     ))}
+                  </div>
+                </div>
+              )}
+              {modalContent === "yer" && pageId === "main" && (
+                <div className="flex flex-col flex-wrap items-center justify-center p-5">
+                  <h1 className="text-gray-700 font-semibold text-center">
+                    Anasayfa Yer Düzenleme
+                  </h1>
+                  <div className="flex flex-col lg:flex-row items-center justify-center">
+                    <form
+                      onSubmit={() => handleSubmit(event, pageId)}
+                      className="imageSelectionForm"
+                    >
+                      <div className="imageAreaForPosition flex flex-col md:flex-row items-center justify-center mt-3">
+                        <div className="img1 mr-3 relative">
+                          <label>
+                            <input
+                              className="absolute top-2 left-2 w-5 h-5"
+                              type="radio"
+                              name="imageSelection"
+                              value="1"
+                              onChange={(e) =>
+                                setSelectedOption(e.target.value)
+                              }
+                            />
+                            <Image
+                              src={require("../../assets/image/dashboardImages/main1.png")}
+                              width={300}
+                              height={150}
+                              className="w-96"
+                            />
+                            <h1 className=" bg-red-600 rounded-full w-7 h-7 flex items-center justify-center absolute top-2 right-2 font-semibold">
+                              1
+                            </h1>
+                          </label>
+                        </div>
+                        <div className="img2 relative">
+                          <label>
+                            <input
+                              className="absolute top-2 left-2 w-5 h-5"
+                              type="radio"
+                              name="imageSelection"
+                              value="2"
+                              onChange={(e) =>
+                                setSelectedOption(e.target.value)
+                              }
+                            />
+                            <Image
+                              src={require("../../assets/image/dashboardImages/main2.png")}
+                              width={300}
+                              height={150}
+                              className="w-96"
+                            />
+                            <h1 className=" bg-red-600 rounded-full w-7 h-7 flex items-center justify-center absolute top-2 right-2 font-semibold">
+                              2
+                            </h1>
+                          </label>
+                        </div>
+                      </div>
+                      <h1 className="selectedPosition text-gray-600 font-semibold text-center mt-3">
+                        Seçilen Pozisyon: {selectedOption}
+                      </h1>
+                      <div className="w-full flex items-center justify-center">
+                        <button
+                          type="submit"
+                          className="bg-gray-100  text-gray-600 font-bold py-2 px-4 rounded mt-3 object-center "
+                        >
+                          Kaydet
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              )}
+              {modalContent === "yer" && pageId === "students" && (
+                <div className="flex flex-col flex-wrap items-center justify-center p-5">
+                  <h1 className="text-gray-700 font-semibold text-center">
+                    Öğrenciler Sayfası Yer Düzenleme
+                  </h1>
+                  <div className="flex flex-col lg:flex-row items-center justify-center">
+                    <form
+                      onSubmit={() => handleSubmit(event, pageId)}
+                      className="imageSelectionForm"
+                    >
+                      <div className="imageAreaForPosition flex flex-col md:flex-row items-center justify-center mt-3">
+                        <div className="img1 mr-3 relative">
+                          <label>
+                            <input
+                              className="absolute top-2 left-2 w-5 h-5"
+                              type="radio"
+                              name="imageSelection"
+                              value="1"
+                              onChange={(e) =>
+                                setSelectedOption(e.target.value)
+                              }
+                            />
+                            <Image
+                              src={require("../../assets/image/dashboardImages/students1.png")}
+                              width={300}
+                              height={150}
+                              className="w-96"
+                            />
+                            <h1 className=" bg-red-600 rounded-full w-7 h-7 flex items-center justify-center absolute top-2 right-2 font-semibold">
+                              1
+                            </h1>
+                          </label>
+                        </div>
+                        <div className="img2 relative">
+                          <label>
+                            <input
+                              className="absolute top-2 left-2 w-5 h-5"
+                              type="radio"
+                              name="imageSelection"
+                              value="2"
+                              onChange={(e) =>
+                                setSelectedOption(e.target.value)
+                              }
+                            />
+                            <Image
+                              src={require("../../assets/image/dashboardImages/students2.png")}
+                              width={300}
+                              height={150}
+                              className="w-96"
+                            />
+                            <h1 className=" bg-red-600 rounded-full w-7 h-7 flex items-center justify-center absolute top-2 right-2 font-semibold">
+                              2
+                            </h1>
+                          </label>
+                        </div>
+                      </div>
+                      <h1 className="selectedPosition text-gray-600 font-semibold text-center mt-3">
+                        Seçilen Pozisyon: {selectedOption}
+                      </h1>
+                      <div className="w-full flex items-center justify-center">
+                        <button
+                          type="submit"
+                          className="bg-gray-100  text-gray-600 font-bold py-2 px-4 rounded mt-3 object-center "
+                        >
+                          Kaydet
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              )}
+              {modalContent === "yer" && pageId === "video" && (
+                <div className="flex flex-col flex-wrap items-center justify-center p-5">
+                  <h1 className="text-gray-700 font-semibold text-center">
+                    Video Sayfası Yer Düzenleme
+                  </h1>
+                  <div className="flex flex-col lg:flex-row items-center justify-center">
+                    <form
+                      onSubmit={() => handleSubmit(event, pageId)}
+                      className="imageSelectionForm"
+                    >
+                      <div className="imageAreaForPosition flex flex-col md:flex-row items-center justify-center mt-3">
+                        <div className="img1 mr-3 relative">
+                          <label>
+                            <input
+                              className="absolute top-2 left-2 w-5 h-5"
+                              type="radio"
+                              name="imageSelection"
+                              value="1"
+                              onChange={(e) =>
+                                setSelectedOption(e.target.value)
+                              }
+                            />
+                            <Image
+                              src={require("../../assets/image/dashboardImages/video1.png")}
+                              width={300}
+                              height={150}
+                              className="w-96"
+                            />
+                            <h1 className=" bg-red-600 rounded-full w-7 h-7 flex items-center justify-center absolute top-2 right-2 font-semibold">
+                              1
+                            </h1>
+                          </label>
+                        </div>
+                        <div className="img2 relative">
+                          <label>
+                            <input
+                              className="absolute top-2 left-2 w-5 h-5"
+                              type="radio"
+                              name="imageSelection"
+                              value="2"
+                              onChange={(e) =>
+                                setSelectedOption(e.target.value)
+                              }
+                            />
+                            <Image
+                              src={require("../../assets/image/dashboardImages/video2.png")}
+                              width={300}
+                              height={150}
+                              className="w-96"
+                            />
+                            <h1 className=" bg-red-600 rounded-full w-7 h-7 flex items-center justify-center absolute top-2 right-2 font-semibold">
+                              2
+                            </h1>
+                          </label>
+                        </div>
+                      </div>
+                      <h1 className="selectedPosition text-gray-600 font-semibold text-center mt-3">
+                        Seçilen Pozisyon: {selectedOption}
+                      </h1>
+                      <div className="w-full flex items-center justify-center">
+                        <button
+                          type="submit"
+                          className="bg-gray-100  text-gray-600 font-bold py-2 px-4 rounded mt-3 object-center "
+                        >
+                          Kaydet
+                        </button>
+                      </div>
+                    </form>
                   </div>
                 </div>
               )}

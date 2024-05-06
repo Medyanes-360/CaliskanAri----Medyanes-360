@@ -83,7 +83,7 @@ const MenuItems = ({ items, depthLevel }) => {
             />
           </>
         ) : (
-          <a href="/#">{items.name}</a>
+          <a href="/#">{items}</a>
         )}
       </div>
     </div>

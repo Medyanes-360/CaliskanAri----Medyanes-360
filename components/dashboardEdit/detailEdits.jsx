@@ -383,6 +383,7 @@ function DetailEdits({ pageId, animation, openModal, setOpenModal }) {
               title={"Renkleri Değiştir"}
             />
             <EditBox
+              number={4}
               onClick={() => openModalWithContent("yer")}
               small={true}
               id={5}
@@ -439,6 +440,7 @@ function DetailEdits({ pageId, animation, openModal, setOpenModal }) {
               title={"Renkleri Değiştir"}
             />
             <EditBox
+              number={4}
               onClick={() => openModalWithContent("yer")}
               small={true}
               id={5}
@@ -495,6 +497,7 @@ function DetailEdits({ pageId, animation, openModal, setOpenModal }) {
               title={"Renkleri Değiştir"}
             />
             <EditBox
+              number={4}
               onClick={() => openModalWithContent("yer")}
               small={true}
               id={5}

@@ -10,6 +10,7 @@ import { getAPI } from "@/services/fetchAPI";
 
 export const VideoSection = () => {
   const [info, setInfo] = useState([]);
+  const [position, setPosition] = useState();
   const [bgColor, setBgColor] = useState("");
   const [textColor, setTextColor] = useState(""); // Değişken ismi düzeltildi, küçük harf kullanıldı
   useEffect(() => {
@@ -53,6 +54,21 @@ export const VideoSection = () => {
       .catch(function (error) {
         console.error("Hata oluştu:", error);
       });
+
+    const positionData = getAPI("/home/HomePosition");
+    positionData
+      .then(function (result) {
+        console.log(result);
+        const mainPositionInfo = result.find((item) => item.pageId === "video");
+        if (mainPositionInfo) {
+          setPosition(mainPositionInfo.position);
+        } else {
+          console.log("Main page için bgColor bulunamadı.");
+        }
+      })
+      .catch(function (error) {
+        console.error("Hata oluştu:", error);
+      });
   }, []);
   const {
     videoTitle1,
@@ -77,7 +93,11 @@ export const VideoSection = () => {
             <img src={underline} alt="" className="absolute right-0" />
           </h2>
         </div>
-        <div className="flex flex-col lg:flex-row items-center justify-center py-10 px-8 lg:px-0">
+        <div
+          className={`flex flex-col ${
+            position == 1 ? "md:flex-row" : "md:flex-row-reverse"
+          } items-center justify-center py-10 px-8 lg:px-0`}
+        >
           <div>
             <Tabs defaultValue={0} orientation="vertical" className="flex">
               <TabsList className="flex flex-col items-start pl-2 gap-10">

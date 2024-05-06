@@ -66,6 +66,18 @@ const Page = () => {
               Resimleri değiştir alanından buradaki resimi değiştirebilirsiniz.
             </h1>
           </div>
+          <div className="infoBox flex flex-row m-5">
+            <Image
+              src={n4}
+              width={"30vw"}
+              height={"10vw"}
+              alt="navbar"
+              className="w-6 h-6 mr-4 my-auto "
+            />
+            <h1 className="text-xs lg:text-sm text-left text-gray-600 font-semibold flex items-center justify-center">
+              Resim ve yazıların pozisyonlarını buradan değiştirebilirsiniz.
+            </h1>
+          </div>
         </div>
       </div>
     </>

@@ -8,6 +8,7 @@ import { getAPI } from "@/services/fetchAPI";
 const MainSection = () => {
   const [info, setInfo] = useState([]);
   const [bgColor, setBgColor] = useState("");
+  const [position, setPosition] = useState();
   const [textColor, setTextColor] = useState(""); // Değişken ismi düzeltildi, küçük harf kullanıldı
   useEffect(() => {
     const infoData = getAPI("/home/HomeInfo");
@@ -26,6 +27,20 @@ const MainSection = () => {
         const mainBgColorInfo = result.find((item) => item.pageId === "main");
         if (mainBgColorInfo) {
           setBgColor(mainBgColorInfo.bgColor);
+        } else {
+          console.log("Main page için bgColor bulunamadı.");
+        }
+      })
+      .catch(function (error) {
+        console.error("Hata oluştu:", error);
+      });
+    const positionData = getAPI("/home/HomePosition");
+    positionData
+      .then(function (result) {
+        console.log(result);
+        const mainPositionInfo = result.find((item) => item.pageId === "main");
+        if (mainPositionInfo) {
+          setPosition(mainPositionInfo.position);
         } else {
           console.log("Main page için bgColor bulunamadı.");
         }
@@ -56,7 +71,11 @@ const MainSection = () => {
       className={`xl:pt-[0px] main-section-hover`}
       style={{ backgroundColor: bgColor, color: textColor }} // textColor eklendi
     >
-      <div className=" flex flex-col md:flex-row items-center justify-between container mx-auto pb-20">
+      <div
+        className={` flex flex-col ${
+          position == 1 ? "md:flex-row-reverse" : "md:flex-row"
+        } items-center justify-between container mx-auto pb-20`}
+      >
         <div className="flex flex-col gap-6 item-center md:items-start justify-center px-8">
           <p className=" text-sm">{desc1}</p>
           <div>

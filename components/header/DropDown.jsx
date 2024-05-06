@@ -2,6 +2,7 @@ import MenuItems from "./MenuItems";
 import { AnimatePresence, motion } from "framer-motion";
 
 const DropDown = ({ submenus, dropdown, depthLevel }) => {
+  console.log(submenus);
   const dropdownClass = depthLevel > 1 ? "dropdown-submenu" : "";
   depthLevel = depthLevel + 1;
   return (

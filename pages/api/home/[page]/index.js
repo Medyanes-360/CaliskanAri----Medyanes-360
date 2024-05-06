@@ -58,6 +58,13 @@ async function homeHandler(req, res) {
           } catch (error) {
             return res.status(500).json({ error: error.message });
           }
+        case "deleteInformation":
+          try {
+            const response = await deleteDataAll("HomeInformation");
+            return res.status(200).json(response);
+          } catch (error) {
+            return res.status(500).json({ error: error.message });
+          }
       }
     case "POST":
       switch (section) {
@@ -97,6 +104,11 @@ async function homeHandler(req, res) {
           );
           console.log(responseForTextColor);
           return res.status(200).json({ message: "test", data: data });
+        case "addPosition":
+          console.log(data);
+          const responseForPosition = await createNewData("HomePosition", data);
+          console.log(responseForPosition);
+          return res.status(200).json({ message: "test", data: data });
         case "addCategory":
           const responseForCategory = await createNewData(
             "HomeCategories",
@@ -118,7 +130,8 @@ async function homeHandler(req, res) {
           console.log(responseForInfoo);
           return res.status(200).json({ message: "test", data: data });
         case "addInformations":
-          const responseForInfoformations = await createNewData(
+          console.log(data);
+          const responseForInfoformations = await createNewDataMany(
             "HomeInformation",
             data
           );
@@ -156,8 +169,14 @@ async function homeHandler(req, res) {
           );
           console.log(responseForLogoBanner);
           return res.status(200).json({ message: "test", data: data });
-        case "addImage":
-          const responseImage = await createNewData("HomeImage", data);
+        case "updateImage":
+          const idNumberImage = data["id"];
+          delete data["id"];
+          const responseImage = await updateDataByAny(
+            "HomeImage",
+            { id: idNumberImage },
+            data
+          );
           console.log(responseImage);
           return res.status(200).json({ message: "test", data: data });
         case "updateMenu":
@@ -169,7 +188,6 @@ async function homeHandler(req, res) {
             data
           );
           return res.status(200).json({ message: "test", data: data });
-
         case "updateInformations":
           console.log(data);
           const idNumberInformations = data["id"];
@@ -189,13 +207,13 @@ async function homeHandler(req, res) {
           );
           console.log(responseUpdateBgColor);
           return res.status(200).json({ message: "test", data: data });
-        case "updateTextColor":
-          const responseUpdateTextColor = await updateDataByAny(
-            "HomeTextColor",
+        case "updatePosition":
+          const responseUpdatePosition = await updateDataByAny(
+            "HomePosition",
             { pageId: data.pageId },
             data
           );
-          console.log(responseUpdateTextColor);
+          console.log(responseUpdatePosition);
           return res.status(200).json({ message: "test", data: data });
         case "updateCourse":
           data.quantity = parseInt(data.quantity);
@@ -258,6 +276,7 @@ async function homeHandler(req, res) {
           console.log(responseUpdateFooterContact);
           return res.status(200).json({ message: "test", data: data });
       }
+
       break;
     default:
       res.setHeader("Allow", ["GET", "POST", "DELETE"]);

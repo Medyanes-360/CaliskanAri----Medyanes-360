@@ -7,6 +7,7 @@ const LearnersStudents = () => {
   const { studentPhoto, underline, redCrown } = image;
   const [info, setInfo] = useState([]);
   const [bgColor, setBgColor] = useState("");
+  const [position, setPosition] = useState();
   const [textColor, setTextColor] = useState(""); // Değişken ismi düzeltildi, küçük harf kullanıldı
   useEffect(() => {
     const textColorData = getAPI("/home/HomeTextColor"); // textColorData tanımlandı
@@ -51,6 +52,23 @@ const LearnersStudents = () => {
       .catch(function (error) {
         console.error("Hata oluştu:", error);
       });
+
+    const positionData = getAPI("/home/HomePosition");
+    positionData
+      .then(function (result) {
+        console.log(result);
+        const mainPositionInfo = result.find(
+          (item) => item.pageId === "students"
+        );
+        if (mainPositionInfo) {
+          setPosition(mainPositionInfo.position);
+        } else {
+          console.log("Main page için bgColor bulunamadı.");
+        }
+      })
+      .catch(function (error) {
+        console.error("Hata oluştu:", error);
+      });
   }, []);
   const {
     learnersStudentsTitle1,
@@ -59,7 +77,11 @@ const LearnersStudents = () => {
   } = info;
   return (
     <div className="" style={{ backgroundColor: bgColor, color: textColor }}>
-      <div className="container mx-auto flex flex-col lg:flex-row items-center justify-center p-6">
+      <div
+        className={`container mx-auto flex flex-col ${
+          position == 1 ? "md:flex-row" : "md:flex-row-reverse"
+        } items-center justify-center p-6`}
+      >
         <div className="w-full relative mx-4">
           <img src={studentPhoto} alt="" />
           <motion.img

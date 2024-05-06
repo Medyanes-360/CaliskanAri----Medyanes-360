@@ -1,18 +1,37 @@
-import { contact } from "../constants/index";
 import { PiPhoneCallLight } from "react-icons/pi";
 import { CiSearch } from "react-icons/ci";
-import { categories } from "../constants/index";
 import { Popover, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import { Fragment } from "react";
 import { signIn, signOut, useSession } from "next-auth/react";
-import Link from 'next/link'
+import Link from "next/link";
 import Image from "next/image";
-
+import { useState, useEffect } from "react";
+import { getAPI } from "@/services/fetchAPI";
 export const TopBar = () => {
   const { data } = useSession();
-  const { phone } = contact;
 
+  const [categories, setCategories] = useState([]);
+  const [contact, setContact] = useState(""); // Değişken ismi düzeltildi, küçük harf kullanıldı
+  useEffect(() => {
+    const contactData = getAPI("/home/HomeContact"); // textColorData tanımlandı
+    contactData
+      .then(function (result) {
+        setContact(result[0]);
+      })
+      .catch(function (error) {
+        console.error("Hata oluştu:", error);
+      });
+
+    const Data = getAPI("/home/HomeCategories");
+    Data.then(function (result) {
+      setCategories(result);
+    }).catch(function (error) {
+      console.error("Hata oluştu:", error);
+    });
+  }, []);
+
+  const { phone } = contact;
   return (
     <div className=" flex justify-between items-center mx-6 my-2 max-w-full">
       <div>
@@ -88,7 +107,10 @@ export const TopBar = () => {
           </span>
           <span className="pl-3">
             <p className="text-cst_grey text-sm">Hızlı İletişim</p>
-            <a className="text-[#241442] whitespace-nowrap" href={`tel:${phone}`}>
+            <a
+              className="text-[#241442] whitespace-nowrap"
+              href={`tel:${phone}`}
+            >
               {phone}
             </a>
           </span>
@@ -104,26 +126,40 @@ export const TopBar = () => {
               >
                 Öğrenci Giriş
               </button>
-              <Link href="/auth/register/student" className="flex-shrink-0 rounded-3xl px-6 py-3 border transition-all duration-200 border-border text-sm bg-cst_purple text-white hover:bg-buttonColor text-center">
-              Öğrenci Kayıt
+              <Link
+                href="/auth/register/student"
+                className="flex-shrink-0 rounded-3xl px-6 py-3 border transition-all duration-200 border-border text-sm bg-cst_purple text-white hover:bg-buttonColor text-center"
+              >
+                Öğrenci Kayıt
               </Link>
               <Link
-              href="/auth/login/teacher"
+                href="/auth/login/teacher"
                 className="flex-shrink-0 rounded-3xl px-6 py-3 border border-border text-sm text-[#241442] transition-all duration-200 hover:bg-cst_purple hover:text-white text-center"
               >
                 Öğretmen Giriş
               </Link>
-              <Link href="/auth/register/teacher" className="flex-shrink-0 rounded-3xl px-6 py-3 border transition-all duration-200 border-border text-sm bg-cst_purple text-white hover:bg-buttonColor text-center">
-              Öğretmen Kayıt
+              <Link
+                href="/auth/register/teacher"
+                className="flex-shrink-0 rounded-3xl px-6 py-3 border transition-all duration-200 border-border text-sm bg-cst_purple text-white hover:bg-buttonColor text-center"
+              >
+                Öğretmen Kayıt
               </Link>
             </>
           ) : (
             <>
-              {data?.user?.role === "admin" && <Link href="/dashboard/admin" className="flex-shrink-0 rounded-3xl px-6 py-3 border transition-all duration-200 border-border text-sm bg-cst_purple text-white hover:bg-buttonColor text-center">
-                Dashboard
-              </Link>}
+              {data?.user?.role === "admin" && (
+                <Link
+                  href="/dashboard/admin"
+                  className="flex-shrink-0 rounded-3xl px-6 py-3 border transition-all duration-200 border-border text-sm bg-cst_purple text-white hover:bg-buttonColor text-center"
+                >
+                  Dashboard
+                </Link>
+              )}
 
-              <button onClick={() => signOut()} className="flex-shrink-0 rounded-3xl px-6 py-3 border transition-all duration-200 border-border text-sm bg-cst_red text-white hover:bg-buttonColor text-center">
+              <button
+                onClick={() => signOut()}
+                className="flex-shrink-0 rounded-3xl px-6 py-3 border transition-all duration-200 border-border text-sm bg-cst_red text-white hover:bg-buttonColor text-center"
+              >
                 Çıkış yap
               </button>
             </>

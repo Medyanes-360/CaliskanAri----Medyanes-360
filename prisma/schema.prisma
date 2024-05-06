@@ -197,6 +197,12 @@ model HomeInformation {
   color       String
 }
 
+model HomePosition{
+ id          String    @id @default(auto()) @map("_id") @db.ObjectId
+ pageId      String   @unique
+ position    String
+}
+
 model HomeCoursesCard {
    id          String    @id @default(auto()) @map("_id") @db.ObjectId
   title      String
@@ -281,6 +287,7 @@ model HomeFooterCourses {
 
 model HomeImage {
   id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  logo         String
   mainSection  String
   underline    String
   pencil       String
