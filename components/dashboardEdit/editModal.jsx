@@ -496,7 +496,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
   }; // YENİ MENU EKLEME
   const handleAddFeatureCategory = async (event) => {
     event.preventDefault();
-    if (!newFeatureCategory) {
+    if (!newFeatureCategory.name) {
       Swal.fire({
         title: "Hata",
         text: "Lütfen tüm alanları doldurun.",
