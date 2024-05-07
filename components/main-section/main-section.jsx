@@ -7,6 +7,7 @@ import { getAPI } from "@/services/fetchAPI";
 
 const MainSection = () => {
   const [info, setInfo] = useState([]);
+  const [button, setButton] = useState([]);
   const [bgColor, setBgColor] = useState("");
   const [position, setPosition] = useState();
   const [textColor, setTextColor] = useState(""); // Değişken ismi düzeltildi, küçük harf kullanıldı
@@ -34,6 +35,23 @@ const MainSection = () => {
       .catch(function (error) {
         console.error("Hata oluştu:", error);
       });
+
+    const buttonData = getAPI("/home/HomeButton");
+    buttonData
+      .then(function (result) {
+        console.log(result);
+        const mainButtonInfo = result.find((item) => item.pageId === "main");
+        console.log(mainButtonInfo);
+        if (mainButtonInfo) {
+          setButton((prevButtons) => [...prevButtons, mainButtonInfo]);
+        } else {
+          console.log("Main page için bgColor bulunamadı.");
+        }
+      })
+      .catch(function (error) {
+        console.error("Hata oluştu:", error);
+      });
+
     const positionData = getAPI("/home/HomePosition");
     positionData
       .then(function (result) {
@@ -96,7 +114,20 @@ const MainSection = () => {
           </div>
 
           <p className=" text-s">{desc2}</p>
-          <CustomButton title="Etkileşimli Alıştırmaları Keşfet" />
+
+          <div className="ButtonArea xl:flex">
+            {/* <CustomButton title="Etkileşimli Alıştırmaları Keşfet" /> */}
+            {button.map((buttonSingle, index) => (
+              <CustomButton
+                key={index}
+                title={buttonSingle.title}
+                href={buttonSingle.addressLink}
+                buttonColor={buttonSingle.color}
+                textColor={buttonSingle.textColor}
+                hoverColor={buttonSingle.hoverColor}
+              />
+            ))}
+          </div>
         </div>
         <div
           className={`w-full pt-10 md:pt-4 ${

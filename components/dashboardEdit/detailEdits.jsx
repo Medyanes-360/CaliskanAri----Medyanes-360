@@ -360,6 +360,7 @@ function DetailEdits({ pageId, animation, openModal, setOpenModal }) {
               title={"Yer Değiştir"}
             />
             <EditBox
+              number={5}
               onClick={() => openModalWithContent("buton")}
               small={true}
               id={6}

@@ -203,6 +203,17 @@ model HomePosition{
  position    String
 }
 
+model HomeButton{
+ id           String    @id @default(auto()) @map("_id") @db.ObjectId
+ pageId       String   
+ title        String
+ color        String
+ addressLink  String
+ textColor    String
+ hoverColor   String
+}
+
+
 model HomeCoursesCard {
    id          String    @id @default(auto()) @map("_id") @db.ObjectId
   title      String

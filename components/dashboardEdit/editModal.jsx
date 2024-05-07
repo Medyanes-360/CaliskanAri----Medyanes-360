@@ -27,6 +27,8 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
   const [image, setImage] = useState({});
   const [footercourses, setFootercourses] = useState([]); //FOOTER KURSLAR DEĞİŞKENİ
   const [featured, setFeatured] = useState([]); //FEATURED DEĞİŞKENİ
+  const [buttons, setButtons] = useState([]); //BUTTONS DEĞİŞKENİ
+
   const uploadImageToS3Course = async (imageFile, field) => {
     const S3_BUCKET = "caliskanari";
     const REGION = "us-east-1";
@@ -167,6 +169,58 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
     boxBackground: "",
     extraField: "",
   }); //YENİ KURS EKLEME DEĞİŞKENİ
+  const [newButton, setNewButton] = useState({
+    title: "",
+    color: "",
+    textColor: "",
+    hoverColor: "",
+    addressLink: "",
+    pageId: "",
+  }); //YENİ KURS EKLEME DEĞİŞKENİ
+
+  const handleAddButtonInputChange = (event, field, pageId) => {
+    const { value } = event.target;
+
+    setNewButton((prevButtons) => ({
+      ...prevButtons,
+      [field]: value,
+      pageId: pageId,
+    }));
+  };
+  const handleAddButton = async (event, pageId) => {
+    event.preventDefault();
+    setNewButton({
+      title: "",
+      color: "",
+      textColor: "",
+      hoverColor: "",
+      addressLink: "",
+      pageId: pageId,
+    });
+    console.log(newButton);
+    if (
+      !newButton.title ||
+      !newButton.color ||
+      !newButton.addressLink ||
+      !newButton.textColor ||
+      !newButton.hoverColor
+    ) {
+      Swal.fire({
+        title: "Hata",
+        text: "Lütfen tüm alanları doldurun.",
+        icon: "error",
+      });
+    } else {
+      setButtons((prevButtons) => [...prevButtons, newButton]);
+      const response = await postAPI("/home/addButton", newButton);
+      console.log(response);
+      Swal.fire({
+        title: "Başarılı",
+        text: "Buton başarılı bir şekilde eklendi.",
+        icon: "success",
+      });
+    }
+  }; //YENİ KURS EKLEME
   const [newFeature, setNewFeature] = useState({
     title: "",
     name: "",
@@ -1277,13 +1331,13 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                   </h1>
                   <button
                     onClick={() => setAddNavbar(true)}
-                    className="bg-gray-200 p-3 text-gray-600  py-3 px-8 rounded-xl font-semibold w-[80%]"
+                    className="text-gray-100 bg-[#855da3] hover:text-[#855da3] hover:bg-gray-100 transition-all duration-700 py-3 px-8 rounded-xl font-semibold w-full"
                   >
-                    Menü Ekle
+                    Menü Ekle +
                   </button>
                   <form
                     onSubmit={handleSubmitNavbar}
-                    className="flex flex-col mx-5 mt-3 flex-wrap items-center justify-center max-[768px]:max-h-[500px] overflow-scroll"
+                    className="flex flex-col mt-3 flex-wrap items-center justify-center max-[768px]:max-h-[500px] overflow-scroll"
                   >
                     {menus.map((menu, menuIndex) => (
                       <div key={menuIndex} className="inputArea">
@@ -1294,7 +1348,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                             }
                             placeholder={menu.name}
                             type="text"
-                            className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 mr-0 rounded-l-xl w-44 focus:border-0 lg:w-40 focus:outline-none"
+                            className="bg-gray-100 p-3 text-gray-600 font-semibold my-3 rounded-l-xl w-full focus:border-0 focus:outline-none"
                           />
                           <button
                             type="button"
@@ -1315,7 +1369,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                     ))}
                     <button
                       type="submit"
-                      className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 py-3 w-[85%] rounded-xl font-semibold m-5"
+                      className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 py-3 w-full rounded-xl font-semibold my-5"
                     >
                       Kaydet
                     </button>
@@ -1323,20 +1377,20 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                 </div>
               )}
               {modalContent === "buton" && pageId === "features" && (
-                <div className="flex flex-col items-center justify-center ">
+                <div className="flex flex-col items-center justify-center mx-5">
                   <h1 className="text-gray-700 font-semibold">Dersler</h1>
                   <button
                     onClick={() => setAddFeature(true)}
-                    className="text-gray-600 bg-gray-100 py-3 px-8 rounded-xl font-semibold m-5 mb-0 w-[80%]"
+                    className="text-gray-100 bg-[#855da3] hover:text-[#855da3] hover:bg-gray-100 transition-all duration-700 py-3 px-8 rounded-xl font-semibold my-5 mb-0 w-full"
                   >
-                    Ders Ekle
+                    Ders Ekle +
                   </button>
                   <form
                     onSubmit={handleSubmitFeature}
-                    className="flex flex-col flex-wrap items-center justify-center max-h-[500px] overflow-scroll m-5"
+                    className=" mx-auto max-h-[500px] my-5"
                   >
                     {featured.map((feature, index) => (
-                      <div key={index} className="inputArea">
+                      <div key={index} className="inputArea ">
                         <div className="bigInput flex items-center justify-center">
                           <input
                             onChange={(event) =>
@@ -1345,7 +1399,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                             placeholder="Ders Adı"
                             type="text"
                             value={feature.title}
-                            className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 mr-0 rounded-l-xl w-44 focus:border-0 lg:w-40 focus:outline-none"
+                            className="bg-gray-100 p-3 text-gray-600 font-semibold my-3 mr-0 rounded-l-xl w-full focus:border-0 focus:outline-none"
                           />
                           <button
                             type="button"
@@ -1366,7 +1420,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                     ))}
                     <button
                       type="submit"
-                      className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 w-[85%] py-3 px-8 rounded-xl font-semibold m-5"
+                      className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 py-3 px-8 rounded-xl w-full font-semibold my-5 mx-auto"
                     >
                       Kaydet
                     </button>
@@ -1374,15 +1428,15 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                 </div>
               )}
               {modalContent === "butonCategory" && pageId === "features" && (
-                <div className="flex flex-col items-center justify-center ">
+                <div className="flex flex-col items-center justify-center mx-5">
                   <h1 className="text-gray-700 font-semibold">Kategoriler</h1>
                   <button
                     onClick={() => setAddFeatureCategory(true)}
-                    className="text-gray-600 bg-gray-100 py-3 px-8 rounded-xl font-semibold m-5 mb-0 w-[80%]"
+                    className="text-gray-100 bg-[#855da3] hover:text-[#855da3] hover:bg-gray-100 transition-all duration-700 py-3 px-8 rounded-xl font-semibold m-5 mb-0 w-[100%]"
                   >
-                    Kategori Ekle
+                    Kategori Ekle +
                   </button>
-                  <div className="flex flex-col flex-wrap items-center justify-center max-h-[500px] overflow-scroll mx-5 mt-3">
+                  <div className="flex flex-col flex-wrap items-center justify-center max-h-[500px] overflow-scroll mt-3">
                     {categories.map((category, index) => (
                       <div key={index} className="inputArea">
                         <div className="bigInput flex">
@@ -1397,7 +1451,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                             placeholder="İsim"
                             type="text"
                             value={category.name}
-                            className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 mr-0 rounded-l-xl w-52 focus:border-0 lg:w-48 focus:outline-none"
+                            className="bg-gray-100 p-3 text-gray-600 font-semibold my-3 mr-0 rounded-l-xl w-full focus:border-0 focus:outline-none"
                           />
 
                           <button
@@ -1413,20 +1467,20 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                   </div>
                   <button
                     onClick={handleSubmitFeatureCategory}
-                    className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 w-[85%] py-3 px-8 rounded-xl font-semibold m-5 mt-0"
+                    className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 w-full py-3 px-8 rounded-xl font-semibold my-5 mt-0"
                   >
                     Kaydet
                   </button>
                 </div>
               )}
               {modalContent === "buton" && pageId === "courses" && (
-                <div className="flex flex-col items-center justify-center max-w-[600px]">
+                <div className="flex flex-col items-center justify-center max-w-[600px] mx-5">
                   <h1 className="text-gray-700 font-semibold">Kurslar</h1>
                   <button
                     onClick={() => setAddCourse(true)}
-                    className="text-gray-600 bg-gray-100 py-3 px-8 rounded-xl font-semibold m-5 mb-0 w-[80%]"
+                    className="text-gray-100 bg-[#855da3] hover:text-[#855da3] hover:bg-gray-100 transition-all duration-700 w-full py-3 px-8 rounded-xl font-semibold my-5 mb-0"
                   >
-                    Kurs Ekle
+                    Kurs Ekle +
                   </button>
                   <form
                     onSubmit={handleSubmitCourses}
@@ -1442,7 +1496,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                             placeholder="Kurs Adı"
                             type="text"
                             value={course.title}
-                            className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 mr-0 rounded-l-xl w-40 focus:border-0 lg:w-36 focus:outline-none"
+                            className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 mr-0 rounded-l-xl w-40 focus:border-0 lg:w-40  focus:outline-none"
                           />
                           <button
                             type="button"
@@ -1463,7 +1517,102 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                     ))}
                     <button
                       type="submit"
-                      className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 w-[85%] py-3 px-8 rounded-xl font-semibold m-5"
+                      className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 w-full py-3 px-8 rounded-xl font-semibold my-5"
+                    >
+                      Kaydet
+                    </button>
+                  </form>
+                </div>
+              )}
+              {modalContent === "buton" && pageId === "main" && (
+                <div className="flex flex-col items-center justify-center max-w-[250px] mx-5">
+                  <h1 className="text-gray-700 font-semibold">
+                    Anasayfaya Buton Ekle
+                  </h1>
+                  <form
+                    onSubmit={(event) => handleAddButton(event, pageId)}
+                    className="flex flex-row flex-wrap items-center justify-center max-h-[500px] overflow-scroll"
+                  >
+                    <div className="inputArea">
+                      <div className="bigInput flex flex-col items-center justify-center">
+                        <input
+                          onChange={(event) =>
+                            handleAddButtonInputChange(event, "title", pageId)
+                          }
+                          placeholder="Buton Yazısı"
+                          type="text"
+                          className="bg-gray-100 p-3 text-gray-600 font-semibold my-3 mr-0 rounded-xl w-full focus:border-0  focus:outline-none"
+                        />
+                        <div className="flex  bg-gray-100 px-4 rounded-xl  w-full my-3">
+                          <label
+                            htmlFor="boxBorder"
+                            className="text-gray-600 font-semibold mr-2 flex justify-center items-center"
+                          >
+                            Buton Rengi:
+                          </label>
+                          <input
+                            onChange={(event) =>
+                              handleAddButtonInputChange(event, "color", pageId)
+                            }
+                            type="color"
+                            className="bg-gray-100 text-gray-600 font-semibold my-3 rounded-xl"
+                          />
+                        </div>
+                        <div className="flex  bg-gray-100 px-4 rounded-xl  w-full my-3">
+                          <label
+                            htmlFor="boxBorder"
+                            className="text-gray-600 font-semibold mr-2 flex justify-center items-center"
+                          >
+                            Yazı Rengi:
+                          </label>
+                          <input
+                            onChange={(event) =>
+                              handleAddButtonInputChange(
+                                event,
+                                "textColor",
+                                pageId
+                              )
+                            }
+                            type="color"
+                            className="bg-gray-100 text-gray-600 font-semibold my-3 rounded-xl"
+                          />
+                        </div>
+                        <div className="flex  bg-gray-100 px-4 rounded-xl  w-full my-3">
+                          <label
+                            htmlFor="boxBorder"
+                            className="text-gray-600 font-semibold mr-2 flex justify-center items-center"
+                          >
+                            Hover Rengi:
+                          </label>
+                          <input
+                            onChange={(event) =>
+                              handleAddButtonInputChange(
+                                event,
+                                "hoverColor",
+                                pageId
+                              )
+                            }
+                            type="color"
+                            className="bg-gray-100 text-gray-600 font-semibold my-3 rounded-xl"
+                          />
+                        </div>
+                        <input
+                          onChange={(event) =>
+                            handleAddButtonInputChange(
+                              event,
+                              "addressLink",
+                              pageId
+                            )
+                          }
+                          placeholder="Buton Adresi"
+                          type="text"
+                          className="bg-gray-100 p-3 text-gray-600 font-semibold my-3 mr-0 rounded-xl w-full focus:border-0  focus:outline-none"
+                        />
+                      </div>
+                    </div>
+                    <button
+                      type="submit"
+                      className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 w-full py-3 px-8 rounded-xl font-semibold my-5"
                     >
                       Kaydet
                     </button>
@@ -1606,7 +1755,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                     Dersler Sayfası Yazı Değiştirme
                   </h1>
                   <div className="flex flex-col items-center justify-center">
-                    <div className="inputArea">
+                    <div className="inputArea px-5">
                       <input
                         onChange={(event) =>
                           handleInputChangeInfo(event, "featuredTitle1")
@@ -2380,7 +2529,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                 </div>
               </div>
             </div>
-            <div className="content flex flex-col items-center justify-center">
+            <div className="content flex flex-col items-center justify-center mx-5">
               {modalContent === "yazı" &&
                 pageId === "navbar" &&
                 selectedBigInputIndex !== null && (
@@ -3080,9 +3229,9 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                     <div className="detailInputs flex flex-col items-center justify-center mx-8">
                       <button
                         onClick={handleAddAnotherItem}
-                        className="text-gray-600 bg-gray-100 py-3 px-8 rounded-xl font-semibold my-5"
+                        className="text-gray-100 bg-[#855da3] hover:text-[#855da3] hover:bg-gray-100 transition-all duration-700 w-full py-3 px-8 rounded-xl font-semibold my-5"
                       >
-                        Alt Menü Ekle
+                        Alt Menü Ekle +
                       </button>
                       <form
                         onSubmit={handleAddNavbar}

@@ -91,6 +91,11 @@ async function homeHandler(req, res) {
           const responseForMenu = await createNewData("HomeMenus", data);
           console.log(responseForMenu);
           return res.status(200).json({ message: "test", data: data });
+        case "addButton":
+          console.log(data);
+          const responseForButton = await createNewData("HomeButton", data);
+          console.log(responseForButton);
+          return res.status(200).json({ message: "test", data: data });
         case "addBgColor":
           console.log(data);
           const responseForBgColor = await createNewData("HomeBgColor", data);
