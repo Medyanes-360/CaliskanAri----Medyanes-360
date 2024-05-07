@@ -84,7 +84,7 @@ const LearnersStudents = () => {
             : "md:flex-row-reverse flex-col-reverse"
         } items-center justify-center p-6`}
       >
-        <div className="w-full relative mx-4">
+        <div className="xl:w-1/2 mt-3 xl:mt-0 relative mx-4 flex items-center justify-center">
           <img src={studentPhoto} alt="" />
           <motion.img
             animate={{
@@ -99,7 +99,11 @@ const LearnersStudents = () => {
             className="absolute top-6 left-32 hidden md:flex"
           />
         </div>
-        <div className="flex flex-col gap-6">
+        <div
+          className={`flex ${
+            position == 2 ? "xl:pl-36" : "xl:pl-0"
+          } flex-col gap-6 xl:w-1/2`}
+        >
           <p className="text-sm  pt-8">{learnersStudentsTitle1}</p>
           <div>
             <h2 className="text-4xl  font-semibold relative">

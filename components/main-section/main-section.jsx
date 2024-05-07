@@ -78,7 +78,11 @@ const MainSection = () => {
             : "md:flex-row flex-col"
         } items-center justify-between container mx-auto pb-20`}
       >
-        <div className="flex flex-col gap-6 item-center md:items-start justify-center px-8">
+        <div
+          className={`flex flex-col gap-6 item-center md:items-start ${
+            position == 2 ? "xl:pl-48" : "xl:pl-0"
+          } justify-center px-8`}
+        >
           <p className=" text-sm">{desc1}</p>
           <div>
             <h1 className="lg:text-6xl text-2xl relative  font-semibold">
@@ -94,7 +98,11 @@ const MainSection = () => {
           <p className=" text-s">{desc2}</p>
           <CustomButton title="Etkileşimli Alıştırmaları Keşfet" />
         </div>
-        <div className="w-full pt-10 md:pt-4 xl:pl-48 px-8 relative scale-90">
+        <div
+          className={`w-full pt-10 md:pt-4 ${
+            position == 1 ? "xl:pl-48" : "xl:pl-12"
+          } px-8 relative scale-90`}
+        >
           <img src={mainSection} alt="" />
           <div className="main-section-icons">
             <motion.img

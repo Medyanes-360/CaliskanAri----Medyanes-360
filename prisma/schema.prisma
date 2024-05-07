@@ -210,6 +210,8 @@ model HomeCoursesCard {
   icon       String
   border     String
   background String
+  boxBackground String
+  boxBorder  String
   extraField String
 }
 

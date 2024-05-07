@@ -83,24 +83,30 @@ export const VideoSection = () => {
   const { videoCover, underline } = image;
   return (
     <div
-      className=" video-section bg-left-top bg-no-repeat pt-8 "
+      className={` video-section  bg-left-top bg-no-repeat pt-8 `}
       style={{ backgroundColor: bgColor, color: textColor }}
     >
-      <div className="flex-col items-center justify-center mx-auto container ">
-        <div className="flex flex-col items-center justify-center  mb-5 lg:mb-0 px-8 lg:px-0">
+      <div
+        className={`flex-col items-center  justify-center mx-auto container `}
+      >
+        <div
+          className={`flex flex-col items-center justify-center  mb-5 lg:mb-0 px-8 lg:px-0`}
+        >
           <h2 className="text-4xl relative">
             {videoTitle1}
             <img src={underline} alt="" className="absolute right-0" />
           </h2>
         </div>
         <div
-          className={`flex ${
+          className={`flex items-center justify-center py-10 px-8  ${
             position == 1
               ? "md:flex-row flex-col"
               : "md:flex-row-reverse flex-col-reverse"
-          } items-center justify-center py-10 px-8 lg:px-0`}
+          } lg:px-0`}
         >
-          <div>
+          <div
+            className={`xl:w-1/2 ${position == 1 ? "xl:pl-36" : "xl:pl-20"} `}
+          >
             <Tabs defaultValue={0} orientation="vertical" className="flex">
               <TabsList className="flex flex-col items-start pl-2 gap-10">
                 <div>
@@ -140,7 +146,11 @@ export const VideoSection = () => {
             </Tabs>
           </div>
 
-          <div className="w-full mt-10 lg:mt-0 hover:scale-105 transition-all">
+          <div
+            className={`w-full mt-10 lg:mt-0 hover:scale-105 transition-all ${
+              position == 2 ? "xl:pl-48" : "xl:pl-0"
+            } flex items-center justify-center xl:w-1/2`}
+          >
             <a
               href={video}
               target="_blank"

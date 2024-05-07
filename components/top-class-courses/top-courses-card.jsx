@@ -21,13 +21,15 @@ export const TopCoursesCard = () => {
         <div
           key={index}
           style={{
-            backgroundColor: course.background,
+            borderColor: course.boxBorder,
+            backgroundColor: course.boxBackground,
           }}
           className={`hover:bg-cst_purple hover:cursor-pointer group top-courses bg-no-repeat bg-right-bottom flex flex-row items-center justify-start gap-6 border border-gray-200 rounded-md pt-10 pb-10 ps-5 pe-5 `}
         >
           <div
-            className={`text-3xl flex items-center justify-center border-2 border-solid border-[${course.border}] rounded-full bg-transparent h-16 w-16 text-white bg-[${course.background}]`}
+            className={`text-3xl flex items-center justify-center border-2 border-solid  rounded-full bg-transparent h-16 w-16 text-white bg-[${course.background}]`}
             style={{
+              borderColor: course.border,
               backgroundColor: course.background,
               boxShadow: "0 4px 20px #d0d0d0",
               transition: "all .41s ease-in-out ",

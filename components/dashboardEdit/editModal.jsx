@@ -162,7 +162,9 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
     quantity: null,
     icon: "",
     border: "",
+    boxBorder: "",
     background: "",
+    boxBackground: "",
     extraField: "",
   }); //YENİ KURS EKLEME DEĞİŞKENİ
   const [newFeature, setNewFeature] = useState({
@@ -182,6 +184,37 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
   const [newFeatureCategory, setNewFeatureCategory] = useState({
     name: "",
   }); //YENİ KATEGORİ EKLEME DEĞİŞKENİ
+
+  const uploadImageToS3 = async (imageFile, field) => {
+    const S3_BUCKET = "caliskanari";
+    const REGION = "us-east-1";
+    AWS.config.update({
+      accessKeyId: process.env.NEXT_PUBLIC_AWS_ACCESS_KEY,
+      secretAccessKey: process.env.NEXT_PUBLIC_AWS_SECRET_ACCESS_KEY,
+    });
+    const params = {
+      Bucket: S3_BUCKET,
+      Key: `images/${imageFile.name}`,
+      Body: imageFile,
+    };
+    const s3 = new AWS.S3({
+      params: { Bucket: S3_BUCKET },
+      region: REGION,
+    });
+
+    var upload = s3
+      .putObject(params)
+      .on("httpUploadProgress", (evt) => {})
+      .promise();
+
+    await upload.then((err, data) => {
+      setNewFeature((prevFeature) => ({
+        ...prevFeature,
+        [field]: `https://caliskanari.s3.amazonaws.com/images/${imageFile.name}`,
+      }));
+      console.log(err);
+    });
+  };
 
   const handleAddCourseInputChange = (event, field) => {
     const { value, files } = event.target;
@@ -221,36 +254,6 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
     }
   };
 
-  const uploadImageToS3 = async (imageFile, field) => {
-    const S3_BUCKET = "caliskanari";
-    const REGION = "us-east-1";
-    AWS.config.update({
-      accessKeyId: process.env.NEXT_PUBLIC_AWS_ACCESS_KEY,
-      secretAccessKey: process.env.NEXT_PUBLIC_AWS_SECRET_ACCESS_KEY,
-    });
-    const params = {
-      Bucket: S3_BUCKET,
-      Key: `images/${imageFile.name}`,
-      Body: imageFile,
-    };
-    const s3 = new AWS.S3({
-      params: { Bucket: S3_BUCKET },
-      region: REGION,
-    });
-
-    var upload = s3
-      .putObject(params)
-      .on("httpUploadProgress", (evt) => {})
-      .promise();
-
-    await upload.then((err, data) => {
-      setNewFeature((prevFeature) => ({
-        ...prevFeature,
-        [field]: `https://caliskanari.s3.amazonaws.com/images/${imageFile.name}`,
-      }));
-      console.log(err);
-    });
-  };
   const handleAddFeatureCategoryInputChange = (event, field) => {
     const { value, files } = event.target;
     if (field === "image" && files && files.length > 0) {
@@ -275,7 +278,9 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
       quantity: null,
       icon: "",
       border: "",
+      boxBorder: "",
       background: "",
+      boxBackground: "",
       extraField: "",
     });
     if (
@@ -284,7 +289,9 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
       !newCourse.icon ||
       !newCourse.border ||
       !newCourse.background ||
-      !newCourse.extraField
+      !newCourse.extraField ||
+      !newCourse.boxBackground ||
+      !newCourse.boxBorder
     ) {
       Swal.fire({
         title: "Hata",
@@ -595,10 +602,11 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
   };
 
   const handleCourseInputChange = (event, index, field) => {
-    const file = event.target.files[0];
-    if (field === "icon" && file.lenght > 0) {
+    if (field === "icon" && file) {
+      const file = event.target.files[0];
       uploadImageToS3Course(file, field);
-    } else if (field === "icon" && file.lenght < 0) {
+    } else if (field === "icon" && !file) {
+      // Dosya seçilmediyse
       Swal.fire({
         title: "Hata",
         text: "Lütfen bir resim seçiniz.",
@@ -616,8 +624,8 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
   }; //KURS ALANI KURS BİLGİLERİNİ DEĞİŞİTREN FONKSİYON
 
   const handleFeaturesInputChange = (event, index, field) => {
-    const file = event.target.files[0]; // Kullanıcının seçtiği dosya
     if (field === "image" && file.lenght > 0) {
+      const file = event.target.files[0]; // Kullanıcının seçtiği dosya
       uploadImageToS3(file, field);
     } else if (field === "image" && file.lenght < 0) {
       Swal.fire({
@@ -1167,8 +1175,29 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
             <div className="content">
               {modalContent === "backgroundColor" && (
                 <div className="flex flex-col items-center justify-center p-5">
-                  <h1 className="text-gray-700 font-semibold">
-                    {pageId} Sayfası Arka Plan Renk Seçici
+                  <h1 className="text-gray-700 font-semibold mb-3 flex justify-center items-center flex-wrap">
+                    {pageId === "navbar"
+                      ? "Gezinme Çubuğu Sayfası"
+                      : pageId === "banner"
+                      ? "Afiş Sayfası"
+                      : pageId === "courses"
+                      ? "Kurslar Sayfası"
+                      : pageId === "features"
+                      ? "Dersler Sayfası"
+                      : pageId === "footer"
+                      ? "Altbilgi Sayfası"
+                      : pageId === "informations"
+                      ? "Bilgiler Sayfası"
+                      : pageId === "logoBanner"
+                      ? "Logo ve Afiş Sayfası"
+                      : pageId === "main"
+                      ? "Ana Sayfa"
+                      : pageId === "students"
+                      ? "Öğrenciler Sayfası"
+                      : pageId === "video"
+                      ? "Video Sayfası"
+                      : ""}{" "}
+                    Arka Plan Renk Seçici
                   </h1>
                   <form
                     onSubmit={(event) =>
@@ -1195,8 +1224,29 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
               )}
               {modalContent === "renk" && (
                 <div className="flex flex-col items-center justify-center p-5">
-                  <h1 className="text-gray-700 font-semibold">
-                    {pageId} Sayfası Yazı Renkleri
+                  <h1 className="text-gray-700 font-semibold mb-3 flex justify-center items-center flex-wrap">
+                    {pageId === "navbar"
+                      ? "Gezinme Çubuğu Sayfası"
+                      : pageId === "banner"
+                      ? "Afiş Sayfası"
+                      : pageId === "courses"
+                      ? "Kurslar Sayfası"
+                      : pageId === "features"
+                      ? "Dersler Sayfası"
+                      : pageId === "footer"
+                      ? "Altbilgi Sayfası"
+                      : pageId === "informations"
+                      ? "Bilgiler Sayfası"
+                      : pageId === "logoBanner"
+                      ? "Logo ve Afiş Sayfası"
+                      : pageId === "main"
+                      ? "Ana Sayfa"
+                      : pageId === "students"
+                      ? "Öğrenciler Sayfası"
+                      : pageId === "video"
+                      ? "Video Sayfası"
+                      : ""}{" "}
+                    Yazı Renkleri
                   </h1>
                   <form
                     onSubmit={(event) => handleSubmitTextColor(event, pageId)}
@@ -1221,7 +1271,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                 </div>
               )}
               {modalContent === "yazı" && pageId === "navbar" && (
-                <div className="flex flex-col items-center justify-center">
+                <div className="flex flex-col items-center justify-center mx-5">
                   <h1 className="text-center font-semibold text-gray-600 my-3">
                     Gezinme Çubuğu Menü Ekleme
                   </h1>
@@ -1421,414 +1471,464 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                 </div>
               )}
               {modalContent === "yazı" && pageId === "main" && (
-                <div className="flex flex-col items-center justify-center lg:p-2">
-                  <textarea
-                    onChange={(event) => handleInputChangeInfo(event, "title")}
-                    placeholder={info[0].title}
-                    type="text"
-                    className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl lg:w-96 h-36"
-                  />
-                  <textarea
-                    onChange={(event) => handleInputChangeInfo(event, "desc1")}
-                    placeholder={info[0].desc1}
-                    type="text"
-                    className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl lg:w-96 h-36"
-                  />
-                  <textarea
-                    onChange={(event) => handleInputChangeInfo(event, "desc2")}
-                    placeholder={info[0].desc2}
-                    type="text"
-                    className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl lg:w-96 h-36"
-                  />
-                  <button
-                    onClick={() => updateInfo(info)}
-                    className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 w-[85%] py-3 px-8 rounded-xl font-semibold m-5"
-                  >
-                    Kaydet
-                  </button>
-                </div>
+                <>
+                  <h1 className="text-center font-semibold text-gray-600 my-3">
+                    Anasayfa Yazı Değiştirme
+                  </h1>
+                  <div className="flex flex-col items-center justify-center lg:p-2">
+                    <textarea
+                      onChange={(event) =>
+                        handleInputChangeInfo(event, "title")
+                      }
+                      placeholder={info[0].title}
+                      type="text"
+                      className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl lg:w-96 h-36"
+                    />
+                    <textarea
+                      onChange={(event) =>
+                        handleInputChangeInfo(event, "desc1")
+                      }
+                      placeholder={info[0].desc1}
+                      type="text"
+                      className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl lg:w-96 h-36"
+                    />
+                    <textarea
+                      onChange={(event) =>
+                        handleInputChangeInfo(event, "desc2")
+                      }
+                      placeholder={info[0].desc2}
+                      type="text"
+                      className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl lg:w-96 h-36"
+                    />
+                    <button
+                      onClick={() => updateInfo(info)}
+                      className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 w-[85%] py-3 px-8 rounded-xl font-semibold m-5"
+                    >
+                      Kaydet
+                    </button>
+                  </div>
+                </>
               )}
               {modalContent === "yazı" && pageId === "courses" && (
-                <div className="flex flex-col items-center justify-center">
-                  <div className="inputArea flex items-center justify-center lg:flex-row flex-col">
-                    <textarea
-                      onChange={(event) =>
-                        handleInputChangeInfo(event, "classCoursesTitle1")
-                      }
-                      placeholder={info[0].classCoursesTitle1}
-                      type="text"
-                      className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-48 lg:h-48 h-24"
-                    />
-                    <textarea
-                      onChange={(event) =>
-                        handleInputChangeInfo(event, "classCoursesTitle2")
-                      }
-                      placeholder={info[0].classCoursesTitle2}
-                      type="text"
-                      className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-48 lg:h-48 h-24"
-                    />
+                <>
+                  <h1 className="text-center font-semibold text-gray-600 my-3">
+                    Kurslar Sayfası Yazı Değiştirme
+                  </h1>
+                  <div className="flex flex-col items-center justify-center">
+                    <div className="inputArea flex items-center justify-center lg:flex-row flex-col">
+                      <textarea
+                        onChange={(event) =>
+                          handleInputChangeInfo(event, "classCoursesTitle1")
+                        }
+                        placeholder={info[0].classCoursesTitle1}
+                        type="text"
+                        className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-48 lg:h-48 h-24"
+                      />
+                      <textarea
+                        onChange={(event) =>
+                          handleInputChangeInfo(event, "classCoursesTitle2")
+                        }
+                        placeholder={info[0].classCoursesTitle2}
+                        type="text"
+                        className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-48 lg:h-48 h-24"
+                      />
+                    </div>
+                    <div className="flex items-center justify-center lg:flex-row flex-col">
+                      <textarea
+                        onChange={(event) =>
+                          handleInputChangeInfo(event, "classCoursesDesc1")
+                        }
+                        placeholder={info[0].classCoursesDesc1}
+                        type="text"
+                        className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-48  lg:h-48 h-24"
+                      />
+                      <textarea
+                        onChange={(event) =>
+                          handleInputChangeInfo(event, "classCoursesDesc2")
+                        }
+                        placeholder={info[0].classCoursesDesc2}
+                        type="text"
+                        className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-48 lg:h-48 h-24"
+                      />
+                    </div>
+                    <button
+                      onClick={() => updateInfo(info)}
+                      className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 w-[85%] py-3 px-8 rounded-xl font-semibold m-5"
+                    >
+                      Kaydet
+                    </button>
                   </div>
-                  <div className="flex items-center justify-center lg:flex-row flex-col">
-                    <textarea
-                      onChange={(event) =>
-                        handleInputChangeInfo(event, "classCoursesDesc1")
-                      }
-                      placeholder={info[0].classCoursesDesc1}
-                      type="text"
-                      className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-48  lg:h-48 h-24"
-                    />
-                    <textarea
-                      onChange={(event) =>
-                        handleInputChangeInfo(event, "classCoursesDesc2")
-                      }
-                      placeholder={info[0].classCoursesDesc2}
-                      type="text"
-                      className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-48 lg:h-48 h-24"
-                    />
-                  </div>
-                  <button
-                    onClick={() => updateInfo(info)}
-                    className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 w-[85%] py-3 px-8 rounded-xl font-semibold m-5"
-                  >
-                    Kaydet
-                  </button>
-                </div>
+                </>
               )}
               {modalContent === "yazı" && pageId === "students" && (
-                <div className="flex flex-col items-center justify-center">
-                  <textarea
-                    onChange={(event) =>
-                      handleInputChangeInfo(event, "learnersStudentsTitle1")
-                    }
-                    placeholder={info[0].learnersStudentsTitle1}
-                    type="text"
-                    className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-[90%] lg:w-96 lg:h-36 h-24"
-                  />
-                  <textarea
-                    onChange={(event) =>
-                      handleInputChangeInfo(event, "learnersStudentsTitle2")
-                    }
-                    placeholder={info[0].learnersStudentsTitle2}
-                    type="text"
-                    className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-[90%] lg:w-96 lg:h-36 h-24"
-                  />
-                  <textarea
-                    onChange={(event) =>
-                      handleInputChangeInfo(event, "learnersStudentsDesc")
-                    }
-                    placeholder={info[0].learnersStudentsDesc}
-                    type="text"
-                    className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-[90%] lg:w-96 lg:h-36 h-24"
-                  />
+                <>
+                  <h1 className="text-center font-semibold text-gray-600 my-3">
+                    Öğrenciler Sayfası Yazı Değiştirme
+                  </h1>
+                  <div className="flex flex-col items-center justify-center">
+                    <textarea
+                      onChange={(event) =>
+                        handleInputChangeInfo(event, "learnersStudentsTitle1")
+                      }
+                      placeholder={info[0].learnersStudentsTitle1}
+                      type="text"
+                      className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-[90%] lg:w-96 lg:h-36 h-24"
+                    />
+                    <textarea
+                      onChange={(event) =>
+                        handleInputChangeInfo(event, "learnersStudentsTitle2")
+                      }
+                      placeholder={info[0].learnersStudentsTitle2}
+                      type="text"
+                      className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-[90%] lg:w-96 lg:h-36 h-24"
+                    />
+                    <textarea
+                      onChange={(event) =>
+                        handleInputChangeInfo(event, "learnersStudentsDesc")
+                      }
+                      placeholder={info[0].learnersStudentsDesc}
+                      type="text"
+                      className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-[90%] lg:w-96 lg:h-36 h-24"
+                    />
 
-                  <button
-                    onClick={() => updateInfo(info)}
-                    className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 w-[85%] py-3 px-8 rounded-xl font-semibold m-5"
-                  >
-                    Kaydet
-                  </button>
-                </div>
+                    <button
+                      onClick={() => updateInfo(info)}
+                      className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 w-[85%] py-3 px-8 rounded-xl font-semibold m-5"
+                    >
+                      Kaydet
+                    </button>
+                  </div>
+                </>
               )}
               {modalContent === "yazı" && pageId === "features" && (
-                <div className="flex flex-col items-center justify-center">
-                  <div className="inputArea">
-                    <input
-                      onChange={(event) =>
-                        handleInputChangeInfo(event, "featuredTitle1")
-                      }
-                      placeholder={info[0].featuredTitle1}
-                      type="text"
-                      className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
-                    />
-                    <input
-                      onChange={(event) =>
-                        handleInputChangeInfo(event, "featuredTitle2")
-                      }
-                      placeholder={info[0].featuredTitle2}
-                      type="text"
-                      className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
-                    />
-                  </div>
+                <>
+                  <h1 className="text-center font-semibold text-gray-600 my-3">
+                    Dersler Sayfası Yazı Değiştirme
+                  </h1>
+                  <div className="flex flex-col items-center justify-center">
+                    <div className="inputArea">
+                      <input
+                        onChange={(event) =>
+                          handleInputChangeInfo(event, "featuredTitle1")
+                        }
+                        placeholder={info[0].featuredTitle1}
+                        type="text"
+                        className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                      />
+                      <input
+                        onChange={(event) =>
+                          handleInputChangeInfo(event, "featuredTitle2")
+                        }
+                        placeholder={info[0].featuredTitle2}
+                        type="text"
+                        className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                      />
+                    </div>
 
-                  <button
-                    onClick={() => updateInfo(info)}
-                    className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 w-[85%] py-3 px-8 rounded-xl font-semibold m-5"
-                  >
-                    Kaydet
-                  </button>
-                </div>
+                    <button
+                      onClick={() => updateInfo(info)}
+                      className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 w-[85%] py-3 px-8 rounded-xl font-semibold m-5"
+                    >
+                      Kaydet
+                    </button>
+                  </div>
+                </>
               )}
               {modalContent === "yazı" && pageId === "video" && (
-                <div className="flex flex-col items-center justify-center">
-                  <input
-                    onChange={(event) => handleInputChangeInfo(event, "video")}
-                    placeholder={info[0].video}
-                    type="text"
-                    className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
-                  />
-                  <input
-                    onChange={(event) =>
-                      handleInputChangeInfo(event, "videoTitle1")
-                    }
-                    placeholder={info[0].videoTitle1}
-                    type="text"
-                    className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
-                  />
-                  <div className="inputArea lg:flex">
-                    <div className="flex flex-col items-center justify-center">
-                      <input
-                        onChange={(event) =>
-                          handleInputChangeInfo(event, "videoTitle2")
-                        }
-                        placeholder={info[0].videoTitle2}
-                        type="text"
-                        className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl lg:w-44"
-                      />
-                      <textarea
-                        onChange={(event) =>
-                          handleInputChangeInfo(event, "videoDesc1")
-                        }
-                        placeholder={info[0].videoDesc1}
-                        type="text"
-                        className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-[92%] lg:h-48 h-24 lg:w-44"
-                      />
-                    </div>
-                    <div className="flex flex-col items-center justify-center">
-                      <input
-                        onChange={(event) =>
-                          handleInputChangeInfo(event, "videoTitle3")
-                        }
-                        placeholder={info[0].videoTitle3}
-                        type="text"
-                        className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl lg:w-44"
-                      />
-                      <textarea
-                        onChange={(event) =>
-                          handleInputChangeInfo(event, "videoDesc2")
-                        }
-                        placeholder={info[0].videoDesc2}
-                        type="text"
-                        className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-[92%]  lg:h-48 h-24 lg:w-44"
-                      />
-                    </div>
-                    <div className="flex flex-col items-center justify-center">
-                      <input
-                        onChange={(event) =>
-                          handleInputChangeInfo(event, "videoTitle4")
-                        }
-                        placeholder={info[0].videoTitle4}
-                        type="text"
-                        className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl lg:w-44"
-                      />
+                <>
+                  <h1 className="text-center font-semibold text-gray-600 my-3">
+                    Video Sayfası Yazı Değiştirme
+                  </h1>
+                  <div className="flex flex-col items-center justify-center">
+                    <input
+                      onChange={(event) =>
+                        handleInputChangeInfo(event, "video")
+                      }
+                      placeholder={info[0].video}
+                      type="text"
+                      className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                    />
+                    <input
+                      onChange={(event) =>
+                        handleInputChangeInfo(event, "videoTitle1")
+                      }
+                      placeholder={info[0].videoTitle1}
+                      type="text"
+                      className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                    />
+                    <div className="inputArea lg:flex">
+                      <div className="flex flex-col items-center justify-center">
+                        <input
+                          onChange={(event) =>
+                            handleInputChangeInfo(event, "videoTitle2")
+                          }
+                          placeholder={info[0].videoTitle2}
+                          type="text"
+                          className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl lg:w-44"
+                        />
+                        <textarea
+                          onChange={(event) =>
+                            handleInputChangeInfo(event, "videoDesc1")
+                          }
+                          placeholder={info[0].videoDesc1}
+                          type="text"
+                          className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-[92%] lg:h-48 h-24 lg:w-44"
+                        />
+                      </div>
+                      <div className="flex flex-col items-center justify-center">
+                        <input
+                          onChange={(event) =>
+                            handleInputChangeInfo(event, "videoTitle3")
+                          }
+                          placeholder={info[0].videoTitle3}
+                          type="text"
+                          className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl lg:w-44"
+                        />
+                        <textarea
+                          onChange={(event) =>
+                            handleInputChangeInfo(event, "videoDesc2")
+                          }
+                          placeholder={info[0].videoDesc2}
+                          type="text"
+                          className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-[92%]  lg:h-48 h-24 lg:w-44"
+                        />
+                      </div>
+                      <div className="flex flex-col items-center justify-center">
+                        <input
+                          onChange={(event) =>
+                            handleInputChangeInfo(event, "videoTitle4")
+                          }
+                          placeholder={info[0].videoTitle4}
+                          type="text"
+                          className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl lg:w-44"
+                        />
 
-                      <textarea
-                        onChange={(event) =>
-                          handleInputChangeInfo(event, "videoDesc3")
-                        }
-                        placeholder={info[0].videoDesc3}
-                        type="text"
-                        className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-[92%] lg:h-48 h-24 lg:w-44"
-                      />
+                        <textarea
+                          onChange={(event) =>
+                            handleInputChangeInfo(event, "videoDesc3")
+                          }
+                          placeholder={info[0].videoDesc3}
+                          type="text"
+                          className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-[92%] lg:h-48 h-24 lg:w-44"
+                        />
+                      </div>
                     </div>
+
+                    <button
+                      onClick={() => updateInfo(info)}
+                      className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 w-[85%] py-3 px-8 rounded-xl font-semibold m-5"
+                    >
+                      Kaydet
+                    </button>
                   </div>
-
-                  <button
-                    onClick={() => updateInfo(info)}
-                    className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 w-[85%] py-3 px-8 rounded-xl font-semibold m-5"
-                  >
-                    Kaydet
-                  </button>
-                </div>
+                </>
               )}
               {modalContent === "yazı" && pageId === "logoBanner" && (
-                <div className="flex flex-col items-center justify-center">
-                  <div className="inputArea flex flex-wrap items-center justify-center">
-                    <input
-                      onChange={(event) =>
-                        handleInputChangeInfo(event, "clientTitle1")
-                      }
-                      placeholder={info[0].clientTitle1}
-                      type="text"
-                      className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
-                    />
+                <>
+                  <h1 className="text-center font-semibold text-gray-600 my-3">
+                    Logo-Afiş Sayfası Yazı Değiştirme
+                  </h1>
+                  <div className="flex flex-col items-center justify-center">
+                    <div className="inputArea flex flex-wrap items-center justify-center">
+                      <input
+                        onChange={(event) =>
+                          handleInputChangeInfo(event, "clientTitle1")
+                        }
+                        placeholder={info[0].clientTitle1}
+                        type="text"
+                        className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                      />
 
-                    <input
-                      onChange={(event) =>
-                        handleInputChangeInfo(event, "clientTitle2")
-                      }
-                      placeholder={info[0].clientTitle2}
-                      type="text"
-                      className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
-                    />
-                    <textarea
-                      onChange={(event) =>
-                        handleInputChangeInfo(event, "clientDesc")
-                      }
-                      placeholder={info[0].clientDesc}
-                      type="text"
-                      className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-[70%] h-48"
-                    />
+                      <input
+                        onChange={(event) =>
+                          handleInputChangeInfo(event, "clientTitle2")
+                        }
+                        placeholder={info[0].clientTitle2}
+                        type="text"
+                        className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                      />
+                      <textarea
+                        onChange={(event) =>
+                          handleInputChangeInfo(event, "clientDesc")
+                        }
+                        placeholder={info[0].clientDesc}
+                        type="text"
+                        className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-[70%] h-48"
+                      />
+                    </div>
+
+                    <button
+                      onClick={() => updateInfo(info)}
+                      className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 w-[85%] py-3 px-8 rounded-xl font-semibold m-5"
+                    >
+                      Kaydet
+                    </button>
                   </div>
-
-                  <button
-                    onClick={() => updateInfo(info)}
-                    className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 w-[85%] py-3 px-8 rounded-xl font-semibold m-5"
-                  >
-                    Kaydet
-                  </button>
-                </div>
+                </>
               )}
               {modalContent === "yazı" && pageId === "banner" && (
-                <div className="flex flex-col items-center justify-center">
-                  <div className="inputArea">
-                    <textarea
-                      onChange={(event) =>
-                        handleInputChangeInfo(event, "bannerTitle1")
-                      }
-                      placeholder={info[0].bannerTitle1}
-                      type="text"
-                      className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-[92%] lg:h-48 h-24 lg:w-44"
-                    />
+                <>
+                  <h1 className="text-center font-semibold text-gray-600 my-3">
+                    Afiş Sayfası Yazı Değiştirme
+                  </h1>
+                  <div className="flex flex-col items-center justify-center">
+                    <div className="inputArea">
+                      <textarea
+                        onChange={(event) =>
+                          handleInputChangeInfo(event, "bannerTitle1")
+                        }
+                        placeholder={info[0].bannerTitle1}
+                        type="text"
+                        className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-[92%] lg:h-48 h-24 lg:w-44"
+                      />
 
-                    <textarea
-                      onChange={(event) =>
-                        handleInputChangeInfo(event, "bannerTitle2")
-                      }
-                      placeholder={info[0].bannerTitle2}
-                      type="text"
-                      className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-[92%] lg:h-48 h-24 lg:w-44"
-                    />
+                      <textarea
+                        onChange={(event) =>
+                          handleInputChangeInfo(event, "bannerTitle2")
+                        }
+                        placeholder={info[0].bannerTitle2}
+                        type="text"
+                        className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-[92%] lg:h-48 h-24 lg:w-44"
+                      />
+                    </div>
+
+                    <button
+                      onClick={() => updateInfo(info)}
+                      className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 w-[85%] py-3 px-8 rounded-xl font-semibold m-5"
+                    >
+                      Kaydet
+                    </button>
                   </div>
-
-                  <button
-                    onClick={() => updateInfo(info)}
-                    className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 w-[85%] py-3 px-8 rounded-xl font-semibold m-5"
-                  >
-                    Kaydet
-                  </button>
-                </div>
+                </>
               )}
               {modalContent === "yazı" && pageId === "informations" && (
-                <div className="flex flex-col items-center justify-center">
-                  <div className="inputArea lg:flex">
-                    {informations.map((information, index) => (
-                      <div key={index} className="inputArea flex">
-                        <div className="bigInput flex items-center justify-center flex-wrap flex-col ">
-                          <input
-                            onChange={(event) =>
-                              handleInformationsTextInputChange(
-                                event,
-                                "title",
-                                index
-                              )
-                            }
-                            type="text"
-                            placeholder={information.title}
-                            className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-48"
-                          />
-                          <textarea
-                            onChange={(event) =>
-                              handleInformationsTextInputChange(
-                                event,
-                                "description",
-                                index
-                              )
-                            }
-                            type="text"
-                            placeholder={information.description}
-                            className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-48 lg:h-48 h-24"
-                          />
+                <>
+                  <h1 className="text-center font-semibold text-gray-600 my-3">
+                    Bilgiler Sayfası Yazı Değiştirme
+                  </h1>
+                  <div className="flex flex-col items-center justify-center">
+                    <div className="inputArea lg:flex">
+                      {informations.map((information, index) => (
+                        <div key={index} className="inputArea flex">
+                          <div className="bigInput flex items-center justify-center flex-wrap flex-col ">
+                            <input
+                              onChange={(event) =>
+                                handleInformationsTextInputChange(
+                                  event,
+                                  "title",
+                                  index
+                                )
+                              }
+                              type="text"
+                              placeholder={information.title}
+                              className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-48"
+                            />
+                            <textarea
+                              onChange={(event) =>
+                                handleInformationsTextInputChange(
+                                  event,
+                                  "description",
+                                  index
+                                )
+                              }
+                              type="text"
+                              placeholder={information.description}
+                              className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-48 lg:h-48 h-24"
+                            />
+                          </div>
                         </div>
-                      </div>
-                    ))}
-                  </div>
+                      ))}
+                    </div>
 
-                  <button
-                    onClick={() => updateInformations(updatedInformation)}
-                    className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 w-[85%] py-3 px-8 rounded-xl font-semibold m-5"
-                  >
-                    Kaydet
-                  </button>
-                </div>
+                    <button
+                      onClick={() => updateInformations(updatedInformation)}
+                      className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 w-[85%] py-3 px-8 rounded-xl font-semibold m-5"
+                    >
+                      Kaydet
+                    </button>
+                  </div>
+                </>
               )}
               {modalContent === "yazı" && pageId === "footer" && (
-                <div className="flex flex-col items-center justify-center ">
-                  <h1 className="text-left text-sm text-gray-600 font-semibold m-5 mb-0">
-                    İletişim Bilgileri
-                  </h1>
-                  <div className="inputArea flex items-center justify-center flex-wrap max-[768px]:max-h-[500px] overflow-scroll">
-                    <input
-                      onChange={(event) =>
-                        handleInputChangeFooterContact(event, "phone")
-                      }
-                      placeholder={contact[0].phone}
-                      type="text"
-                      className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
-                    />
+                <div className="max-[768px]:max-h-[500px] overflow-scroll">
+                  <div className="flex flex-col items-center justify-center ">
+                    <h1 className="text-left text-sm text-gray-600 font-semibold m-5 mb-0">
+                      İletişim Bilgileri
+                    </h1>
+                    <div className="inputArea flex items-center justify-center flex-wrap">
+                      <input
+                        onChange={(event) =>
+                          handleInputChangeFooterContact(event, "phone")
+                        }
+                        placeholder={contact[0].phone}
+                        type="text"
+                        className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                      />
 
-                    <input
-                      onChange={(event) =>
-                        handleInputChangeFooterContact(event, "mapUrl")
-                      }
-                      placeholder={contact[0].mapUrl}
-                      type="text"
-                      className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
-                    />
-                    <input
-                      onChange={(event) =>
-                        handleInputChangeFooterContact(event, "address")
-                      }
-                      placeholder={contact[0].address}
-                      type="text"
-                      className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
-                    />
-                  </div>
-                  <h1 className="text-left text-sm text-gray-600 font-semibold m-5 mb-0">
-                    Kaynak Bilgileri
-                  </h1>
-                  <div className="inputArea flex items-center justify-center flex-wrap">
-                    {resources.map((resource, index) => (
-                      <div key={index} className="inputArea">
-                        <div className="bigInput flex items-center justify-center flex-row flex-wrap">
-                          <input
-                            onChange={(event) =>
-                              handleInputChangeFooterResources(event, index)
-                            }
-                            type="text"
-                            placeholder={resource.label}
-                            className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
-                          />
+                      <input
+                        onChange={(event) =>
+                          handleInputChangeFooterContact(event, "mapUrl")
+                        }
+                        placeholder={contact[0].mapUrl}
+                        type="text"
+                        className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                      />
+                      <input
+                        onChange={(event) =>
+                          handleInputChangeFooterContact(event, "address")
+                        }
+                        placeholder={contact[0].address}
+                        type="text"
+                        className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                      />
+                    </div>
+                    <h1 className="text-left text-sm text-gray-600 font-semibold m-5 mb-0">
+                      Kaynak Bilgileri
+                    </h1>
+                    <div className="inputArea flex items-center justify-center flex-wrap">
+                      {resources.map((resource, index) => (
+                        <div key={index} className="inputArea">
+                          <div className="bigInput flex items-center justify-center flex-row flex-wrap">
+                            <input
+                              onChange={(event) =>
+                                handleInputChangeFooterResources(event, index)
+                              }
+                              type="text"
+                              placeholder={resource.label}
+                              className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                            />
+                          </div>
                         </div>
-                      </div>
-                    ))}
-                  </div>
-                  <h1 className="text-left text-sm text-gray-600 font-semibold m-5 mb-0">
-                    Kurs Bilgileri
-                  </h1>
-                  <div className="inputArea flex items-center justify-center flex-wrap">
-                    {footercourses.map((footercourse, index) => (
-                      <div key={index} className="inputArea">
-                        <div className="bigInput flex items-center justify-center flex-row flex-wrap">
-                          <input
-                            onChange={(event) =>
-                              handleInputChangeFooterCourse(event, index)
-                            }
-                            type="text"
-                            placeholder={footercourse.label}
-                            className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
-                          />
+                      ))}
+                    </div>
+                    <h1 className="text-left text-sm text-gray-600 font-semibold m-5 mb-0">
+                      Kurs Bilgileri
+                    </h1>
+                    <div className="inputArea flex items-center justify-center flex-wrap">
+                      {footercourses.map((footercourse, index) => (
+                        <div key={index} className="inputArea">
+                          <div className="bigInput flex items-center justify-center flex-row flex-wrap">
+                            <input
+                              onChange={(event) =>
+                                handleInputChangeFooterCourse(event, index)
+                              }
+                              type="text"
+                              placeholder={footercourse.label}
+                              className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                            />
+                          </div>
                         </div>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
+                    <button
+                      onClick={() =>
+                        updateFooter(footercourses, resources, contact)
+                      }
+                      className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 w-[85%] py-3 px-8 rounded-xl font-semibold m-5"
+                    >
+                      Kaydet
+                    </button>
                   </div>
-                  <button
-                    onClick={() =>
-                      updateFooter(footercourses, resources, contact)
-                    }
-                    className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 w-[85%] py-3 px-8 rounded-xl font-semibold m-5"
-                  >
-                    Kaydet
-                  </button>
                 </div>
               )}
               {modalContent === "resim" && pageId === "logoBanner" && (
@@ -2305,7 +2405,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                       }
                       placeholder={menus[selectedBigInputIndex].name}
                       type="text"
-                      className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-36 lg:w-auto"
+                      className="bg-gray-100 p-3 text-gray-600 font-semibold my-3 rounded-xl  w-full"
                     />
                     {menus[selectedBigInputIndex].items.map(
                       (item, itemIndex) => (
@@ -2320,13 +2420,13 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                           key={itemIndex}
                           placeholder={item}
                           type="text"
-                          className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                          className="bg-gray-100 p-3 text-gray-600 font-semibold my-3 w-full rounded-xl"
                         />
                       )
                     )}
                     <button
                       onClick={() => updateNavbar(menus[selectedBigInputIndex])}
-                      className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 w-[85%] px-5 py-3 rounded-xl font-semibold m-3 mt-0"
+                      className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 px-5 py-3 rounded-xl font-semibold my-3 w-full mt-0"
                     >
                       Kaydet
                     </button>
@@ -2348,7 +2448,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                           }
                           type="text"
                           placeholder={courses[selectedBigInputIndex].title}
-                          className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                          className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-full"
                         />
                         <input
                           onChange={(event) =>
@@ -2363,7 +2463,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                             courses[selectedBigInputIndex].quantity ||
                             "Kurs sayısı"
                           }
-                          className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                          className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-full"
                         />
                         <Image
                           src={courses[selectedBigInputIndex].icon}
@@ -2380,9 +2480,9 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                             )
                           }
                           type="file"
-                          className="bg-gray-200 text-gray-600 font-semibold rounded-xl w-60"
+                          className="bg-gray-200 text-gray-600 font-semibold rounded-xl w-full"
                         />
-                        <div className="flex  bg-gray-100 px-4 rounded-xl mt-3">
+                        <div className="flex  bg-gray-100 px-4 rounded-xl mt-3  w-full">
                           <label
                             htmlFor="border"
                             className="text-gray-600 font-semibold mr-2 flex justify-center items-center"
@@ -2401,7 +2501,26 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                             className="bg-gray-100 text-gray-600 font-semibold m-3 rounded-xl"
                           />
                         </div>
-                        <div className="flex  bg-gray-100 px-4 rounded-xl mt-3">
+                        <div className="flex  bg-gray-100 px-4 rounded-xl mt-3  w-full">
+                          <label
+                            htmlFor="boxBorder"
+                            className="text-gray-600 font-semibold mr-2 flex justify-center items-center"
+                          >
+                            Kutu Çerçeve Rengi:
+                          </label>
+                          <input
+                            onChange={(event) =>
+                              handleCourseInputChange(
+                                event,
+                                selectedBigInputIndex,
+                                "boxBorder"
+                              )
+                            }
+                            type="color"
+                            className="bg-gray-100 text-gray-600 font-semibold m-3 rounded-xl"
+                          />
+                        </div>
+                        <div className="flex  bg-gray-100 px-4 rounded-xl mt-3  w-full">
                           <label
                             htmlFor="border"
                             className="text-gray-600 font-semibold mr-2 flex justify-center items-center"
@@ -2420,7 +2539,25 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                             className="bg-gray-100 text-gray-600 font-semibold m-3 rounded-xl"
                           />
                         </div>
-
+                        <div className="flex  bg-gray-100 px-4 rounded-xl mt-3  w-full">
+                          <label
+                            htmlFor="border"
+                            className="text-gray-600 font-semibold mr-2 flex justify-center items-center"
+                          >
+                            Kutu Arka Plan Rengi:
+                          </label>
+                          <input
+                            onChange={(event) =>
+                              handleCourseInputChange(
+                                event,
+                                selectedBigInputIndex,
+                                "boxBackground"
+                              )
+                            }
+                            type="color"
+                            className="bg-gray-100 text-gray-600 font-semibold m-3 rounded-xl"
+                          />
+                        </div>
                         <input
                           onChange={(event) =>
                             handleCourseInputChange(
@@ -2431,14 +2568,14 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                           }
                           placeholder="Ekstra Bilgi"
                           type="text"
-                          className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                          className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-full"
                         />
                       </div>
                       <button
                         onClick={() =>
                           updateCourse(courses[selectedBigInputIndex])
                         }
-                        className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 w-[85%] px-5 py-3 rounded-xl font-semibold m-3 mt-0"
+                        className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 px-5 py-3 rounded-xl font-semibold my-3 mt-0 w-full"
                       >
                         Kaydet
                       </button>
@@ -2455,7 +2592,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                 <>
                   <div className="flex flex-col items-center justify-center">
                     <div className="inputArea ">
-                      <div className="detailInputs flex flex-col items-center justify-center">
+                      <div className="detailInputs flex flex-col items-center justify-center mx-8">
                         <input
                           onChange={(event) =>
                             handleFeaturesInputChange(
@@ -2466,7 +2603,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                           }
                           type="text"
                           placeholder={featured[selectedBigInputIndex].title}
-                          className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                          className="bg-gray-100 p-3 text-gray-600 font-semibold my-3 w-full rounded-xl"
                         />
 
                         <input
@@ -2479,7 +2616,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                           }
                           type="text"
                           placeholder={featured[selectedBigInputIndex].name}
-                          className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                          className="bg-gray-100 p-3 text-gray-600 font-semibold my-3 w-full rounded-xl"
                         />
                         <Image
                           src={featured[selectedBigInputIndex].image}
@@ -2496,7 +2633,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                             )
                           }
                           type="file"
-                          className="bg-gray-200 text-gray-600 font-semibold rounded-xl w-60"
+                          className="bg-gray-200 text-gray-600 font-semibold rounded-xl w-full"
                         />
                         <input
                           onChange={(event) =>
@@ -2510,7 +2647,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                           placeholder={
                             featured[selectedBigInputIndex].price || "Ücret"
                           }
-                          className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                          className="bg-gray-100 p-3 text-gray-600 font-semibold my-3 w-full rounded-xl"
                         />
                         <input
                           onChange={(event) =>
@@ -2524,7 +2661,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                           placeholder={
                             featured[selectedBigInputIndex].star || "Yıldız"
                           }
-                          className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                          className="bg-gray-100 p-3 text-gray-600 font-semibold my-3 w-full rounded-xl"
                         />
                         <select
                           onChange={(event) =>
@@ -2538,7 +2675,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                             featured[selectedBigInputIndex].topDesc ||
                             "Kategori"
                           }
-                          className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-[90%]"
+                          className="bg-gray-100 p-3 text-gray-600 font-semibold my-3 w-full rounded-xl"
                         >
                           {categories.map((category, index) => (
                             <option key={index} value={category.name}>
@@ -2560,7 +2697,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                             featured[selectedBigInputIndex].students ||
                             "Öğrenci Sayısı"
                           }
-                          className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                          className="bg-gray-100 p-3 text-gray-600 font-semibold my-3 w-full rounded-xl"
                         />
                         <input
                           onChange={(event) =>
@@ -2575,13 +2712,13 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                             featured[selectedBigInputIndex].lessons ||
                             "Ders Sayısı"
                           }
-                          className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                          className="bg-gray-100 p-3 text-gray-600 font-semibold my-3 rounded-xl w-full"
                         />
                         <button
                           onClick={() =>
                             updateFeature(featured[selectedBigInputIndex])
                           }
-                          className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 w-[85%] px-5 py-3 rounded-xl font-semibold m-3 mt-0"
+                          className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700  w-full px-5 py-3 rounded-xl font-semibold my-3 mt-0"
                         >
                           Kaydet
                         </button>
@@ -2635,9 +2772,12 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
             </div>
             <div className="content flex flex-col items-center justify-center">
               <>
+                <h1 className="text-gray-600 text-center font-semibold ">
+                  Kurs Ekle
+                </h1>
                 <div className="flex flex-col items-center justify-center">
                   <div className="inputArea ">
-                    <div className="detailInputs flex flex-col items-center justify-center">
+                    <div className="detailInputs flex flex-col items-center justify-center px-8">
                       <form
                         onSubmit={handleAddCourse}
                         className="flex flex-row flex-wrap items-center justify-center"
@@ -2648,7 +2788,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                           }
                           type="text"
                           placeholder="Kurs Adı"
-                          className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                          className="bg-gray-100 p-3 text-gray-600 font-semibold my-3 rounded-xl w-full"
                         />
                         <input
                           onChange={(event) =>
@@ -2656,9 +2796,9 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                           }
                           type="text"
                           placeholder="Kurs sayısı"
-                          className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                          className="bg-gray-100 p-3 text-gray-600 font-semibold my-3 rounded-xl w-full"
                         />
-                        <div className="flex  bg-gray-100 px-4 mb-3 rounded-xl">
+                        <div className="flex  bg-gray-100 px-4 mb-3 rounded-xl w-full">
                           <label
                             htmlFor="border"
                             className="text-gray-600 font-semibold mr-2 flex justify-center items-center"
@@ -2673,6 +2813,21 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                             className="bg-gray-100 font-semibold m-3 rounded-xl"
                           />
                         </div>
+                        <div className="flex  bg-gray-100 px-4 mb-3 rounded-xl w-full">
+                          <label
+                            htmlFor="border"
+                            className="text-gray-600 font-semibold mr-2 flex justify-center items-center"
+                          >
+                            Kutu Çerçeve Rengi:
+                          </label>
+                          <input
+                            onChange={(event) =>
+                              handleAddCourseInputChange(event, "boxBorder")
+                            }
+                            type="color"
+                            className="bg-gray-100 font-semibold m-3 rounded-xl"
+                          />
+                        </div>
                         <input
                           onChange={(event) =>
                             handleAddCourseInputChange(event, "icon")
@@ -2680,18 +2835,33 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                           type="file"
                           accept="image/*"
                           placeholder="İkon"
-                          className="bg-gray-200 text-gray-600 font-semibold rounded-xl w-60"
+                          className="bg-gray-200 text-gray-600 font-semibold rounded-xl w-full"
                         />
-                        <div className="flex  bg-gray-100 px-4 rounded-xl mt-3">
+                        <div className="flex  bg-gray-100 px-4 rounded-xl mt-3 w-full">
                           <label
                             htmlFor="border"
                             className="text-gray-600 font-semibold mr-2 flex justify-center items-center"
                           >
-                            Arka Plan Rengi:
+                            İkon Arka Plan Rengi:
                           </label>
                           <input
                             onChange={(event) =>
                               handleAddCourseInputChange(event, "background")
+                            }
+                            type="color"
+                            className="bg-gray-100 font-semibold m-3 rounded-xl"
+                          />
+                        </div>
+                        <div className="flex  bg-gray-100 px-4 rounded-xl mt-3 w-full">
+                          <label
+                            htmlFor="border"
+                            className="text-gray-600 font-semibold mr-2 flex justify-center items-center"
+                          >
+                            Kutu Arka Plan Rengi:
+                          </label>
+                          <input
+                            onChange={(event) =>
+                              handleAddCourseInputChange(event, "boxBackground")
                             }
                             type="color"
                             className="bg-gray-100 font-semibold m-3 rounded-xl"
@@ -2703,11 +2873,11 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                           }
                           placeholder="Ekstra Bilgi"
                           type="text"
-                          className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                          className="bg-gray-100 p-3 text-gray-600 font-semibold my-3 rounded-xl w-full"
                         />
                         <button
                           type="submit"
-                          className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 py-3 px-8 rounded-xl font-semibold m-5"
+                          className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 py-3 px-8 rounded-xl font-semibold mb-5 w-full"
                         >
                           Oluştur
                         </button>
@@ -2761,9 +2931,12 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
             </div>
             <div className="content flex flex-col items-center justify-center">
               <>
+                <h1 className="text-gray-600 text-center font-semibold ">
+                  Ders Ekle
+                </h1>
                 <div className="flex flex-col items-center justify-center">
                   <div className="inputArea ">
-                    <div className="detailInputs flex flex-col items-center justify-center">
+                    <div className="detailInputs flex flex-col items-center justify-center mx-8">
                       <form
                         onSubmit={handleAddFeature}
                         className="flex flex-row flex-wrap items-center justify-center"
@@ -2774,7 +2947,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                           }
                           type="text"
                           placeholder={"İsim"}
-                          className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                          className="bg-gray-100 p-3 text-gray-600 font-semibold my-3 rounded-xl w-full"
                         />
 
                         <input
@@ -2783,7 +2956,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                           }
                           type="text"
                           placeholder={"Yayıncı"}
-                          className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                          className="bg-gray-100 p-3 text-gray-600 font-semibold my-3 rounded-xl w-full"
                         />
 
                         <input
@@ -2791,7 +2964,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                             handleAddFeatureInputChange(event, "image")
                           }
                           type="file"
-                          className="bg-gray-200 text-gray-600 font-semibold rounded-xl w-60"
+                          className="bg-gray-200 text-gray-600 font-semibold rounded-xl w-full"
                         />
                         <input
                           onChange={(event) =>
@@ -2799,7 +2972,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                           }
                           type="number"
                           placeholder={"Ücret"}
-                          className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                          className="bg-gray-100 p-3 text-gray-600 font-semibold my-3 rounded-xl w-full"
                         />
                         <input
                           onChange={(event) =>
@@ -2808,13 +2981,13 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                           max={5}
                           type="number"
                           placeholder={"Yıldız"}
-                          className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                          className="bg-gray-100 p-3 text-gray-600 font-semibold my-3 rounded-xl w-full"
                         />
                         <select
                           onChange={(event) =>
                             handleAddFeatureInputChange(event, "topDesc")
                           }
-                          className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl w-[60%]"
+                          className="bg-gray-100 p-3 text-gray-600 font-semibold my-3 rounded-xl w-full"
                         >
                           {categories.map((category, index) => (
                             <option key={index} value={category.name}>
@@ -2833,7 +3006,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                           }
                           type="number"
                           placeholder={"Öğrenci Sayısı"}
-                          className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                          className="bg-gray-100 p-3 text-gray-600 font-semibold my-3 rounded-xl w-full"
                         />
                         <input
                           onChange={(event) =>
@@ -2841,11 +3014,11 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                           }
                           type="number"
                           placeholder={"Ders Sayısı"}
-                          className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                          className="bg-gray-100 p-3 text-gray-600 font-semibold my-3 rounded-xl w-full"
                         />
                         <button
                           type="submit"
-                          className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 py-3 px-8 rounded-xl font-semibold m-5"
+                          className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 py-3 px-8 rounded-xl font-semibold my-5 w-full"
                         >
                           Oluştur
                         </button>
@@ -2899,15 +3072,15 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
             </div>
             <div className="content flex flex-col items-center justify-center">
               <>
+                <h1 className="text-gray-600 text-center font-semibold ">
+                  Menü Ekle
+                </h1>
                 <div className="flex flex-col items-center justify-center">
                   <div className="inputArea ">
-                    <div className="detailInputs flex flex-col items-center justify-center">
-                      <h1 className="text-gray-500 text-center font-semibold">
-                        Alt Menüler
-                      </h1>
+                    <div className="detailInputs flex flex-col items-center justify-center mx-8">
                       <button
                         onClick={handleAddAnotherItem}
-                        className="text-gray-600 bg-gray-100 py-3 px-8 rounded-xl font-semibold m-5"
+                        className="text-gray-600 bg-gray-100 py-3 px-8 rounded-xl font-semibold my-5"
                       >
                         Alt Menü Ekle
                       </button>
@@ -2921,10 +3094,10 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                           }
                           type="text"
                           placeholder="Menü ismi"
-                          className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                          className="bg-gray-100 p-3 text-gray-600 font-semibold my-3 rounded-xl w-full"
                         />
                         {[...Array(underMenuCount)].map((_, index) => (
-                          <div>
+                          <div className="flex w-full">
                             <input
                               key={index}
                               onChange={(event) =>
@@ -2936,11 +3109,11 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                               }
                               type="text"
                               placeholder={`Alt Menü ${index + 1}`}
-                              className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                              className="bg-gray-100 p-3 text-gray-600 font-semibold my-3 rounded-l-xl w-full"
                             />
                             <button
                               onClick={() => handleDeleteAnotherItem()}
-                              className="bg-gray-100 py-3 px-5 text-gray-600 font-semibold  rounded-xl"
+                              className="bg-gray-100 py-3 px-5 text-red-600 font-semibold h-12 my-auto rounded-r-xl"
                             >
                               X
                             </button>
@@ -2949,7 +3122,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
 
                         <button
                           type="submit"
-                          className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 py-3 px-8 rounded-xl font-semibold m-5"
+                          className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 py-3 px-8 rounded-xl font-semibold my-5 w-full"
                         >
                           Oluştur
                         </button>
@@ -3003,9 +3176,12 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
             </div>
             <div className="content flex flex-col items-center justify-center">
               <>
+                <h1 className="text-gray-600 text-center font-semibold ">
+                  Kategori Ekle
+                </h1>
                 <div className="flex flex-col items-center justify-center">
                   <div className="inputArea ">
-                    <div className="detailInputs flex flex-col items-center justify-center">
+                    <div className="detailInputs flex flex-col items-center justify-center mx-8">
                       <form
                         onSubmit={handleAddFeatureCategory}
                         className="flex flex-row flex-wrap items-center justify-center"
@@ -3016,12 +3192,12 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                           }
                           type="text"
                           placeholder={"Kategori İsmi"}
-                          className="bg-gray-100 p-3 text-gray-600 font-semibold m-3 rounded-xl"
+                          className="bg-gray-100 p-3 text-gray-600 font-semibold my-3 rounded-xl w-full"
                         />
 
                         <button
                           type="submit"
-                          className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 py-3 px-8 rounded-xl font-semibold m-5"
+                          className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 py-3 px-8 rounded-xl font-semibold my-5 w-full"
                         >
                           Oluştur
                         </button>
@@ -3039,4 +3215,3 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
 };
 
 export default EditModal;
-BsMenuButtonWideFill;
