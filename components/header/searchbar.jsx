@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Dialog, Disclosure } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
-import { image } from "../constants/index";
 import { TopBar } from "./topbar";
 import { CiSearch } from "react-icons/ci";
 import { IoIosLogIn } from "react-icons/io";
@@ -16,9 +15,20 @@ function classNames(...classes) {
 export const SearchBar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isHeaderFixed, setIsHeaderFixed] = useState(false);
+  const [image, setImage] = useState([]);
   const [isLogoVisible, setIsLogoVisible] = useState(false);
   const [menus, setMenus] = useState([]);
   useEffect(() => {
+    const imageData = getAPI("/home/HomeImage");
+    imageData
+      .then(function (result) {
+        console.log(result);
+        setImage(result[0]);
+      })
+      .catch(function (error) {
+        console.error("Hata oluştu:", error);
+      });
+
     const MenusData = getAPI("/home/HomeMenus");
 
     MenusData.then(function (result) {
@@ -28,7 +38,6 @@ export const SearchBar = () => {
       console.error("Hata oluştu:", error);
     });
   }, []);
-  const { logo } = image;
   useEffect(() => {
     const handleScroll = () => {
       const scrollY = window.scrollY;
@@ -44,6 +53,7 @@ export const SearchBar = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+  const { logo } = image;
 
   return (
     <>
