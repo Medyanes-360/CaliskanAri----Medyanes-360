@@ -69,11 +69,7 @@ export const SearchBar = () => {
           <div className="sm:ml-16">
             {isLogoVisible && (
               <a href="#">
-                <img
-                  className="h-auto max-w-full lg:hidden "
-                  src={logo}
-                  alt=""
-                />
+                <img className="h-8 w-8 lg:hidden " src={logo} alt="" />
               </a>
             )}
           </div>
@@ -126,7 +122,7 @@ export const SearchBar = () => {
             <div className="flex items-center justify-between">
               <a href="#" className="-m-1.5 p-1.5">
                 <span className="sr-only">Your Company</span>
-                <img className="h-8 w-auto" src={logo} alt="" />
+                <img className="h-8 w-8" src={logo} alt="" />
               </a>
               <button
                 type="button"

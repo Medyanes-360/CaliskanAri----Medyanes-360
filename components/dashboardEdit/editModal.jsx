@@ -1760,7 +1760,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                 </div>
               )}
               {modalContent === "buton" && pageId === "main" && (
-                <div className="flex flex-col items-center justify-center max-w-[250px] mx-5">
+                <div className="flex flex-col items-center justify-center max-w-[250px] mx-auto">
                   <h1 className="text-gray-700 font-semibold">
                     Anasayfa Butonları
                   </h1>
@@ -1817,7 +1817,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                 </div>
               )}
               {modalContent === "buton" && pageId === "students" && (
-                <div className="flex flex-col items-center justify-center max-w-[250px] mx-5">
+                <div className="flex flex-col items-center justify-center max-w-[250px] mx-auto">
                   <h1 className="text-gray-700 font-semibold">
                     Öğrenciler Sayfası Butonları
                   </h1>
@@ -1874,7 +1874,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                 </div>
               )}
               {modalContent === "buton" && pageId === "banner" && (
-                <div className="flex flex-col items-center justify-center max-w-[250px] mx-5">
+                <div className="flex flex-col items-center justify-center max-w-[250px] mx-auto">
                   <h1 className="text-gray-700 font-semibold">
                     Afiş Sayfası Butonları
                   </h1>
