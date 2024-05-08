@@ -62,6 +62,15 @@ function DetailEdits({ pageId, animation, openModal, setOpenModal }) {
               title={"Yazıları Değiştir"}
             />
             <EditBox
+              number={3}
+              onClick={() => openModalWithContent("resim")}
+              small={true}
+              id={3}
+              description={`Buradan ${pageId} sayfasında yer alan resimleri değiştirebilirsiniz`}
+              image={changeImage}
+              title={"Resimleri Değiştir"}
+            />
+            <EditBox
               number={1}
               onClick={() => openModalWithContent("renk")}
               small={true}
@@ -100,6 +109,15 @@ function DetailEdits({ pageId, animation, openModal, setOpenModal }) {
               description={`Buradan ${pageId} sayfasında yer alan yazı renklerini değiştirebilirsiniz`}
               image={changeColor}
               title={"Renkleri Değiştir"}
+            />
+            <EditBox
+              number={3}
+              onClick={() => openModalWithContent("buton")}
+              small={true}
+              id={5}
+              description={`Buradan ${pageId} sayfasına buton ekleme işlemi yapabilirsiniz`}
+              image={addButton}
+              title={"Buton Ekle"}
             />
           </>
         )}
@@ -418,6 +436,7 @@ function DetailEdits({ pageId, animation, openModal, setOpenModal }) {
               title={"Yer Değiştir"}
             />
             <EditBox
+              number={5}
               onClick={() => openModalWithContent("buton")}
               small={true}
               id={6}

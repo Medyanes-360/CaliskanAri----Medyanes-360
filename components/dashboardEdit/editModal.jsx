@@ -10,6 +10,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
   const [selectedTextColor, setSelectedTextColor] = useState("");
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedImageStudents, setSelectedImageStudents] = useState(null);
+  const [selectedImageLogo, setSelectedImageLogo] = useState(null);
   const [selectedImageVideo, setSelectedImageVideo] = useState(null);
   const [selectedImageMain, setSelectedImageMain] = useState(null);
   const [selectedImageIndex, setSelectedImageIndex] = useState(null);
@@ -27,7 +28,10 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
   const [image, setImage] = useState({});
   const [footercourses, setFootercourses] = useState([]); //FOOTER KURSLAR DEĞİŞKENİ
   const [featured, setFeatured] = useState([]); //FEATURED DEĞİŞKENİ
-  const [buttons, setButtons] = useState([]); //BUTTONS DEĞİŞKENİ
+  const [mainButtons, setMainButtons] = useState([]); //BUTTONS DEĞİŞKENİ
+  const [studentsButtons, setStudentsButtons] = useState([]); //BUTTONS DEĞİŞKENİ
+  const [bannerButtons, setBannerButtons] = useState([]); //BUTTONS DEĞİŞKENİ
+  const [addButton, setAddButton] = useState(false);
 
   const uploadImageToS3Course = async (imageFile, field) => {
     const S3_BUCKET = "caliskanari";
@@ -157,6 +161,52 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
       .catch(function (error) {
         console.error("Hata oluştu:", error);
       });
+
+    const buttonData = getAPI("/home/HomeButton");
+    buttonData
+      .then(function (result) {
+        const mainButtonInfo = result.filter((item) => item.pageId === "main");
+        if (mainButtonInfo.length > 0) {
+          setMainButtons(mainButtonInfo);
+        } else {
+          console.log("Main page için bgColor bulunamadı.");
+        }
+      })
+      .catch(function (error) {
+        console.error("Hata oluştu:", error);
+      });
+
+    const bannerbuttonData = getAPI("/home/HomeButton");
+    bannerbuttonData
+      .then(function (result) {
+        const mainButtonInfo = result.filter(
+          (item) => item.pageId === "banner"
+        );
+        if (mainButtonInfo.length > 0) {
+          setBannerButtons(mainButtonInfo);
+        } else {
+          console.log("Main page için bgColor bulunamadı.");
+        }
+      })
+      .catch(function (error) {
+        console.error("Hata oluştu:", error);
+      });
+
+    const studentsbuttonData = getAPI("/home/HomeButton");
+    studentsbuttonData
+      .then(function (result) {
+        const mainButtonInfo = result.filter(
+          (item) => item.pageId === "students"
+        );
+        if (mainButtonInfo.length > 0) {
+          setStudentsButtons(mainButtonInfo);
+        } else {
+          console.log("Main page için bgColor bulunamadı.");
+        }
+      })
+      .catch(function (error) {
+        console.error("Hata oluştu:", error);
+      });
   }, []);
 
   const [newCourse, setNewCourse] = useState({
@@ -197,7 +247,6 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
       addressLink: "",
       pageId: pageId,
     });
-    console.log(newButton);
     if (
       !newButton.title ||
       !newButton.color ||
@@ -211,14 +260,20 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
         icon: "error",
       });
     } else {
-      setButtons((prevButtons) => [...prevButtons, newButton]);
+      if (pageId === "main") {
+        setMainButtons((prevButtons) => [...prevButtons, newButton]);
+      } else if (pageId === "students") {
+        setStudentsButtons((prevButtons) => [...prevButtons, newButton]);
+      } else if (pageId === "banner") {
+        setMainButtons((prevButtons) => [...prevButtons, newButton]);
+      }
       const response = await postAPI("/home/addButton", newButton);
-      console.log(response);
       Swal.fire({
         title: "Başarılı",
         text: "Buton başarılı bir şekilde eklendi.",
         icon: "success",
       });
+      closeAddButtonModal();
     }
   }; //YENİ KURS EKLEME
   const [newFeature, setNewFeature] = useState({
@@ -449,6 +504,48 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
     });
   }; //NAVBAR DAN MENÜ SİLME
 
+  const deleteButton = async (deleteObject) => {
+    Swal.fire({
+      title: "Butonu Sil",
+      text: "Butonu gerçekten silmek istiyor musunuz ?",
+      showCancelButton: true,
+      icon: "warning",
+      confirmButtonColor: "#241341",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Evet",
+      cancelButtonText: `İptal`,
+    }).then(async (result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        const response = await postAPI(
+          "/home/deleteButton",
+          deleteObject.id,
+          "DELETE"
+        );
+        if (deleteObject.pageId === "main") {
+          const updatedButton = mainButtons.filter(
+            (button) => button.id !== deleteObject.id
+          );
+          setMainButtons(updatedButton);
+        } else if (deleteObject.pageId === "banner") {
+          const updatedButton = bannerButtons.filter(
+            (button) => button.id !== deleteObject.id
+          );
+          setBannerButtons(updatedButton);
+        } else if (deleteObject.pageId === "students") {
+          const updatedButton = studentsButtons.filter(
+            (button) => button.id !== deleteObject.id
+          );
+          setStudentsButtons(updatedButton);
+        }
+
+        Swal.fire("Silindi !", "", "success");
+      } else if (result.isDenied) {
+        Swal.fire("İşlem iptal edildi !", "", "info");
+      }
+    });
+  }; //BUTTON SİLME
+
   const deleteCourse = async (deleteObject) => {
     Swal.fire({
       title: "Kursu Sil",
@@ -655,6 +752,37 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
     setContact(newContact); // Güncellenmiş iletişim bilgilerini ayarla
   };
 
+  const handleButtonInputChange = (event, index, field, pageId) => {
+    if (pageId === "main") {
+      const { value } = event.target;
+      const newButton = [...mainButtons];
+      newButton[index] = {
+        ...newButton[index],
+        [field]: value,
+        pageId: pageId,
+      };
+      setMainButtons(newButton);
+    } else if (pageId === "students") {
+      const { value } = event.target;
+      const newButton = [...studentsButtons];
+      newButton[index] = {
+        ...newButton[index],
+        [field]: value,
+        pageId: pageId,
+      };
+      setStudentsButtons(newButton);
+    } else if (pageId === "banner") {
+      const { value } = event.target;
+      const newButton = [...bannerButtons];
+      newButton[index] = {
+        ...newButton[index],
+        [field]: value,
+        pageId: pageId,
+      };
+      setBannerButtons(newButton);
+    }
+  }; //BUTON ALANI KURS BİLGİLERİNİ DEĞİŞİTREN FONKSİYON
+
   const handleCourseInputChange = (event, index, field) => {
     if (field === "icon" && file) {
       const file = event.target.files[0];
@@ -709,6 +837,9 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
 
   const closeAddCourseModal = () => {
     setAddCourse(false);
+  };
+  const closeAddButtonModal = () => {
+    setAddButton(false);
   };
   const closeAddFeatureModal = () => {
     setAddFeature(false);
@@ -768,6 +899,16 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
     Swal.fire({
       title: "Başarılı",
       text: "Ders verileri başarılı bir şekilde güncellendi.",
+      icon: "success",
+    });
+    closeChildInputModal();
+  };
+
+  const updateButton = async (updatedButton) => {
+    const response = await postAPI("/home/updateButton", updatedButton);
+    Swal.fire({
+      title: "Başarılı",
+      text: "Buton verileri başarılı bir şekilde güncellendi.",
       icon: "success",
     });
     closeChildInputModal();
@@ -964,6 +1105,46 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
     uploadImageToS3Students(imageFile);
   }; //STUDENTS RESİM DEĞİŞTİRME
 
+  const uploadImageToS3Logo = async (imageFile) => {
+    const S3_BUCKET = "caliskanari";
+    const REGION = "us-east-1";
+    AWS.config.update({
+      accessKeyId: process.env.NEXT_PUBLIC_AWS_ACCESS_KEY,
+      secretAccessKey: process.env.NEXT_PUBLIC_AWS_SECRET_ACCESS_KEY,
+    });
+    const params = {
+      Bucket: S3_BUCKET,
+      Key: `images/${imageFile.name}`,
+      Body: imageFile,
+    };
+
+    const s3 = new AWS.S3({
+      params: { Bucket: S3_BUCKET },
+      region: REGION,
+    });
+
+    var upload = s3
+      .putObject(params)
+      .on("httpUploadProgress", (evt) => {})
+      .promise();
+
+    await upload.then((err, data) => {
+      setSelectedImageMain(imageFile);
+      setImage((prevImage) => ({
+        ...prevImage,
+        logo: `https://caliskanari.s3.amazonaws.com/images/${imageFile.name}`,
+      }));
+
+      console.log(err);
+    });
+  };
+
+  const handleImageChangeLogo = (event) => {
+    const imageFile = event.target.files[0];
+    setSelectedImageLogo(imageFile);
+    uploadImageToS3Logo(imageFile);
+  }; //STUDENTS RESİM DEĞİŞTİRME
+
   const handleSubmitStudents = async (event) => {
     event.preventDefault();
     if (selectedImageStudents === null) {
@@ -981,6 +1162,24 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
       });
     }
   }; //STUDENTS RESİM DEĞİŞTİRME
+
+  const handleSubmitLogo = async (event) => {
+    event.preventDefault();
+    if (selectedImageLogo === null) {
+      Swal.fire({
+        title: "Hata",
+        text: "Lütfen bir resim seçiniz.",
+        icon: "error",
+      });
+    } else {
+      const response = await postAPI("/home/updateImage", image);
+      Swal.fire({
+        title: "Başarılı",
+        text: "Resim başarılı bir şekilde değiştirildi.",
+        icon: "success",
+      });
+    }
+  }; //NAVBAR LOGO RESİM DEĞİŞTİRME
   const uploadImageToS3Video = async (imageFile) => {
     const S3_BUCKET = "caliskanari";
     const REGION = "us-east-1";
@@ -1183,6 +1382,42 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
   const modalClass = isOpen
     ? "fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-gray-600 bg-opacity-50"
     : "hidden";
+
+  const addMainButtonFunction = () => {
+    if (mainButtons.length >= 3) {
+      Swal.fire({
+        title: "Hata",
+        text: "Maksimum 3 tane buton ekleyebilirsiniz. Yeni bir buton eklemek için var olanı silin!",
+        icon: "error",
+      });
+    } else {
+      setAddButton(true);
+    }
+  };
+
+  const addStudentsButtonFunction = () => {
+    if (studentsButtons.length >= 3) {
+      Swal.fire({
+        title: "Hata",
+        text: "Maksimum 3 tane buton ekleyebilirsiniz. Yeni bir buton eklemek için var olanı silin!",
+        icon: "error",
+      });
+    } else {
+      setAddButton(true);
+    }
+  };
+
+  const addBannerButtonFunction = () => {
+    if (bannerButtons.length >= 3) {
+      Swal.fire({
+        title: "Hata",
+        text: "Maksimum 3 tane buton ekleyebilirsiniz. Yeni bir buton eklemek için var olanı silin!",
+        icon: "error",
+      });
+    } else {
+      setAddButton(true);
+    }
+  };
 
   return (
     <div className={modalClass}>
@@ -1527,89 +1762,165 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
               {modalContent === "buton" && pageId === "main" && (
                 <div className="flex flex-col items-center justify-center max-w-[250px] mx-5">
                   <h1 className="text-gray-700 font-semibold">
-                    Anasayfaya Buton Ekle
+                    Anasayfa Butonları
                   </h1>
+                  <button
+                    onClick={addMainButtonFunction}
+                    className="text-gray-100 bg-[#855da3] hover:text-[#855da3] hover:bg-gray-100 transition-all duration-700 py-3 px-8 rounded-xl font-semibold my-5 mb-0 w-full"
+                  >
+                    Buton Ekle +
+                  </button>
                   <form
                     onSubmit={(event) => handleAddButton(event, pageId)}
                     className="flex flex-row flex-wrap items-center justify-center max-h-[500px] overflow-scroll"
                   >
-                    <div className="inputArea">
-                      <div className="bigInput flex flex-col items-center justify-center">
-                        <input
-                          onChange={(event) =>
-                            handleAddButtonInputChange(event, "title", pageId)
-                          }
-                          placeholder="Buton Yazısı"
-                          type="text"
-                          className="bg-gray-100 p-3 text-gray-600 font-semibold my-3 mr-0 rounded-xl w-full focus:border-0  focus:outline-none"
-                        />
-                        <div className="flex  bg-gray-100 px-4 rounded-xl  w-full my-3">
-                          <label
-                            htmlFor="boxBorder"
-                            className="text-gray-600 font-semibold mr-2 flex justify-center items-center"
-                          >
-                            Buton Rengi:
-                          </label>
+                    {mainButtons.map((button, index) => (
+                      <div key={index} className="inputArea ">
+                        <div className="bigInput flex items-center justify-center">
                           <input
                             onChange={(event) =>
-                              handleAddButtonInputChange(event, "color", pageId)
-                            }
-                            type="color"
-                            className="bg-gray-100 text-gray-600 font-semibold my-3 rounded-xl"
-                          />
-                        </div>
-                        <div className="flex  bg-gray-100 px-4 rounded-xl  w-full my-3">
-                          <label
-                            htmlFor="boxBorder"
-                            className="text-gray-600 font-semibold mr-2 flex justify-center items-center"
-                          >
-                            Yazı Rengi:
-                          </label>
-                          <input
-                            onChange={(event) =>
-                              handleAddButtonInputChange(
+                              handleButtonInputChange(
                                 event,
-                                "textColor",
+                                index,
+                                "title",
                                 pageId
                               )
                             }
-                            type="color"
-                            className="bg-gray-100 text-gray-600 font-semibold my-3 rounded-xl"
+                            placeholder={button.title}
+                            type="text"
+                            className="bg-gray-100 p-3 text-gray-600 font-semibold my-3 mr-0 rounded-l-xl w-full focus:border-0  focus:outline-none"
                           />
-                        </div>
-                        <div className="flex  bg-gray-100 px-4 rounded-xl  w-full my-3">
-                          <label
-                            htmlFor="boxBorder"
-                            className="text-gray-600 font-semibold mr-2 flex justify-center items-center"
+                          <button
+                            type="button"
+                            onClick={() => openChildInputModal(index)}
+                            className="text-gray-600 bg-gray-100 lg:py-3 lg:px-5 px-4 h-12 font-semibold my-auto"
                           >
-                            Hover Rengi:
-                          </label>
-                          <input
-                            onChange={(event) =>
-                              handleAddButtonInputChange(
-                                event,
-                                "hoverColor",
-                                pageId
-                              )
-                            }
-                            type="color"
-                            className="bg-gray-100 text-gray-600 font-semibold my-3 rounded-xl"
-                          />
+                            <BsMenuButtonWideFill className="my-auto w-5 h-5" />
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => deleteButton(button)}
+                            className="text-gray-600 bg-gray-100 lg:py-3 lg:px-5 py-1 px-4 h-12 my-auto font-semibold rounded-r-xl"
+                          >
+                            <i className="fa-solid fa-trash text-red-600 w-5 h-5"></i>
+                          </button>
                         </div>
-                        <input
-                          onChange={(event) =>
-                            handleAddButtonInputChange(
-                              event,
-                              "addressLink",
-                              pageId
-                            )
-                          }
-                          placeholder="Buton Adresi"
-                          type="text"
-                          className="bg-gray-100 p-3 text-gray-600 font-semibold my-3 mr-0 rounded-xl w-full focus:border-0  focus:outline-none"
-                        />
                       </div>
-                    </div>
+                    ))}
+                    <button
+                      type="submit"
+                      className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 w-full py-3 px-8 rounded-xl font-semibold my-5"
+                    >
+                      Kaydet
+                    </button>
+                  </form>
+                </div>
+              )}
+              {modalContent === "buton" && pageId === "students" && (
+                <div className="flex flex-col items-center justify-center max-w-[250px] mx-5">
+                  <h1 className="text-gray-700 font-semibold">
+                    Öğrenciler Sayfası Butonları
+                  </h1>
+                  <button
+                    onClick={addStudentsButtonFunction}
+                    className="text-gray-100 bg-[#855da3] hover:text-[#855da3] hover:bg-gray-100 transition-all duration-700 py-3 px-8 rounded-xl font-semibold my-5 mb-0 w-full"
+                  >
+                    Buton Ekle +
+                  </button>
+                  <form
+                    onSubmit={(event) => handleAddButton(event, pageId)}
+                    className="flex flex-row flex-wrap items-center justify-center max-h-[500px] overflow-scroll"
+                  >
+                    {studentsButtons.map((button, index) => (
+                      <div key={index} className="inputArea ">
+                        <div className="bigInput flex items-center justify-center">
+                          <input
+                            onChange={(event) =>
+                              handleButtonInputChange(
+                                event,
+                                index,
+                                "title",
+                                pageId
+                              )
+                            }
+                            placeholder={button.title}
+                            type="text"
+                            className="bg-gray-100 p-3 text-gray-600 font-semibold my-3 mr-0 rounded-l-xl w-full focus:border-0  focus:outline-none"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => openChildInputModal(index)}
+                            className="text-gray-600 bg-gray-100 lg:py-3 lg:px-5 px-4 h-12 font-semibold my-auto"
+                          >
+                            <BsMenuButtonWideFill className="my-auto w-5 h-5" />
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => deleteButton(button)}
+                            className="text-gray-600 bg-gray-100 lg:py-3 lg:px-5 py-1 px-4 h-12 my-auto font-semibold rounded-r-xl"
+                          >
+                            <i className="fa-solid fa-trash text-red-600 w-5 h-5"></i>
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                    <button
+                      type="submit"
+                      className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 w-full py-3 px-8 rounded-xl font-semibold my-5"
+                    >
+                      Kaydet
+                    </button>
+                  </form>
+                </div>
+              )}
+              {modalContent === "buton" && pageId === "banner" && (
+                <div className="flex flex-col items-center justify-center max-w-[250px] mx-5">
+                  <h1 className="text-gray-700 font-semibold">
+                    Afiş Sayfası Butonları
+                  </h1>
+                  <button
+                    onClick={addBannerButtonFunction}
+                    className="text-gray-100 bg-[#855da3] hover:text-[#855da3] hover:bg-gray-100 transition-all duration-700 py-3 px-8 rounded-xl font-semibold my-5 mb-0 w-full"
+                  >
+                    Buton Ekle +
+                  </button>
+                  <form
+                    onSubmit={(event) => handleAddButton(event, pageId)}
+                    className="flex flex-row flex-wrap items-center justify-center max-h-[500px] overflow-scroll"
+                  >
+                    {bannerButtons.map((button, index) => (
+                      <div key={index} className="inputArea ">
+                        <div className="bigInput flex items-center justify-center">
+                          <input
+                            onChange={(event) =>
+                              handleButtonInputChange(
+                                event,
+                                index,
+                                "title",
+                                pageId
+                              )
+                            }
+                            placeholder={button.title}
+                            type="text"
+                            className="bg-gray-100 p-3 text-gray-600 font-semibold my-3 mr-0 rounded-l-xl w-full focus:border-0  focus:outline-none"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => openChildInputModal(index)}
+                            className="text-gray-600 bg-gray-100 lg:py-3 lg:px-5 px-4 h-12 font-semibold my-auto"
+                          >
+                            <BsMenuButtonWideFill className="my-auto w-5 h-5" />
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => deleteButton(button)}
+                            className="text-gray-600 bg-gray-100 lg:py-3 lg:px-5 py-1 px-4 h-12 my-auto font-semibold rounded-r-xl"
+                          >
+                            <i className="fa-solid fa-trash text-red-600 w-5 h-5"></i>
+                          </button>
+                        </div>
+                      </div>
+                    ))}
                     <button
                       type="submit"
                       className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 w-full py-3 px-8 rounded-xl font-semibold my-5"
@@ -2163,6 +2474,40 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                   </div>
                 </div>
               )}
+              {modalContent === "resim" && pageId === "navbar" && (
+                <div className="flex flex-col flex-wrap items-center justify-center p-5">
+                  <h1 className="text-gray-700 font-semibold">
+                    Gezinme Çubuğu Resim Düzenleme
+                  </h1>
+                  <div className="flex flex-col items-center justify-center">
+                    <img
+                      src={image.logo}
+                      height={100}
+                      width={200}
+                      alt={`Logo`}
+                    />
+                    <form
+                      onSubmit={handleSubmitLogo}
+                      className="flex flex-col items-center justify-center"
+                    >
+                      <label htmlFor={`students`}>Resim Seçin:</label>
+                      <input
+                        onChange={handleImageChangeLogo}
+                        type="file"
+                        className="bg-gray-200 text-gray-600 font-semibold rounded-xl w-60"
+                        id={`logo`}
+                        name={`logo`}
+                      />
+                      <button
+                        type="submit"
+                        className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 w-[85%] p-3 rounded-xl font-semibold m-5"
+                      >
+                        Kaydet
+                      </button>
+                    </form>
+                  </div>
+                </div>
+              )}
               {modalContent === "resim" && pageId === "video" && (
                 <div className="flex flex-col flex-wrap items-center justify-center p-5">
                   <h1 className="text-gray-700 font-semibold">
@@ -2544,6 +2889,27 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                     Kurs Bilgileri
                   </h1>
                 )}
+              {modalContent === "buton" &&
+                pageId === "main" &&
+                selectedBigInputIndex !== null && (
+                  <h1 className="text-gray-500 text-center font-semibold">
+                    Anasayfa Buton Düzenleme
+                  </h1>
+                )}
+              {modalContent === "buton" &&
+                pageId === "students" &&
+                selectedBigInputIndex !== null && (
+                  <h1 className="text-gray-500 text-center font-semibold">
+                    Öğrenciler Sayfası Buton Düzenleme
+                  </h1>
+                )}
+              {modalContent === "buton" &&
+                pageId === "banner" &&
+                selectedBigInputIndex !== null && (
+                  <h1 className="text-gray-500 text-center font-semibold">
+                    Afiş Sayfası Buton Düzenleme
+                  </h1>
+                )}
               {modalContent === "yazı" &&
                 pageId === "navbar" &&
                 selectedBigInputIndex !== null && (
@@ -2875,6 +3241,320 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                     </div>
                   </div>
                 </>
+              )}
+              {modalContent === "buton" && pageId === "main" && (
+                <div className="flex flex-col items-center justify-center">
+                  <div className="inputArea ">
+                    <div className="detailInputs flex flex-col items-center justify-center mx-8">
+                      <input
+                        onChange={(event) =>
+                          handleButtonInputChange(
+                            event,
+                            selectedBigInputIndex,
+                            "title",
+                            pageId
+                          )
+                        }
+                        placeholder={mainButtons[selectedBigInputIndex].title}
+                        type="text"
+                        className="bg-gray-100 p-3 text-gray-600 font-semibold my-3 mr-0 rounded-xl w-full focus:border-0  focus:outline-none"
+                      />
+                      <div className="flex  bg-gray-100 px-4 rounded-xl  w-full my-3">
+                        <label
+                          htmlFor="boxBorder"
+                          className="text-gray-600 font-semibold mr-2 flex justify-center items-center"
+                        >
+                          Buton Rengi:
+                        </label>
+                        <input
+                          onChange={(event) =>
+                            handleButtonInputChange(
+                              event,
+                              selectedBigInputIndex,
+                              "color",
+                              pageId
+                            )
+                          }
+                          type="color"
+                          className="bg-gray-100 text-gray-600 font-semibold my-3 rounded-xl"
+                        />
+                      </div>
+                      <div className="flex  bg-gray-100 px-4 rounded-xl  w-full my-3">
+                        <label
+                          htmlFor="boxBorder"
+                          className="text-gray-600 font-semibold mr-2 flex justify-center items-center"
+                        >
+                          Yazı Rengi:
+                        </label>
+                        <input
+                          onChange={(event) =>
+                            handleButtonInputChange(
+                              event,
+                              selectedBigInputIndex,
+                              "textColor",
+                              pageId
+                            )
+                          }
+                          type="color"
+                          className="bg-gray-100 text-gray-600 font-semibold my-3 rounded-xl"
+                        />
+                      </div>
+                      <div className="flex  bg-gray-100 px-4 rounded-xl  w-full my-3">
+                        <label
+                          htmlFor="boxBorder"
+                          className="text-gray-600 font-semibold mr-2 flex justify-center items-center"
+                        >
+                          Hover Rengi:
+                        </label>
+                        <input
+                          onChange={(event) =>
+                            handleButtonInputChange(
+                              event,
+                              selectedBigInputIndex,
+                              "hoverColor",
+                              pageId
+                            )
+                          }
+                          type="color"
+                          className="bg-gray-100 text-gray-600 font-semibold my-3 rounded-xl"
+                        />
+                      </div>
+                      <input
+                        onChange={(event) =>
+                          handleButtonInputChange(
+                            event,
+                            selectedBigInputIndex,
+                            "addressLink",
+                            pageId
+                          )
+                        }
+                        placeholder={
+                          mainButtons[selectedBigInputIndex].addressLink
+                        }
+                        type="text"
+                        className="bg-gray-100 p-3 text-gray-600 font-semibold my-3 mr-0 rounded-xl w-full focus:border-0  focus:outline-none"
+                      />
+                      <button
+                        onClick={() =>
+                          updateButton(mainButtons[selectedBigInputIndex])
+                        }
+                        className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700  w-full px-5 py-3 rounded-xl font-semibold my-3 mt-0"
+                      >
+                        Kaydet
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+              {modalContent === "buton" && pageId === "main" && (
+                <div className="flex flex-col items-center justify-center">
+                  <div className="inputArea ">
+                    <div className="detailInputs flex flex-col items-center justify-center mx-8">
+                      <input
+                        onChange={(event) =>
+                          handleButtonInputChange(
+                            event,
+                            selectedBigInputIndex,
+                            "title",
+                            pageId
+                          )
+                        }
+                        placeholder={
+                          studentsButtons[selectedBigInputIndex].title
+                        }
+                        type="text"
+                        className="bg-gray-100 p-3 text-gray-600 font-semibold my-3 mr-0 rounded-xl w-full focus:border-0  focus:outline-none"
+                      />
+                      <div className="flex  bg-gray-100 px-4 rounded-xl  w-full my-3">
+                        <label
+                          htmlFor="boxBorder"
+                          className="text-gray-600 font-semibold mr-2 flex justify-center items-center"
+                        >
+                          Buton Rengi:
+                        </label>
+                        <input
+                          onChange={(event) =>
+                            handleButtonInputChange(
+                              event,
+                              selectedBigInputIndex,
+                              "color",
+                              pageId
+                            )
+                          }
+                          type="color"
+                          className="bg-gray-100 text-gray-600 font-semibold my-3 rounded-xl"
+                        />
+                      </div>
+                      <div className="flex  bg-gray-100 px-4 rounded-xl  w-full my-3">
+                        <label
+                          htmlFor="boxBorder"
+                          className="text-gray-600 font-semibold mr-2 flex justify-center items-center"
+                        >
+                          Yazı Rengi:
+                        </label>
+                        <input
+                          onChange={(event) =>
+                            handleButtonInputChange(
+                              event,
+                              selectedBigInputIndex,
+                              "textColor",
+                              pageId
+                            )
+                          }
+                          type="color"
+                          className="bg-gray-100 text-gray-600 font-semibold my-3 rounded-xl"
+                        />
+                      </div>
+                      <div className="flex  bg-gray-100 px-4 rounded-xl  w-full my-3">
+                        <label
+                          htmlFor="boxBorder"
+                          className="text-gray-600 font-semibold mr-2 flex justify-center items-center"
+                        >
+                          Hover Rengi:
+                        </label>
+                        <input
+                          onChange={(event) =>
+                            handleButtonInputChange(
+                              event,
+                              selectedBigInputIndex,
+                              "hoverColor",
+                              pageId
+                            )
+                          }
+                          type="color"
+                          className="bg-gray-100 text-gray-600 font-semibold my-3 rounded-xl"
+                        />
+                      </div>
+                      <input
+                        onChange={(event) =>
+                          handleButtonInputChange(
+                            event,
+                            selectedBigInputIndex,
+                            "addressLink",
+                            pageId
+                          )
+                        }
+                        placeholder={
+                          studentsButtons[selectedBigInputIndex].addressLink
+                        }
+                        type="text"
+                        className="bg-gray-100 p-3 text-gray-600 font-semibold my-3 mr-0 rounded-xl w-full focus:border-0  focus:outline-none"
+                      />
+                      <button
+                        onClick={() =>
+                          updateButton(studentsButtons[selectedBigInputIndex])
+                        }
+                        className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700  w-full px-5 py-3 rounded-xl font-semibold my-3 mt-0"
+                      >
+                        Kaydet
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+              {modalContent === "buton" && pageId === "banner" && (
+                <div className="flex flex-col items-center justify-center">
+                  <div className="inputArea ">
+                    <div className="detailInputs flex flex-col items-center justify-center mx-8">
+                      <input
+                        onChange={(event) =>
+                          handleButtonInputChange(
+                            event,
+                            selectedBigInputIndex,
+                            "title",
+                            pageId
+                          )
+                        }
+                        placeholder={bannerButtons[selectedBigInputIndex].title}
+                        type="text"
+                        className="bg-gray-100 p-3 text-gray-600 font-semibold my-3 mr-0 rounded-xl w-full focus:border-0  focus:outline-none"
+                      />
+                      <div className="flex  bg-gray-100 px-4 rounded-xl  w-full my-3">
+                        <label
+                          htmlFor="boxBorder"
+                          className="text-gray-600 font-semibold mr-2 flex justify-center items-center"
+                        >
+                          Buton Rengi:
+                        </label>
+                        <input
+                          onChange={(event) =>
+                            handleButtonInputChange(
+                              event,
+                              selectedBigInputIndex,
+                              "color",
+                              pageId
+                            )
+                          }
+                          type="color"
+                          className="bg-gray-100 text-gray-600 font-semibold my-3 rounded-xl"
+                        />
+                      </div>
+                      <div className="flex  bg-gray-100 px-4 rounded-xl  w-full my-3">
+                        <label
+                          htmlFor="boxBorder"
+                          className="text-gray-600 font-semibold mr-2 flex justify-center items-center"
+                        >
+                          Yazı Rengi:
+                        </label>
+                        <input
+                          onChange={(event) =>
+                            handleButtonInputChange(
+                              event,
+                              selectedBigInputIndex,
+                              "textColor",
+                              pageId
+                            )
+                          }
+                          type="color"
+                          className="bg-gray-100 text-gray-600 font-semibold my-3 rounded-xl"
+                        />
+                      </div>
+                      <div className="flex  bg-gray-100 px-4 rounded-xl  w-full my-3">
+                        <label
+                          htmlFor="boxBorder"
+                          className="text-gray-600 font-semibold mr-2 flex justify-center items-center"
+                        >
+                          Hover Rengi:
+                        </label>
+                        <input
+                          onChange={(event) =>
+                            handleButtonInputChange(
+                              event,
+                              selectedBigInputIndex,
+                              "hoverColor",
+                              pageId
+                            )
+                          }
+                          type="color"
+                          className="bg-gray-100 text-gray-600 font-semibold my-3 rounded-xl"
+                        />
+                      </div>
+                      <input
+                        onChange={(event) =>
+                          handleButtonInputChange(
+                            event,
+                            selectedBigInputIndex,
+                            "addressLink",
+                            pageId
+                          )
+                        }
+                        placeholder={
+                          bannerButtons[selectedBigInputIndex].addressLink
+                        }
+                        type="text"
+                        className="bg-gray-100 p-3 text-gray-600 font-semibold my-3 mr-0 rounded-xl w-full focus:border-0  focus:outline-none"
+                      />
+                      <button
+                        onClick={() =>
+                          updateButton(bannerButtons[selectedBigInputIndex])
+                        }
+                        className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700  w-full px-5 py-3 rounded-xl font-semibold my-3 mt-0"
+                      >
+                        Kaydet
+                      </button>
+                    </div>
+                  </div>
+                </div>
               )}
             </div>
           </div>
@@ -3353,6 +4033,144 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                       </form>
                     </div>
                   </div>
+                </div>
+              </>
+            </div>
+          </div>
+        </div>
+      )}
+      {/* add button modal */}
+
+      {addButton && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-gray-600 bg-opacity-50">
+          <div className="relative mx-auto px-auto bg-white rounded-2xl animate__animated animate__fadeInDown w-80 lg:w-auto lg:max-w-[400px] lg:min-w-[400px]">
+            <div className="flex flex-col px-3 mx-auto rounded-lg bg-bgWhite">
+              <div className="flex flex-col md:flex-row justify-evenly items-center gap-x-2 lg:gap-x-5 mt-3 text-xs lg:text-sm ml-auto">
+                <div className="flex items-center justify-center relative w-full ml-auto">
+                  <div
+                    className="w-5 h-5 md:w-10 md:h-10 rounded-md p-4 cursor-pointer transition-all duration-700  bg-gray-400/50 hover:bg-red-500 group  right-2 bottom-1"
+                    onClick={closeAddButtonModal}
+                  >
+                    <svg
+                      stroke="currentColor"
+                      fill="currentColor"
+                      strokeWidth="0"
+                      viewBox="0 0 512 512"
+                      className="text-txtRed transition-all duration-700 rotate-180 flex absolute group-hover:opacity-0 group-hover:rotate-0 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                      height="30"
+                      width="30"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path d="M289.94 256l95-95A24 24 0 00351 127l-95 95-95-95a24 24 0 00-34 34l95 95-95 95a24 24 0 1034 34l95-95 95 95a24 24 0 0034-34z"></path>
+                    </svg>
+                    <svg
+                      stroke="currentColor"
+                      fill="currentColor"
+                      strokeWidth="0"
+                      viewBox="0 0 24 24"
+                      className="text-white rotate-0 transition-all duration-700 opacity-0 group-hover:block group-hover:rotate-180 group-hover:opacity-100 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                      height="30"
+                      width="30"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path d="M4.5 12.75a.75.75 0 0 1 .75-.75h13.5a.75.75 0 0 1 0 1.5H5.25a.75.75 0 0 1-.75-.75Z"></path>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="content flex flex-col items-center justify-center">
+              <>
+                <div className="flex flex-col items-center justify-center max-w-[250px] mx-5">
+                  <h1 className="text-gray-700 font-semibold">Buton Ekle</h1>
+                  <form
+                    onSubmit={(event) => handleAddButton(event, pageId)}
+                    className="flex flex-row flex-wrap items-center justify-center max-h-[500px] overflow-scroll"
+                  >
+                    <div className="inputArea">
+                      <div className="bigInput flex flex-col items-center justify-center">
+                        <input
+                          onChange={(event) =>
+                            handleAddButtonInputChange(event, "title", pageId)
+                          }
+                          placeholder="Buton Yazısı"
+                          type="text"
+                          className="bg-gray-100 p-3 text-gray-600 font-semibold my-3 mr-0 rounded-xl w-full focus:border-0  focus:outline-none"
+                        />
+                        <div className="flex  bg-gray-100 px-4 rounded-xl  w-full my-3">
+                          <label
+                            htmlFor="boxBorder"
+                            className="text-gray-600 font-semibold mr-2 flex justify-center items-center"
+                          >
+                            Buton Rengi:
+                          </label>
+                          <input
+                            onChange={(event) =>
+                              handleAddButtonInputChange(event, "color", pageId)
+                            }
+                            type="color"
+                            className="bg-gray-100 text-gray-600 font-semibold my-3 rounded-xl"
+                          />
+                        </div>
+                        <div className="flex  bg-gray-100 px-4 rounded-xl  w-full my-3">
+                          <label
+                            htmlFor="boxBorder"
+                            className="text-gray-600 font-semibold mr-2 flex justify-center items-center"
+                          >
+                            Yazı Rengi:
+                          </label>
+                          <input
+                            onChange={(event) =>
+                              handleAddButtonInputChange(
+                                event,
+                                "textColor",
+                                pageId
+                              )
+                            }
+                            type="color"
+                            className="bg-gray-100 text-gray-600 font-semibold my-3 rounded-xl"
+                          />
+                        </div>
+                        <div className="flex  bg-gray-100 px-4 rounded-xl  w-full my-3">
+                          <label
+                            htmlFor="boxBorder"
+                            className="text-gray-600 font-semibold mr-2 flex justify-center items-center"
+                          >
+                            Hover Rengi:
+                          </label>
+                          <input
+                            onChange={(event) =>
+                              handleAddButtonInputChange(
+                                event,
+                                "hoverColor",
+                                pageId
+                              )
+                            }
+                            type="color"
+                            className="bg-gray-100 text-gray-600 font-semibold my-3 rounded-xl"
+                          />
+                        </div>
+                        <input
+                          onChange={(event) =>
+                            handleAddButtonInputChange(
+                              event,
+                              "addressLink",
+                              pageId
+                            )
+                          }
+                          placeholder="Buton Adresi"
+                          type="text"
+                          className="bg-gray-100 p-3 text-gray-600 font-semibold my-3 mr-0 rounded-xl w-full focus:border-0  focus:outline-none"
+                        />
+                      </div>
+                    </div>
+                    <button
+                      type="submit"
+                      className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 w-full py-3 px-8 rounded-xl font-semibold my-5"
+                    >
+                      Kaydet
+                    </button>
+                  </form>
                 </div>
               </>
             </div>

@@ -12,12 +12,23 @@ export const TopBar = () => {
   const { data } = useSession();
 
   const [categories, setCategories] = useState([]);
+  const [image, setImage] = useState([]);
   const [contact, setContact] = useState(""); // Değişken ismi düzeltildi, küçük harf kullanıldı
   useEffect(() => {
     const contactData = getAPI("/home/HomeContact"); // textColorData tanımlandı
     contactData
       .then(function (result) {
         setContact(result[0]);
+      })
+      .catch(function (error) {
+        console.error("Hata oluştu:", error);
+      });
+
+    const imageData = getAPI("/home/HomeImage");
+    imageData
+      .then(function (result) {
+        console.log(result);
+        setImage(result[0]);
       })
       .catch(function (error) {
         console.error("Hata oluştu:", error);
@@ -31,6 +42,7 @@ export const TopBar = () => {
     });
   }, []);
 
+  const { logo } = image;
   const { phone } = contact;
   return (
     <div className=" flex justify-between items-center mx-6 my-2 max-w-full">
@@ -38,7 +50,7 @@ export const TopBar = () => {
         <a href="#">
           <Image
             className="h-auto max-w-ful mb-4"
-            src="/logo.png"
+            src={logo}
             width={100}
             height={100}
             alt="Logo"

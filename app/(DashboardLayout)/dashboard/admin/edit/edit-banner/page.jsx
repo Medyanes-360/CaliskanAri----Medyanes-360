@@ -54,6 +54,18 @@ const Page = () => {
               değiştirebilirsiniz.
             </h1>
           </div>
+          <div className="infoBox flex flex-row m-5">
+            <Image
+              src={n3}
+              width={"30vw"}
+              height={"10vw"}
+              alt="navbar"
+              className="w-6 h-6 mr-4 my-auto "
+            />
+            <h1 className="text-xs lg:text-sm text-left text-gray-600 font-semibold flex items-center justify-center">
+              Çerçeve içine alınmış alana bu seçenekten buton ekleyebilirsiniz.
+            </h1>
+          </div>
         </div>
       </div>
     </>

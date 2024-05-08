@@ -1,13 +1,13 @@
-import { image, info } from "../constants/index";
 import { CustomButton } from "../helpers/custom-button";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { getAPI } from "@/services/fetchAPI";
 const LearnersStudents = () => {
-  const { studentPhoto, underline, redCrown } = image;
   const [info, setInfo] = useState([]);
   const [bgColor, setBgColor] = useState("");
+  const [image, setImage] = useState([]);
   const [position, setPosition] = useState();
+  const [button, setButton] = useState([]);
   const [textColor, setTextColor] = useState(""); // Değişken ismi düzeltildi, küçük harf kullanıldı
   useEffect(() => {
     const textColorData = getAPI("/home/HomeTextColor"); // textColorData tanımlandı
@@ -21,6 +21,34 @@ const LearnersStudents = () => {
           setTextColor(mainTextColorInfo.TextColor); // setTextColor çağrısı düzeltildi
         } else {
           console.log("Main page için textColor bulunamadı."); // Log mesajı düzeltildi
+        }
+      })
+      .catch(function (error) {
+        console.error("Hata oluştu:", error);
+      });
+
+    const imageData = getAPI("/home/HomeImage");
+    imageData
+      .then(function (result) {
+        console.log(result);
+        setImage(result[0]);
+      })
+      .catch(function (error) {
+        console.error("Hata oluştu:", error);
+      });
+
+    const buttonData = getAPI("/home/HomeButton");
+    buttonData
+      .then(function (result) {
+        console.log(result);
+        const mainButtonInfo = result.filter(
+          (item) => item.pageId === "students"
+        );
+        console.log(mainButtonInfo);
+        if (mainButtonInfo.length > 0) {
+          setButton(mainButtonInfo);
+        } else {
+          console.log("Main page için bgColor bulunamadı.");
         }
       })
       .catch(function (error) {
@@ -70,6 +98,7 @@ const LearnersStudents = () => {
         console.error("Hata oluştu:", error);
       });
   }, []);
+  const { studentPhoto, underline, redCrown } = image;
   const {
     learnersStudentsTitle1,
     learnersStudentsTitle2,
@@ -113,7 +142,20 @@ const LearnersStudents = () => {
           </div>
           <p className="text-base ">{learnersStudentsDesc}</p>
           <div>
-            <CustomButton title="Etkileşimli Alıştırmaları Keşfet" />
+            {button !== null && (
+              <div className="ButtonArea xl:flex">
+                {button.map((buttonSingle, index) => (
+                  <CustomButton
+                    key={index}
+                    title={buttonSingle.title}
+                    href={buttonSingle.addressLink}
+                    buttonColor={buttonSingle.color}
+                    textColor={buttonSingle.textColor}
+                    hoverColor={buttonSingle.hoverColor}
+                  />
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>

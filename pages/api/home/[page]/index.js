@@ -49,6 +49,16 @@ async function homeHandler(req, res) {
           } catch (error) {
             return res.status(500).json({ error: error.message });
           }
+        case "deleteButton":
+          try {
+            const response = await deleteDataByAny("HomeButton", {
+              id: data,
+            });
+            console.log(response);
+            return res.status(200).json(response);
+          } catch (error) {
+            return res.status(500).json({ error: error.message });
+          }
         case "deleteCategory":
           try {
             const response = await deleteDataByAny("HomeCategories", {
@@ -242,6 +252,16 @@ async function homeHandler(req, res) {
             { id: idNumberFeature },
             data
           );
+          return res.status(200).json({ message: "test", data: data });
+        case "updateButton":
+          const idNumberButton = data["id"];
+          delete data["id"];
+          const responseUpdateButton = await updateDataByAny(
+            "HomeButton",
+            { id: idNumberButton },
+            data
+          );
+          console.log(responseUpdateButton);
           return res.status(200).json({ message: "test", data: data });
         case "updateLogoBanner":
           const idNumberLogoBanner = data["id"];

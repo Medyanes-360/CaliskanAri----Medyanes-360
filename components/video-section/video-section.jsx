@@ -1,5 +1,4 @@
 import { Tab, TabPanel, Tabs, TabsList } from "@mui/base";
-import { info, image } from "../constants/index";
 import "./video-section.css";
 import { GoVideo } from "react-icons/go";
 import { AiOutlineControl } from "react-icons/ai";
@@ -12,6 +11,7 @@ export const VideoSection = () => {
   const [info, setInfo] = useState([]);
   const [position, setPosition] = useState();
   const [bgColor, setBgColor] = useState("");
+  const [image, setImage] = useState([]);
   const [textColor, setTextColor] = useState(""); // Değişken ismi düzeltildi, küçük harf kullanıldı
   useEffect(() => {
     const textColorData = getAPI("/home/HomeTextColor"); // textColorData tanımlandı
@@ -26,6 +26,16 @@ export const VideoSection = () => {
         } else {
           console.log("Main page için textColor bulunamadı."); // Log mesajı düzeltildi
         }
+      })
+      .catch(function (error) {
+        console.error("Hata oluştu:", error);
+      });
+
+    const imageData = getAPI("/home/HomeImage");
+    imageData
+      .then(function (result) {
+        console.log(result);
+        setImage(result[0]);
       })
       .catch(function (error) {
         console.error("Hata oluştu:", error);

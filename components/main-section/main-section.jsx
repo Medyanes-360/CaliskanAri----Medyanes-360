@@ -1,4 +1,3 @@
-import { image } from "../constants/index";
 import { CustomButton } from "../helpers/custom-button";
 import { motion } from "framer-motion";
 import "./main-section.css";
@@ -8,6 +7,7 @@ import { getAPI } from "@/services/fetchAPI";
 const MainSection = () => {
   const [info, setInfo] = useState([]);
   const [button, setButton] = useState([]);
+  const [image, setImage] = useState([]);
   const [bgColor, setBgColor] = useState("");
   const [position, setPosition] = useState();
   const [textColor, setTextColor] = useState(""); // Değişken ismi düzeltildi, küçük harf kullanıldı
@@ -40,10 +40,10 @@ const MainSection = () => {
     buttonData
       .then(function (result) {
         console.log(result);
-        const mainButtonInfo = result.find((item) => item.pageId === "main");
+        const mainButtonInfo = result.filter((item) => item.pageId === "main");
         console.log(mainButtonInfo);
-        if (mainButtonInfo) {
-          setButton((prevButtons) => [...prevButtons, mainButtonInfo]);
+        if (mainButtonInfo.length > 0) {
+          setButton(mainButtonInfo);
         } else {
           console.log("Main page için bgColor bulunamadı.");
         }
@@ -76,6 +76,16 @@ const MainSection = () => {
         } else {
           console.log("Main page için textColor bulunamadı."); // Log mesajı düzeltildi
         }
+      })
+      .catch(function (error) {
+        console.error("Hata oluştu:", error);
+      });
+
+    const imageData = getAPI("/home/HomeImage"); // textColorData tanımlandı
+    imageData
+      .then(function (result) {
+        console.log(result);
+        setImage(result[0]);
       })
       .catch(function (error) {
         console.error("Hata oluştu:", error);
@@ -115,19 +125,20 @@ const MainSection = () => {
 
           <p className=" text-s">{desc2}</p>
 
-          <div className="ButtonArea xl:flex">
-            {/* <CustomButton title="Etkileşimli Alıştırmaları Keşfet" /> */}
-            {button.map((buttonSingle, index) => (
-              <CustomButton
-                key={index}
-                title={buttonSingle.title}
-                href={buttonSingle.addressLink}
-                buttonColor={buttonSingle.color}
-                textColor={buttonSingle.textColor}
-                hoverColor={buttonSingle.hoverColor}
-              />
-            ))}
-          </div>
+          {button !== null && (
+            <div className="ButtonArea xl:flex">
+              {button.map((buttonSingle, index) => (
+                <CustomButton
+                  key={index}
+                  title={buttonSingle.title}
+                  href={buttonSingle.addressLink}
+                  buttonColor={buttonSingle.color}
+                  textColor={buttonSingle.textColor}
+                  hoverColor={buttonSingle.hoverColor}
+                />
+              ))}
+            </div>
+          )}
         </div>
         <div
           className={`w-full pt-10 md:pt-4 ${
