@@ -280,14 +280,6 @@ function DetailEdits({ pageId, animation, openModal, setOpenModal }) {
               image={changeColor}
               title={"Renkleri Değiştir"}
             />
-            <EditBox
-              onClick={() => openModalWithContent("yer")}
-              small={true}
-              id={5}
-              description={`Buradan ${pageId} sayfasında yer alan ögelerin yerlerini değiştirebilirsiniz`}
-              image={changePosition}
-              title={"Yer Değiştir"}
-            />
           </>
         )}
         {pageId === "logoBanner" && (
