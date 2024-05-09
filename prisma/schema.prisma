@@ -241,7 +241,8 @@ model HomeCategories {
 model HomeMenus {
    id          String    @id @default(auto()) @map("_id") @db.ObjectId
   name  String
-  items String[]
+  address   String
+  items Json[]
 }
 
 model HomeFeatured {

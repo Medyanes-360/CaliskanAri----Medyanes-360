@@ -288,7 +288,8 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
   }); //YENİ DERS EKLEME DEĞİŞKENİ
   const [newNavbar, setNewNavbar] = useState({
     name: "",
-    items: [],
+    address: "",
+    items: [{ name: "", address: "" }],
   }); //YENİ MENU EKLEME DEĞİŞKENİ
   const [newFeatureCategory, setNewFeatureCategory] = useState({
     name: "",
@@ -459,13 +460,16 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
   }; //YENİ KURS EKLEME
   const handleAddNavbarInputChange = (event, field, index) => {
     const { value } = event.target;
-    if (field === "items") {
+    if (field === "itemsName" || field === "itemsAddress") {
       setNewNavbar((prevNavbar) => {
         const updatedItems = [...prevNavbar.items]; // Create a copy of the items array
-        updatedItems[index] = value; // Update the value at the specified index
+        updatedItems[index] = {
+          ...updatedItems[index],
+          [field === "itemsName" ? "name" : "address"]: value,
+        }; // Update the value at the specified index
         return {
           ...prevNavbar,
-          [field]: updatedItems,
+          items: updatedItems,
         };
       });
     } else {
@@ -474,7 +478,8 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
         [field]: value,
       }));
     }
-  }; //YENİ MENU EKLEME
+  };
+
   const deleteNavbarMenu = async (deleteObject) => {
     Swal.fire({
       title: "Menüyü Sil",
@@ -632,7 +637,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
   }; //KATEGORİ SİLME
   const handleAddNavbar = async (event) => {
     event.preventDefault();
-    if (!newNavbar.name || !newNavbar.items) {
+    if (!newNavbar.name || !newNavbar.items || !newNavbar.address) {
       Swal.fire({
         title: "Hata",
         text: "Lütfen tüm alanları doldurun.",
@@ -641,7 +646,8 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
     } else {
       setNewNavbar({
         name: "",
-        items: [],
+        address: "",
+        items: [{ name: "", address: "" }],
       });
       setMenus((preMenus) => [...preMenus, newNavbar]);
       const response = await postAPI("/home/addMenu", newNavbar);
@@ -700,11 +706,12 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
   };
 
   const handleInputChange = (event, menuIndex, itemIndex = null) => {
+    const { value, id } = event.target;
     if (itemIndex === null) {
       const newMenus = [...menus];
       newMenus[menuIndex] = {
         ...newMenus[menuIndex],
-        name: event.target.value,
+        name: value,
       };
       setMenus(newMenus);
     } else {
@@ -713,14 +720,20 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
           ? {
               ...menu,
               items: menu.items.map((item, j) =>
-                j === itemIndex ? event.target.value : item
+                j === itemIndex
+                  ? {
+                      ...item,
+                      name: id === "itemName" ? value : item.name,
+                      address: id === "itemAddress" ? value : item.address,
+                    }
+                  : item
               ),
             }
           : menu
       );
       setMenus(newMenus);
     }
-  }; //NAVBAR YAZI DEĞİŞTİREN FONKSİTON
+  }; // NAVBAR YAZI DEĞİŞTİREN FONKSİYON
 
   const handleInputChangeInfo = (event, key) => {
     const newInfo = { ...info }; // Info objesini kopyala
@@ -2924,21 +2937,37 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                     />
                     {menus[selectedBigInputIndex].items.map(
                       (item, itemIndex) => (
-                        <input
-                          onChange={(event) =>
-                            handleInputChange(
-                              event,
-                              selectedBigInputIndex,
-                              itemIndex
-                            )
-                          }
-                          key={itemIndex}
-                          placeholder={item}
-                          type="text"
-                          className="bg-gray-100 p-3 text-gray-600 font-semibold my-3 w-full rounded-xl"
-                        />
+                        <div key={itemIndex} className="flex justify-between">
+                          <input
+                            onChange={(event) =>
+                              handleInputChange(
+                                event,
+                                selectedBigInputIndex,
+                                itemIndex
+                              )
+                            }
+                            placeholder={item.name}
+                            id="itemName"
+                            type="text"
+                            className="bg-gray-100 p-3 text-gray-600 font-semibold my-3 w-1/2 rounded-xl mr-2"
+                          />
+                          <input
+                            onChange={(event) =>
+                              handleInputChange(
+                                event,
+                                selectedBigInputIndex,
+                                itemIndex
+                              )
+                            }
+                            placeholder={item.address}
+                            id="itemAddress"
+                            type="text"
+                            className="bg-gray-100 p-3 text-gray-600 font-semibold my-3 w-1/2 rounded-xl ml-2"
+                          />
+                        </div>
                       )
                     )}
+
                     <button
                       onClick={() => updateNavbar(menus[selectedBigInputIndex])}
                       className="text-gray-100 bg-[#2b536c] hover:bg-gray-200 hover:text-[#2b536c] transition-all duration-700 px-5 py-3 rounded-xl font-semibold my-3 w-full mt-0"
@@ -3915,7 +3944,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                       </button>
                       <form
                         onSubmit={handleAddNavbar}
-                        className="flex flex-row flex-wrap items-center justify-center"
+                        className="flex flex-col items-center justify-center"
                       >
                         <input
                           onChange={(event) =>
@@ -3923,22 +3952,41 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
                           }
                           type="text"
                           placeholder="Menü ismi"
-                          className="bg-gray-100 p-3 text-gray-600 font-semibold my-3 rounded-xl w-full"
+                          className="bg-gray-100 p-3 text-gray-600 font-semibold my-3 focus:outline-none rounded-xl w-full"
+                        />
+                        <input
+                          onChange={(event) =>
+                            handleAddNavbarInputChange(event, "address")
+                          }
+                          type="text"
+                          placeholder="Menü Adresi"
+                          className="bg-gray-100 p-3 text-gray-600 font-semibold my-3 focus:outline-none rounded-xl w-full"
                         />
                         {[...Array(underMenuCount)].map((_, index) => (
-                          <div className="flex w-full">
+                          <div className="flex w-full" key={index}>
                             <input
-                              key={index}
                               onChange={(event) =>
                                 handleAddNavbarInputChange(
                                   event,
-                                  "items",
+                                  "itemsName",
                                   index
                                 )
                               }
                               type="text"
                               placeholder={`Alt Menü ${index + 1}`}
-                              className="bg-gray-100 p-3 text-gray-600 font-semibold my-3 rounded-l-xl w-full"
+                              className="bg-gray-100 p-3 text-gray-600 font-semibold my-3 focus:outline-none rounded-l-xl w-full"
+                            />
+                            <input
+                              onChange={(event) =>
+                                handleAddNavbarInputChange(
+                                  event,
+                                  "itemsAddress",
+                                  index
+                                )
+                              }
+                              type="text"
+                              placeholder={`Alt Menü Adres ${index + 1}`}
+                              className="bg-gray-100 p-3 text-gray-600 font-semibold my-3 focus:outline-none w-full"
                             />
                             <button
                               onClick={() => handleDeleteAnotherItem()}

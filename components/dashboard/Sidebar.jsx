@@ -10,6 +10,7 @@ import UserIcon from "@/assets/icons/UserIcon";
 import BurgerIcon from "@/assets/icons/BurgerIcon";
 import { useMediaQuery } from "@/lib/table/useMediaQuery";
 import home from "@/assets/icons/dashboardEditIcons/home.png";
+import homeWhite from "@/assets/icons/dashboardEditIcons/homeWhite.png";
 import changeNavbar from "@/assets/icons/dashboardEditIcons/changeNavbar.png";
 import changeBannerSection from "@/assets/icons/dashboardEditIcons/changeBannerSection.png";
 import changeCourseSection from "@/assets/icons/dashboardEditIcons/changeCourseSection.png";
@@ -20,6 +21,17 @@ import changeMainSection from "@/assets/icons/dashboardEditIcons/changeMainSecti
 import changeStudentsSection from "@/assets/icons/dashboardEditIcons/changeStudentsSection.png";
 import changeLogoBannerSection from "@/assets/icons/dashboardEditIcons/changeLogoBannerSection.png";
 import changeVideoSection from "@/assets/icons/dashboardEditIcons/changeVideoSection.png";
+
+import changeNavbarWhite from "@/assets/icons/dashboardEditIcons/changeNavbarWhite.png";
+import changeBannerSectionWhite from "@/assets/icons/dashboardEditIcons/changeBannerSectionWhite.png";
+import changeCourseSectionWhite from "@/assets/icons/dashboardEditIcons/changeCourseSectionWhite.png";
+import changeFeatureSectionWhite from "@/assets/icons/dashboardEditIcons/changeFeatureSectionWhite.png";
+import changeFooterSectionWhite from "@/assets/icons/dashboardEditIcons/changeFooterSectionWhite.png";
+import changeInfoSectionWhite from "@/assets/icons/dashboardEditIcons/changeInfoSectionWhite.png";
+import changeMainSectionWhite from "@/assets/icons/dashboardEditIcons/changeMainSectionWhite.png";
+import changeStudentsSectionWhite from "@/assets/icons/dashboardEditIcons/changeStudentsSectionWhite.png";
+import changeLogoBannerSectionWhite from "@/assets/icons/dashboardEditIcons/changeLogoBannerSectionWhite.png";
+import changeVideoSectionWhite from "@/assets/icons/dashboardEditIcons/changeVideoSectionWhite.png";
 const buttons = [
   {
     title: "Dashboard",
@@ -28,12 +40,14 @@ const buttons = [
         id: "1.5",
         label: "Ana Sayfa Düzenle",
         icon: home,
+        whiteIcon: homeWhite,
         path: "/dashboard/admin/edit",
         childs: [
           {
             id: "1.5.1",
             label: "Navbar Alanını Değiştir",
             icon: changeNavbar,
+            whiteIcon: changeNavbarWhite,
             path: "/dashboard/admin/edit/edit-navbar",
           },
           {
@@ -41,54 +55,63 @@ const buttons = [
             label: "Main Alanını Değiştir",
             path: "/dashboard/admin/edit/edit-main",
             icon: changeMainSection,
+            whiteIcon: changeMainSectionWhite,
           },
           {
             id: "1.5.2",
             label: "Bilgiler Alanını Değiştir",
             path: "/dashboard/admin/edit/edit-informations",
             icon: changeInfoSection,
+            whiteIcon: changeInfoSectionWhite,
           },
           {
             id: "1.5.4",
             label: "Kurslarım Alanını Değiştir",
             path: "/dashboard/admin/edit/edit-courses",
             icon: changeCourseSection,
+            whiteIcon: changeCourseSectionWhite,
           },
           {
             id: "1.5.5",
             label: "Öğrenciler Alanını Değiştir",
             path: "/dashboard/admin/edit/edit-students",
             icon: changeStudentsSection,
+            whiteIcon: changeStudentsSectionWhite,
           },
           {
             id: "1.5.6",
             label: "Özellikler Alanını Değiştir",
             path: "/dashboard/admin/edit/edit-features",
             icon: changeFeatureSection,
+            whiteIcon: changeFeatureSectionWhite,
           },
           {
             id: "1.5.7",
             label: "Video Alanını Değiştir",
             path: "/dashboard/admin/edit/edit-video",
             icon: changeVideoSection,
+            whiteIcon: changeVideoSectionWhite,
           },
           {
             id: "1.5.8",
             label: "Logo-Banner Alanını Değiştir",
             path: "/dashboard/admin/edit/edit-logo-banner",
             icon: changeLogoBannerSection,
+            whiteIcon: changeLogoBannerSectionWhite,
           },
           {
             id: "1.5.9",
             label: "Banner Alanını Değiştir",
             path: "/dashboard/admin/edit/edit-banner",
             icon: changeBannerSection,
+            whiteIcon: changeBannerSectionWhite,
           },
           {
             id: "1.5.10",
             label: "Footer Alanını Değiştir",
             path: "/dashboard/admin/edit/edit-footer",
             icon: changeFooterSection,
+            whiteIcon: changeFooterSectionWhite,
           },
         ],
       },

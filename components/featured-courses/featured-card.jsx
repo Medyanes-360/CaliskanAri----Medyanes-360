@@ -12,30 +12,37 @@ export const FeaturedCourses = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [info, setInfo] = useState([]);
   const [bgColor, setBgColor] = useState("");
-  const [textColor, setTextColor] = useState(""); // Değişken ismi düzeltildi, küçük harf kullanıldı
+  const [textColor, setTextColor] = useState("");
+  const [features, setFeatures] = useState([]);
+  const [categories, setCategories] = useState([]);
+
   useEffect(() => {
-    const textColorData = getAPI("/home/HomeTextColor"); // textColorData tanımlandı
-    textColorData
-      .then(function (result) {
-        console.log(result);
-        const mainTextColorInfo = result.find(
+    const fetchData = async () => {
+      try {
+        const [
+          textColorData,
+          bgColorData,
+          infoData,
+          featuresData,
+          categoryData,
+        ] = await Promise.all([
+          getAPI("/home/HomeTextColor"),
+          getAPI("/home/HomeBgColor"),
+          getAPI("/home/HomeInfo"),
+          getAPI("/home/HomeFeatured"),
+          getAPI("/home/HomeCategories"),
+        ]);
+
+        const mainTextColorInfo = textColorData.find(
           (item) => item.pageId === "features"
         );
         if (mainTextColorInfo) {
-          setTextColor(mainTextColorInfo.TextColor); // setTextColor çağrısı düzeltildi
+          setTextColor(mainTextColorInfo.TextColor);
         } else {
-          console.log("Main page için textColor bulunamadı."); // Log mesajı düzeltildi
+          console.log("Main page için textColor bulunamadı.");
         }
-      })
-      .catch(function (error) {
-        console.error("Hata oluştu:", error);
-      });
 
-    const bgColorData = getAPI("/home/HomeBgColor");
-    bgColorData
-      .then(function (result) {
-        console.log(result);
-        const mainBgColorInfo = result.find(
+        const mainBgColorInfo = bgColorData.find(
           (item) => item.pageId === "features"
         );
         if (mainBgColorInfo) {
@@ -43,47 +50,29 @@ export const FeaturedCourses = () => {
         } else {
           console.log("Main page için bgColor bulunamadı.");
         }
-      })
-      .catch(function (error) {
+
+        setInfo(infoData[0]);
+        setFeatures(featuresData);
+
+        const categoriesWithFeatures = categoryData.filter((category) =>
+          featuresData.some((item) => item.topDesc === category.name)
+        );
+        setCategories(categoriesWithFeatures);
+      } catch (error) {
         console.error("Hata oluştu:", error);
-      });
-    const infoData = getAPI("/home/HomeInfo");
-    infoData
-      .then(function (result) {
-        console.log(result);
-        setInfo(result[0]);
-      })
-      .catch(function (error) {
-        console.error("Hata oluştu:", error);
-      });
+      }
+    };
+
+    fetchData();
   }, []);
+
   const { featuredTitle1, featuredTitle2 } = info;
   const { underline } = image;
-  const [features, setFeatures] = useState([]);
-  const [categories, setCategories] = useState([]);
-  useEffect(() => {
-    const featuresData = getAPI("/home/HomeFeatured");
-    featuresData
-      .then(function (result) {
-        setFeatures(result);
-        console.log(result);
-      })
-      .catch(function (error) {
-        console.error("Hata oluştu:", error);
-      });
-    const categoryData = getAPI("/home/HomeCategories");
-    categoryData
-      .then(function (result) {
-        setCategories(result);
-        console.log(result);
-      })
-      .catch(function (error) {
-        console.error("Hata oluştu:", error);
-      });
-  }, []);
+
   const handleCategoryClick = (category) => {
     setSelectedCategory(category);
   };
+
   const filteredFeatured = selectedCategory
     ? features.filter((item) => item.topDesc === selectedCategory)
     : features;
@@ -107,6 +96,7 @@ export const FeaturedCourses = () => {
       opacity: 1,
     },
   };
+
   return (
     <div className="" style={{ color: textColor }}>
       <div className="mx-auto container px-4 py-16 sm:px-6 sm:py-24 lg:px-8">

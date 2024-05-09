@@ -108,8 +108,8 @@ const MainSection = () => {
       >
         <div
           className={`flex flex-col gap-6 item-center md:items-start ${
-            position == 2 ? "xl:pl-48" : "xl:pl-0"
-          } justify-center px-8`}
+            position == 2 ? "xl:pl-32" : "xl:pl-0"
+          } justify-center xl:w-1/2 px-8`}
         >
           <p className=" text-sm">{desc1}</p>
           <div>
@@ -142,11 +142,11 @@ const MainSection = () => {
         </div>
         <div
           className={`w-full pt-10 md:pt-4 ${
-            position == 1 ? "xl:pl-48" : "xl:pl-12"
-          } px-8 relative scale-90`}
+            position == 1 ? "xl:pl-32" : "xl:pl-12"
+          } relative scale-90 xl:w-1/2 px-8`}
         >
-          <img src={mainSection} alt="" />
           <div className="main-section-icons">
+            <img src={mainSection} className="xl:pl-20" alt="" />
             <motion.img
               src={book}
               alt=""

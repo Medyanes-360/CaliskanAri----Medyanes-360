@@ -9,6 +9,7 @@ const NavigationButton = ({
   onClick,
   label,
   icon: Icon,
+  whiteIcon,
   active,
   level,
   onExpand,
@@ -42,7 +43,11 @@ const NavigationButton = ({
       {level > 1 && !active && (
         <div className="w-1.5 h-1.5 absolute left-0 rounded-full bg-muted-foreground" />
       )}
-      {Icon && <Image src={Icon} width={20} height={20} alt={label} />}
+      {active === false ? (
+        <Image src={Icon} width={20} height={20} alt={label} />
+      ) : (
+        <Image src={whiteIcon} width={20} height={20} alt={label} />
+      )}
       {label && label !== "" && (
         <span
           className={classNames(

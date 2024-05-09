@@ -111,7 +111,7 @@ const LearnersStudents = () => {
           position == 1
             ? "md:flex-row flex-col"
             : "md:flex-row-reverse flex-col-reverse"
-        } items-center justify-center p-6`}
+        } items-center justify-center pb-0 p-6`}
       >
         <div className="xl:w-1/2 mt-3 xl:mt-0 relative mx-4 flex items-center justify-center">
           <img src={studentPhoto} alt="" />

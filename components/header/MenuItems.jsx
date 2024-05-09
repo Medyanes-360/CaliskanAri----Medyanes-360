@@ -83,7 +83,9 @@ const MenuItems = ({ items, depthLevel }) => {
             />
           </>
         ) : (
-          <a href="/#">{items}</a>
+          <a target="_blank" href={items.address}>
+            {items.name}
+          </a>
         )}
       </div>
     </div>

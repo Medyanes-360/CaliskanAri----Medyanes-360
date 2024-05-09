@@ -79,18 +79,15 @@ export const Footer = () => {
   return (
     <>
       <div
-        className=" text-center grid lg:grid-cols-4 md:grid-cols-2 md:text-start my-20 container mx-auto "
+        className=" text-center grid lg:grid-cols-4 md:grid-cols-2 md:text-start my-20 container mx-auto"
         style={{ backgroundColor: bgColor, color: textColor }}
       >
         <div>
           <ul className="text-cst_grey flex flex-col gap-3 leading-7">
             <li className="text-cst_purple font-semibold text-xl pb-3">
-              QuikLearn
+              Çalışkan Arı Yayınları
             </li>
-            <li>
-              When An Unknown Printer Took Galley Of Type And Scrambled It To
-              Make Pspecimen Bookt Has.
-            </li>
+            <li>En çok satılan yayın evi.</li>
             <li>
               <a
                 className="flex items-center gap-2 justify-center md:justify-start"
@@ -147,7 +144,7 @@ export const Footer = () => {
         <div>
           <ul className="text-cst_grey flex flex-col gap-3 leading-7 mt-7">
             <li className="text-cst_purple font-semibold text-xl pb-3">
-              Resource
+              Kaynaklar
             </li>
             {resources.map((item, index) => (
               <li key={index}> {item.label} </li>
@@ -157,7 +154,7 @@ export const Footer = () => {
         <div>
           <ul className="text-cst_grey flex flex-col gap-3 leading-7 mt-7">
             <li className="text-cst_purple font-semibold text-xl pb-3">
-              Courses
+              Kurslar
             </li>
             {courses.map((item, index) => (
               <li key={index}>{item.label}</li>
@@ -167,11 +164,11 @@ export const Footer = () => {
         <div>
           <ul className="text-cst_grey flex flex-col gap-3 leading-7 mt-7">
             <li className="text-cst_purple font-semibold text-xl pb-3">
-              Join Our Newsletter
+              Haber Kanalımıza Katılın.
             </li>
             <li>
-              Nown Printer Took Galley Type And Scrambled It To Make Following
-              With Us
+              Haber kanalımıza kayıt olarak en güncel bilgilerden haberdar
+              olabilirsiniz.
             </li>
             <li className="relative flex">
               <input
@@ -179,25 +176,23 @@ export const Footer = () => {
                 name="email"
                 id="email"
                 className="block w-full bg-white rounded-lg border-0 py-4 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 sm:text-sm sm:leading-6 mx-3 sm:mx-0"
-                placeholder="Your Email Address"
+                placeholder="E-mail Adresiniz"
               />
               <div className="absolute inset-y-0 right-2 flex items-center">
                 <button className="hover:bg-cst_purple hover:text-white flex gap-2 px-3 py-2 items-center bg-buttonColor rounded-lg text-white text-lg hover:bg-cst_purple mx-3 sm:mx-0">
-                  Sign Up
+                  Üye Ol
                 </button>
               </div>
             </li>
-            <li>We Only Send Interesting And Relevant Emails.</li>
+            <li>Yalnızca İlginç ve İlgili E-postalar Göndeririz.</li>
           </ul>
         </div>
       </div>
       <div className="lg:flex lg:justify-around  bg-cream pt-8 pb-5 text-cst_grey text-center text-sm relative">
-        <p>© 2023 quiklearn. All Rights Reserved by RadiusTheme</p>
-        <div className="flex items-center justify-center gap-3">
-          <span>Privacy Policy</span>
-          <BsDot />
-          <span>Term Conditions</span>
-        </div>
+        <p>
+          © Çalışkan Arı Tüm hakları saklıdır. İzinsiz kullanılması yasaktır.
+        </p>
+
         <ScrollToTop />
       </div>
     </>
