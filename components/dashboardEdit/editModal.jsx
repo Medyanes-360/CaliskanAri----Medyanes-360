@@ -395,7 +395,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
     });
     if (
       !newCourse.title ||
-      newCourse.quantity === null ||
+      !newCourse.quantity === null ||
       !newCourse.icon ||
       !newCourse.border ||
       !newCourse.background ||
@@ -424,7 +424,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
     event.preventDefault();
     if (
       !newFeature.title ||
-      newFeature.name ||
+      !newFeature.name ||
       !newFeature.image ||
       !newFeature.price ||
       !newFeature.topDesc ||
