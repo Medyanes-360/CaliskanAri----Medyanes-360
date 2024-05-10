@@ -8,15 +8,18 @@ function EditBox({
   onClick,
   id,
   path,
+  features,
   number,
   small = false,
 }) {
   return (
     <div className="m-2 lg:m-5">
       <div
-        className={`generalBoxDiv w-36 h-32 ${
+        className={`generalBoxDiv w-36  ${
+          features !== undefined ? "lg:h-96 h-72" : "lg:h-52 "
+        } ${
           small ? "lg:w-52" : "lg:w-64"
-        } lg:h-52 bg-gray-100 rounded-xl p-2 lg:p-5 flex flex-col items-center justify-center cursor-pointer relative`}
+        }  bg-gray-100 rounded-xl p-2 lg:p-5 flex flex-col items-center justify-center cursor-pointer relative shadow-xl hover:scale-110 transition-all duration-500`}
         onClick={onClick}
       >
         {number !== undefined && (
@@ -40,11 +43,31 @@ function EditBox({
             {title}
           </h1>
         </div>
-        <div className="descriptionArea">
-          <h1 className="text-[11px] text-center font-normal text-gray-500">
+        <div className="descriptionArea lg:my-2 my-1 ">
+          <h1
+            className={` ${
+              features !== undefined
+                ? "lg:text-[13px] text-[11px]"
+                : "lg:text-[11px] text-[10px]"
+            }  text-center font-normal text-gray-600`}
+          >
             {description}
           </h1>
         </div>
+        {features && (
+          <div className="featuresArea px-2 lg:px-0">
+            <ul className="list-disc">
+              {features.map((feature, index) => (
+                <li
+                  className="lg:text-[11.5px] text-[10px] text-gray-600"
+                  key={index}
+                >
+                  {feature}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
     </div>
   );

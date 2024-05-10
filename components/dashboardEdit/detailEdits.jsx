@@ -1,43 +1,66 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
 import EditBox from "./editBox";
+import backArrow from "@/assets/icons/dashboardEditIcons/backArrow.png";
 import changeBgColor from "@/assets/icons/dashboardEditIcons/changeBgColor.png";
 import changeText from "@/assets/icons/dashboardEditIcons/changeText.png";
 import changeImage from "@/assets/icons/dashboardEditIcons/changeImage.png";
 import changeColor from "@/assets/icons/dashboardEditIcons/changeColor.png";
 import changePosition from "@/assets/icons/dashboardEditIcons/changePosition.png";
 import addButton from "@/assets/icons/dashboardEditIcons/addButton.png";
-function DetailEdits({ pageId, animation, openModal, setOpenModal }) {
+function DetailEdits({ pageId, openModal, setOpenModal }) {
+  const router = useRouter();
+  const [animation, setAnimation] = useState(
+    "animate__animated animate__fadeInLeft"
+  );
+
   const openModalWithContent = (content) => {
     setOpenModal({ isOpen: true, content });
   };
-
+  const goBack = () => {
+    router.push("/dashboard/admin/edit");
+    setAnimation("animate__animated animate__fadeOutLeft");
+  };
   return (
     <>
-      <h1 className="text-center text-gray-700 text-xl font-semibold">
-        {pageId === "navbar"
-          ? "Gezinme Çubuğu Sayfası"
-          : pageId === "banner"
-          ? "Afiş Sayfası"
-          : pageId === "courses"
-          ? "Kurslar Sayfası"
-          : pageId === "features"
-          ? "Dersler Sayfası"
-          : pageId === "footer"
-          ? "Altbilgi Sayfası"
-          : pageId === "informations"
-          ? "Bilgiler Sayfası"
-          : pageId === "logoBanner"
-          ? "Logo ve Afiş Sayfası"
-          : pageId === "main"
-          ? "Ana Sayfası"
-          : pageId === "students"
-          ? "Öğrenciler Sayfası"
-          : pageId === "video"
-          ? "Video Sayfası"
-          : ""}
-      </h1>
+      <div className="flex items-center justify-center">
+        <div className="backButton w-1/3 justify-start flex">
+          <button
+            onClick={goBack}
+            className="flex bg-[#2c536a] p-2 text-gray-100 hover:text-[#2c536a] hover:bg-gray-200 rounded-2xl mx-2 lg:mx-5 transition-all duration-500"
+          >
+            <i class="fa-solid fa-circle-chevron-left my-auto"></i>
+            <h1 className="lg:text-sm text-xs ml-3 font-semibold">Geri</h1>
+          </button>
+        </div>
+        <h1 className="text-center text-gray-700 lg:text-xl text-sm font-semibold tracking-wide w-1/3">
+          {pageId === "navbar"
+            ? "Gezinme Çubuğu Sayfası Düzenleme"
+            : pageId === "banner"
+            ? "Afiş Sayfası Düzenleme"
+            : pageId === "courses"
+            ? "Kurslar Sayfası Düzenleme"
+            : pageId === "features"
+            ? "Dersler Sayfası Düzenleme"
+            : pageId === "footer"
+            ? "Altbilgi Sayfası Düzenleme"
+            : pageId === "informations"
+            ? "Bilgiler Sayfası Düzenleme"
+            : pageId === "logoBanner"
+            ? "Logo ve Afiş Sayfası Düzenleme"
+            : pageId === "main"
+            ? "Ana Sayfa Düzenleme"
+            : pageId === "students"
+            ? "Öğrenciler Sayfası Düzenleme"
+            : pageId === "video"
+            ? "Video Sayfası Düzenleme"
+            : ""}
+        </h1>
+        <div className="w-1/3"></div>
+      </div>
       <div
         className={`flex flex-row flex-wrap editBoxesArea items-center justify-center w-full ${animation}`}
       >

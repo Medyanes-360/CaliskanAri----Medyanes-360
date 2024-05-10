@@ -34,7 +34,7 @@ import changeLogoBannerSectionWhite from "@/assets/icons/dashboardEditIcons/chan
 import changeVideoSectionWhite from "@/assets/icons/dashboardEditIcons/changeVideoSectionWhite.png";
 const buttons = [
   {
-    title: "Dashboard",
+    title: "Kontrol Panali",
     buttons: [
       {
         id: "1.5",

@@ -36,6 +36,12 @@ function MainEditPage({ selected, setSelected }) {
           id="navbar"
           path="/edit-navbar"
           description={"Buradan Gezinme Çubuğunu değiştirebilirsiniz"}
+          features={[
+            "Arka plan rengini değiştirebilirsiniz.",
+            "Yazı rengini değiştirebilirsiniz.",
+            "Logoyu değiştirebilirsiniz.",
+            "Yazıları değiştirebilirsiniz.",
+          ]}
           image={changeNavbar}
           title={"Gezinme Çubuğu Alanını Değiştir"}
           onClick={() =>
@@ -45,6 +51,14 @@ function MainEditPage({ selected, setSelected }) {
         <EditBox
           id="main"
           path="/edit-main"
+          features={[
+            "Arka plan rengini değiştirebilirsiniz.",
+            "Yazı rengini değiştirebilirsiniz.",
+            "Resimi değiştirebilirsiniz.",
+            "Yazıları değiştirebilirsiniz.",
+            "Resim ve yazının yerini değiştirebilirsiniz.",
+            "Buton ekleyebilirsiniz.",
+          ]}
           description={"Buradan Anasayfa alanını değiştirebilirsiniz"}
           image={changeMainSection}
           title={"Anasayfa Alanını Değiştir"}
@@ -55,6 +69,12 @@ function MainEditPage({ selected, setSelected }) {
         <EditBox
           id="info"
           path="/edit-informations"
+          features={[
+            "Arka plan rengini değiştirebilirsiniz.",
+            "Yazı rengini değiştirebilirsiniz.",
+            "Resimi değiştirebilirsiniz.",
+            "Yazıları değiştirebilirsiniz.",
+          ]}
           description={"Buradan bilgiler alanını değiştirebilirsiniz"}
           image={changeInfoSection}
           title={"Bilgiler Alanını Değiştir"}
@@ -65,6 +85,12 @@ function MainEditPage({ selected, setSelected }) {
         <EditBox
           id="course"
           path="/edit-courses"
+          features={[
+            "Arka plan rengini değiştirebilirsiniz.",
+            "Yazı rengini değiştirebilirsiniz.",
+            "Yazıları değiştirebilirsiniz.",
+            "Kurs ekleyip düzenleyebilirsiniz.",
+          ]}
           description={"Buradan kurslarım alanını değiştirebilirsiniz"}
           image={changeCourseSection}
           title={"Kurslarım Alanını Değiştir"}
@@ -75,6 +101,14 @@ function MainEditPage({ selected, setSelected }) {
         <EditBox
           id="students"
           path="/edit-students"
+          features={[
+            "Arka plan rengini değiştirebilirsiniz.",
+            "Yazı rengini değiştirebilirsiniz.",
+            "Logoyu değiştirebilirsiniz.",
+            "Yazıları değiştirebilirsiniz.",
+            "Resim ve yazının yerini değiştirebilirsiniz.",
+            "Buton ekleyebilirsiniz.",
+          ]}
           description={"Buradan Öğrenciler alanını değiştirebilirsiniz"}
           image={changeStudentsSection}
           title={"Öğrenciler Alanını Değiştir"}
@@ -85,6 +119,13 @@ function MainEditPage({ selected, setSelected }) {
         <EditBox
           id="features"
           path="/edit-features"
+          features={[
+            "Arka plan rengini değiştirebilirsiniz.",
+            "Yazı rengini değiştirebilirsiniz.",
+            "Yazıları değiştirebilirsiniz.",
+            "Ders ekleyip düzenleyebilirsiniz.",
+            "Kategori ekleyip düzenleyebilirsiniz.",
+          ]}
           description={"Buradan dersler alanını değiştirebilirsiniz"}
           image={changeFeatureSection}
           title={"Dersler Alanını Değiştir"}
@@ -94,6 +135,13 @@ function MainEditPage({ selected, setSelected }) {
         />
         <EditBox
           id="video"
+          features={[
+            "Arka plan rengini değiştirebilirsiniz.",
+            "Yazı rengini değiştirebilirsiniz.",
+            "Resim değiştirebilirsiniz.",
+            "Yazıları değiştirebilirsiniz.",
+            "Resim ve yazının yerini değiştirebilirsiniz.",
+          ]}
           path="/edit-video"
           description={"Buradan video alanını değiştirebilirsiniz"}
           image={changeVideoSection}
@@ -105,6 +153,12 @@ function MainEditPage({ selected, setSelected }) {
         <EditBox
           id="logoBanner"
           path="/edit-logo-banner"
+          features={[
+            "Arka plan rengini değiştirebilirsiniz.",
+            "Yazı rengini değiştirebilirsiniz.",
+            "Resimleri değiştirebilirsiniz.",
+            "Yazıları değiştirebilirsiniz.",
+          ]}
           description={"Buradan Logo ve Afiş alanını değiştirebilirsiniz"}
           image={changeLogoBannerSection}
           title={"Logo ve Afiş Alanını Değiştir"}
@@ -117,6 +171,12 @@ function MainEditPage({ selected, setSelected }) {
         />
         <EditBox
           id="banner"
+          features={[
+            "Arka plan rengini değiştirebilirsiniz.",
+            "Yazı rengini değiştirebilirsiniz.",
+            "Yazıları değiştirebilirsiniz.",
+            "Buton ekleyip düzenleyebilirsiniz.",
+          ]}
           path="/edit-banner"
           description={"Buradan afiş alanını değiştirebilirsiniz"}
           image={changeBannerSection}
@@ -127,6 +187,11 @@ function MainEditPage({ selected, setSelected }) {
         />
         <EditBox
           id="footer"
+          features={[
+            "Arka plan rengini değiştirebilirsiniz.",
+            "Yazı rengini değiştirebilirsiniz.",
+            "Yazıları değiştirebilirsiniz.",
+          ]}
           path="/edit-footer"
           description={"Buradan altbilgi alanını değiştirebilirsiniz"}
           image={changeFooterSection}
