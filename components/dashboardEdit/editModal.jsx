@@ -32,7 +32,6 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
   const [studentsButtons, setStudentsButtons] = useState([]); //BUTTONS DEĞİŞKENİ
   const [bannerButtons, setBannerButtons] = useState([]); //BUTTONS DEĞİŞKENİ
   const [addButton, setAddButton] = useState(false);
-
   const uploadImageToS3Course = async (imageFile, field) => {
     const S3_BUCKET = "caliskanari";
     const REGION = "us-east-1";
@@ -51,19 +50,21 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
       region: REGION,
     });
 
-    var upload = s3
-      .putObject(params)
-      .on("httpUploadProgress", (evt) => {})
-      .promise();
-
-    await upload.then((err, data) => {
-      setNewCourse((prevCourse) => ({
-        ...prevCourse,
-        [field]: `https://caliskanari.s3.amazonaws.com/images/${imageFile.name}`,
-      }));
-      console.log(err);
-    });
+    try {
+      const data = await s3.putObject(params).promise();
+      setNewCourse((prevCourse) => {
+        const newIconUrl = `https://caliskanari.s3.amazonaws.com/images/${imageFile.name}`;
+        const updatedCourse = {
+          ...prevCourse,
+          icon: newIconUrl,
+        };
+        return updatedCourse;
+      });
+    } catch (error) {
+      console.error("Error uploading image to S3:", error);
+    }
   };
+
   useEffect(() => {
     const featuresData = getAPI("/home/HomeFeatured");
     featuresData
@@ -796,17 +797,24 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
     }
   }; //BUTON ALANI KURS BİLGİLERİNİ DEĞİŞİTREN FONKSİYON
 
-  const handleCourseInputChange = (event, index, field) => {
-    if (field === "icon" && file) {
+  const handleCourseInputChange = async (event, index, field) => {
+    if (field === "icon") {
       const file = event.target.files[0];
-      uploadImageToS3Course(file, field);
-    } else if (field === "icon" && !file) {
-      // Dosya seçilmediyse
-      Swal.fire({
-        title: "Hata",
-        text: "Lütfen bir resim seçiniz.",
-        icon: "error",
-      });
+      if (!file) {
+        Swal.fire({
+          title: "Hata",
+          text: "Lütfen bir resim seçiniz.",
+          icon: "error",
+        });
+        return;
+      }
+      await uploadImageToS3Course(file, field);
+      const newCourses = [...courses];
+      newCourses[index] = {
+        ...newCourses[index],
+        icon: `https://caliskanari.s3.amazonaws.com/images/${file.name}`,
+      };
+      setCourses(newCourses);
     } else {
       const { value } = event.target;
       const newCourses = [...courses];
@@ -816,18 +824,26 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
       };
       setCourses(newCourses);
     }
-  }; //KURS ALANI KURS BİLGİLERİNİ DEĞİŞİTREN FONKSİYON
+  }; //KURS ALANI KURS BİLGİLERİNİ DEĞİŞTREN FONKSİYON
 
-  const handleFeaturesInputChange = (event, index, field) => {
-    if (field === "image" && file.lenght > 0) {
-      const file = event.target.files[0]; // Kullanıcının seçtiği dosya
-      uploadImageToS3(file, field);
-    } else if (field === "image" && file.lenght < 0) {
-      Swal.fire({
-        title: "Hata",
-        text: "Lütfen bir resim seçiniz.",
-        icon: "error",
-      });
+  const handleFeaturesInputChange = async (event, index, field) => {
+    if (field === "image") {
+      const file = event.target.files[0];
+      if (!file) {
+        Swal.fire({
+          title: "Hata",
+          text: "Lütfen bir resim seçiniz.",
+          icon: "error",
+        });
+        return;
+      }
+      await uploadImageToS3(file, field);
+      const newFeature = [...featured];
+      newFeature[index] = {
+        ...newFeature[index],
+        icon: `https://caliskanari.s3.amazonaws.com/images/${file.name}`,
+      };
+      setFeatured(newFeature);
     } else {
       const { value } = event.target;
       const newFeature = [...featured];
@@ -899,6 +915,7 @@ const EditModal = ({ isOpen, onClose, modalContent, pageId }) => {
     closeChildInputModal();
   };
   const updateCourse = async (updatedCourse) => {
+    console.log(updatedCourse);
     const response = await postAPI("/home/updateCourse", updatedCourse);
     Swal.fire({
       title: "Başarılı",
