@@ -37,6 +37,7 @@ export const TopCoursesCard = () => {
           >
             {
               <Image
+                className="p-2 flex items-center justify-center mx-auto"
                 src={course.icon}
                 width={50}
                 height={50}
